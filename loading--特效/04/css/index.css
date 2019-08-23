@@ -1,0 +1,133 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #403833;
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.box:nth-child(1) {
+    width: 100px;
+    height: 100px;
+    margin-left: -100px;
+    border-radius: 50%;
+    background: #db2f00;
+    z-index: 2;
+    color: white;
+    font-size: 2.5em;
+    line-height: 2.5em;
+    box-shadow: 0 0 25px 0 rgba(50, 50, 50, .5);
+}
+
+.box:nth-child(2) {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: #f3f3ef;
+    z-index: 1;
+    color: #303030;
+    font-size: 7em;
+    box-shadow: 0 0 25px 0 rgba(50, 50, 50, .5);
+    animation: loading 1.5s ease-in-out infinite;
+}
+
+.box:nth-child(3) {
+    width: 100px;
+    height: 100px;
+    margin-left: 100px;
+    border-radius: 50%;
+    background: #13a3a5;
+    z-index: 2;
+    color: white;
+    font-size: 2.5em;
+    line-height: 2.5em;
+    box-shadow: 0 0 25px 0 rgba(50, 50, 50, .5);
+}
+
+.sCircle {
+    position: absolute;
+    top: -25px;
+    left: -31px;
+    width: 200px;
+    height: 200px;
+    animation: rotate 1.5s ease-in-out infinite;
+}
+
+.box:nth-child(1) .sCircle, .box:nth-child(3) .sCircle {
+    top: -12px;
+    left: -12px;
+    width: 125px;
+    height: 125px;
+}
+
+.box:nth-child(2).sCircle {
+    top: 120px;
+}
+.sCircle::before{
+    content: '';
+    position: absolute;
+    width: .1em;
+    height: .1em;
+    border-radius: 50%;
+    background: white;
+}
+.sCircle::after{
+    content: '';
+    position: absolute;
+    top: 190px;
+    width: .1em;
+    height: .1em;
+    border-radius: 50%;
+    background: white;
+}
+.box:nth-child(1) .sCircle::after, .box:nth-child(3) .sCircle::after{
+    content: '';
+    position: absolute;
+    top: 120px;
+    width: .1em;
+    height: .1em;
+    border-radius: 50%;
+    background: white;
+}
+@keyframes loading {
+    0%{
+        filter: alpha(opacity=50);
+        opacity: .5;
+    }
+    50%{
+        filter: alpha(opacity=100);
+        opacity: 1;
+    }
+    100%{
+        filter: alpha(opacity=50);
+        opacity: .5;
+    }
+}
+
+@keyframes rotate {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+

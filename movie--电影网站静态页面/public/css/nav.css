@@ -1,0 +1,19 @@
+#navigation{
+    width: 100%;
+    display: inline-block;
+}
+#navigation ul{
+    list-style-type: none;
+}
+#navigation ul li{
+    float: left;
+    width: 20%;
+    text-align: center;
+}
+#navigation ul li a{
+    color: #111;
+    text-decoration: none;
+}
+#navigation ul li .iconfont{
+    font-size: 3em;
+}

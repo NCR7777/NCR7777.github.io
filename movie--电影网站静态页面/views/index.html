@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Movie</title>
+    <link rel="stylesheet" href="../public/bs/css/bootstrap.min.css">
+    <script src="../public/js/jquery.min.js"></script>
+    <script src="../public/bs/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../public/css/top.css">
+    <link rel="stylesheet" href="../public/css/banner.css">
+    <link rel="stylesheet" href="../public/css/nav.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1357074_0i2w7zmmp929.css">
+    <link rel="stylesheet" href="../public/css/recommend.css">
+    <link rel="stylesheet" href="../public/css/hot.css">
+    <style>
+    body{
+        background: #eee;
+    }
+    </style>
+</head>
+<body>
+    <header id="loadTop"></header>
+    <div id="loadBanner"></div>
+    <nav id="loadNavigation"></nav>
+    <recommend id="loadRecommend"></recommend>
+    <hot id="loadHot"></hot>
+</body>
+<script>
+$('#loadTop').load('./top.html');
+$('#loadBanner').load('./banner.html');
+$('#loadNavigation').load('./nav.html');
+$('#loadRecommend').load('./recommend.html');
+$('#loadHot').load('./hot.html');
+</script>
+</html>

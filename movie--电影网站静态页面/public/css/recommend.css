@@ -1,0 +1,94 @@
+#recommend{
+    overflow: hidden;
+}
+#recommend .title{
+    display: flex;
+    height: 50px;
+    background: #111;
+    font-size: 24px;
+}
+#recommend .title i{
+    margin-left: 5px;
+    margin-right: 5px;
+    line-height: 50px;
+    color: red;
+}
+#recommend .title span{
+    line-height: 50px;
+    color: white;
+    text-align: center;
+}
+.movieSlider{
+    position: relative;
+    background: #999;
+    width: 300%;
+    display: flex;
+    animation: showMovie 12s ease-in-out infinite ;
+}
+.showMovieMid{
+    right:100%;
+}
+.showMovieLast{
+    right: 200%;
+}
+.movieSlider .movie{
+    display: flex;
+    margin: auto;
+    width:33.3%;
+}
+.movieSlider .movie div{
+    position: relative;
+    width: 100%;
+    margin: auto;
+    background: #111;
+}
+.movieSlider .movie div a .score{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    height: 1.2em;
+    width: 1.6em;
+    line-height: 1.2em;
+    background: rgba(255, 255, 255, .6) ;
+    color: red;
+    text-align: center;
+}
+.movieSlider .movie div a .movieName{
+    position: absolute;
+    width: 100%;
+    height: 2em;
+    line-height: 2em;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%);
+    text-align: center;
+    background-color: rgba(11, 11, 11, .8);
+    color: white;
+}
+.movieSlider .movie div a img{
+    width: 100%;
+    height: 100%;
+}
+@keyframes showMovie{
+    0%{
+        right :0%;
+    }
+    30%{
+        right :0%;
+    }
+    33.3%{
+        right: 100%;
+    }
+    63.3%{
+        right: 100%;
+    }
+    66.7%{
+        right: 200%;
+    }
+    96.7%{
+        right: 200%;
+    }
+    100%{
+        right: 0%;
+    }
+}

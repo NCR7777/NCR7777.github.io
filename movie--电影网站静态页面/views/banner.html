@@ -1,0 +1,46 @@
+<div id="banner">
+    <ul>
+        <li class="item show"></li>
+        <li class="item"></li>
+        <li class="item"></li>
+        <li class="item"></li>
+    </ul>
+    <div id="bannerController">
+        <div class="slider show"></div>
+        <div class="slider"></div>
+        <div class="slider"></div>
+        <div class="slider"></div>
+    </div>
+</div>
+<script>
+    const num = 4;
+    let index = 0;
+    let tempIndex = 0;
+    let timer = setInterval(changeSlider,3000);
+    $(".slider").hover(function(){
+        $(".item").siblings().removeClass("show");
+        $(".item").eq($(this).index()).addClass("show");
+        $(this).siblings().removeClass("show");
+        $(this).addClass("show");
+        tempIndex = $(this).index();
+        clearInterval(timer);
+    },function(){
+        index = tempIndex;
+        timer = setInterval(changeSlider,3000);
+    })
+    function show() {
+        $(".item").siblings().removeClass("show");
+        $(".item").eq(index).addClass("show");
+        $(".slider").siblings().removeClass("show");
+        $(".slider").eq(index).addClass("show");
+    }
+    function changeSlider() {
+        if(index < num - 1){
+            index++;
+            show()
+        }else{
+            index = 0;
+            show();
+        }
+    };
+</script>

@@ -1,0 +1,46 @@
+*{
+    font-family: '微软雅黑';
+    padding: 0;
+    margin: 0;
+}
+#top{
+    color: #999;
+    background: #111;
+    display: flex;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 1.3em;
+}
+#top div a{
+    color: #999;
+}
+#logo{
+    width: 10%;
+    overflow: hidden;
+}
+#search{
+    width: 80%;
+}
+#user{
+    width: 10%;
+    overflow: hidden;
+}
+#search input{
+    /* position: absolute; */
+    width: 100%;
+    border-radius: 15px;
+    border: 1px solid #c8cccf;
+    outline: 0;
+    z-index: 3;
+}
+#search a{
+    color: #999;
+}
+#search a span{
+    position: absolute;
+    top: 0.8em;
+    left: 82%;
+    z-index: 2;
+}
+
