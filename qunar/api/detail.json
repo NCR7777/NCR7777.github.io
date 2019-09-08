@@ -1,0 +1,235 @@
+{
+  "ret": true,
+  "data": [
+    {
+      "id": "0001",
+      "sightName": "世界之窗(AAAAA景区)",
+      "bannerImage": "/static/detail-banner/detail-banner1.jpg",
+      "galleryImages": [
+        "/static/detail-banner/detail-banner1.jpg",
+        "/static/detail-banner/detail-banner2.jpg",
+        "/static/detail-banner/detail-banner3.jpg",
+        "/static/detail-banner/detail-banner4.jpg"
+      ],
+      "categoryList": [
+        {
+          "title": "活动票",
+          "children": [
+            {
+              "title": "[促销抢购]华侨城深圳六大景区畅游卡",
+              "desc": "包含：世界之窗、深圳欢乐谷、锦绣中华、东部华侨城大侠谷、光明农场、海洋奇梦馆",
+              "price": 480,
+              "children": [
+                {
+                  "title": "[促销抢购]华侨城深圳六大景区畅游卡",
+                  "price": 480
+                },
+                {
+                  "title": "[促销抢购]华侨城深圳六大景区花橙旅游卡",
+                  "price": 480
+                },
+                {
+                  "title": "深圳欢乐谷花橙旅游深圳卡",
+                  "price": 480.9
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "成人票",
+          "children": [
+            {
+              "title": "日夜场通玩票",
+              "price": 210,
+              "children": [
+                {
+                  "title": "深圳世界之窗成人票当日可定快捷取票不出园可玩夜场",
+                  "price": 215.8
+                },
+                {
+                  "title": "深圳世界之窗成人票（刷身份证直接入园）",
+                  "price": 210
+                },
+                {
+                  "title": "世界之窗日场夜场通用门票成人票",
+                  "price": 210
+                }
+              ]
+            },
+            {
+              "title": "[当天可订]日夜场通玩票",
+              "price": 214,
+              "children": [
+                {
+                  "title": "世界之窗全天成人票（日夜场通用，当天可订）",
+                  "price": 214
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "冰雪世界",
+          "children": [
+            {
+              "title": "滑冰票",
+              "price": 45,
+              "children": [
+                {
+                  "title": "阿尔卑斯冰雪世界滑冰成人票",
+                  "price": 45
+                },
+                {
+                  "title": "【入园保障 自动发码】世界之窗阿尔卑斯冰雪世界滑冰成人票",
+                  "price": 45
+                },
+                {
+                  "title": "世界之窗阿尔卑斯冰雪世界滑冰票大小同价(【官方】)",
+                  "price": 45
+                }
+              ]
+            },
+            {
+              "title": "套票（滑冰+嬉雪+冰雕园）",
+              "price": 68,
+              "children": [
+                {
+                  "title": "阿尔卑斯冰雪世界(滑冰+冰雕+轮胎嬉雪)成人套票",
+                  "price": 68
+                },
+                {
+                  "title": "出票快-世界之窗阿尔卑斯冰雪世界套票(滑冰+冰雕+轮胎嬉雪)",
+                  "price": 68
+                },
+                {
+                  "title": "阿尔卑斯冰雪世界套票（滑冰+嬉雪+冰雕园）",
+                  "price": 68
+                },
+                {
+                  "title": "阿尔卑斯滑冰+轮胎嬉雪+冰雕观赏（不限人群）",
+                  "price": 68
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "0002",
+      "sightName": "世界之窗(AAAAA景区)",
+      "bannerImage": "/static/detail-banner/detail-banner1.jpg",
+      "galleryImages": [
+        "/static/detail-banner/detail-banner1.jpg",
+        "/static/detail-banner/detail-banner2.jpg",
+        "/static/detail-banner/detail-banner3.jpg",
+        "/static/detail-banner/detail-banner4.jpg"
+      ],
+      "categoryList": [
+        {
+          "title": "活动票",
+          "children": [
+            {
+              "title": "[促销抢购]华侨城深圳六大景区畅游卡",
+              "desc": "包含：世界之窗、深圳欢乐谷、锦绣中华、东部华侨城大侠谷、光明农场、海洋奇梦馆",
+              "price": 480,
+              "children": [
+                {
+                  "title": "[促销抢购]华侨城深圳六大景区畅游卡",
+                  "price": 480
+                },
+                {
+                  "title": "[促销抢购]华侨城深圳六大景区花橙旅游卡",
+                  "price": 480
+                },
+                {
+                  "title": "深圳欢乐谷花橙旅游深圳卡",
+                  "price": 480.9
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "成人票",
+          "children": [
+            {
+              "title": "日夜场通玩票",
+              "price": 210,
+              "children": [
+                {
+                  "title": "深圳世界之窗成人票当日可定快捷取票不出园可玩夜场",
+                  "price": 215.8
+                },
+                {
+                  "title": "深圳世界之窗成人票（刷身份证直接入园）",
+                  "price": 210
+                },
+                {
+                  "title": "世界之窗日场夜场通用门票成人票",
+                  "price": 210
+                }
+              ]
+            },
+            {
+              "title": "[当天可订]日夜场通玩票",
+              "price": 214,
+              "children": [
+                {
+                  "title": "世界之窗全天成人票（日夜场通用，当天可订）",
+                  "price": 214
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "冰雪世界",
+          "children": [
+            {
+              "title": "滑冰票",
+              "price": 45,
+              "children": [
+                {
+                  "title": "阿尔卑斯冰雪世界滑冰成人票",
+                  "price": 45
+                },
+                {
+                  "title": "【入园保障 自动发码】世界之窗阿尔卑斯冰雪世界滑冰成人票",
+                  "price": 45
+                },
+                {
+                  "title": "世界之窗阿尔卑斯冰雪世界滑冰票大小同价(【官方】)",
+                  "price": 45
+                }
+              ]
+            },
+            {
+              "title": "套票（滑冰+嬉雪+冰雕园）",
+              "price": 68,
+              "children": [
+                {
+                  "title": "阿尔卑斯冰雪世界(滑冰+冰雕+轮胎嬉雪)成人套票",
+                  "price": 68
+                },
+                {
+                  "title": "出票快-世界之窗阿尔卑斯冰雪世界套票(滑冰+冰雕+轮胎嬉雪)",
+                  "price": 68
+                },
+                {
+                  "title": "阿尔卑斯冰雪世界套票（滑冰+嬉雪+冰雕园）",
+                  "price": 68
+                },
+                {
+                  "title": "阿尔卑斯滑冰+轮胎嬉雪+冰雕观赏（不限人群）",
+                  "price": 68
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
