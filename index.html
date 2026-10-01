@@ -124,6 +124,7 @@ ul.clean li b{color:var(--ink)}
 .chart svg{width:100%;height:auto;display:block;overflow:visible}
 .fill{flex:1 1 0;min-height:0;position:relative}
 .fill > svg{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;display:block;overflow:visible}
+.fill > img{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;object-fit:contain}
 .vc{align-content:center}
 .compact ul.clean li,[data-lang="en"] .compact-en ul.clean li,[data-lang="ko"] .compact-ko ul.clean li,[data-lang="en"] .compact-enko ul.clean li,[data-lang="ko"] .compact-enko ul.clean li{font-size:16.5px}
 .compact .card p,[data-lang="en"] .compact-en .card p,[data-lang="ko"] .compact-ko .card p,[data-lang="en"] .compact-enko .card p,[data-lang="ko"] .compact-enko .card p,.compact .card li,[data-lang="en"] .compact-en .card li,[data-lang="ko"] .compact-ko .card li,[data-lang="en"] .compact-enko .card li,[data-lang="ko"] .compact-enko .card li{font-size:15.5px}
@@ -306,7 +307,7 @@ ul.clean li b{color:var(--ink)}
 .flow .cols4,.flow .cols3,.flow .capgrid,.flow .cycle,.flow .mgrid{grid-template-columns:minmax(0,1fr)!important}
 .flow .cycle .card::after{display:none}
 .flow .fill{flex:none}
-.flow .fill > svg{position:static;height:auto}
+.flow .fill > svg,.flow .fill > img{position:static;height:auto}
 .flow,.flow body{height:auto}
 .flow .app{height:auto}
 .flow .stagewrap{display:block;padding:0 16px}
@@ -1169,13 +1170,28 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
   </aside>
 </section>
 
+<!-- method at a glance: the paper's framework figure (assets/framework.svg is drawn by 论文架构图/index.html) -->
+<section class="slide" data-sec="method">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">方法全景：一张图看整篇论文的架构（论文插图）</span><span lang="en">The whole method on one page: the paper's framework figure</span><span lang="ko">한 장으로 보는 논문 전체 구조 (논문 그림)</span></h2>
+  <div class="content" style="grid-template-rows:1fr auto;gap:8px;margin-top:12px">
+    <a class="fill" href="assets/framework.svg" target="_blank" rel="noopener" aria-label="Open the framework figure full size"><img src="assets/framework.svg" alt="Framework of equal-service fleet sizing: inputs, four method steps, decisions and analyses, verification"></a>
+    <div class="tiny"><span lang="zh">左：输入；中：四步方法，① 服务标准 → ② 调度 ⇄ ③ 台数扫描 → ④ 定价；右：决策与分析；底部：验证。点图可在新页面放大。</span><span lang="en">Left: inputs. Middle: the four steps, ① service specification → ② scheduling ⇄ ③ count scan → ④ pricing. Right: decisions and analyses. Bottom: verification. Click the figure to open it full size.</span><span lang="ko">왼쪽: 입력. 가운데: 네 단계, ① 서비스 규정 → ② 스케줄링 ⇄ ③ 대수 스캔 → ④ 가격 산정. 오른쪽: 결정과 분석. 아래: 검증. 그림을 누르면 새 페이지에서 크게 볼 수 있다.</span></div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">这一页把前面讲过的方法放进一张图，也是论文里的架构图。左边是输入：每天 97 块分段的工作量、道路网络、运输车参数、候选车队和价格。中间是四步：先定服务标准；再用 ALNS 给每个车队排时刻表，里面只允许最小可行队；台数扫描反复调用调度，找到刚好达标的最少台数 K*；最后按 C = r·P + L 定价。右边是产出：6,480 个决策，以及三个结论和各项稳健性检验。底部是验证：支配关系、下界和 CP-SAT 精确模型。</p>
+    <p lang="en">This slide puts the method on one page; it is also the paper's framework figure. On the left are the inputs: a working day of 97 block moves, the road network, the transporter model, the candidate fleets and the prices. In the middle are the four steps: set the service specification; schedule each fleet with ALNS, admitting only minimal feasible teams; scan the count, calling the scheduler repeatedly, to find the smallest qualifying count K*; and price with C = r·P + L. On the right are the outputs: 6,480 decisions, the three claims and the robustness checks. At the bottom is verification: dominance, lower bounds and the exact CP-SAT model.</p>
+    <p lang="ko">이 슬라이드는 앞에서 설명한 방법을 한 장에 담은 것으로, 논문의 구조도이기도 합니다. 왼쪽은 입력입니다. 하루 97건의 블록 운반, 도로망, 트랜스포터 모델, 후보 차량군, 가격입니다. 가운데는 네 단계입니다. 서비스 규정을 정하고, 최소 가능 팀만 허용하는 ALNS로 차량군마다 배차표를 만들고, 대수 스캔이 스케줄링을 반복 호출해 목표를 충족하는 최소 대수 K*를 찾고, C = r·P + L로 가격을 매깁니다. 오른쪽은 결과입니다. 6,480개의 결정, 세 가지 결론, 강건성 검증입니다. 아래는 검증입니다. 지배 관계, 하한, CP-SAT 정확 모델입니다.</p>
+  </aside>
+</section>
+
 <!-- 10 setup -->
 <section class="slide" data-sec="setup">
   <header class="eb"></header>
   <h2 class="ttl d"><span lang="zh">实验：一个数字化船厂 + 一个公开数据船厂</span><span lang="en">Experiments: one digitised yard and one yard with published data</span><span lang="ko">실험: 디지털화한 조선소 하나 + 공개 데이터 조선소 하나</span></h2>
   <div class="content" style="grid-template-columns:1.15fr 1fr;gap:28px">
     <div class="col">
-      <div class="fill"><img src="assets/fig_layout.png" alt="Digitised shipyard layout and generated flow weights" style="position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;object-fit:contain;object-position:left top"></div>
+      <div class="fill"><img src="assets/fig_layout.png" alt="Digitised shipyard layout and generated flow weights" style="object-position:left top"></div>
       <div class="tiny"><span lang="zh">左：由卫星图数字化的韩国巨济岛某大型船厂道路与场地；右：8 条加权物流方向。任务位置与释放时间为生成场景。</span><span lang="en">Left: roads and areas of a large shipyard on Geoje Island, South Korea, digitised from satellite imagery. Right: the eight weighted flows. Task locations and release times are generated scenarios.</span><span lang="ko">왼쪽: 위성 사진으로 디지털화한 한국 거제도 대형 조선소의 도로와 구역. 오른쪽: 가중 물류 흐름 8개. 작업 위치와 투입 시각은 생성한 시나리오.</span></div>
     </div>
     <div class="col compact" style="gap:0;justify-content:space-between">
@@ -1784,5 +1800,5 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
 </div>
 <div class="tip" id="tip" hidden></div>
 
-<script src="data.js?v=55e923a7b5"></script>
-<script src="deck.js?v=55e923a7b5"></script>
+<script src="data.js?v=4fc7f7126c"></script>
+<script src="deck.js?v=4fc7f7126c"></script>
