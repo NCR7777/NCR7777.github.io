@@ -41,9 +41,9 @@
 [lang="en"]{--body:var(--f-latin);--disp:var(--d-en)}
 [lang="zh"]{--body:var(--f-zh);--disp:var(--d-zh)}
 [lang="ko"]{--body:var(--f-ko);--disp:var(--d-ko)}
-[data-lang="zh"] :is([lang="en"],[lang="ko"]),
-[data-lang="en"] :is([lang="zh"],[lang="ko"]),
-[data-lang="ko"] :is([lang="zh"],[lang="en"]){display:none!important}
+[data-lang="zh"] [lang="en"],[data-lang="zh"] [lang="ko"],
+[data-lang="en"] [lang="zh"],[data-lang="en"] [lang="ko"],
+[data-lang="ko"] [lang="zh"],[data-lang="ko"] [lang="en"]{display:none!important}
 
 [hidden]{display:none!important}
 html,body{height:100%}
@@ -81,7 +81,7 @@ button,input,select{font:inherit;color:inherit}
 .count{font-family:var(--mono);font-size:13px;color:var(--ink2);min-width:56px;text-align:right}
 
 /* ---------- slides ---------- */
-.slide{position:absolute;inset:0;padding:38px 60px 34px;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .35s ease, visibility 0s linear .35s}
+.slide{position:absolute;top:0;right:0;bottom:0;left:0;padding:38px 60px 34px;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .35s ease, visibility 0s linear .35s}
 .slide.on{opacity:1;visibility:visible;transition:opacity .35s ease}
 @media (prefers-reduced-motion: reduce){.slide,.slide.on{transition:none}.prog i{transition:none}}
 .eb{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
@@ -121,18 +121,18 @@ ul.clean li b{color:var(--ink)}
 .eq{font-family:var(--mono);font-size:15px;background:var(--panel);border-radius:4px;padding:8px 12px;color:var(--ink)}
 .chart svg{width:100%;height:auto;display:block;overflow:visible}
 .fill{flex:1 1 0;min-height:0;position:relative}
-.fill > svg{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:visible}
+.fill > svg{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;display:block;overflow:visible}
 .vc{align-content:center}
-:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) ul.clean li{font-size:16.5px}
-:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .card p,:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .card li{font-size:15.5px}
-:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .card h3{font-size:18px}
-:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .small{font-size:14.5px}
-:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .stat{padding:7px 0}
-:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .stat .num{font-size:38px}
-:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .stat p{font-size:15.5px}
-:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .kn{font-size:32px}
-:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .tbl{font-size:15px}
-:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .tbl td{padding:6px 8px}
+.compact ul.clean li,[data-lang="en"] .compact-en ul.clean li,[data-lang="ko"] .compact-ko ul.clean li,[data-lang="en"] .compact-enko ul.clean li,[data-lang="ko"] .compact-enko ul.clean li{font-size:16.5px}
+.compact .card p,[data-lang="en"] .compact-en .card p,[data-lang="ko"] .compact-ko .card p,[data-lang="en"] .compact-enko .card p,[data-lang="ko"] .compact-enko .card p,.compact .card li,[data-lang="en"] .compact-en .card li,[data-lang="ko"] .compact-ko .card li,[data-lang="en"] .compact-enko .card li,[data-lang="ko"] .compact-enko .card li{font-size:15.5px}
+.compact .card h3,[data-lang="en"] .compact-en .card h3,[data-lang="ko"] .compact-ko .card h3,[data-lang="en"] .compact-enko .card h3,[data-lang="ko"] .compact-enko .card h3{font-size:18px}
+.compact .small,[data-lang="en"] .compact-en .small,[data-lang="ko"] .compact-ko .small,[data-lang="en"] .compact-enko .small,[data-lang="ko"] .compact-enko .small{font-size:14.5px}
+.compact .stat,[data-lang="en"] .compact-en .stat,[data-lang="ko"] .compact-ko .stat,[data-lang="en"] .compact-enko .stat,[data-lang="ko"] .compact-enko .stat{padding:7px 0}
+.compact .stat .num,[data-lang="en"] .compact-en .stat .num,[data-lang="ko"] .compact-ko .stat .num,[data-lang="en"] .compact-enko .stat .num,[data-lang="ko"] .compact-enko .stat .num{font-size:38px}
+.compact .stat p,[data-lang="en"] .compact-en .stat p,[data-lang="ko"] .compact-ko .stat p,[data-lang="en"] .compact-enko .stat p,[data-lang="ko"] .compact-enko .stat p{font-size:15.5px}
+.compact .kn,[data-lang="en"] .compact-en .kn,[data-lang="ko"] .compact-ko .kn,[data-lang="en"] .compact-enko .kn,[data-lang="ko"] .compact-enko .kn{font-size:32px}
+.compact .tbl,[data-lang="en"] .compact-en .tbl,[data-lang="ko"] .compact-ko .tbl,[data-lang="en"] .compact-enko .tbl,[data-lang="ko"] .compact-enko .tbl{font-size:15px}
+.compact .tbl td,[data-lang="en"] .compact-en .tbl td,[data-lang="ko"] .compact-ko .tbl td,[data-lang="en"] .compact-enko .tbl td,[data-lang="ko"] .compact-enko .tbl td{padding:6px 8px}
 #progRows td{padding-top:14px;padding-bottom:14px}
 .chart text{fill:var(--ink2);font-family:var(--f-latin);font-size:12px}
 .chart [lang]{font-family:var(--body)}
@@ -260,7 +260,8 @@ ul.clean li b{color:var(--ink)}
 .sumc p{font-size:19.5px;line-height:1.6}
 .agenda{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
 .agenda li{display:grid;grid-template-columns:54px 1fr auto;gap:16px;align-items:center;padding:12px 18px;background:var(--panel);border-radius:6px;cursor:pointer;border:1px solid transparent}
-.agenda li:hover,.agenda li:focus-visible{border-color:var(--amber)}
+.agenda li:hover{border-color:var(--amber)}
+.agenda li:focus-visible{border-color:var(--amber)}
 .agenda .an{font-family:var(--d-en);font-size:34px;font-weight:700;color:var(--steel);line-height:1}
 .agenda h3{margin:0;font-size:21px}
 .agenda p{margin:2px 0 0;font-size:17.5px;color:var(--ink2);line-height:1.45}
@@ -293,7 +294,8 @@ ul.clean li b{color:var(--ink)}
 .boot i.dup{background:var(--amber-hi);color:#1b1b1b}
 .toc{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
 .toc button{all:unset;display:grid;grid-template-columns:30px 1fr;gap:8px;padding:6px 8px;border-radius:4px;cursor:pointer;font-size:14px;line-height:1.4;color:var(--ink2);width:100%;box-sizing:border-box}
-.toc button:hover,.toc button:focus-visible{background:var(--panel);color:var(--ink)}
+.toc button:hover{background:var(--panel);color:var(--ink)}
+.toc button:focus-visible{background:var(--panel);color:var(--ink)}
 .toc button[aria-current="true"]{background:var(--amber-soft);color:var(--ink)}
 .toc .mono{color:var(--ink3);font-size:12px}
 .toc .sh{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);padding:10px 8px 2px}
@@ -308,7 +310,7 @@ ul.clean li b{color:var(--ink)}
 .flow .stagewrap{display:block;padding:0 16px}
 .flow .stagebox{width:auto!important;height:auto!important}
 .flow .stage{position:static;width:auto;height:auto;transform:none!important;box-shadow:none;background:transparent;overflow:visible}
-.flow .slide{position:relative;inset:auto;opacity:1;visibility:visible;padding:28px 0;border-bottom:1px solid var(--line)}
+.flow .slide{position:relative;top:auto;right:auto;bottom:auto;left:auto;opacity:1;visibility:visible;padding:28px 0;border-bottom:1px solid var(--line)}
 .flow .content,.flow .cover,.flow .steps,.flow .recs,.flow .bigs,.flow .g3{grid-template-columns:1fr!important;grid-template-rows:auto!important}
 .flow .quote{grid-column:auto!important}
 .flow .cover .left{padding:8px 0 20px}
@@ -1031,7 +1033,7 @@ ul.clean li b{color:var(--ink)}
   <h2 class="ttl d"><span lang="zh">实验：一个数字化船厂 + 一个公开数据船厂</span><span lang="en">Experiments: one digitised yard and one yard with published data</span><span lang="ko">실험: 디지털화한 조선소 하나 + 공개 데이터 조선소 하나</span></h2>
   <div class="content" style="grid-template-columns:1.15fr 1fr;gap:28px">
     <div class="col">
-      <div class="fill"><img src="assets/fig_layout.png" alt="Digitised shipyard layout and generated flow weights" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:left top"></div>
+      <div class="fill"><img src="assets/fig_layout.png" alt="Digitised shipyard layout and generated flow weights" style="position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;object-fit:contain;object-position:left top"></div>
       <div class="tiny"><span lang="zh">左：由卫星图数字化的韩国巨济岛某大型船厂道路与场地；右：8 条加权物流方向。任务位置与释放时间为生成场景。</span><span lang="en">Left: roads and areas of a large shipyard on Geoje Island, South Korea, digitised from satellite imagery. Right: the eight weighted flows. Task locations and release times are generated scenarios.</span><span lang="ko">왼쪽: 위성 사진으로 디지털화한 한국 거제도 대형 조선소의 도로와 구역. 오른쪽: 가중 물류 흐름 8개. 작업 위치와 투입 시각은 생성한 시나리오.</span></div>
     </div>
     <div class="col compact" style="gap:0;justify-content:space-between">
@@ -1640,5 +1642,5 @@ ul.clean li b{color:var(--ink)}
 </div>
 <div class="tip" id="tip" hidden></div>
 
-<script src="data.js"></script>
-<script src="deck.js"></script>
+<script src="data.js?v=b9501bc181"></script>
+<script src="deck.js?v=b9501bc181"></script>

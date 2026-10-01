@@ -764,9 +764,9 @@ function drawE7() {
   $('e7Num').innerHTML = `${a.toLocaleString('en-US')} / ${n.toLocaleString('en-US')}<small>${t('e7Num')}</small>`;
 }
 
+function safe(f) { try { f(); } catch (e) { if (window.console) console.error(f.name, e); } }
 function drawAll() {
-  drawPrice(); drawCap(); drawHeat(); drawScatter(); drawCase(); drawAgree(); drawLoad(); drawTeam(); renderProg();
-  drawDay(); drawGantt(); drawMasses(); fillCalcSelects(); drawCalc(); drawLiu(); drawPor(); renderB4(); drawLate(); drawTmax(); drawE7();
+  [drawPrice, drawCap, drawHeat, drawScatter, drawCase, drawAgree, drawLoad, drawTeam, renderProg, drawDay, drawGantt, drawMasses, fillCalcSelects, drawCalc, drawLiu, drawPor, renderB4, drawLate, drawTmax, drawE7].forEach(safe);
   $('heatTip').innerHTML = `<p class="small">${t('heatHint')}</p>`;
 }
 
@@ -934,7 +934,7 @@ wrap.addEventListener('wheel', e => {
 addEventListener('resize', layout);
 addEventListener('hashchange', () => { const m = /^#s(\d+)$/.exec(location.hash); if (m) go(+m[1] - 1, true); });
 
-drawSpmt(); drawBoot();
+safe(drawSpmt); safe(drawBoot);
 slides.forEach(s => s.setAttribute('aria-hidden', 'true'));
 layout();
 setLang(lang);
