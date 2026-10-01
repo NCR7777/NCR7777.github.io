@@ -1174,14 +1174,24 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
 <section class="slide" data-sec="method">
   <header class="eb"></header>
   <h2 class="ttl d"><span lang="zh">方法全景：一张图看整篇论文的架构（论文插图）</span><span lang="en">The whole method on one page: the paper's framework figure</span><span lang="ko">한 장으로 보는 논문 전체 구조 (논문 그림)</span></h2>
-  <div class="content" style="grid-template-rows:1fr auto;gap:8px;margin-top:12px">
-    <a class="fill" href="assets/framework.svg?v=2e1c593f83" target="_blank" rel="noopener" aria-label="Open the framework figure full size"><img src="assets/framework.svg?v=2e1c593f83" alt="Framework of equal-service fleet sizing: inputs, four method steps, decisions and analyses, verification"></a>
-    <div class="tiny"><span lang="zh">左：输入；中：四步方法，① 服务标准 → ② 调度 ⇄ ③ 台数扫描 → ④ 定价；右：最便宜的车队，以及它回答的三个问题。点图可在新页面放大。</span><span lang="en">Left: inputs. Middle: the four steps, ① service specification → ② scheduling ⇄ ③ count scan → ④ pricing. Right: the cheapest fleet and the three questions it answers. Click the figure to open it full size.</span><span lang="ko">왼쪽: 입력. 가운데: 네 단계, ① 서비스 규정 → ② 스케줄링 ⇄ ③ 대수 스캔 → ④ 가격 산정. 오른쪽: 가장 싼 차량군과 그것이 답하는 세 가지 질문. 그림을 누르면 새 페이지에서 크게 볼 수 있다.</span></div>
+  <div class="content" style="grid-template-columns:1.55fr 1fr;gap:26px;margin-top:10px">
+    <div class="col"><a class="fill" href="assets/framework.svg?v=3c242127cd" target="_blank" rel="noopener" aria-label="Open the framework figure full size"><img src="assets/framework.svg?v=3c242127cd" alt="Framework of equal-service fleet sizing: inputs, four method steps, output with three answers, robustness and validation checks"></a></div>
+    <div class="col compact" style="justify-content:center;gap:12px">
+      <ul class="clean">
+        <li><span lang="zh"><b>输入</b>：每天 97 块分段、36 种工况 × 30 天、9 个吨级和 2 种混编、39 份中标价</span><span lang="en"><b>Inputs</b>: 97 blocks a day, 36 conditions × 30 days, 9 tiers and 2 mixes, 39 award prices</span><span lang="ko"><b>입력</b>: 하루 97개 블록, 36개 조건 × 30일, 9개 등급과 2개 혼합, 낙찰가 39건</span></li>
+        <li><span lang="zh"><b>① 服务标准</b> S = (θ, T<sub>max</sub>)，所有车队都要达到</span><span lang="en"><b>① Service specification</b> S = (θ, T<sub>max</sub>), the same for every fleet</span><span lang="ko"><b>① 서비스 규정</b> S = (θ, T<sub>max</sub>), 모든 차량군에 동일</span></li>
+        <li><span lang="zh"><b>② 调度</b>：ALNS 排时刻表，只允许最小可行队，拼载的几台车同时开工；共 51,480 次搜索</span><span lang="en"><b>② Scheduling</b>: ALNS with minimal teams, coupled members start together; 51,480 runs</span><span lang="ko"><b>② 스케줄링</b>: 최소 팀만 허용하는 ALNS, 결합 차량은 함께 시작, 총 51,480회 탐색</span></li>
+        <li><span lang="zh"><b>③ 台数扫描</b>：找刚好达标的最少台数 K*，384 个车队系列</span><span lang="en"><b>③ Count scan</b>: the smallest qualifying count K* for 384 fleet series</span><span lang="ko"><b>③ 대수 스캔</b>: 384개 차량군 시리즈의 최소 충족 대수 K*</span></li>
+        <li><span lang="zh"><b>④ 定价</b>：C = r·P + L，6,480 个设定里各选最便宜的车队，回答 C1–C3</span><span lang="en"><b>④ Pricing</b>: C = r·P + L picks the cheapest fleet in 6,480 settings, answering C1–C3</span><span lang="ko"><b>④ 가격 산정</b>: C = r·P + L로 6,480개 설정마다 가장 싼 차량군을 골라 C1–C3에 답함</span></li>
+        <li><span lang="zh"><b>底部</b>：8 项稳健性与验证</span><span lang="en"><b>Bottom</b>: eight robustness and validation checks</span><span lang="ko"><b>아래</b>: 강건성·검증 8가지</span></li>
+      </ul>
+      <div class="tiny"><span lang="zh">点图可在新页面放大。</span><span lang="en">Click the figure to open it full size.</span><span lang="ko">그림을 누르면 크게 볼 수 있다.</span></div>
+    </div>
   </div>
   <aside class="notes">
-    <p lang="zh">这一页把前面讲过的方法放进一张图，也是论文里的架构图。左边是输入：每天 97 块分段的搬运任务、候选车队和价格。中间是四步：先定服务标准；再用 ALNS 给每个车队排时刻表，里面只允许最小可行队；台数扫描反复调用调度，找到刚好达标的最少台数 K*；最后按 C = r·P + L 定价。右边是产出：每个工况、每个价格设定下最便宜的车队，共 6,480 个决策，用来回答三个问题：买什么车、延误上限、怎样评估车队。</p>
-    <p lang="en">This slide puts the method on one page; it is also the paper's framework figure. On the left are the inputs: a working day of 97 block moves, the candidate fleets and the prices. In the middle are the four steps: set the service specification; schedule each fleet with ALNS, admitting only minimal feasible teams; scan the count, calling the scheduler repeatedly, to find the smallest qualifying count K*; and price with C = r·P + L. On the right is the output: the cheapest fleet for every condition and price setting, 6,480 decisions, which answer three questions: what to buy, the delay cap, and how to evaluate fleets.</p>
-    <p lang="ko">이 슬라이드는 앞에서 설명한 방법을 한 장에 담은 것으로, 논문의 구조도이기도 합니다. 왼쪽은 입력입니다. 하루 97건의 블록 운반, 후보 차량군, 가격입니다. 가운데는 네 단계입니다. 서비스 규정을 정하고, 최소 가능 팀만 허용하는 ALNS로 차량군마다 배차표를 만들고, 대수 스캔이 스케줄링을 반복 호출해 목표를 충족하는 최소 대수 K*를 찾고, C = r·P + L로 가격을 매깁니다. 오른쪽은 결과입니다. 조건과 가격 설정마다 가장 싼 차량군, 모두 6,480개의 결정이며, 무엇을 살지, 지연 상한, 차량군 평가 방법이라는 세 가지 질문에 답합니다.</p>
+    <p lang="zh">这一页把前面讲过的方法放进一张图，也是论文里的架构图。左边是输入：每天 97 块分段的搬运任务、候选车队和价格。中间是四步：先定服务标准；再用 ALNS 给每个车队排时刻表，里面只允许最小可行队；台数扫描反复调用调度，找到刚好达标的最少台数 K*；最后按 C = r·P + L 定价。右边是产出：每个工况、每个价格设定下最便宜的车队，共 6,480 个决策，用来回答三个问题：买什么车、延误上限、怎样评估车队。底部是 8 项稳健性与验证。</p>
+    <p lang="en">This slide puts the method on one page; it is also the paper's framework figure. On the left are the inputs: a working day of 97 block moves, the candidate fleets and the prices. In the middle are the four steps: set the service specification; schedule each fleet with ALNS, admitting only minimal feasible teams; scan the count, calling the scheduler repeatedly, to find the smallest qualifying count K*; and price with C = r·P + L. On the right is the output: the cheapest fleet for every condition and price setting, 6,480 decisions, which answer three questions: what to buy, the delay cap, and how to evaluate fleets. Along the bottom are eight robustness and validation checks.</p>
+    <p lang="ko">이 슬라이드는 앞에서 설명한 방법을 한 장에 담은 것으로, 논문의 구조도이기도 합니다. 왼쪽은 입력입니다. 하루 97건의 블록 운반, 후보 차량군, 가격입니다. 가운데는 네 단계입니다. 서비스 규정을 정하고, 최소 가능 팀만 허용하는 ALNS로 차량군마다 배차표를 만들고, 대수 스캔이 스케줄링을 반복 호출해 목표를 충족하는 최소 대수 K*를 찾고, C = r·P + L로 가격을 매깁니다. 오른쪽은 결과입니다. 조건과 가격 설정마다 가장 싼 차량군, 모두 6,480개의 결정이며, 무엇을 살지, 지연 상한, 차량군 평가 방법이라는 세 가지 질문에 답합니다. 아래에는 강건성·검증 8가지가 있습니다.</p>
   </aside>
 </section>
 
@@ -1800,5 +1810,5 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
 </div>
 <div class="tip" id="tip" hidden></div>
 
-<script src="data.js?v=2e1c593f83"></script>
-<script src="deck.js?v=2e1c593f83"></script>
+<script src="data.js?v=3c242127cd"></script>
+<script src="deck.js?v=3c242127cd"></script>
