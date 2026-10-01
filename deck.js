@@ -94,20 +94,40 @@ const T = {
   fleetH: ['车队', 'Fleet', '차량군'], compH: ['组成', 'Composition', '구성'], costH: ['每天成本（人时）', 'Daily cost (labour-h)', '하루 비용 (인시)'],
   aboveH: ['比最省', 'vs cheapest', '최저 대비'], coupH: ['拼载', 'Coupled', '결합'],
   capLg: ['资本 r × P', 'Capital r × P', '자본 r × P'], labLg: ['人工 L', 'Labour L', '인건비 L'],
-  liuProv: ['共用车速（12/6 km/h）下的初步结果：{n} 个设定中混编都最省，领先 {lo}–{hi}%；还差 R3 中 {open} 的边界核查。',
-            'Provisional at common speeds (12/6 km/h): a mix is cheapest in {n} settings, by {lo}–{hi}%; boundary checks for {open} in R3 are still open.',
-            '공통 속도 (12/6 km/h)의 예비 결과: {n}개 설정 모두 혼합이 최저, 차이 {lo}–{hi}%. R3의 {open} 경계 확인이 남아 있다.'],
-  liuFinal: ['共用车速（12/6 km/h）下：{n} 个设定中混编最省，领先 {lo}–{hi}%。', 'At common speeds (12/6 km/h): a mix is cheapest in {n} settings, by {lo}–{hi}%.', '공통 속도 (12/6 km/h): {n}개 설정에서 혼합이 최저, 차이 {lo}–{hi}%.'],
+  liuFinal: ['共用车速（12/6 km/h）下：{n} / {N} 个设定全部由混编胜出，领先下一名 {lo}–{hi}%，拼载 ≤ {c}%。',
+             'At common speeds (12/6 km/h): a mix wins {n} of {N} settings, {lo}–{hi}% ahead of the next fleet, coupling at most {c}%.',
+             '공통 속도 (12/6 km/h): {N}개 중 {n}개 설정 모두 혼합이 최저, 다음 차량군보다 {lo}–{hi}% 싸고 결합은 {c}% 이하.'],
   porNum: ['个成本设定中买车成本上升；中位数 0，最多 {max}%', 'cost settings where the purchase gets dearer; median 0, at most {max}%', '개 비용 설정에서 구매 비용 상승, 중앙값 0, 최대 {max}%'],
-  porNote: ['另有 {neg} 个设定受限规则反而更便宜：{small} 个不到 1%（搜索差异）；{big} 个都在“{cell}”，最多 {min}%。那里受限规则 5 台就达标，灵活规则的搜索停在 6 台，说明主实验在该工况多算了 1 台（待重放确认，详见讲稿）。',
-            '{neg} more settings are cheaper under the restricted rule: {small} by under 1% (search noise); {big}, all in {cell}, by up to {min}%. There the restricted rule qualified with 5 vehicles where the flexible search stopped at 6: the main run over-counted by one (to confirm by replay).',
-            '또 {neg}개 설정은 제한 규칙에서 오히려 싸다. {small}개는 1% 미만 (탐색 차이), {big}개는 모두 "{cell}"에서 최대 {min}%. 그 조건에서 제한 규칙은 5대로 충족했지만 유연 규칙의 탐색은 6대에서 멈춰, 주 실험이 1대를 더 셌다 (재생으로 확인 예정, 원고 참조).'],
+  porNote: ['另有 {neg} 个设定受限规则反而更便宜：{small} 个不到 1%（搜索差异）；{big} 个都在“{cell}”，最多 {min}%。那里受限规则 5 台就达标，灵活规则的搜索却停在 6 台：主实验在该工况多算了 1 台，2 重车混编（而不是报告的 550 t）才是 {m4} 个班次配员设定中最便宜的。',
+            '{neg} more settings are cheaper under the restricted rule: {small} by under 1% (search noise), {big} in {cell} by up to {min}%. There the restricted rule qualified with 5 vehicles where the flexible search stopped at 6, so the two-heavy mix, not the reported 550 t, is cheapest in {m4} shift-staffing settings.',
+            '또 {neg}개 설정은 제한 규칙에서 오히려 싸다. {small}개는 1% 미만 (탐색 차이), {big}개는 모두 "{cell}"에서 최대 {min}%. 그 조건에서 제한 규칙은 5대로 충족했지만 유연 규칙의 탐색은 6대에서 멈췄다. 주 실험이 1대를 더 센 것이며, {m4}개 교대 인원 설정에서는 보고된 550 t가 아니라 대형 2대 혼합이 최저다.'],
   porTip: ['{cell}<br>r = {r} · 贵 {v}%<br>灵活：{a} → 超重才拼：{b}', '{cell}<br>r = {r} · {v}% dearer<br>flexible: {a} → overweight-only: {b}', '{cell}<br>r = {r} · {v}% 상승<br>유연: {a} → 초과 중량: {b}'],
   porZero: ['0：没有变化', '0: no change', '0: 변화 없음'], porPos: ['变贵（越深越贵，最深 {max}%）', 'dearer (darker = more, up to {max}%)', '비싸짐 (진할수록, 최대 {max}%)'],
   porNeg: ['更便宜：搜索差异', 'cheaper: search difference', '더 쌈: 탐색 차이'],
   b4Cell: ['工况', 'Condition', '조건'],
   asofTxt: ['截至 {d}。进度条 = 已完成运行 / 预估运行；系列数 = 已完成扫描的车队系列。', 'As of {d}. Bar = runs done / estimated runs; series = fleet series whose scan is closed.', '{d} 기준. 막대 = 완료 실행 / 예상 실행, 시리즈 = 스캔이 끝난 차량군 시리즈.'],
   doneP: ['已完成', 'done', '완료'],
+  lateLbl: ['无上限 {k} 台（有上限要 {k1} 台）· 晚 4 h 以上 {n} 块', '{k} vehicles uncapped ({k1} with the cap) · {n} blocks > 4 h late', '상한 없음 {k}대 (상한 시 {k1}대) · 4시간 초과 {n}개'],
+  lateAx: ['30 天里最晚一块的延误（h）', 'Largest delay over 30 days (h)', '30일 중 최대 지연 (h)'],
+  capLine: ['120 min 上限', '120-min cap', '120분 상한'],
+  tmaxA: ['最省车队拼载的分段（%）', 'Blocks coupled by the cheapest fleet (%)', '최저비용 차량군의 결합 블록 (%)'],
+  tmaxB: ['比不设上限时贵（%）', 'Cost above the uncapped choice (%)', '상한 없음 대비 추가 비용 (%)'],
+  tmaxX: ['每块分段的延误上限', 'Per-block delay cap', '블록별 지연 상한'],
+  noCap: ['无', 'none', '없음'],
+  oneTen: ['1/10', 'one in ten', '10%'],
+  tmaxTip: ['{sc} · 上限 {lev}<br>最省：{fleet}<br>拼载 {c}% · 成本 +{md}%（{lo} 到 {hi}%）', '{sc} · cap {lev}<br>cheapest: {fleet}<br>{c}% coupled · cost +{md}% ({lo} to {hi}%)', '{sc} · 상한 {lev}<br>최저: {fleet}<br>결합 {c}% · 비용 +{md}% ({lo}–{hi}%)'],
+  thSc: ['重量', 'Masses', '중량'], thNo: ['不设上限', 'No cap', '상한 없음'], thCap: ['120 min 上限', '120-min cap', '120분 상한'], thCost: ['成本', 'Cost', '비용'],
+  e7Ax: ['重分段（350–540 t）占比 p', 'Share p of heavy blocks (350–540 t)', '무거운 블록(350–540 t) 비율 p'],
+  e7Tip: ['重块占 {p}% · {fleet} · 拼载 {c}%', 'heavy share {p}% · {fleet} · {c}% coupled', '무거운 블록 {p}% · {fleet} · 결합 {c}%'],
+  e7Le: ['300 t：重块都要拼载', '300 t: couples every heavy block', '300 t: 무거운 블록 모두 결합'],
+  e7Mx: ['270 t 轻车 + 1 或 2 台 550 t', '270 t units + one or two 550 t', '270 t 경형 + 550 t 1–2대'],
+  e7Big: ['550 t：每块都单独运', '550 t: carries every block alone', '550 t: 모든 블록 단독 운반'],
+  e7Num: ['个设定中最省车队拼载 ≤ 1/10；例外是 p = 35%、随重量装卸、按队计运营人工下的 2 重车混编（19.6%）', 'settings where the cheapest fleet couples at most one block in ten; the exceptions are the two-heavy mix at p = 35% with mass-dependent handling under per-team crews (19.6%)', '개 설정에서 최저비용 차량군의 결합 ≤ 10%. 예외는 p = 35%, 중량 비례 적재·하역, 팀별 운영 인원에서의 대형 2대 혼합 (19.6%)'],
+  b4Shift: ['个班次配员设定换了最省车队，全在 Jiang 短装卸：一重车混编要多 1 台，被两重车混编取代；沿用原选择最多多花 {g}%', 'shift-staffing settings change their cheapest fleet, all with Jiang masses and short handling: the one-heavy mix needs one more vehicle and the two-heavy mix replaces it; keeping the old choice costs up to {g}% more', '개 교대 인원 설정에서 최저비용 차량군이 바뀜. 모두 Jiang·짧은 적재·하역: 대형 1대 혼합이 1대 더 필요해 대형 2대 혼합이 대신하며, 기존 선택 유지 시 최대 {g}% 추가'],
+  b4All: ['个设定换了最省车队（混编取悲观车速；取乐观车速时为 {o} 个）', 'settings change their cheapest fleet at the pessimistic end ({o} at the optimistic end)', '개 설정에서 최저비용 차량군이 바뀜 (혼합 비관 속도 기준, 낙관 속도 기준 {o}개)'],
+  b4Le10: ['个设定中最省车队仍拼载 ≤ 1/10（悲观端）', 'settings where the cheapest fleet still couples at most one block in ten (pessimistic end)', '개 설정에서 최저비용 차량군의 결합이 여전히 10% 이하 (비관적 끝)'],
+  b4Roh: ['Roh–Cha 重量下 550 t 在全部 {a} 个设定中最省；Liu 重量下 425 t 在 {b} / {n} 个设定中最省（11 种标准车队中）', 'Under Roh–Cha masses 550 t is cheapest in all {a} settings; under Liu masses 425 t in {b} of {n} (among the eleven standard fleets)', 'Roh–Cha 중량에서 550 t가 {a}개 설정 모두 최저, Liu 중량에서 425 t가 {n}개 중 {b}개 최저 (표준 차량군 11개 중)'],
+  b4NotRerun: ['未重跑', 'not rerun', '재실행 안 함'],
   calcTxt: ['最便宜：<b>{f}</b>（{k} 台），每天 {c} 人时；第二名 {f2} 贵 {p}%。人工占最便宜车队成本的 {lp}%。',
             'Cheapest: <b>{f}</b> ({k} vehicles), {c} labour-hours a day; the runner-up, {f2}, costs {p}% more. Labour is {lp}% of the cheapest fleet’s cost.',
             '최저: <b>{f}</b> ({k}대), 하루 {c}인시. 2위 {f2}는 {p}% 더 비싸다. 최저 차량군 비용 중 인건비 비중은 {lp}%.'],
@@ -122,6 +142,7 @@ const DARK = new Set(['325', '380', '425', '500', '550', 'MX2']);
 const FAMS = ['200', '250', '270', '300', '325', '380', '425', '500', '550', 'MX1', 'MX2'];
 const famName = f => f === 'MX1' ? t('mx1') : f === 'MX2' ? t('mx2') : f + ' t';
 const cellName = c => { const [m, h, d] = c.split('_'); return `${t(m)} · ${t(h + 'l')} · ${t(d + 'l')}`; };
+const cellShort = c => { const [m, h, d] = c.split('_'); return `${t(m)} · ${t(h)} · ${t(d)}`; };
 
 // ---------- svg helpers ----------
 function el(tag, attrs, parent, text) {
@@ -360,21 +381,6 @@ function drawTeam() {
   document.querySelectorAll('#tierSeg button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.q === tier));
 }
 
-function drawC2() {
-  const X = h => 40 + h * 500 / 16;
-  const draw = (id, y0, delays) => {
-    const G = $(id);
-    el('rect', { x: 34, y: y0 - 78, width: 12, height: 78, style: 'fill:var(--good)' }, G);
-    el('text', { x: 52, y: y0 - 64, style: 'fill:var(--good);font:600 12px var(--mono)' }, G, '95%');
-    delays.forEach((h, i) => {
-      const c = h > 2 ? 'var(--oxide)' : 'var(--amber)', yy = y0 - 16 - (i % 3) * 9;
-      el('line', { x1: X(h), x2: X(h), y1: y0, y2: yy, style: `stroke:${c}` }, G);
-      el('circle', { cx: X(h), cy: yy, r: 5, style: `fill:${c}` }, G);
-    });
-  };
-  draw('c2A', 130, [0.2, 0.45, 0.7, 1.0, 1.3, 1.6, 1.9]);
-  draw('c2B', 290, [0.3, 0.9, 1.5, 3.8, 7.2, 11.5, 16]);
-}
 
 // transporter move in four steps (static sketch)
 function drawSpmt() {
@@ -581,11 +587,12 @@ function renderProg() {
 
 // Liu mixes at manufacturer speeds (B4, conservative for the mixes)
 const liuName = (f, K, hv) => {
-  const m = /^L(\d+)_H(\d+)x(\d)$/.exec(f);
-  if (m) return `${K - m[3]} × ${m[1]} t + ${m[3]} × ${m[2]} t`;
-  if (f === 'MX1') return `1 × ${hv} t + ${K - 1} × 270 t`;
-  if (f === 'MX2') return `2 × ${hv} t + ${K - 2} × 270 t`;
-  return `${K} × ${f} t`;
+  const m = /^L(\d+)_H(\d+)x(\d)$/.exec(f), caps = [];
+  const add = (q, n) => { for (let k = 0; k < n; k++) caps.push(q); };
+  if (m) { add(m[2], +m[3]); add(m[1], K - m[3]); }
+  else if (f === 'MX1' || f === 'MX2') { const h = +f[2]; add(hv, h); add(270, K - h); }
+  else add(f, K);
+  return fleetStr(caps.join(' '));
 };
 function drawLiu() {
   const r = +$('rLiu').value;
@@ -612,9 +619,9 @@ function drawLiu() {
     el('text', { x: cx.pct, y: ty, style: `font-size:12px;font-family:var(--mono);fill:${win ? 'var(--good)' : 'var(--ink3)'}` }, s, win ? '★' : '+' + (100 * (o.cost / best - 1)).toFixed(1) + '%');
     el('text', { x: cx.cp, y: ty, 'text-anchor': 'end', style: 'font-size:12px;font-family:var(--mono)' }, s, o.cp.toFixed(0) + '%');
   });
-  const a = L.all_10_5.main_grid, m = L.main_provisional.main_grid, n = v => v.toLocaleString('en-US');
+  const a = L.all_10_5, m = L.main, n = v => v.toLocaleString('en-US');
   $('liuWin').textContent = `${n(a.l300_cheapest)} / ${n(a.settings)}`;
-  $('liuProv').textContent = fmt(t(L.r3_open.length ? 'liuProv' : 'liuFinal'), { n: n(m.l300_cheapest), lo: m.premium_min_pct, hi: m.premium_max_pct, open: L.r3_open.join(', ') });
+  $('liuProv').textContent = fmt(t('liuFinal'), { n: n(m.l300_cheapest), N: n(m.settings), lo: m.premium_min_pct, hi: m.premium_max_pct, c: m.coop_max });
 }
 
 // price of overweight-only coupling (R4R), affine curve, shift staffing
@@ -644,24 +651,122 @@ function drawPor() {
   const pa = D.late.por_all;
   swatches('porLegend', [['#e6ebf0', t('porZero')], [porColour(pa.max), fmt(t('porPos'), { max: pa.max })], ['#cfe1f0', t('porNeg')]]);
   $('porNum').innerHTML = `${pa.pos.toLocaleString('en-US')} / ${pa.n.toLocaleString('en-US')}<small>${fmt(t('porNum'), { max: pa.max })}</small>`;
-  $('porNote').textContent = fmt(t('porNote'), { neg: pa.neg, small: pa.neg_small, big: pa.neg_big, min: Math.abs(pa.neg_min), cell: pa.big_cells.map(cellName).join(', ') });
+  $('porNote').textContent = fmt(t('porNote'), { neg: pa.neg, small: pa.neg_small, big: pa.neg_big, min: Math.abs(pa.neg_min), cell: pa.big_cells.map(cellShort).join(', '), m4: D.late.m4 });
 }
 
-// manufacturer speeds (B4): K* at common speeds -> K* at manufacturer speeds
+// manufacturer speeds (B4): K* at common speeds -> K* at manufacturer speeds, and the decisions
 function renderB4() {
-  const fams = ['380', '425', '500', '550', 'MX2'], byCell = {};
-  D.late.b4k.forEach(([c, f, a, b]) => { (byCell[c] = byCell[c] || {})[f] = [a, b]; });
+  const fams = ['380', '425', '500', '550', 'MX1', 'MX2'], byCell = {};
+  D.late.b4k.forEach(([c, f, a, b, flag]) => { (byCell[c] = byCell[c] || {})[f] = [a, b, flag]; });
   $('b4Table').innerHTML = `<thead><tr><th style="text-transform:none">${t('b4Cell')}</th>${fams.map(f => `<th style="text-transform:none">${famName(f)}</th>`).join('')}</tr></thead><tbody>` +
-    Object.keys(byCell).map(c => `<tr><td style="font-family:var(--body);font-weight:400;white-space:normal">${cellName(c)}</td>` + fams.map(f => {
+    Object.keys(byCell).map(c => `<tr><td style="font-family:var(--body);font-weight:400;white-space:nowrap">${cellShort(c)}</td>` + fams.map(f => {
       const v = byCell[c][f];
       if (!v) return '<td class="mono" style="color:var(--ink3)">—</td>';
+      if (v[2] === 'bound') return `<td class="mono" style="color:var(--ink3)" title="${t('b4NotRerun')}">${v[0]}*</td>`;
       return `<td class="mono" style="white-space:nowrap;${v[1] !== v[0] ? 'background:var(--amber-soft);color:var(--ink);font-weight:600' : ''}">${v[0]} → ${v[1]}</td>`;
     }).join('') + '</tr>').join('') + '</tbody>';
+  const d = D.late.b4dec, n = v => v.toLocaleString('en-US');
+  $('b4Shift').innerHTML = `${d.changed_shift} / ${d.n_shift}<small>${fmt(t('b4Shift'), { g: d.regret })}</small>`;
+  $('b4All').innerHTML = `${d.changed} / ${n(d.n)}<small>${fmt(t('b4All'), { o: d.changed_opt })}</small>`;
+  $('b4Le10').innerHTML = `${n(d.le10)} / ${n(d.n)}<small>${t('b4Le10')}</small>`;
+  $('b4Roh').textContent = fmt(t('b4Roh'), { a: d.roh_550, b: d.liu_425, n: d.liu_n });
+}
+
+// "270 270 270 270 500" -> "1 × 500 t + 4 × 270 t"
+function fleetStr(sp) {
+  const n = {};
+  sp.split(' ').forEach(q => { n[q] = (n[q] || 0) + 1; });
+  return Object.keys(n).sort((a, b) => b - a).map(q => `${n[q]} × ${q} t`).join(' + ');
+}
+const SC = { 'M1_H1_D-emp': 'M1', 'M3_H1_D-emp': 'M3', 'M6_H1_D-emp': 'M6' };
+const SC_COL = { M1: 'var(--steel)', M3: 'var(--oxide)', M6: 'var(--good)' };
+const capName = lev => lev === 'inf' ? t('noCap') : lev + ' min';
+
+// Finding 2a: fleets that qualify with one vehicle fewer without a cap (R3), one bar per distinct fleet
+function drawLate() {
+  const seen = new Set(), rows = [];
+  D.late.late_blocks.forEach(([c, f, k, k1, cp, mx, n4, n4c]) => {
+    const name = liuName(f, k, c.startsWith('M6') ? 425 : 500), key = c + name;
+    if (!seen.has(key)) { seen.add(key); rows.push({ c, name, k, k1, cp, mx, n4 }); }
+  });
+  const W = 640, top = 8, bot = 44, H = fitH('cLate', W, top + rows.length * 56 + bot, 0.8, 1.6), rh = (H - top - bot) / rows.length;
+  const s = frame('cLate', W, H, 'Largest delay of fleets that qualify only without a cap');
+  const L = 250, x = lin(0, 20, L, W - 40);
+  const g = el('g', { class: 'grid' }, s);
+  for (const v of [0, 4, 8, 12, 16, 20]) { el('line', { x1: x(v), x2: x(v), y1: top, y2: H - bot + 4 }, g); el('text', { x: x(v), y: H - bot + 20, 'text-anchor': 'middle' }, s, v); }
+  el('text', { x: (L + W - 40) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('lateAx'));
+  rows.forEach((o, i) => {
+    const y = top + i * rh;
+    el('text', { x: 0, y: y + rh * 0.42, class: 't-strong', style: 'font-size:13px' }, s, `${t(SC[o.c])} · ${o.name}`);
+    el('text', { x: 0, y: y + rh * 0.42 + 17, style: 'font-size:11.5px' }, s, fmt(t('lateLbl'), { k: o.k, k1: o.k1, n: o.n4 }));
+    el('rect', { x: L, y: y + rh * 0.2, width: x(o.mx) - L, height: rh * 0.5, rx: 2, style: `fill:${SC_COL[SC[o.c]]};opacity:.85` }, s);
+    el('text', { x: x(o.mx) + 6, y: y + rh * 0.45 + 5, class: 't-strong' }, s, o.mx.toFixed(1) + ' h');
+  });
+  el('line', { x1: x(2), x2: x(2), y1: top, y2: H - bot, style: 'stroke:var(--amber);stroke-width:2;stroke-dasharray:5 4' }, s);
+  el('text', { x: x(2) + 4, y: top + 10, style: 'font-size:11px;fill:var(--amber);font-weight:600' }, s, t('capLine'));
+}
+
+// Finding 2b: coupled share and cost of the cheapest fleet against the delay cap (R3, shift staffing)
+function drawTmax() {
+  const R = D.late.r3, levs = ['inf', '480', '240', '120', '60', '30'], keys = Object.keys(R);
+  const W = 620, H = fitH('cTmax', W, 440, 0.8, 1.5), m = { l: 52, r: 14 }, gapP = 46, top = 12, bot = 40;
+  const ph = (H - top - bot - gapP) / 2;
+  const s = frame('cTmax', W, H, 'Coupling and cost of the cheapest fleet against the delay cap');
+  const band = (W - m.l - m.r) / levs.length, xc = i => m.l + band * (i + 0.5);
+  const panel = (y0, d0, d1, ticks, title) => {
+    const y = lin(d0, d1, y0 + ph, y0), g = el('g', { class: 'grid' }, s);
+    ticks.forEach(v => { el('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }, g); el('text', { x: m.l - 8, y: y(v) + 4, 'text-anchor': 'end' }, s, v); });
+    el('text', { x: m.l, y: y0 - 4, class: 't-strong', style: 'font-size:12px' }, s, title);
+    return y;
+  };
+  const ya = panel(top + 10, 0, 14, [0, 5, 10], t('tmaxA'));
+  el('line', { x1: m.l, x2: W - m.r, y1: ya(10), y2: ya(10), style: 'stroke:var(--ink3);stroke-dasharray:4 3' }, s);
+  el('text', { x: W - m.r, y: ya(10) - 4, 'text-anchor': 'end', style: 'font-size:10.5px;fill:var(--ink3)' }, s, t('oneTen'));
+  const yb = panel(top + 10 + ph + gapP, -0.5, 5, [0, 1, 2, 3, 4, 5], t('tmaxB'));
+  keys.forEach((c, k) => {
+    const col = SC_COL[SC[c]], off = (k - 1) * 9;
+    el('path', { d: R[c].map((r, i) => `${i ? 'L' : 'M'}${xc(i) + off} ${ya(r[4])}`).join(''), style: `fill:none;stroke:${col};stroke-width:2` }, s);
+    R[c].forEach((r, i) => {
+      const tipf = () => fmt(t('tmaxTip'), { sc: t(SC[c]), lev: capName(r[0]), fleet: fleetStr(r[3]), c: r[4], md: r[5], lo: r[6], hi: r[7] });
+      hover(el('circle', { cx: xc(i) + off, cy: ya(r[4]), r: 5, style: `fill:${col};stroke:var(--paper);stroke-width:1.5` }, s), tipf);
+      el('line', { x1: xc(i) + off, x2: xc(i) + off, y1: yb(r[6]), y2: yb(r[7]), style: `stroke:${col};stroke-width:2` }, s);
+      hover(el('rect', { x: xc(i) + off - 4.5, y: yb(r[5]) - 4.5, width: 9, height: 9, style: `fill:${col};stroke:var(--paper);stroke-width:1.5` }, s), tipf);
+    });
+  });
+  levs.forEach((lev, i) => el('text', { x: xc(i), y: H - bot + 18, 'text-anchor': 'middle' }, s, capName(lev)));
+  el('text', { x: (m.l + W - m.r) / 2, y: H - 4, 'text-anchor': 'middle' }, s, t('tmaxX'));
+  swatches('tmaxLegend', keys.map(c => [SC_COL[SC[c]], t(SC[c])]));
+  const row = c => { const a = R[c][0], b = R[c][3]; return `<tr><td style="font-family:var(--body);font-weight:600">${t(SC[c])}</td><td>${fleetStr(a[3])}<div class="tiny">${a[4]}%</div></td><td>${fleetStr(b[3])}<div class="tiny">${b[4]}%</div></td><td class="mono" style="white-space:nowrap">${b[7] > 0 ? '+' + b[6].toFixed(1) + '–' + b[7].toFixed(1) + '%' : '0'}</td></tr>`; };
+  $('tmaxTable').innerHTML = `<thead><tr><th style="text-transform:none">${t('thSc')}</th><th style="text-transform:none">${t('thNo')}</th><th style="text-transform:none">${t('thCap')}</th><th style="text-transform:none">${t('thCost')}</th></tr></thead><tbody>${keys.map(row).join('')}</tbody>`;
+}
+
+// heavy-block share (E7): cheapest fleet by p, short and mass-dependent handling
+function drawE7() {
+  const E = D.late.e7, ps = E.H1.map(x => x[0]), W = 660, top = 30, L = 120, cw = (W - L) / ps.length;
+  const H = fitH('cE7', W, 300, 0.8, 1.6), rh = (H - top - 46) / 2;
+  const s = frame('cE7', W, H, 'Cheapest fleet by heavy-block share');
+  const lab = f => f === 'MX1' ? '+1 × 550' : f === 'MX2' ? '+2 × 550' : f + ' t';
+  ps.forEach((p, j) => el('text', { x: L + j * cw + cw / 2, y: 18, 'text-anchor': 'middle', class: 't-strong' }, s, Math.round(100 * p) + '%'));
+  ['H1', 'H2'].forEach((hk, i) => {
+    const y = top + i * rh;
+    el('text', { x: 0, y: y + rh / 2 + 4, class: 't-strong', style: 'font-size:13px' }, s, t(hk + 'l'));
+    E[hk].forEach(([p, f, c], j) => {
+      const g = el('g', {}, s), x0 = L + j * cw;
+      el('rect', { x: x0 + 3, y: y + 6, width: cw - 6, height: rh - 12, rx: 6, fill: COL[f], style: 'stroke:var(--ink3);stroke-width:.6' }, g);
+      el('text', { x: x0 + cw / 2, y: y + rh / 2, 'text-anchor': 'middle', style: `font-family:var(--mono);font-size:12.5px;font-weight:600;fill:${DARK.has(f) ? '#fff' : '#1b1b1b'}` }, g, lab(f));
+      el('text', { x: x0 + cw / 2, y: y + rh / 2 + 17, 'text-anchor': 'middle', style: `font-size:11px;fill:${DARK.has(f) ? '#fff' : '#333'}` }, g, c + '%');
+      hover(g, () => fmt(t('e7Tip'), { p: Math.round(100 * p), fleet: f === 'MX1' || f === 'MX2' ? fleetStr(Array(f === 'MX1' ? 1 : 2).fill('550').join(' ') + ' 270') + '…' : f + ' t', c }));
+    });
+  });
+  el('text', { x: L + (W - L) / 2, y: H - 8, 'text-anchor': 'middle' }, s, t('e7Ax'));
+  swatches('e7Legend', [[COL['300'], t('e7Le')], [COL.MX2, t('e7Mx')], [COL['550'], t('e7Big')]]);
+  const [a, n] = D.late.e7_le10;
+  $('e7Num').innerHTML = `${a.toLocaleString('en-US')} / ${n.toLocaleString('en-US')}<small>${t('e7Num')}</small>`;
 }
 
 function drawAll() {
   drawPrice(); drawCap(); drawHeat(); drawScatter(); drawCase(); drawAgree(); drawLoad(); drawTeam(); renderProg();
-  drawDay(); drawGantt(); drawMasses(); fillCalcSelects(); drawCalc(); drawLiu(); drawPor(); renderB4();
+  drawDay(); drawGantt(); drawMasses(); fillCalcSelects(); drawCalc(); drawLiu(); drawPor(); renderB4(); drawLate(); drawTmax(); drawE7();
   $('heatTip').innerHTML = `<p class="small">${t('heatHint')}</p>`;
 }
 
@@ -801,7 +906,14 @@ document.addEventListener('keydown', e => {
   else if (k === 'Escape') { toggleGloss(false); toggleToc(false); }
 });
 let tx = null;
-wrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+// a swipe that starts on a control (slider, select, button) belongs to that control, not to paging
+wrap.addEventListener('touchstart', e => { tx = e.target.closest('input,select,textarea,button,label') ? null : e.touches[0].clientX; }, { passive: true });
+// after a slider is dragged or a select is chosen with the mouse, hand the keyboard back to paging
+addEventListener('pointerup', () => {
+  const a = document.activeElement;
+  if (a && a.matches('input[type="range"]')) a.blur();
+});
+document.addEventListener('change', e => { if (e.target.matches('select')) e.target.blur(); });
 wrap.addEventListener('touchend', e => {
   if (tx == null || root.classList.contains('flow')) return;
   const dx = e.changedTouches[0].clientX - tx;
@@ -822,7 +934,7 @@ wrap.addEventListener('wheel', e => {
 addEventListener('resize', layout);
 addEventListener('hashchange', () => { const m = /^#s(\d+)$/.exec(location.hash); if (m) go(+m[1] - 1, true); });
 
-drawC2(); drawSpmt(); drawBoot();
+drawSpmt(); drawBoot();
 slides.forEach(s => s.setAttribute('aria-hidden', 'true'));
 layout();
 setLang(lang);

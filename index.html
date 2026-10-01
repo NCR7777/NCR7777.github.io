@@ -956,7 +956,7 @@ ul.clean li b{color:var(--ink)}
       </div>
       <ul class="clean" style="margin-top:6px">
         <li><span lang="zh">每个吨级、每种混编各扫各的，只用自己的运行结果，搜索规则相同，比较才公平</span><span lang="en">Each tier and mix is scanned on its own runs with identical search rules, so the comparison is fair</span><span lang="ko">등급·혼합마다 자기 실행 결과만으로, 같은 탐색 규칙으로 스캔하므로 공정하게 비교됨</span></li>
-        <li><span lang="zh">种子、预算和规则在运行前写定（预注册），看到结果后不改</span><span lang="en">Seeds, budgets and rules were fixed before the runs (pre-registered) and not changed after seeing results</span><span lang="ko">시드·예산·규칙은 실행 전에 고정(사전 등록)했고 결과를 본 뒤 바꾸지 않음</span></li>
+        <li><span lang="zh">每个车队都用同样的搜索预算和随机种子规则</span><span lang="en">Every fleet gets the same search budget and random-seed rule</span><span lang="ko">모든 차량군에 같은 탐색 예산과 난수 시드 규칙을 적용</span></li>
       </ul>
     </div>
   </div>
@@ -1161,7 +1161,7 @@ ul.clean li b{color:var(--ink)}
       </ul>
       <div class="chips" id="heatLegend"></div>
       <div class="card hm-tip" id="heatTip"><p class="small"><span lang="zh">把鼠标移到格子上查看细节。</span><span lang="en">Hover a cell for details.</span><span lang="ko">칸에 마우스를 올리면 세부 정보가 표시됩니다.</span></p></div>
-      <div class="tiny"><span lang="zh">仿射价格曲线。混编：轻车 270 t；重车按工况计价为 500 t 或 425 t。</span><span lang="en">Affine price curve. Mixes: 270 t light units; heavy units priced as 500 t or 425 t by condition.</span><span lang="ko">선형(아핀) 가격 곡선. 혼합: 경형 270 t, 대형은 조건에 따라 500 t 또는 425 t로 가격 산정.</span></div>
+      <div class="tiny"><span lang="zh">仿射价格曲线。混编：轻车 270 t；重车按工况计价为 500 t 或 425 t。“超重 · 短 · 基准”一行有已知漏判：2 重车混编其实在 89 个班次配员设定中比 550 t 便宜（见“超重才拼”一页）。</span><span lang="en">Affine price curve. Mixes: 270 t light units; heavy units priced as 500 t or 425 t by condition. The extra-heavy · short · base row has a known error: the two-heavy mix is in fact cheaper than 550 t in 89 shift-staffing settings (see the overweight-only slide).</span><span lang="ko">선형(아핀) 가격 곡선. 혼합: 경형 270 t, 대형은 조건에 따라 500 t 또는 425 t로 가격 산정. "초중량 · 짧음 · 기준" 행에는 알려진 오류가 있다: 대형 2대 혼합이 89개 교대 인원 설정에서 실제로 550 t보다 싸다 ("초과 중량 결합" 슬라이드 참조).</span></div>
     </div>
   </div>
   <aside class="notes">
@@ -1223,6 +1223,33 @@ ul.clean li b{color:var(--ink)}
   </aside>
 </section>
 
+<!-- heavy-block share (E7) -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">重分段占多少，才值得全部买能单独运每一块的 550 t？</span><span lang="en">How many heavy blocks justify an all-550 t fleet that carries every block alone?</span><span lang="ko">무거운 블록이 얼마나 많아야 모든 블록을 단독 운반하는 550 t를 다 살 만한가?</span></h2>
+  <div class="content" style="grid-template-columns:1.35fr 1fr;gap:26px;margin-top:14px">
+    <div class="col" style="gap:8px">
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">最省车队随重分段占比 p 的变化（仿射价格 · 班次人工；9 个价格比结果相同）</span><span lang="en">Cheapest fleet by heavy-block share p (affine price · shift staffing; the same at all nine price ratios)</span><span lang="ko">무거운 블록 비율 p에 따른 최저비용 차량군 (아핀 가격 · 교대 인원, 가격비 9개 모두 동일)</span></b></div>
+      <div class="chart fill" id="cE7"></div>
+      <div class="chips" id="e7Legend"></div>
+    </div>
+    <div class="col compact-enko" style="gap:12px">
+      <div class="card"><p style="color:var(--ink)"><span lang="zh">另生成 30 个工作日：其中占比 p 的分段重 350–540 t，其余 100–300 t，p 从 0 到 50%。</span><span lang="en">30 further days in which a share p of the blocks weighs 350–540 t and the rest 100–300 t, with p from 0 to 50%.</span><span lang="ko">추가로 30일을 생성: 비율 p의 블록은 350–540 t, 나머지는 100–300 t, p는 0–50%.</span></p></div>
+      <ul class="clean">
+        <li><span lang="zh"><b>550 t</b> 开始最省的门槛：短装卸在 p = 35%–50% 之间，随重量变化的装卸在 10%–20% 之间；对所有价格曲线和价格比都一样</span><span lang="en">The <b>550 t</b> tier becomes cheapest between p = 35% and 50% with short handling and between 10% and 20% with mass-dependent handling, for every price curve and ratio</span><span lang="ko"><b>550 t</b>가 최저가 되는 문턱: 짧은 적재·하역은 p = 35–50%, 중량 비례는 10–20% 사이. 모든 가격 곡선과 가격비에서 동일</span></li>
+        <li><span lang="zh">低于门槛时：p ≤ 5% 买 300 t，中间买 270 t 轻车加 1–2 台 550 t；它们拼载的分段 ≤ 4.4%</span><span lang="en">Below the threshold: the 300 t tier for p ≤ 5%, a 270 t fleet with one or two 550 t units in between; they couple at most 4.4% of blocks</span><span lang="ko">문턱 아래: p ≤ 5%는 300 t, 그 사이는 270 t 경형에 550 t 1–2대. 결합 블록은 4.4% 이하</span></li>
+      </ul>
+      <div class="kn" id="e7Num"></div>
+      <p class="tiny"><span lang="zh">这些决定大多依赖搜索：短装卸 63 / 63 个、随重量装卸 41 / 63 个（仿射价格、班次人工）。</span><span lang="en">Most of these decisions depend on search: 63 of 63 with short handling and 41 of 63 with mass-dependent handling (affine price, shift staffing).</span><span lang="ko">이 결정 대부분은 탐색에 의존한다: 짧은 적재·하역 63/63, 중량 비례 41/63 (아핀 가격, 교대 인원).</span></p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">结论 1 的第二条边界：重分段有多少时，才值得把车队全部买成 550 t？我们另生成了 30 个工作日，让重分段的比例从 0 一直增加到一半。重块很少时，买 300 t 最省；重块多一些时，买轻车再配一两台 550 t；只有重块够多时，全部买 550 t 才最省。门槛与装卸时间有关：装卸短时在 35% 到 50% 之间，装卸随重量变长时降到 10% 到 20%。无论哪种情况，最省的车队都很少拼载，这与结论 1 一致。</p>
+    <p lang="en">The second boundary of Finding 1: how many heavy blocks does it take before an all-550 t fleet pays? We generated 30 more days with the heavy share rising from zero to one half. With few heavy blocks the 300 t tier is cheapest; with some, a light fleet plus one or two 550 t units; only with many heavy blocks does an all-550 t fleet win. The threshold depends on handling: between 35% and 50% with short handling, between 10% and 20% when handling grows with mass. Whatever the share, the cheapest fleet rarely couples, in line with Finding 1.</p>
+    <p lang="ko">결론 1의 두 번째 경계입니다. 무거운 블록이 얼마나 많아야 차량군을 모두 550 t로 사는 것이 이득일까요? 무거운 블록 비율을 0에서 절반까지 늘린 30일을 추가로 만들었습니다. 무거운 블록이 적으면 300 t, 조금 있으면 경형에 550 t 1–2대, 충분히 많을 때만 550 t 단일이 가장 쌉니다. 문턱은 적재·하역 시간에 따라 달라 짧으면 35–50%, 중량에 비례해 길어지면 10–20%입니다. 어떤 경우든 최저비용 차량군은 결합을 거의 하지 않아 결론 1과 일치합니다.</p>
+  </aside>
+</section>
+
 <!-- Liu mixes (B4) -->
 <section class="slide" data-sec="res">
   <header class="eb"></header>
@@ -1241,9 +1268,9 @@ ul.clean li b{color:var(--ink)}
     </div>
   </div>
   <aside class="notes">
-    <p lang="zh">这是新完成的 B4 实验的主要结果。前面第二个船厂的比较里，只在 11 种标准车队中选，425 t 最省。这里再加入“300 t 轻车 + 1 到 4 台 425 t 重车”的混编，并且故意把车速都按厂家给的较慢参数算，这对混编最不利。结果是 8,000 个成本设定中，有 7,846 个混编最便宜。道理很简单：同样 5 台车，把其中 2 台换成更便宜的 300 t，让它们只运轻块，重块交给 425 t 单独运，几乎不用拼载。这支持了结论 1：买能单独运大部分块的轻车，再配少量重车。共用车速下的对照还差 R3 里 3 个边界核查，目前是初步结果。</p>
-    <p lang="en">This is the main result of the newly finished B4 study. In the second-yard comparison only the 11 standard fleets competed, and 425 t was cheapest. Here we add mixes of 300 t units with one to four 425 t units, and deliberately run every mix at the slower manufacturer speeds, the case least favourable to mixes. A mix is still cheapest in 7,846 of 8,000 cost settings. The reason is simple: with the same five vehicles, two of them become cheaper 300 t units that carry only light blocks while the 425 t units carry heavy blocks alone, so there is almost no coupling. This supports Finding 1: buy light units that carry most blocks alone, plus a few heavy units. The comparison at common speeds still waits for three boundary checks in R3 and is provisional.</p>
-    <p lang="ko">새로 끝난 B4 실험의 주요 결과입니다. 앞의 두 번째 조선소 비교에서는 표준 차량군 11개만 경쟁해 425 t가 최저였습니다. 여기서는 "300 t 경형 + 425 t 대형 1–4대" 혼합을 더하고, 혼합에 가장 불리하도록 모든 혼합을 제조사의 더 느린 속도로 계산했습니다. 그래도 8,000개 비용 설정 중 7,846개에서 혼합이 가장 쌉니다. 같은 5대 중 2대를 더 싼 300 t로 바꿔 가벼운 블록만 옮기게 하고, 무거운 블록은 425 t가 단독으로 옮기므로 결합 운반이 거의 없기 때문입니다. 이는 결론 1을 뒷받침합니다. 공통 속도에서의 비교는 R3의 경계 확인 3건이 남아 있어 아직 예비 결과입니다.</p>
+    <p lang="zh">这是新完成的 B4 实验的主要结果。前面第二个船厂的比较里，只在 11 种标准车队中选，425 t 最省。这里再加入“300 t 轻车 + 1 到 4 台 425 t 重车”的混编，并且故意把车速都按厂家给的较慢参数算，这对混编最不利。结果是 180 个成本设定中，有 172 个混编最便宜。道理很简单：同样 5 台车，把其中 2 台换成更便宜的 300 t，让它们只运轻块，重块交给 425 t 单独运，几乎不用拼载。这支持了结论 1：买能单独运大部分块的轻车，再配少量重车。按共用车速比较时，180 个设定全部由混编胜出。</p>
+    <p lang="en">This is the main result of the newly finished B4 study. In the second-yard comparison only the 11 standard fleets competed, and 425 t was cheapest. Here we add mixes of 300 t units with one to four 425 t units, and deliberately run every mix at the slower manufacturer speeds, the case least favourable to mixes. A mix is still cheapest in 172 of 180 cost settings. The reason is simple: with the same five vehicles, two of them become cheaper 300 t units that carry only light blocks while the 425 t units carry heavy blocks alone, so there is almost no coupling. This supports Finding 1: buy light units that carry most blocks alone, plus a few heavy units. At common speeds a mix wins all 180 settings.</p>
+    <p lang="ko">새로 끝난 B4 실험의 주요 결과입니다. 앞의 두 번째 조선소 비교에서는 표준 차량군 11개만 경쟁해 425 t가 최저였습니다. 여기서는 "300 t 경형 + 425 t 대형 1–4대" 혼합을 더하고, 혼합에 가장 불리하도록 모든 혼합을 제조사의 더 느린 속도로 계산했습니다. 그래도 180개 비용 설정 중 172개에서 혼합이 가장 쌉니다. 같은 5대 중 2대를 더 싼 300 t로 바꿔 가벼운 블록만 옮기게 하고, 무거운 블록은 425 t가 단독으로 옮기므로 결합 운반이 거의 없기 때문입니다. 이는 결론 1을 뒷받침합니다. 공통 속도로 비교하면 180개 설정 모두 혼합이 이깁니다.</p>
   </aside>
 </section>
 
@@ -1272,9 +1299,9 @@ ul.clean li b{color:var(--ink)}
     </div>
   </div>
   <aside class="notes">
-    <p lang="zh">这是新完成的 R4R 实验。以往文献规定：只要车队里有一台车能单独运，就不许拼载。我们把两种混编在这个规则下重新定了台数。结果 72 个系列里有 66 个怎么加车都达不到服务标准，因为重块只能排队等那一两台重车。换算成买车成本，大多数设定里没有影响，因为最省的车队本来就很少拼载；但在混编原本胜出的工况里，成本最多高 9.4%。所以：混编要配合灵活拼载才有意义。有一处要特别说明：在超重、短装卸、基准交期这个工况，受限规则反而用 5 台车就找到了达标排班，而灵活规则的搜索停在了 6 台。受限规则允许的车组在灵活规则下都允许，所以灵活规则其实 5 台也够，主实验在这里多算了 1 台，这个工况的最省车队会变。这正是我们在热力图里标为“弱搜索依赖”的格子，需要用重放正式确认。</p>
-    <p lang="en">This is the newly finished R4R study. Earlier work allows coupling only when no single vehicle in the fleet can carry the block. We re-sized the two mixes under that rule. In 66 of 72 series no number of added vehicles met the service target, because every heavy block had to queue for the one or two heavy units. In purchase cost, most settings are unaffected, because the cheapest fleets rarely couple anyway; but where a mix used to win, cost rises by up to 9.4%. So mixes make sense only with flexible coupling. One point needs care: in the extra-heavy, short-handling, baseline condition, the restricted search found qualifying schedules with 5 vehicles while the flexible search stopped at 6. Every restricted team is also a flexible team, so 5 suffice under flexible coupling too: the main experiment over-counted by one there, and the cheapest fleet in that condition changes. This is exactly a cell we had marked as weakly search-dependent in the heatmap, and it must be confirmed by replay.</p>
-    <p lang="ko">새로 끝난 R4R 실험입니다. 기존 문헌은 차량군 중 한 대라도 단독 운반이 가능하면 결합을 허용하지 않습니다. 두 혼합 차량군을 이 규칙으로 다시 산정했습니다. 72개 시리즈 중 66개는 차량을 아무리 더해도 목표를 채우지 못했습니다. 모든 무거운 블록이 대형 1–2대를 기다려야 했기 때문입니다. 구매 비용으로 보면 대부분의 설정은 영향이 없습니다. 최저비용 차량군은 원래 결합을 거의 하지 않기 때문입니다. 다만 혼합이 이기던 조건에서는 비용이 최대 9.4% 오릅니다. 즉, 혼합은 유연 결합과 함께여야 의미가 있습니다. 한 가지 짚어야 할 점이 있습니다. 초중량·짧은 적재 하역·기준 납기 조건에서 제한 규칙의 탐색은 5대로 목표를 충족하는 배차를 찾았지만, 유연 규칙의 탐색은 6대에서 멈췄습니다. 제한 규칙의 팀은 모두 유연 규칙에서도 허용되므로 유연 결합에서도 5대면 충분합니다. 즉, 주 실험이 이 조건에서 1대를 더 셌고, 그 조건의 최저비용 차량군이 바뀝니다. 히트맵에서 "약한 탐색 의존성"으로 표시했던 바로 그 칸이며, 재생으로 확인해야 합니다.</p>
+    <p lang="zh">这是新完成的 R4R 实验。以往文献规定：只要车队里有一台车能单独运，就不许拼载。我们把两种混编在这个规则下重新定了台数。结果 72 个系列里有 66 个怎么加车都达不到服务标准，因为重块只能排队等那一两台重车。换算成买车成本，大多数设定里没有影响，因为最省的车队本来就很少拼载；但在混编原本胜出的工况里，成本最多高 9.4%。所以：混编要配合灵活拼载才有意义。有一处要特别说明：在超重、短装卸、基准交期这个工况，受限规则反而用 5 台车就找到了达标排班，而灵活规则的搜索停在了 6 台。受限规则允许的车组在灵活规则下都允许，所以灵活规则其实 5 台也够，主实验在这里多算了 1 台，在 89 个班次配员设定中，最便宜的其实是 2 重车混编而不是 550 t。这正是热力图里标为“弱搜索依赖”的格子。</p>
+    <p lang="en">This is the newly finished R4R study. Earlier work allows coupling only when no single vehicle in the fleet can carry the block. We re-sized the two mixes under that rule. In 66 of 72 series no number of added vehicles met the service target, because every heavy block had to queue for the one or two heavy units. In purchase cost, most settings are unaffected, because the cheapest fleets rarely couple anyway; but where a mix used to win, cost rises by up to 9.4%. So mixes make sense only with flexible coupling. One point needs care: in the extra-heavy, short-handling, baseline condition, the restricted search found qualifying schedules with 5 vehicles while the flexible search stopped at 6. Every restricted team is also a flexible team, so 5 suffice under flexible coupling too: the main experiment over-counted by one there, and the two-heavy mix, not 550 t, is cheapest in 89 shift-staffing settings. This is exactly a cell marked as weakly search-dependent in the heatmap.</p>
+    <p lang="ko">새로 끝난 R4R 실험입니다. 기존 문헌은 차량군 중 한 대라도 단독 운반이 가능하면 결합을 허용하지 않습니다. 두 혼합 차량군을 이 규칙으로 다시 산정했습니다. 72개 시리즈 중 66개는 차량을 아무리 더해도 목표를 채우지 못했습니다. 모든 무거운 블록이 대형 1–2대를 기다려야 했기 때문입니다. 구매 비용으로 보면 대부분의 설정은 영향이 없습니다. 최저비용 차량군은 원래 결합을 거의 하지 않기 때문입니다. 다만 혼합이 이기던 조건에서는 비용이 최대 9.4% 오릅니다. 즉, 혼합은 유연 결합과 함께여야 의미가 있습니다. 한 가지 짚어야 할 점이 있습니다. 초중량·짧은 적재 하역·기준 납기 조건에서 제한 규칙의 탐색은 5대로 목표를 충족하는 배차를 찾았지만, 유연 규칙의 탐색은 6대에서 멈췄습니다. 제한 규칙의 팀은 모두 유연 규칙에서도 허용되므로 유연 결합에서도 5대면 충분합니다. 즉, 주 실험이 이 조건에서 1대를 더 셌고, 89개 교대 인원 설정에서 실제로 가장 싼 것은 550 t가 아니라 대형 2대 혼합입니다. 히트맵에서 "약한 탐색 의존성"으로 표시했던 바로 그 칸입니다.</p>
   </aside>
 </section>
 
@@ -1338,49 +1365,52 @@ ul.clean li b{color:var(--ink)}
   </aside>
 </section>
 
-<!-- 16 finding 2 (in progress) -->
+<!-- finding 2a: deferring heavy blocks -->
 <section class="slide" data-sec="res">
   <header class="eb"></header>
-  <h2 class="ttl d"><span lang="zh">结论 2：服务怎么规定，本身就决定买什么车</span><span lang="en">Finding 2: how service is specified changes what to buy</span><span lang="ko">결론 2: 서비스를 어떻게 규정하느냐가 구매를 바꾼다</span> <span class="pill run" style="vertical-align:middle;font-size:14px"><span lang="zh">实验进行中</span><span lang="en">runs in progress</span><span lang="ko">실험 진행 중</span></span></h2>
-  <div class="content g-r">
-    <div class="col">
-      <div class="card">
-        <h3><span lang="zh">逻辑</span><span lang="en">The logic</span><span lang="ko">논리</span></h3>
-        <p><span lang="zh">只规定“95% 准时”时，剩下 5% 的迟到块可以任意晚。排班会主动牺牲这几块，让更少的车达标。这在排序理论中早有结论（Moore 1968）。</span><span lang="en">With only a 95% on-time target, the remaining 5% of late blocks may be arbitrarily late. A scheduler sacrifices them so a smaller fleet qualifies, a classic result in scheduling theory (Moore 1968).</span><span lang="ko">95% 정시 목표만 두면 나머지 5%의 지연 블록은 얼마든지 늦어도 됩니다. 스케줄러는 이 블록들을 희생해 더 적은 차량으로 목표를 맞춥니다. 스케줄링 이론의 고전적 결과입니다 (Moore 1968).</span></p>
-      </div>
-      <div class="card" style="background:var(--good-soft)">
-        <h3><span class="pill done"><span lang="zh">已确认</span><span lang="en">Confirmed</span><span lang="ko">확인됨</span></span></h3>
-        <p><span lang="zh">有 120 min 上限时，384 个系列里没有任何 4 台车的车队达标；最少是 5 台（Liu 重量、短装卸下的 425、500、550 t）。</span><span lang="en">With the 120-min cap, no four-transporter fleet qualified in any of the 384 series; the fewest was five (425, 500 and 550 t under Liu masses and short handling).</span><span lang="ko">120분 상한이 있으면 384개 시리즈 중 4대로 충족한 차량군은 없고, 최소는 5대 (Liu 중량·짧은 적재 하역에서 425, 500, 550 t).</span></p>
-      </div>
-      <div class="card" style="background:var(--amber-soft)">
-        <h3><span class="pill run"><span lang="zh">待确认</span><span lang="en">To be confirmed</span><span lang="ko">확인 대기</span></span></h3>
-        <p><span lang="zh">初步结果：去掉上限后，4 台车可以把个别分段拖延到约 16 h 来达到 95%。需在全部 30 个实例上确认，目前不作为结论。</span><span lang="en">Preliminary: without the cap, four transporters reached 95% by delaying single blocks for up to about 16 h. This must be confirmed on all 30 instances and is not yet a finding.</span><span lang="ko">예비 결과: 상한을 없애면 4대가 일부 블록을 최대 약 16시간 지연시켜 95%를 달성. 30개 인스턴스 전체로 확인해야 하므로 아직 결론이 아님.</span></p>
-      </div>
+  <h2 class="ttl d"><span lang="zh">结论 2：只看准时率时，拼载多的车队把重块拖延 13–19 h，就能少买 1 台车</span><span lang="en">Finding 2: with an on-time share alone, fleets that couple more qualify with one vehicle fewer by deferring heavy blocks for 13–19 h</span><span lang="ko">결론 2: 정시율만 보면, 결합이 많은 차량군은 무거운 블록을 13–19시간 미뤄 1대를 덜 산다</span></h2>
+  <div class="content" style="grid-template-columns:1.25fr 1fr;gap:26px;margin-top:14px">
+    <div class="col" style="gap:8px">
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">不设上限就能少 1 台的车队：每个车队 30 天里最晚的一块晚了多久</span><span lang="en">Fleets that need one vehicle fewer without a cap: the latest block of each over 30 days</span><span lang="ko">상한이 없으면 1대 덜 필요한 차량군: 30일 중 가장 늦은 블록의 지연</span></b></div>
+      <div class="chart fill" id="cLate"></div>
     </div>
-    <div class="col">
-      <div class="fill"><svg viewBox="0 0 560 330" role="img" aria-label="Two fleets with the same on-time share but different worst delays">
-        <g style="font:600 14px var(--f-latin);fill:var(--ink)">
-          <text x="0" y="22"><tspan lang="zh" style="font-family:var(--f-zh)">车队 A · 5 台：迟到都在 120 min 内</tspan><tspan lang="en">Fleet A · 5 vehicles: every late block within 120 min</tspan><tspan lang="ko" style="font-family:var(--f-ko)">차량군 A · 5대: 지연은 모두 120분 이내</tspan></text>
-          <text x="0" y="182"><tspan lang="zh" style="font-family:var(--f-zh)">车队 B · 4 台：同样 95% 准时</tspan><tspan lang="en">Fleet B · 4 vehicles: the same 95% on time</tspan><tspan lang="ko" style="font-family:var(--f-ko)">차량군 B · 4대: 똑같이 95% 정시</tspan></text>
-        </g>
-        <g id="c2A"></g><g id="c2B"></g>
-        <line x1="40" y1="130" x2="540" y2="130" style="stroke:var(--ink3)"/>
-        <line x1="40" y1="290" x2="540" y2="290" style="stroke:var(--ink3)"/>
-        <g style="font:12px var(--f-latin);fill:var(--ink3)">
-          <text x="40" y="148">0</text><text x="140" y="148">2 h</text><text x="540" y="148" text-anchor="end">16 h</text>
-          <text x="40" y="308">0</text><text x="140" y="308">2 h</text><text x="540" y="308" text-anchor="end">16 h</text>
-          <text x="290" y="324" text-anchor="middle"><tspan lang="zh" style="font-family:var(--f-zh)">每块分段晚于交期多久（示意）</tspan><tspan lang="en">Delay past due time per block (schematic)</tspan><tspan lang="ko" style="font-family:var(--f-ko)">블록별 납기 대비 지연 시간 (개념도)</tspan></text>
-        </g>
-        <path d="M140 40V130M140 200V290" style="stroke:var(--oxide);stroke-dasharray:4 3"/>
-        <text x="146" y="52" style="fill:var(--oxide);font:600 13px var(--f-latin)">T<tspan dy="3" style="font-size:10px">max</tspan></text>
-      </svg></div>
-      <p class="small"><span lang="zh">正在运行的 R3 把 T<sub>max</sub> 从 30 min 一直放宽到无上限，给出车数和成本如何随上限变化。</span><span lang="en">The running R3 experiment moves T<sub>max</sub> from 30 min to no cap and reports how the count and cost of the cheapest fleet change.</span><span lang="ko">진행 중인 R3 실험은 T<sub>max</sub>를 30분에서 상한 없음까지 바꾸며 최저비용 차량군의 대수와 비용 변화를 산출한다.</span></p>
+    <div class="col compact-enko" style="gap:0;justify-content:space-evenly">
+      <div class="stat"><span class="num">5</span><p><span lang="zh">三种重量下，不论上限是 30 min 还是不设上限，最少都要 5 台；不设上限也没有任何 4 台车的车队达标</span><span lang="en">In all three mass scenarios the smallest qualifying count was five at every cap from 30 min to none; no four-vehicle fleet qualified even without a cap</span><span lang="ko">세 중량 시나리오 모두 상한이 30분이든 없든 최소 5대가 필요했고, 상한이 없어도 4대로 충족한 차량군은 없었다</span></p></div>
+      <div class="stat"><span class="num">13–19 h</span><p><span lang="zh">不设上限时，6 种车队比有 120 min 上限时少用 1 台就达标：它们 30 天里有 23–79 块晚了 4 h 以上，最晚的一块晚 13–19 h</span><span lang="en">Without a cap, six fleets qualified with one vehicle fewer than under the 120-min cap: each had 23–79 blocks more than 4 h late over 30 days, the latest 13–19 h late</span><span lang="ko">상한이 없으면 차량군 6개가 120분 상한 때보다 1대 적게 충족했다. 30일간 4시간 넘게 늦은 블록이 23–79개, 가장 늦은 블록은 13–19시간 지연</span></p></div>
+      <div class="card" style="background:var(--steel-soft)"><p style="color:var(--ink)"><span lang="zh">被拖延的是重块。这些车队都要拼载 10–40% 的分段：300、325 t 同质车队里，晚 4 h 以上的块有 68–92% 是拼载任务；混编里 98–99% 比轻车重，它们在等那几台重车，或等两台轻车凑齐。</span><span lang="en">The deferred blocks are the heavy ones. Each of these fleets couples 10–40% of blocks: in the 300 and 325 t tiers, 68–92% of blocks more than 4 h late were coupled moves; in the mixes, 98–99% were heavier than the light tier, waiting for one of the few heavy units or for two light units to pair up.</span><span lang="ko">미뤄지는 것은 무거운 블록이다. 이 차량군은 모두 블록의 10–40%를 결합 운반한다. 300·325 t 단일 차량군에서 4시간 넘게 늦은 블록의 68–92%가 결합 작업이었고, 혼합에서는 98–99%가 경형보다 무거워 소수의 대형이나 경형 두 대가 모이기를 기다렸다.</span></p></div>
     </div>
   </div>
   <aside class="notes">
-    <p lang="zh">第二个结论的实验还在跑，这里讲清楚逻辑和目前能确定的部分。如果只规定“95% 准时”，那剩下 5% 的迟到块可以被任意推迟，排班算法会主动牺牲它们来让更少的车达标。这在理论上早有结论（Moore 1968）。初步结果显示 4 台车可以靠把个别分段拖延十几个小时达标，但要等 30 个实例全部跑完才能确认，目前不作为结论。</p>
-    <p lang="en">The runs for Finding 2 are still in progress, so this slide gives the logic and what is already certain. With only a 95% on-time target, the remaining 5% of late blocks can be deferred without limit, and the scheduler sacrifices them so a smaller fleet qualifies; this is a classic result (Moore 1968). A preliminary run showed four transporters qualifying by delaying single blocks for many hours, but it must be confirmed on all 30 instances and is not yet a finding.</p>
-    <p lang="ko">결론 2의 실험은 아직 진행 중이므로, 여기서는 논리와 현재 확실한 부분만 말씀드립니다. 95% 정시 목표만 두면 나머지 5%의 지연 블록은 얼마든지 미뤄질 수 있고, 스케줄러는 더 적은 차량으로 목표를 맞추려고 이 블록들을 희생시킵니다. 이는 고전적인 결과입니다(Moore 1968). 예비 실행에서 4대가 일부 블록을 여러 시간 지연시켜 목표를 충족했지만, 30개 인스턴스 전체로 확인해야 하므로 아직 결론이 아닙니다.</p>
+    <p lang="zh">第二个结论现在有了完整结果。我们在三种分段重量下，把每块分段允许的最大延误从 30 分钟一直放宽到不设上限。最少台数始终是 5 台，即使不设上限也没有 4 台车能达标，这推翻了我们早先的一个初步猜测。真正的变化在于“谁能达到这个台数”：不设上限时，有 6 种车队少用 1 台就达标了，代价是把个别分段拖延十几个小时。这些车队都要拼载很多分段，被拖延的正是那些要等重车或等两台轻车凑齐的重块。只看准时率时，这种拖延不受惩罚。</p>
+    <p lang="en">Finding 2 now has full results. Under three mass scenarios we relaxed the largest allowed delay per block from 30 minutes to no cap at all. The smallest count stayed at five every time, and no four-vehicle fleet qualified even without a cap, which overturns an earlier provisional guess. What changes is which fleets reach that count: without a cap, six fleets qualified with one vehicle fewer by deferring single blocks for many hours. All of them couple many blocks, and the deferred blocks are exactly the heavy ones waiting for a heavy unit or for two light units. With an on-time share alone, that delay goes unpunished.</p>
+    <p lang="ko">결론 2는 이제 전체 결과가 나왔습니다. 세 가지 중량 시나리오에서 블록별 최대 허용 지연을 30분에서 상한 없음까지 넓혔습니다. 최소 대수는 언제나 5대였고, 상한이 없어도 4대로 충족한 차량군은 없어서 초기의 예비 추측은 틀린 것으로 확인되었습니다. 바뀌는 것은 "어느 차량군이 그 대수에 도달하는가"입니다. 상한이 없으면 차량군 6개가 일부 블록을 십수 시간 미루는 대가로 1대 적게 충족했습니다. 모두 결합 운반이 많은 차량군이며, 미뤄진 것은 대형이나 경형 두 대를 기다리는 무거운 블록이었습니다. 정시율만 보면 이런 지연은 벌을 받지 않습니다.</p>
+  </aside>
+</section>
+
+<!-- finding 2b: cost of the delay cap -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">加上每块 120 min 的延误上限：这些车队被排除，买车成本只高 0.2–1.9%</span><span lang="en">A 120-min cap per block excludes these fleets, at only 0.2–1.9% higher cost</span><span lang="ko">블록당 120분 지연 상한을 두면: 이 차량군은 제외되고 비용은 0.2–1.9%만 오른다</span></h2>
+  <div class="content" style="grid-template-columns:1fr 1.1fr;gap:26px;margin-top:14px">
+    <div class="col" style="gap:8px">
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">班次人工；短装卸、基准交期；每种重量 30 天</span><span lang="en">Shift staffing; short handling, baseline due dates; 30 days per mass scenario</span><span lang="ko">교대 인원, 짧은 적재·하역, 기준 납기, 중량별 30일</span></b></div>
+      <div class="chart fill" id="cTmax"></div>
+      <div class="chips" id="tmaxLegend"></div>
+    </div>
+    <div class="col compact" style="gap:12px">
+      <table class="tbl" id="tmaxTable"></table>
+      <ul class="clean">
+        <li><span lang="zh">Jiang 和均匀重量下，上限改变了买的车：换成拼载更少、带重车的混编，每天成本高 0.2–1.9%</span><span lang="en">With Jiang and uniform masses the cap changes the purchase, to mixes with heavy units that couple less, at 0.2–1.9% higher daily cost</span><span lang="ko">Jiang·균일 중량에서는 상한이 구매를 바꾼다. 대형을 포함하고 결합이 적은 혼합으로 바뀌며 하루 비용은 0.2–1.9% 높다</span></li>
+        <li><span lang="zh">上限收紧到 30、60 min 时，最省车队拼载 ≤ 0.6%，成本最多高 4.7%</span><span lang="en">At 30 and 60 min the cheapest fleets couple at most 0.6%, at up to 4.7% more cost</span><span lang="ko">30·60분 상한에서는 최저비용 차량군의 결합이 0.6% 이하, 비용은 최대 4.7% 증가</span></li>
+        <li><span lang="zh">Liu 重量下，2 × 425 t + 3 × 300 t 在每个上限都最省，成本不变</span><span lang="en">With Liu masses, 2 × 425 t + 3 × 300 t is cheapest at every cap, at unchanged cost</span><span lang="ko">Liu 중량에서는 425 t 2대 + 300 t 3대가 모든 상한에서 최저, 비용 변화 없음</span></li>
+      </ul>
+      <p class="tiny"><span lang="zh">若按加班或实际作业计人工，拖延和拼载本身就要付钱：不设上限的最省车队已只拼载 ≤ 4.1%，上限对成本的影响在 ±2% 以内。</span><span lang="en">Under overtime or operating labour, deferral and coupling are paid for anyway: the cheapest uncapped fleet already couples at most 4.1%, and the cap moves cost by less than 2% either way.</span><span lang="ko">연장 근무나 실제 작업 기준으로 인건비를 계산하면 지연과 결합 자체에 비용이 들어, 상한이 없을 때의 최저비용 차량군도 결합이 4.1% 이하이고 상한의 비용 영향은 ±2% 이내다.</span></p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">那么要不要加延误上限？这一页回答代价。左上图是最省车队拼载的比例，左下是成本比不设上限时高多少。上限越紧，最省车队越少拼载。按班次配员，加上 120 分钟上限后，Jiang 和均匀重量下买的车变成了带重车、拼载更少的混编，每天成本只高 0.2% 到 1.9%；Liu 重量下完全不变。也就是说，规定每块的最大延误几乎不花钱，却能把靠拖延达标的车队排除掉。</p>
+    <p lang="en">So should a yard set a delay cap? This slide shows the price. The top chart is the share of blocks the cheapest fleet couples; the bottom chart is how much more it costs than without a cap. The tighter the cap, the less the cheapest fleet couples. Under shift staffing, the 120-min cap turns the purchase with Jiang and uniform masses into mixes with heavy units that couple less, at 0.2% to 1.9% higher daily cost; with Liu masses nothing changes. Specifying the largest delay per block costs almost nothing and removes fleets that qualify by deferral.</p>
+    <p lang="ko">그렇다면 지연 상한을 둘 것인가? 이 슬라이드는 그 비용을 보여 줍니다. 위 그림은 최저비용 차량군의 결합 비율, 아래 그림은 상한이 없을 때보다 얼마나 비싼지입니다. 상한이 엄격할수록 최저비용 차량군의 결합은 줄어듭니다. 교대 인원 기준으로 120분 상한을 두면 Jiang·균일 중량에서는 대형을 포함하고 결합이 적은 혼합으로 바뀌며, 하루 비용은 0.2–1.9%만 높습니다. Liu 중량에서는 변화가 없습니다. 블록별 최대 지연을 정하는 데는 거의 비용이 들지 않고, 지연으로 목표를 맞추는 차량군을 걸러 냅니다.</p>
   </aside>
 </section>
 
@@ -1410,14 +1440,14 @@ ul.clean li b{color:var(--ink)}
       </div>
     </div>
     <div class="card" style="background:var(--steel-soft)">
-      <h3><span lang="zh">研究纪律：预注册</span><span lang="en">Research discipline: pre-registration</span><span lang="ko">연구 규율: 사전 등록</span></h3>
-      <p style="color:var(--ink)"><span lang="zh">规则、参数和随机种子都在运行前写定，看到结果后不重抽种子、不增删实例、不改门槛；全部 7 万多次运行都保留、可复算；每一处偏离都有记录，并会在论文中说明。</span><span lang="en">Rules, parameters and random seeds were written down before the runs. After seeing results we did not redraw seeds, add or drop instances, or move thresholds. All 70,000+ runs are kept and can be recomputed, and every deviation is recorded and will be reported in the paper.</span><span lang="ko">규칙, 매개변수, 난수 시드는 실행 전에 확정했다. 결과를 본 뒤 시드를 다시 뽑거나 인스턴스를 늘리고 빼거나 기준을 바꾸지 않았다. 7만 회 이상의 실행을 모두 보관해 재계산할 수 있으며, 모든 이탈은 기록해 논문에 밝힌다.</span></p>
+      <h3><span lang="zh">可复现</span><span lang="en">Reproducible</span><span lang="ko">재현 가능</span></h3>
+      <p style="color:var(--ink)"><span lang="zh">全部 7 万多次调度运行都保留；产生论文数字的代码和结果表将随论文公开，任何人都能重算。</span><span lang="en">All 70,000+ scheduling runs are kept, and the code and result tables behind every number in the paper will be released with it, so anyone can recompute them.</span><span lang="ko">7만 회 이상의 스케줄링 실행을 모두 보관하며, 논문의 모든 숫자를 만든 코드와 결과표를 논문과 함께 공개해 누구나 다시 계산할 수 있다.</span></p>
     </div>
   </div>
   <aside class="notes">
-    <p lang="zh">结论是模拟出来的，所以我们主动检验它会不会因为偶然因素而改变。第一，换一批工作日：从 30 天里有放回地重抽，重复两千次。第二，搜索本身有随机性，我们衡量每个决定离被翻转还有多远。第三，给装卸时间加上正负 50% 的随机波动。另外，所有规则在看结果之前就定好了，这叫预注册，防止“看着结果改方法”。</p>
-    <p lang="en">These results come from simulation, so we actively test whether chance could change them. First, redraw the days: resample 30 days with replacement, 2,000 times. Second, search has randomness, so we measure how far each decision is from flipping. Third, add ±50% random variation to handling times. And every rule was fixed before looking at results, which is called pre-registration and prevents adjusting the method to the results.</p>
-    <p lang="ko">결과는 모의실험에서 나온 것이므로 우연 때문에 바뀔 수 있는지 적극적으로 검증했습니다. 첫째, 30일을 복원 추출로 2,000번 다시 뽑습니다. 둘째, 탐색에는 무작위성이 있으므로 각 결정이 뒤집히기까지 얼마나 먼지 측정합니다. 셋째, 적재·하역 시간에 ±50%의 무작위 변동을 줍니다. 그리고 모든 규칙은 결과를 보기 전에 확정했습니다. 이를 사전 등록이라 하며, 결과에 맞춰 방법을 고치는 것을 막습니다.</p>
+    <p lang="zh">结论是模拟出来的，所以我们主动检验它会不会因为偶然因素而改变。第一，换一批工作日：从 30 天里有放回地重抽，重复两千次。第二，搜索本身有随机性，我们衡量每个决定离被翻转还有多远。第三，给装卸时间加上正负 50% 的随机波动。另外，全部运行都保留，代码和结果表会随论文公开，可以复算。</p>
+    <p lang="en">These results come from simulation, so we actively test whether chance could change them. First, redraw the days: resample 30 days with replacement, 2,000 times. Second, search has randomness, so we measure how far each decision is from flipping. Third, add ±50% random variation to handling times. All runs are kept, and the code and result tables will be released with the paper so they can be recomputed.</p>
+    <p lang="ko">결과는 모의실험에서 나온 것이므로 우연 때문에 바뀔 수 있는지 적극적으로 검증했습니다. 첫째, 30일을 복원 추출로 2,000번 다시 뽑습니다. 둘째, 탐색에는 무작위성이 있으므로 각 결정이 뒤집히기까지 얼마나 먼지 측정합니다. 셋째, 적재·하역 시간에 ±50%의 무작위 변동을 줍니다. 또한 모든 실행을 보관하고, 코드와 결과표를 논문과 함께 공개해 다시 계산할 수 있게 합니다.</p>
   </aside>
 </section>
 
@@ -1429,7 +1459,7 @@ ul.clean li b{color:var(--ink)}
     <div class="card">
       <h3><span lang="zh">按天重抽样 2,000 次</span><span lang="en">2,000 day resamples</span><span lang="ko">일자 재표본 2,000회</span> <span class="pill done"><span lang="zh">稳</span><span lang="en">stable</span><span lang="ko">안정</span></span></h3>
       <div class="kn">1,350 / 1,350<small><span lang="zh">个超重以外的班次设定中，“拼载 ≤ 1/10”在 ≥ 95% 的重抽样里成立</span><span lang="en">shift settings outside extra-heavy where "couples ≤ one in ten" held in ≥ 95% of resamples</span><span lang="ko">초중량 외 교대 설정에서 "결합 ≤ 10%"가 재표본 95% 이상에서 성립</span></small></div>
-      <p><span lang="zh">“最省车队拼载 ≤ 1/10”：在超重工况以外的全部 1,350 个班次设定中，≥ 95% 的重抽样都成立（此指标为事后加入）。K* 本身在中位 97% 的重抽样中复现。</span><span lang="en">"The cheapest fleet couples at most one block in ten" held in ≥ 95% of resamples in all 1,350 shift-staffing settings outside the extra-heavy scenario (a measure added after seeing results). K* itself was reproduced in a median 97% of resamples.</span><span lang="ko">"최저비용 차량군의 결합 운반 ≤ 10%"는 초중량 조건 밖의 교대 인원 설정 1,350개 모두에서 재표본의 95% 이상 성립 (결과를 본 뒤 추가한 지표). K* 자체는 재표본의 중앙값 97%에서 재현.</span></p>
+      <p><span lang="zh">“最省车队拼载 ≤ 1/10”：在超重工况以外的全部 1,350 个班次设定中，≥ 95% 的重抽样都成立。K* 本身在中位 97% 的重抽样中复现。</span><span lang="en">"The cheapest fleet couples at most one block in ten" held in ≥ 95% of resamples in all 1,350 shift-staffing settings outside the extra-heavy scenario. K* itself was reproduced in a median 97% of resamples.</span><span lang="ko">"최저비용 차량군의 결합 운반 ≤ 10%"는 초중량 조건 밖의 교대 인원 설정 1,350개 모두에서 재표본의 95% 이상 성립. K* 자체는 재표본의 중앙값 97%에서 재현.</span></p>
       <p class="small"><span lang="zh">但“具体哪一种车胜出”只在 1,016 / 1,620 个设定中 ≥ 95% 稳定：一些工况里两种车队几乎打平。</span><span lang="en">But the identity of the winner was stable (≥ 95%) in only 1,016 of 1,620 settings: in some conditions two fleets are nearly tied.</span><span lang="ko">다만 "정확히 어느 차량군이 이기는지"는 1,620개 중 1,016개 설정에서만 95% 이상 안정: 일부 조건은 거의 동률.</span></p>
     </div>
     <div class="card">
@@ -1461,32 +1491,33 @@ ul.clean li b{color:var(--ink)}
 <!-- manufacturer speeds (B4) -->
 <section class="slide" data-sec="rel">
   <header class="eb"></header>
-  <h2 class="ttl d"><span lang="zh">车速换成厂家参数（B4）：425、500、550 t 台数不变，380 t 和 2 重车混编多需 1 台</span><span lang="en">Manufacturer speeds (B4): 425, 500 and 550 t need no extra vehicle; 380 t and the two-heavy mix need one more</span><span lang="ko">제조사 속도 (B4): 425·500·550 t는 대수 불변, 380 t와 대형 2대 혼합은 1대 추가</span> <span class="pill done" style="vertical-align:middle;font-size:14px"><span lang="zh">新结果</span><span lang="en">new</span><span lang="ko">새 결과</span></span></h2>
-  <div class="content" style="grid-template-columns:1.2fr 1fr;gap:28px">
+  <h2 class="ttl d"><span lang="zh">车速换成厂家参数（B4）：结论 1 不变，只有 Jiang 短装卸下换成另一种带重车的混编</span><span lang="en">Manufacturer speeds (B4): Finding 1 holds; only with Jiang masses and short handling does a different heavy-unit mix win</span><span lang="ko">제조사 속도 (B4): 결론 1 유지, Jiang·짧은 적재·하역에서만 다른 대형 포함 혼합이 이긴다</span></h2>
+  <div class="content" style="grid-template-columns:1.25fr 1fr;gap:26px;margin-top:14px">
     <div class="col tblwrap" style="justify-content:center;gap:10px">
-      <div class="small"><b style="color:var(--ink)"><span lang="zh">达标台数 K*：共用 12/6 km/h → 厂家车速（黄色 = 变了）</span><span lang="en">Qualifying count K*: common 12/6 km/h → manufacturer speeds (yellow = changed)</span><span lang="ko">충족 대수 K*: 공통 12/6 km/h → 제조사 속도 (노란색 = 변화)</span></b></div>
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">达标台数 K*：共用 12/6 km/h → 厂家车速（黄色 = 变了；灰色 = 未重跑，沿用原台数）</span><span lang="en">Qualifying count K*: common 12/6 km/h → manufacturer speeds (yellow = changed; grey = not rerun, count kept)</span><span lang="ko">충족 대수 K*: 공통 12/6 km/h → 제조사 속도 (노란색 = 변화, 회색 = 재실행 안 함)</span></b></div>
       <table class="tbl" id="b4Table"></table>
+      <p class="tiny"><span lang="zh">380、425 t 按 10/5 km/h，500、550 t 与混编按 12/5 km/h。车更快不会让任何一块更晚完成，所以共用车速是乐观端，混编按重车车速是悲观端。</span><span lang="en">380 and 425 t at 10/5 km/h, 500 t, 550 t and the mixes at 12/5 km/h. A faster vehicle never makes a block later, so common speeds are the optimistic end and mixes at the heavy speed the pessimistic end.</span><span lang="ko">380·425 t는 10/5 km/h, 500·550 t와 혼합은 12/5 km/h. 더 빠른 차는 어떤 블록도 늦게 만들지 않으므로 공통 속도는 낙관적, 혼합을 대형 속도로 두면 비관적 끝이다.</span></p>
     </div>
-    <div class="col" style="justify-content:center">
+    <div class="col compact" style="gap:0;justify-content:space-evenly">
+      <div class="kn" id="b4Shift"></div>
+      <div class="kn" id="b4All"></div>
+      <div class="kn" id="b4Le10"></div>
       <ul class="clean">
-        <li><span lang="zh">主实验里所有吨级共用 12/6 km/h（空车/重载，200 t 与 270 t 的厂家参数）</span><span lang="en">The main experiment gives every tier 12/6 km/h (empty/loaded), the manufacturer figures for 200 t and 270 t</span><span lang="ko">주 실험은 모든 등급에 12/6 km/h(빈 차/적재)를 쓴다. 200 t와 270 t의 제조사 수치다</span></li>
-        <li><span lang="zh">B4 改用厂家参数：380、425 t 按 10/5 km/h，500、550 t 与 2 重车混编按 12/5 km/h，在 6 个工况里重新定台数</span><span lang="en">B4 uses manufacturer figures instead: 10/5 km/h for 380 and 425 t, 12/5 km/h for 500 t, 550 t and the two-heavy mix, re-sized in six conditions</span><span lang="ko">B4는 제조사 수치를 쓴다: 380·425 t는 10/5 km/h, 500·550 t와 대형 2대 혼합은 12/5 km/h로 6개 조건에서 다시 산정</span></li>
-        <li><span lang="zh">提高任何车的速度都不会让任何一块更晚完成，所以共用车速是乐观情形、按最慢成员算是保守情形</span><span lang="en">Making any vehicle faster never makes a block finish later, so common speeds are the optimistic case and the slowest-member speed the conservative one</span><span lang="ko">어떤 차량이든 빨라지면 어떤 블록도 늦게 끝나지 않으므로, 공통 속도는 낙관적, 가장 느린 구성원 속도는 보수적인 경우다</span></li>
+        <li id="b4Roh"></li>
       </ul>
-      <div class="card" style="background:var(--amber-soft)"><p style="color:var(--ink)"><span lang="zh">车慢了，大车的台数却没变；只有 380 t 和 2 重车混编在 6 个工况中的 4 个多需 1 台。在最不利的车速口径下，Liu 混编仍在 98% 的设定中最省（前面的结果页）。</span><span lang="en">Slower vehicles did not change the heavy tiers' counts; only 380 t and the two-heavy mix need one more, in four of six conditions. Even at the least favourable speeds, the Liu mixes stay cheapest in 98% of settings (results section).</span><span lang="ko">차가 느려져도 대형 등급의 대수는 그대로였고, 380 t와 대형 2대 혼합만 6개 중 4개 조건에서 1대가 더 필요했다. 가장 불리한 속도에서도 Liu 혼합은 98%의 설정에서 최저다 (결과 부분).</span></p></div>
     </div>
   </div>
   <aside class="notes">
-    <p lang="zh">主实验为了公平，所有车型用同一个车速。但厂家资料里大车更慢：380 t 是 10/5 km/h，500 t 是 12/5 km/h。B4 用这些厂家车速在 6 个工况里重新定台数。结果 425、500、550 t 一台都没多；只有 380 t 和 2 台重车的混编，在 6 个工况里有 4 个要多 1 台。也就是说，车速假设没有改变大车的台数。</p>
-    <p lang="en">For a fair comparison, the main experiment gives every tier the same speed. Manufacturer data say the big vehicles are slower: 10/5 km/h for 380 t and 12/5 km/h for 500 t. B4 re-sized the fleets in six conditions at those speeds. The 425, 500 and 550 t tiers needed no extra vehicle; only 380 t and the two-heavy mix needed one more, in four of the six conditions. The speed assumption did not change the counts of the heavy tiers.</p>
-    <p lang="ko">공정한 비교를 위해 주 실험은 모든 등급에 같은 속도를 씁니다. 제조사 자료에서는 큰 차가 더 느립니다. 380 t는 10/5 km/h, 500 t는 12/5 km/h입니다. B4는 이 속도로 6개 조건에서 대수를 다시 산정했습니다. 425·500·550 t는 한 대도 늘지 않았고, 380 t와 대형 2대 혼합만 6개 중 4개 조건에서 1대가 더 필요했습니다. 즉, 속도 가정은 대형 등급의 대수를 바꾸지 않았습니다.</p>
+    <p lang="zh">主实验为了公平，所有车型用同一个车速。厂家资料里大车更慢，所以 B4 在 Jiang、Roh–Cha、Liu 三种重量、两种装卸的 6 个工况里，用厂家车速把 11 种车队重新比较。最省车队在 270 个班次配员设定中改变了 45 个，全部在 Jiang 短装卸：一台重车的混编要多 1 台车，被两台重车的混编取代，沿用原来的选择最多多花 18.6%。Roh–Cha 下 550 t、Liu 下 425 t 基本不变。最坏情况下，1,080 个设定里仍有 1,054 个的最省车队拼载不超过十分之一，结论 1 不受影响。</p>
+    <p lang="en">The main runs give every tier the same speed for fairness. Manufacturer data say heavy vehicles are slower, so B4 re-compared all eleven fleets at manufacturer speeds in six conditions (Jiang, Roh–Cha and Liu masses, two handling settings). The cheapest fleet changed in 45 of 270 shift-staffing settings, all with Jiang masses and short handling: the one-heavy mix needed a sixth vehicle and the two-heavy mix replaced it, and keeping the old choice would cost up to 18.6% more. 550 t under Roh–Cha and 425 t under Liu hardly moved. Even at the pessimistic end, the cheapest fleet coupled at most one block in ten in 1,054 of 1,080 settings, so Finding 1 stands.</p>
+    <p lang="ko">주 실험은 공정성을 위해 모든 등급에 같은 속도를 씁니다. 제조사 자료상 큰 차가 더 느리므로, B4는 Jiang·Roh–Cha·Liu 중량과 두 가지 적재·하역의 6개 조건에서 제조사 속도로 11개 차량군을 다시 비교했습니다. 교대 인원 270개 설정 중 45개에서 최저비용 차량군이 바뀌었는데, 모두 Jiang·짧은 적재·하역이었습니다. 대형 1대 혼합이 1대가 더 필요해져 대형 2대 혼합으로 바뀌었고, 기존 선택을 유지하면 최대 18.6% 더 듭니다. Roh–Cha의 550 t, Liu의 425 t는 거의 그대로였습니다. 가장 비관적인 경우에도 1,080개 중 1,054개 설정에서 최저비용 차량군의 결합이 10% 이하라 결론 1은 유지됩니다.</p>
   </aside>
 </section>
 
 <!-- 18 status -->
 <section class="slide" data-sec="status">
   <header class="eb"></header>
-  <h2 class="ttl d"><span lang="zh">进度：主实验已完成，补充实验正在运行</span><span lang="en">Status: the main experiment is done; supporting runs are in progress</span><span lang="ko">진행 상황: 주 실험 완료, 보조 실험 진행 중</span></h2>
+  <h2 class="ttl d"><span lang="zh">进度：主要实验都已完成，敏感性分析仍在运行</span><span lang="en">Status: the main studies are done; the sensitivity runs continue</span><span lang="ko">진행 상황: 주요 실험 완료, 민감도 분석 진행 중</span></h2>
   <div class="content vc" style="grid-template-columns:1.55fr 1fr;gap:28px">
     <div class="col tblwrap">
       <table class="tbl">
@@ -1509,6 +1540,8 @@ ul.clean li b{color:var(--ink)}
           <span>E6 · <span lang="zh">装卸扰动</span><span lang="en">handling noise</span><span lang="ko">적재·하역 교란</span></span>
           <span>C1 · <span lang="zh">第二船厂</span><span lang="en">second yard</span><span lang="ko">두 번째 조선소</span></span>
           <span><span lang="zh">负荷规则</span><span lang="en">load rule</span><span lang="ko">부하 규칙</span></span>
+          <span>R3 · <span lang="zh">延误上限轴</span><span lang="en">delay-cap axis</span><span lang="ko">지연 상한 축</span></span>
+          <span>E7 · <span lang="zh">重块比例</span><span lang="en">heavy-block share</span><span lang="ko">무거운 블록 비율</span></span>
           <span>B4 · <span lang="zh">厂家车速</span><span lang="en">manufacturer speeds</span><span lang="ko">제조사 속도</span></span>
           <span>R4R · <span lang="zh">超重才拼</span><span lang="en">overweight-only rule</span><span lang="ko">초과 중량 결합</span></span>
         </div>
@@ -1516,7 +1549,7 @@ ul.clean li b{color:var(--ink)}
       <div class="card">
         <h3><span lang="zh">接下来</span><span lang="en">Next</span><span lang="ko">다음 단계</span></h3>
         <ul class="clean">
-          <li><span lang="zh">实验跑完后，按预注册规则写结论 2 并填入稿件占位</span><span lang="en">Write Finding 2 by the pre-registered rule and fill the manuscript placeholders</span><span lang="ko">사전 등록 규칙에 따라 결론 2를 쓰고 원고 빈칸 채우기</span></li>
+          <li><span lang="zh">E5 敏感性跑完后写决策边界；随后完成 V1 精确对照与 X1 稳健配车</span><span lang="en">Write the decision boundaries when E5 finishes, then complete V1 (exact comparison) and X1 (robust sizing)</span><span lang="ko">E5가 끝나면 결정 경계를 쓰고, 이어서 V1(정확해 비교)과 X1(강건 산정)을 마무리</span></li>
           <li><span lang="zh">发布代码与结果表，取得 Zenodo DOI</span><span lang="en">Release code and result tables with a Zenodo DOI</span><span lang="ko">코드와 결과표 공개, Zenodo DOI 발급</span></li>
           <li><span lang="zh">投稿 Ocean Engineering</span><span lang="en">Submit to Ocean Engineering</span><span lang="ko">Ocean Engineering 투고</span></li>
         </ul>
@@ -1524,9 +1557,9 @@ ul.clean li b{color:var(--ink)}
     </div>
   </div>
   <aside class="notes">
-    <p lang="zh">主实验和大部分分析已经完成。还在跑的是：延误上限轴（结论 2）、分吨级车速、重块比例、敏感性边界和仅超重拼载的规则对照，以及用 CP-SAT 精确求解的小规模对照。跑完之后按预注册规则填入论文中的占位，发布代码并取得 Zenodo DOI，然后投 Ocean Engineering。</p>
-    <p lang="en">The main experiment and most analyses are done. Still running: the delay-cap axis for Finding 2, tier-specific speeds, the heavy-block share, sensitivity boundaries, the overweight-only coupling rule, and an exact CP-SAT comparison on small instances. Then we fill the manuscript placeholders by the pre-registered rules, release the code with a Zenodo DOI and submit to Ocean Engineering.</p>
-    <p lang="ko">주 실험과 대부분의 분석은 끝났습니다. 아직 진행 중인 것은 결론 2를 위한 지연 상한 축, 등급별 속도, 무거운 블록 비율, 민감도 경계, 초과 중량 전용 결합 규칙, 그리고 소규모 인스턴스에서 CP-SAT 정확해와의 비교입니다. 이후 사전 등록 규칙에 따라 원고의 빈칸을 채우고, 코드를 Zenodo DOI와 함께 공개한 뒤 Ocean Engineering에 투고할 예정입니다.</p>
+    <p lang="zh">主实验、延误上限轴、重块比例、厂家车速和“超重才拼”都已完成，结论 1–3 都有了完整结果。还在跑的是敏感性边界（E5），以及小规模实例上与 CP-SAT 精确解的对照（V1）；装卸波动下的稳健配车（X1）排在 E5 之后。之后发布代码并取得 Zenodo DOI，投 Ocean Engineering。</p>
+    <p lang="en">The main experiment, the delay-cap axis, the heavy-block share, the manufacturer speeds and the overweight-only rule are all done, so Findings 1–3 have full results. Still running are the sensitivity boundaries (E5) and the exact CP-SAT comparison on small instances (V1); robust sizing under handling variability (X1) follows E5. Then we release the code with a Zenodo DOI and submit to Ocean Engineering.</p>
+    <p lang="ko">주 실험, 지연 상한 축, 무거운 블록 비율, 제조사 속도, 초과 중량 결합이 모두 끝나 결론 1–3의 전체 결과가 나왔습니다. 아직 진행 중인 것은 민감도 경계(E5)와 소규모 인스턴스에서 CP-SAT 정확해와의 비교(V1)이며, 적재·하역 변동하의 강건 산정(X1)은 E5 다음입니다. 이후 코드를 Zenodo DOI와 함께 공개하고 Ocean Engineering에 투고합니다.</p>
   </aside>
 </section>
 
@@ -1537,7 +1570,7 @@ ul.clean li b{color:var(--ink)}
   <div class="content" style="grid-template-rows:1fr auto auto;gap:22px">
     <div class="recs">
       <div class="card"><span class="n">1</span><h3><span lang="zh">买能单独运几乎所有分段的最小吨级</span><span lang="en">Buy the smallest tier that carries nearly every block alone</span><span lang="ko">거의 모든 블록을 단독 운반하는 최소 등급을 사라</span></h3><p><span lang="zh">重分段少时加几台重车，不要靠拼载。只有资本相对人工很贵时（如自动化减少班组），拼载才划算。</span><span lang="en">Add a few heavy units rather than rely on coupling. Coupling pays only when capital is expensive relative to crews, for example when automation reduces the crew.</span><span lang="ko">무거운 블록이 적으면 대형 몇 대를 더하고 결합 운반에 의존하지 마라. 결합은 자동화 등으로 인원이 줄어 자본이 상대적으로 비쌀 때만 이득이다.</span></p><div class="kn">90.8%<small><span lang="zh">的成本设定中，最省车队拼载 ≤ 1/10</span><span lang="en">of cost settings: the cheapest fleet couples ≤ one block in ten</span><span lang="ko">비용 설정에서 최저비용 차량군의 결합 ≤ 10%</span></small></div><span class="tag"><span lang="zh">结论 1</span><span lang="en">Finding 1</span><span lang="ko">결론 1</span></span></div>
-      <div class="card"><span class="n">2</span><h3><span lang="zh">同时规定准时率和最大延误</span><span lang="en">Specify both the on-time share and the largest delay</span><span lang="ko">정시율과 최대 지연을 함께 규정하라</span></h3><p><span lang="zh">只看准时率，小车队可以靠拖延个别分段达标，而生产计划承受不了这种拖延。</span><span lang="en">An on-time share alone lets a smaller fleet qualify by deferring single blocks, which a production schedule cannot absorb.</span><span lang="ko">정시율만 보면 작은 차량군이 일부 블록을 미뤄 목표를 맞출 수 있고, 생산 계획은 그런 지연을 감당할 수 없다.</span></p><div class="kn">120 min<small><span lang="zh">每块分段的延误上限；无上限时的影响待 R3 确认</span><span lang="en">cap on each block's delay; the effect of no cap awaits R3</span><span lang="ko">블록별 지연 상한, 상한이 없을 때의 영향은 R3로 확인 예정</span></small></div><span class="tag"><span lang="zh">结论 2 · 进行中</span><span lang="en">Finding 2 · in progress</span><span lang="ko">결론 2 · 진행 중</span></span></div>
+      <div class="card"><span class="n">2</span><h3><span lang="zh">同时规定准时率和最大延误</span><span lang="en">Specify both the on-time share and the largest delay</span><span lang="ko">정시율과 최대 지연을 함께 규정하라</span></h3><p><span lang="zh">只看准时率，拼载多的车队可以把重块拖延 13–19 h、少买 1 台车，生产计划承受不了这种拖延。</span><span lang="en">An on-time share alone lets fleets that couple more save a vehicle by deferring heavy blocks for 13–19 h, which a production schedule cannot absorb.</span><span lang="ko">정시율만 보면 결합이 많은 차량군이 무거운 블록을 13–19시간 미뤄 1대를 아낄 수 있고, 생산 계획은 그런 지연을 감당할 수 없다.</span></p><div class="kn">0.2–1.9%<small><span lang="zh">班次配员下，加 120 min 上限多花的成本</span><span lang="en">extra cost of a 120-min cap under shift staffing</span><span lang="ko">교대 인원 기준 120분 상한의 추가 비용</span></small></div><span class="tag"><span lang="zh">结论 2</span><span lang="en">Finding 2</span><span lang="ko">결론 2</span></span></div>
       <div class="card"><span class="n">3</span><h3><span lang="zh">用完整调度、在服务边界上定台数</span><span lang="en">Size fleets by complete scheduling at the service boundary</span><span lang="ko">서비스 경계에서 완전한 스케줄링으로 대수를 정하라</span></h3><p><span lang="zh">负荷估算可做初筛；交期紧或用贪心派工时，台数和买的车都会变。</span><span lang="en">Load arithmetic is fine for screening; tight due dates and greedy dispatching change the count and the purchase.</span><span lang="ko">부하 계산은 1차 선별로는 괜찮지만, 납기가 촉박하거나 탐욕 배차를 쓰면 대수와 구매가 바뀐다.</span></p><div class="kn">35% · 5<small><span lang="zh">贪心排班买错车的设定比例 · 负荷估算最多少估的台数</span><span lang="en">settings where greedy buys a different fleet · most vehicles the load estimate falls short</span><span lang="ko">탐욕 배차가 다른 차량을 고른 설정 비율 · 부하 추정이 가장 많이 모자란 대수</span></small></div><span class="tag"><span lang="zh">结论 3</span><span lang="en">Finding 3</span><span lang="ko">결론 3</span></span></div>
     </div>
     <p class="quote"><span lang="zh">一句话：拼载是补救手段，不是采购策略。</span><span lang="en">In one line: coupling is a remedy, not a purchasing strategy.</span><span lang="ko">한 줄 요약: 결합 운반은 보완책이지 구매 전략이 아니다.</span></p>
@@ -1593,8 +1626,8 @@ ul.clean li b{color:var(--ink)}
     <dd><span lang="zh">一个工况 + 一条价格曲线 + 一个 r + 一种人工口径；共 6,480 个。每个设定选出一个最便宜的车队。</span><span lang="en">One condition + one price curve + one value of r + one labour measure; 6,480 in all. Each setting picks one cheapest fleet.</span><span lang="ko">조건 하나 + 가격 곡선 하나 + r 하나 + 인건비 기준 하나, 총 6,480개. 설정마다 가장 싼 차량군을 하나 고른다.</span></dd>
     <dt><span lang="zh">自助法（重抽样）</span><span lang="en">Bootstrap</span><span lang="ko">부트스트랩</span></dt>
     <dd><span lang="zh">从已有的 30 天里有放回地重抽 30 天，重复多次，看结论变不变。</span><span lang="en">Redraw 30 days from the 30 with replacement, many times, and see whether the conclusion changes.</span><span lang="ko">기존 30일에서 복원 추출로 30일을 여러 번 다시 뽑아 결론이 바뀌는지 본다.</span></dd>
-    <dt><span lang="zh">预注册</span><span lang="en">Pre-registration</span><span lang="ko">사전 등록</span></dt>
-    <dd><span lang="zh">在看到结果之前写定规则、参数和种子，之后不改，防止“看结果调方法”。</span><span lang="en">Writing down rules, parameters and seeds before seeing results and not changing them afterwards, so the method is not tuned to the results.</span><span lang="ko">결과를 보기 전에 규칙, 매개변수, 시드를 확정하고 이후 바꾸지 않아, 결과에 맞춰 방법을 조정하지 않게 한다.</span></dd>
+    <dt><span lang="zh">延误上限</span><span lang="en">Delay cap</span><span lang="ko">지연 상한</span><span class="mono">T<sub>max</sub></span></dt>
+    <dd><span lang="zh">任何一块分段最多允许晚于交期多久；主口径为 120 min，即一个释放批次的间隔。</span><span lang="en">The most any block may finish after its due time; 120 min in the main specification, one release-batch interval.</span><span lang="ko">어떤 블록이든 납기보다 늦을 수 있는 최대 시간. 주 규격은 120분으로, 투입 배치 간격 1회다.</span></dd>
     <dt><span lang="zh">超重才拼</span><span lang="en">Overweight-only coupling</span><span lang="ko">초과 중량 결합</span></dt>
     <dd><span lang="zh">只要车队里有一台车能单独运某块分段，就必须由它单独运；只有比所有车都重的块才允许拼载（Jiang 2021 等的做法）。本研究主口径是灵活拼载。</span><span lang="en">If any vehicle in the fleet can carry a block alone, it must; only blocks heavier than every vehicle may be coupled (as in Jiang 2021). Our main rule is flexible coupling.</span><span lang="ko">차량군 중 한 대라도 단독 운반이 가능하면 그 차량이 옮겨야 하고, 모든 차량보다 무거운 블록만 결합할 수 있다 (Jiang 2021 등). 본 연구의 주 규칙은 유연 결합이다.</span></dd>
     <dt>ALNS</dt>
