@@ -228,7 +228,7 @@ ul.clean li b{color:var(--ink)}
 .pbar{height:10px;background:var(--panel);border-radius:4px;overflow:hidden;min-width:90px}
 .pbar i{display:block;height:100%;background:var(--amber-hi)}
 .done-list{display:flex;flex-wrap:wrap;gap:6px}
-.done-list span{font-size:15px;background:var(--good-soft);color:var(--good);padding:3px 9px;border-radius:4px}
+.done-list>span{font-size:15px;background:var(--good-soft);color:var(--good);padding:3px 9px;border-radius:4px}
 
 /* recs */
 .recs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -446,8 +446,8 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
 .flow .bar{position:-webkit-sticky;position:sticky;top:0;z-index:30;padding-top:calc(8px + env(safe-area-inset-top,0px))}
 .flow .slide{padding:36px 0 30px}
 .flow .slide.on,.flow .slide .eb,.flow .slide .ttl,.flow .slide .content>*,.flow .slide .a-x,.flow .slide .a-y,.flow .slide .a-fade,.flow .slide .a-pop,.flow .slide .a-rise,.flow .slide .a-draw,.flow .slide .a-drive,.flow .slide .a-drop,.flow .slide .a-lift,.flow .slide .fill>img,.flow .slide .capgrid>*,.flow .slide .cycle>*,.flow .slide .steps>*,.flow .slide .scan>*,.flow .slide .chainx>*{animation:none}
-.flow #cHeat,.flow #cPor,.flow #cGantt,.flow #calcChart,.flow #cLiu,.flow #cCase,.flow #cE7,.flow #cLate,.flow #cTmax{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.flow #cHeat>svg,.flow #cPor>svg,.flow #cGantt>svg,.flow #calcChart>svg,.flow #cLiu>svg,.flow #cCase>svg,.flow #cE7>svg,.flow #cLate>svg,.flow #cTmax>svg{min-width:620px}
+.flow #cHeat,.flow #cPor,.flow #cGantt,.flow #calcChart,.flow #cLiu,.flow #cCase,.flow #cE7,.flow #cE5,.flow #cLate,.flow #cTmax{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.flow #cHeat>svg,.flow #cPor>svg,.flow #cGantt>svg,.flow #calcChart>svg,.flow #cLiu>svg,.flow #cCase>svg,.flow #cE7>svg,.flow #cE5>svg,.flow #cLate>svg,.flow #cTmax>svg{min-width:620px}
 .flow .tbl{display:block;overflow-x:auto}
 /* nothing in reading mode may be wider than the screen: grid and flex children shrink, wide charts scroll in place */
 .flow .stagebox,.flow .stage,.flow .slide{max-width:100%;min-width:0}
@@ -456,7 +456,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
 .flow .brand{flex-basis:100%}
 .flow #btnFull{display:none}
 .flow .content>*,.flow .cover>*,.flow .cols3>*,.flow .cols4>*,.flow .recs>*,.flow .bigs>*,.flow .steps>*,.flow .mgrid>*,.flow .capgrid>*,.flow .cycle>*,.flow .col,.flow .card{min-width:0}
-.flow #cHeat,.flow #cPor,.flow #cGantt,.flow #calcChart,.flow #cLiu,.flow #cCase,.flow #cE7,.flow #cLate,.flow #cTmax{max-width:100%}
+.flow #cHeat,.flow #cPor,.flow #cGantt,.flow #calcChart,.flow #cLiu,.flow #cCase,.flow #cE7,.flow #cE5,.flow #cLate,.flow #cTmax{max-width:100%}
 .flow .ctlrow .slider{min-width:0;width:100%}
 
 @media (prefers-reduced-motion: reduce){
@@ -1175,7 +1175,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
   <header class="eb"></header>
   <h2 class="ttl d"><span lang="zh">方法全景：一张图看整篇论文的架构（论文插图）</span><span lang="en">The whole method on one page: the paper's framework figure</span><span lang="ko">한 장으로 보는 논문 전체 구조 (논문 그림)</span></h2>
   <div class="content" style="grid-template-columns:1.55fr 1fr;gap:26px;margin-top:10px">
-    <div class="col"><a class="fill" href="assets/framework.svg?v=8bc3780f4f" target="_blank" rel="noopener" aria-label="Open the framework figure full size"><img src="assets/framework.svg?v=8bc3780f4f" alt="Framework of equal-service fleet sizing: inputs, four method steps, output with three answers, robustness and validation checks"></a></div>
+    <div class="col"><a class="fill" href="assets/framework.svg?v=217a28e984" target="_blank" rel="noopener" aria-label="Open the framework figure full size"><img src="assets/framework.svg?v=217a28e984" alt="Framework of equal-service fleet sizing: inputs, four method steps, output with three answers, robustness and validation checks"></a></div>
     <div class="col compact" style="justify-content:center;gap:12px">
       <ul class="clean">
         <li><span lang="zh"><b>左：输入</b>，分段搬运任务、试验工况、道路网络、候选车队和价格</span><span lang="en"><b>Left: inputs</b>, the block moves, test conditions, road network, candidate fleets and prices</span><span lang="ko"><b>왼쪽: 입력</b>. 블록 운반 작업, 시험 조건, 도로망, 후보 차량군, 가격</span></li>
@@ -1243,7 +1243,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
           <li><span lang="zh"><b>紧</b>：释放后 120–150 min 内送到（假设）</span><span lang="en"><b>Tight</b>: within 120–150 min of release (assumed)</span><span lang="ko"><b>촉박</b>: 투입 후 120–150분 이내 (가정)</span></li>
         </ul>
       </div>
-      <p class="tiny"><span lang="zh">没有公开数值的参数（对接时间、紧交期、部分重量场景）都标为“假设”，并在敏感性实验 E5 中改变它们，找出改变结论的临界值。</span><span lang="en">Parameters without published values (coupling time, tight due dates, some mass scenarios) are marked as assumed and varied in the sensitivity runs (E5) to find where the answer changes.</span><span lang="ko">공개된 값이 없는 매개변수(결합 시간, 촉박한 납기, 일부 중량 시나리오)는 "가정"으로 표시하고, 민감도 실험 E5에서 바꿔 결론이 바뀌는 경계를 찾는다.</span></p>
+      <p class="tiny"><span lang="zh">没有公开数值的参数都标为“假设”：紧交期和部分重量场景作为工况直接比较；对接时间、装卸、车速、编组与转弯耗时在敏感性实验 E5 中一次改一个。</span><span lang="en">Parameters without published values are marked as assumed: tight due dates and some mass scenarios are compared as conditions; coupling time, handling, speeds, team size and turn times are changed one at a time in the sensitivity runs (E5).</span><span lang="ko">공개된 값이 없는 매개변수는 "가정"으로 표시한다. 촉박한 납기와 일부 중량 시나리오는 조건으로 직접 비교하고, 결합 시간·적재·하역·속도·편성·회전 시간은 민감도 실험 E5에서 하나씩 바꾼다.</span></p>
     </div>
   </div>
   <aside class="notes">
@@ -1634,12 +1634,13 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
     <div class="card">
       <h3><span lang="zh">搜索依赖</span><span lang="en">Search dependence</span><span lang="ko">탐색 의존성</span> <span class="pill run"><span lang="zh">已分级</span><span lang="en">graded</span><span lang="ko">등급화</span></span></h3>
       <div class="kn">5,033 / 6,480<small><span lang="zh">个决策依赖搜索，其中 3,513 个属于“强”</span><span lang="en">decisions depend on search; 3,513 of them are strong</span><span lang="ko">개 결정이 탐색에 의존, 그중 3,513개는 "강"</span></small></div>
-      <p><span lang="zh">台数是搜索得到的。下界没能证明 4 台一定不行（最好的下界合计 117 个迟到块，证明需要 146），所以 5,033 / 6,480 个决策依赖搜索。按“离翻转还差多少准时块”分级：3,513 个强、298 个中、1,222 个弱。</span><span lang="en">Counts come from search. Lower bounds could not prove four transporters infeasible (best bounds sum to 117 late blocks; 146 are needed), so 5,033 of 6,480 decisions depend on search. Graded by how many on-time blocks a loser still lacks: 3,513 strong, 298 medium, 1,222 weak.</span><span lang="ko">대수는 탐색으로 얻었습니다. 하한으로 4대가 불가능함을 증명하지 못해 (최선의 하한 합계 지연 117개, 증명에 146개 필요) 6,480개 중 5,033개 결정이 탐색에 의존. 패자가 부족한 정시 블록 수로 등급화: 강 3,513, 중 298, 약 1,222.</span></p>
+      <p><span lang="zh">下界没能证明少一台一定不行，所以台数靠搜索。按“离翻转还差多少准时块”分级：3,513 个强、298 个中、1,222 个弱。</span><span lang="en">Lower bounds could not prove one transporter fewer infeasible, so counts rest on search. Graded by how many on-time blocks a loser still lacks: 3,513 strong, 298 medium, 1,222 weak.</span><span lang="ko">하한으로 한 대 적은 경우가 불가능함을 증명하지 못해 대수는 탐색에 의존. 패자가 부족한 정시 블록 수로 등급화: 강 3,513, 중 298, 약 1,222.</span></p>
+      <p class="small"><span lang="zh">上界：拼载 &gt; 1/10 且为弱或中的车队各减一台，最省车队拼载 ≤ 1/10 的设定从 90.8% 降到 86.9%（拼载 &gt; 1/10 的车队全部减一台才到 68.8%）。轻车最依赖搜索：200–325 t 系列 36–50% 为弱或中，550 t 为 3%。</span><span lang="en">Bound: one transporter fewer for every fleet coupling over 1/10 and graded weak or medium lowers the settings whose cheapest fleet couples ≤ 1/10 from 90.8% to 86.9% (68.8% if every fleet coupling over 1/10 lost one). Light tiers depend most on search: 36–50% of 200–325 t series are weak or medium, 3% of 550 t.</span><span lang="ko">상한: 결합 &gt; 10%이고 약·중인 차량군마다 한 대씩 빼면 결합 ≤ 10% 설정이 90.8% → 86.9% (결합 &gt; 10%인 차량군을 모두 빼면 68.8%). 경형이 탐색에 가장 의존: 200–325 t 시리즈의 36–50%가 약·중, 550 t는 3%.</span></p>
     </div>
     <div class="card">
       <h3><span lang="zh">装卸时间波动 ±50%</span><span lang="en">Handling times ±50%</span><span lang="ko">적재·하역 시간 ±50% 변동</span> <span class="pill pend"><span lang="zh">弱点</span><span lang="en">weak spot</span><span lang="ko">약점</span></span></h3>
       <div class="kn ox">−9.5 pp<small><span lang="zh">准时率中位下降；354 / 384 个系列跌破 95%</span><span lang="en">median drop in on-time share; 354 of 384 series fall below 95%</span><span lang="ko">정시율 중앙값 하락, 384개 중 354개 시리즈가 95% 미만</span></small></div>
-      <p><span lang="zh">固定排班重放 20 个扰动场景：准时率中位下降 9.5 个百分点（2.4–19.4），384 个系列中 354 个跌破 95%。刚好达标的最省车队余量最小。下一步做稳健配车（X1）。</span><span lang="en">Replaying fixed plans in 20 perturbed scenarios lowered the on-time share by a median 9.5 points (2.4–19.4); 354 of 384 series fell below 95%. The cheapest fleet has the least spare capacity. Robust sizing (X1) is the next step.</span><span lang="ko">고정 계획을 20개 교란 시나리오로 재생하면 정시율이 중앙값 9.5%p 하락 (2.4–19.4), 384개 중 354개 시리즈가 95% 미만. 최저비용 차량군은 여유가 가장 적다. 다음 단계는 강건 산정 (X1).</span></p>
+      <p><span lang="zh">固定排班重放 20 个扰动场景：准时率中位下降 9.5 个百分点（2.4–19.4），384 个系列中 354 个跌破 95%。刚好达标的最省车队余量最小。稳健配车（X1）正在运行。</span><span lang="en">Replaying fixed plans in 20 perturbed scenarios lowered the on-time share by a median 9.5 points (2.4–19.4); 354 of 384 series fell below 95%. The cheapest fleet has the least spare capacity. Robust sizing (X1) is running.</span><span lang="ko">고정 계획을 20개 교란 시나리오로 재생하면 정시율이 중앙값 9.5%p 하락 (2.4–19.4), 384개 중 354개 시리즈가 95% 미만. 최저비용 차량군은 여유가 가장 적다. 강건 산정 (X1) 진행 중.</span></p>
     </div>
     <div class="card">
       <h3><span lang="zh">局限</span><span lang="en">Limitations</span><span lang="ko">한계</span></h3>
@@ -1651,9 +1652,9 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
     </div>
   </div>
   <aside class="notes">
-    <p lang="zh">我们也在挑战自己的结论。按天重抽样 2,000 次，“最省车队几乎不拼载”这一点在超重工况以外全部稳定，但具体哪一种车胜出，在一些工况里两者几乎打平。车数是搜索得到的，下界没能证明更少的车一定不行，所以我们对每个决策给出“离翻转还有多远”的分级。装卸时间一旦波动 ±50%，按 95% 刚好配出的车队准时率会明显下降，这是下一步要做的稳健配车。</p>
-    <p lang="en">We also stress-test these results. Over 2,000 day resamples, the claim that the cheapest fleet rarely couples held in every setting outside the extra-heavy scenario, but which exact fleet wins is nearly tied in some conditions. Counts come from search and lower bounds could not prove a smaller fleet infeasible, so each decision is graded by how far it is from flipping. With ±50% handling variability, fleets sized exactly to 95% lose on-time share, which motivates the robust sizing step next.</p>
-    <p lang="ko">저희 스스로도 결과를 검증하고 있습니다. 일자를 2,000회 재표본하면 "최저비용 차량군은 거의 결합 운반하지 않는다"는 주장은 초중량 조건 밖의 모든 설정에서 안정적이지만, 정확히 어느 차량군이 이기는지는 일부 조건에서 거의 동률입니다. 대수는 탐색으로 얻었고 하한으로 더 적은 대수가 불가능함을 증명하지 못했으므로, 각 결정이 뒤집히기까지 얼마나 먼지 등급을 매겼습니다. 적재·하역 시간이 ±50% 변동하면 95%에 딱 맞춘 차량군의 정시율이 크게 떨어지며, 이것이 다음 단계인 강건 산정의 동기입니다.</p>
+    <p lang="zh">我们也在挑战自己的结论。按天重抽样 2,000 次，“最省车队几乎不拼载”这一点在超重工况以外全部稳定，但具体哪一种车胜出，在一些工况里两者几乎打平。车数是搜索得到的，下界没能证明更少的车一定不行，所以我们对每个决策给出“离翻转还有多远”的分级。装卸时间一旦波动 ±50%，按 95% 刚好配出的车队准时率会明显下降，所以正在跑稳健配车（X1）：在扰动下重新定台数。另外，把依赖搜索的车队各减一台作为上界，最省车队拼载不超过十分之一的比例只从 90.8% 降到 86.9%。</p>
+    <p lang="en">We also stress-test these results. Over 2,000 day resamples, the claim that the cheapest fleet rarely couples held in every setting outside the extra-heavy scenario, but which exact fleet wins is nearly tied in some conditions. Counts come from search and lower bounds could not prove a smaller fleet infeasible, so each decision is graded by how far it is from flipping. With ±50% handling variability, fleets sized exactly to 95% lose on-time share, so robust sizing (X1), which re-sizes under the disturbances, is running. As a bound, giving the search-dependent fleets one transporter fewer lowers the share of settings whose cheapest fleet couples at most one in ten only from 90.8% to 86.9%.</p>
+    <p lang="ko">저희 스스로도 결과를 검증하고 있습니다. 일자를 2,000회 재표본하면 "최저비용 차량군은 거의 결합 운반하지 않는다"는 주장은 초중량 조건 밖의 모든 설정에서 안정적이지만, 정확히 어느 차량군이 이기는지는 일부 조건에서 거의 동률입니다. 대수는 탐색으로 얻었고 하한으로 더 적은 대수가 불가능함을 증명하지 못했으므로, 각 결정이 뒤집히기까지 얼마나 먼지 등급을 매겼습니다. 적재·하역 시간이 ±50% 변동하면 95%에 딱 맞춘 차량군의 정시율이 크게 떨어지므로, 교란하에서 대수를 다시 정하는 강건 산정(X1)을 진행 중입니다. 또한 탐색 의존 차량군에서 한 대씩 빼는 상한을 적용해도, 최저비용 차량군 결합이 10% 이하인 설정 비율은 90.8%에서 86.9%로만 내려갑니다.</p>
   </aside>
 </section>
 
@@ -1683,10 +1684,38 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
   </aside>
 </section>
 
+<!-- unmeasured parameters (E5) -->
+<section class="slide" data-sec="rel">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">未实测参数（E5）：班次人工下，只有对接时间为 0 时，最省车队拼载超过 1/10</span><span lang="en">Unmeasured parameters (E5): under shift staffing, only zero coupling time lifts coupling above one in ten</span><span lang="ko">미실측 매개변수 (E5): 교대 인원에서는 결합 시간 0일 때만 최저비용 차량군의 결합이 10%를 넘는다</span> <span class="pill done" style="vertical-align:middle;font-size:14px"><span lang="zh">新结果</span><span lang="en">new</span><span lang="ko">새 결과</span></span></h2>
+  <div class="content" style="grid-template-columns:1.3fr 1fr;gap:26px;margin-top:14px">
+    <div class="col" style="gap:8px">
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">每次只改一个参数，最省车队改变了多少个设定（仿射价格 · 班次人工；右列为该水平下最省车队拼载的最大比例）</span><span lang="en">Settings whose cheapest fleet changed when one parameter changed (affine price · shift staffing; right: the largest share the cheapest fleet coupled at that level)</span><span lang="ko">매개변수 하나를 바꿨을 때 최저비용 차량군이 바뀐 설정 수 (아핀 가격 · 교대 인원, 오른쪽: 해당 수준에서 최저비용 차량군의 최대 결합 비율)</span></b></div>
+      <div class="chart fill" id="cE5"></div>
+      <div class="chips" id="e5Legend"></div>
+      <p class="tiny"><span lang="zh">灰色：起始台数再加 4 台仍没有车队达标，这些设定没有最省车队（装卸 × 2 的 1 个工况、Liu 车速的 2 个工况，都是随重量变化的装卸）。</span><span lang="en">Grey: no fleet met the specification within four transporters above its starting count, so these settings have no cheapest fleet (doubled handling in one condition, Liu speeds in two, all with mass-dependent handling).</span><span lang="ko">회색: 시작 대수에 4대를 더해도 충족하는 차량군이 없어 최저비용 차량군이 없는 설정 (적재·하역 × 2의 1개 조건, Liu 속도의 2개 조건, 모두 중량 비례 적재·하역).</span></p>
+    </div>
+    <div class="col compact" style="gap:12px;justify-content:space-evenly">
+      <div class="kn">≤ 5.4%<small><span lang="zh">其他每个水平下最省车队的拼载（班次人工）</span><span lang="en">coupled by the cheapest fleet at every other level (shift staffing)</span><span lang="ko">그 밖의 모든 수준에서 최저비용 차량군의 결합 (교대 인원)</span></small></div>
+      <div class="kn ox">12.5%<small><span lang="zh">对接时间 0：300 t 取代两重车混编（Jiang、短装卸）</span><span lang="en">zero coupling time: 300 t replaces the two-heavy mix (Jiang, short handling)</span><span lang="ko">결합 시간 0: 300 t가 대형 2대 혼합을 대체 (Jiang, 짧은 적재·하역)</span></small></div>
+      <div class="kn">89% · 92–100%<small><span lang="zh">四种人工口径下最省车队拼载 ≤ 1/10 的设定（对接 0 / 其他水平）；例外是按队计人工时 300 t 在较长装卸或较慢车速下胜出</span><span lang="en">of settings couple ≤ 1/10 over all labour measures (zero coupling / other levels); the exceptions are 300 t wins with crews charged per team</span><span lang="ko">4가지 인건비 기준에서 결합 ≤ 10%인 설정 (결합 0 / 그 밖의 수준). 예외는 팀 단위 인건비에서 300 t가 이기는 경우</span></small></div>
+      <ul class="clean">
+        <li><span lang="zh">换车全在 Jiang 重量下、相邻车队之间（两重车混编、550、380、300 t）；Roh–Cha 下 550 t 从不改变</span><span lang="en">Every change is under Jiang masses, between neighbours (two-heavy mix, 550, 380, 300 t); under Roh–Cha 550 t never changes</span><span lang="ko">모든 변화는 Jiang 중량에서 이웃 차량군 사이 (대형 2대 혼합, 550·380·300 t). Roh–Cha에서 550 t는 바뀌지 않음</span></li>
+      </ul>
+      <div class="card" style="background:var(--amber-soft)"><p class="small" style="color:var(--ink)"><span lang="zh">范围：4 个工况（Jiang、Roh–Cha × 短 / 随重量装卸）× 5 个参考车队（270、300、380、550 t、两重车混编）。主结果中 Jiang 的最省车队（一重车混编、425 t）没有重跑。对接 2.5、5 min（E5D，含一重车混编）正在运行。</span><span lang="en">Scope: 4 conditions (Jiang, Roh–Cha × short, mass-dependent handling) × 5 reference fleets (270, 300, 380, 550 t, two-heavy mix). The main Jiang winners (one-heavy mix, 425 t) were not rerun. Coupling at 2.5 and 5 min (E5D, with the one-heavy mix) is running.</span><span lang="ko">범위: 4개 조건 (Jiang·Roh–Cha × 짧은·중량 비례 적재·하역) × 참조 차량군 5개 (270·300·380·550 t, 대형 2대 혼합). Jiang의 주 결과 최저비용 차량군 (대형 1대 혼합, 425 t)은 재실행 안 함. 결합 2.5·5분 (E5D, 대형 1대 혼합 포함) 진행 중.</span></p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">E5 是新完成的敏感性实验。对接时间、装卸时间、车速、最大编组和转弯耗时都没有实测数据，所以每次只改一个，看最省车队变不变。班次人工下，对接时间变长、两台编组、转弯耗时在全部 180 个设定中都不改变选择；装卸 0.67 到 2 倍最多改变 13 个；车速 0.75、0.5 倍和 Liu 的车速分别改变 89、45、45 个。改变都发生在 Jiang 重量下，只在相邻车队之间。唯一让最省车队拼载超过十分之一的是对接时间为 0：这时 300 t 变成最省，拼载 12.5%。但对接不可能不花时间，0 到 10 分钟之间的边界正在用 2.5 和 5 分钟补跑。要说明的局限是：这里只重跑了 5 个参考车队，主结果中 Jiang 的最省车队没有重跑。</p>
+    <p lang="en">E5 is the newly finished sensitivity study. Coupling time, handling time, speed, the largest team and turn times were not measured, so we changed one at a time and checked whether the cheapest fleet changes. Under shift staffing, longer coupling, two-vehicle teams and turn times changed it in none of the 180 settings; handling factors from 0.67 to 2 in at most 13; speeds at 0.75, at 0.5 and at Liu's values in 89, 45 and 45. All changes were under Jiang masses and between neighbouring fleets. Only zero coupling time made the cheapest fleet couple more than one block in ten: the 300 t tier became cheapest at 12.5%. Coupling cannot take no time, and the boundary between 0 and 10 minutes is being filled in with 2.5 and 5 minutes. The limitation is that only five reference fleets were rerun; the main cheapest fleets under Jiang masses were not.</p>
+    <p lang="ko">E5는 새로 끝난 민감도 실험입니다. 결합 시간, 적재·하역 시간, 속도, 최대 편성, 회전 시간은 실측 자료가 없어서 하나씩 바꿔 최저비용 차량군이 바뀌는지 봤습니다. 교대 인원에서 결합 시간 증가, 2대 편성, 회전 시간은 180개 설정 모두에서 선택을 바꾸지 않았고, 적재·하역 0.67–2배는 최대 13개, 속도 0.75배·0.5배·Liu 속도는 각각 89·45·45개를 바꿨습니다. 변화는 모두 Jiang 중량에서, 이웃 차량군 사이에서만 일어났습니다. 최저비용 차량군의 결합이 10%를 넘은 것은 결합 시간 0뿐이며, 이때 300 t가 12.5% 결합으로 최저가 됩니다. 결합에 시간이 전혀 안 들 수는 없으므로, 0과 10분 사이의 경계를 2.5분과 5분으로 보충 실행하고 있습니다. 한계는 참조 차량군 5개만 재실행했고 Jiang의 주 결과 최저비용 차량군은 재실행하지 않았다는 점입니다.</p>
+  </aside>
+</section>
+
 <!-- 18 status -->
 <section class="slide" data-sec="status">
   <header class="eb"></header>
-  <h2 class="ttl d"><span lang="zh">进度：主要实验都已完成，敏感性分析仍在运行</span><span lang="en">Status: the main studies are done; the sensitivity runs continue</span><span lang="ko">진행 상황: 주요 실험 완료, 민감도 분석 진행 중</span></h2>
+  <h2 class="ttl d"><span lang="zh">进度：E5 已完成，三项补充实验在运行</span><span lang="en">Status: E5 done, three supplements running</span><span lang="ko">진행 상황: E5 완료, 보충 실험 3건 진행 중</span></h2>
   <div class="content vc" style="grid-template-columns:1.55fr 1fr;gap:28px">
     <div class="col tblwrap">
       <table class="tbl">
@@ -1713,22 +1742,23 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
           <span>E7 · <span lang="zh">重块比例</span><span lang="en">heavy-block share</span><span lang="ko">무거운 블록 비율</span></span>
           <span>B4 · <span lang="zh">厂家车速</span><span lang="en">manufacturer speeds</span><span lang="ko">제조사 속도</span></span>
           <span>R4R · <span lang="zh">超重才拼</span><span lang="en">overweight-only rule</span><span lang="ko">초과 중량 결합</span></span>
+          <span>E5 · <span lang="zh">未实测参数</span><span lang="en">unmeasured parameters</span><span lang="ko">미실측 매개변수</span></span>
+          <span>A2 · <span lang="zh">搜索依赖上界</span><span lang="en">search bound</span><span lang="ko">탐색 의존 상한</span></span>
         </div>
       </div>
       <div class="card">
         <h3><span lang="zh">接下来</span><span lang="en">Next</span><span lang="ko">다음 단계</span></h3>
         <ul class="clean">
-          <li><span lang="zh">E5 敏感性跑完后写决策边界；随后完成 V1 精确对照与 X1 稳健配车</span><span lang="en">Write the decision boundaries when E5 finishes, then complete V1 (exact comparison) and X1 (robust sizing)</span><span lang="ko">E5가 끝나면 결정 경계를 쓰고, 이어서 V1(정확해 비교)과 X1(강건 산정)을 마무리</span></li>
-          <li><span lang="zh">发布代码与结果表，取得 Zenodo DOI</span><span lang="en">Release code and result tables with a Zenodo DOI</span><span lang="ko">코드와 결과표 공개, Zenodo DOI 발급</span></li>
-          <li><span lang="zh">投稿 Ocean Engineering</span><span lang="en">Submit to Ocean Engineering</span><span lang="ko">Ocean Engineering 투고</span></li>
+          <li><span lang="zh">写入 E5D 的对接时间边界，以及 X1、V1、R4B 的结果</span><span lang="en">Write in the E5D coupling-time boundary and the X1, V1 and R4B results</span><span lang="ko">E5D 결합 시간 경계와 X1·V1·R4B 결과를 논문에 반영</span></li>
+          <li><span lang="zh">发布代码与结果表（Zenodo DOI），投稿 Ocean Engineering</span><span lang="en">Release code and result tables (Zenodo DOI) and submit to Ocean Engineering</span><span lang="ko">코드와 결과표 공개 (Zenodo DOI), Ocean Engineering 투고</span></li>
         </ul>
       </div>
     </div>
   </div>
   <aside class="notes">
-    <p lang="zh">主实验、延误上限轴、重块比例、厂家车速和“超重才拼”都已完成，结论 1–3 都有了完整结果。还在跑的是敏感性边界（E5），以及小规模实例上与 CP-SAT 精确解的对照（V1）；装卸波动下的稳健配车（X1）排在 E5 之后。之后发布代码并取得 Zenodo DOI，投 Ocean Engineering。</p>
-    <p lang="en">The main experiment, the delay-cap axis, the heavy-block share, the manufacturer speeds and the overweight-only rule are all done, so Findings 1–3 have full results. Still running are the sensitivity boundaries (E5) and the exact CP-SAT comparison on small instances (V1); robust sizing under handling variability (X1) follows E5. Then we release the code with a Zenodo DOI and submit to Ocean Engineering.</p>
-    <p lang="ko">주 실험, 지연 상한 축, 무거운 블록 비율, 제조사 속도, 초과 중량 결합이 모두 끝나 결론 1–3의 전체 결과가 나왔습니다. 아직 진행 중인 것은 민감도 경계(E5)와 소규모 인스턴스에서 CP-SAT 정확해와의 비교(V1)이며, 적재·하역 변동하의 강건 산정(X1)은 E5 다음입니다. 이후 코드를 Zenodo DOI와 함께 공개하고 Ocean Engineering에 투고합니다.</p>
+    <p lang="zh">主实验、延误上限轴、重块比例、厂家车速、“超重才拼”和未实测参数的敏感性（E5）都已完成，结论 1–3 都有了完整结果。还在跑的是三项补充：对接时间 2.5 和 5 分钟（E5D），补上 0 到 10 分钟之间的边界；装卸波动下的稳健配车（X1）；小规模实例上与 CP-SAT 精确解的对照（V1，试算中）。边界加搜（R4B）已选好 66 个车队，待启动。之后发布代码并取得 Zenodo DOI，投 Ocean Engineering。</p>
+    <p lang="en">The main experiment, the delay-cap axis, the heavy-block share, the manufacturer speeds, the overweight-only rule and the sensitivity to unmeasured parameters (E5) are all done, so Findings 1–3 have full results. Three supplements are running: coupling times of 2.5 and 5 minutes (E5D) to fill in the boundary between 0 and 10 minutes, robust sizing under handling variability (X1), and the exact CP-SAT comparison on small instances (V1, in pilot). The boundary search (R4B) has its 66 fleets selected and is still to start. Then we release the code with a Zenodo DOI and submit to Ocean Engineering.</p>
+    <p lang="ko">주 실험, 지연 상한 축, 무거운 블록 비율, 제조사 속도, 초과 중량 결합, 미실측 매개변수 민감도(E5)가 모두 끝나 결론 1–3의 전체 결과가 나왔습니다. 진행 중인 보충 실험은 세 가지입니다. 0과 10분 사이의 경계를 채우는 결합 시간 2.5·5분(E5D), 적재·하역 변동하의 강건 산정(X1), 소규모 인스턴스에서 CP-SAT 정확해와의 비교(V1, 시험 실행 중)입니다. 경계 추가 탐색(R4B)은 66개 차량군을 선정했고 아직 시작 전입니다. 이후 코드를 Zenodo DOI와 함께 공개하고 Ocean Engineering에 투고합니다.</p>
   </aside>
 </section>
 
@@ -1809,5 +1839,5 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
 </div>
 <div class="tip" id="tip" hidden></div>
 
-<script src="data.js?v=8bc3780f4f"></script>
-<script src="deck.js?v=8bc3780f4f"></script>
+<script src="data.js?v=217a28e984"></script>
+<script src="deck.js?v=217a28e984"></script>

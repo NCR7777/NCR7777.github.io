@@ -58,7 +58,7 @@ const T = {
          '<span class="v-no">Cannot carry</span>: it would take {n} transporters, above the limit of 3. A larger tier must carry it.',
          '<span class="v-no">운반 불가</span>: {n}대가 필요해 최대 3대 한도를 넘는다. 더 큰 등급이 운반해야 한다.'],
   series: ['系列', 'series', '시리즈'], runs: ['次运行', 'runs', '회 실행'], est: ['预估', 'est.', '예상'],
-  pilot: ['试算中', 'pilot', '시험 실행 중'], planned: ['待运行', 'planned', '예정'],
+  pilot: ['试算中', 'pilot', '시험 실행 중'], planned: ['待运行', 'planned', '예정'], phaseN: ['第 {n} 阶段', 'phase {n}', '{n}단계'],
   heatHint: ['读图示例：最下面 6 行（Liu 重量）全是深蓝，表示 425 t 在所有价格下都最便宜；格子里的 0 表示它完全不拼载。把鼠标移到格子上可看细节。',
              'Example: the bottom six rows (Liu masses) are all dark blue, so 425 t is cheapest at every price, and the 0 means it never couples. Hover a cell for details.',
              '읽기 예: 맨 아래 6행(Liu 중량)은 모두 짙은 파랑으로 425 t가 모든 가격에서 가장 싸다는 뜻이고, 0은 결합 운반이 전혀 없다는 뜻이다. 칸에 마우스를 올리면 세부 정보가 나온다.'],
@@ -122,6 +122,11 @@ const T = {
   e7Le: ['300 t：重块都要拼载', '300 t: couples every heavy block', '300 t: 무거운 블록 모두 결합'],
   e7Mx: ['270 t 轻车 + 1 或 2 台 550 t', '270 t units + one or two 550 t', '270 t 경형 + 550 t 1–2대'],
   e7Big: ['550 t：每块都单独运', '550 t: carries every block alone', '550 t: 모든 블록 단독 운반'],
+  e5Ax: ['最省车队改变的班次配员设定（每个水平共 180 个）', 'Shift-staffing settings whose cheapest fleet changed (180 per level)', '최저비용 차량군이 바뀐 교대 인원 설정 (수준별 180개)'],
+  e5Max: ['最省车队拼载', 'Coupled', '결합 비율'],
+  e5Tip: ['{f}：{v}<br>最省车队改变 {n} / 180{nw}<br>最省车队最多拼载 {c}%<br>四种人工口径下拼载 ≤ 1/10：{le} / {has}', '{f}: {v}<br>cheapest fleet changed in {n} of 180{nw}<br>cheapest fleet couples at most {c}%<br>≤ one in ten over all labour measures: {le} of {has}', '{f}: {v}<br>최저비용 차량군 변경 {n} / 180{nw}<br>최저비용 차량군 최대 결합 {c}%<br>4가지 인건비 기준에서 결합 ≤ 10%: {le} / {has}'],
+  e5NoW: ['；{n} 个无达标车队', '; no fleet qualifies in {n}', '; {n}개는 충족 차량군 없음'],
+  e5Chg: ['最省车队改变', 'cheapest fleet changed', '최저비용 차량군 변경'], e5None: ['没有车队达标', 'no fleet qualifies', '충족 차량군 없음'], e5Hi: ['拼载 > 1/10', 'couples > one in ten', '결합 > 10%'],
   e7Num: ['个设定中最省车队拼载 ≤ 1/10；例外是 p = 35%、随重量装卸、按队计运营人工下的 2 重车混编（19.6%）', 'settings where the cheapest fleet couples at most one block in ten; the exceptions are the two-heavy mix at p = 35% with mass-dependent handling under per-team crews (19.6%)', '개 설정에서 최저비용 차량군의 결합 ≤ 10%. 예외는 p = 35%, 중량 비례 적재·하역, 팀별 운영 인원에서의 대형 2대 혼합 (19.6%)'],
   b4Shift: ['个班次配员设定换了最省车队，全在 Jiang 短装卸：一重车混编要多 1 台，被两重车混编取代；沿用原选择最多多花 {g}%', 'shift-staffing settings change their cheapest fleet, all with Jiang masses and short handling: the one-heavy mix needs one more vehicle and the two-heavy mix replaces it; keeping the old choice costs up to {g}% more', '개 교대 인원 설정에서 최저비용 차량군이 바뀜. 모두 Jiang·짧은 적재·하역: 대형 1대 혼합이 1대 더 필요해 대형 2대 혼합이 대신하며, 기존 선택 유지 시 최대 {g}% 추가'],
   b4All: ['个设定换了最省车队（混编取悲观车速；取乐观车速时为 {o} 个）', 'settings change their cheapest fleet at the pessimistic end ({o} at the optimistic end)', '개 설정에서 최저비용 차량군이 바뀜 (혼합 비관 속도 기준, 낙관 속도 기준 {o}개)'],
@@ -573,18 +578,22 @@ function drawBoot() {
 const PROGQ = {
   R3: ['延误上限轴：T<sub>max</sub> 从 30 min 到无上限（结论 2）', 'Delay-cap axis, T<sub>max</sub> from 30 min to no cap (Finding 2)', '지연 상한 축: T<sub>max</sub> 30분 → 상한 없음 (결론 2)'],
   E7: ['重块比例多高时，同质重车才值得买', 'Heavy-block share at which a homogeneous heavy tier pays', '무거운 블록 비율이 얼마일 때 대형 단일 등급이 이득인가'],
-  E5: ['敏感性：对接时间、装卸、车速的决策边界', 'Sensitivity: decision boundaries in coupling time, handling and speed', '민감도: 결합 시간·적재 하역·속도의 결정 경계'],
+  E5: ['敏感性：一次改一个未实测参数', 'Sensitivity: one unmeasured parameter at a time', '민감도: 실측하지 않은 매개변수를 하나씩 변경'],
+  E5D: ['对接时间 2.5、5 min：0 与 10 min 之间的边界', 'Coupling time 2.5 and 5 min: the boundary between 0 and 10 min', '결합 시간 2.5·5분: 0과 10분 사이의 경계'],
   B4: ['各吨级用厂家标称车速；Liu 混编', 'Manufacturer speeds per tier; the Liu mixes', '등급별 제조사 속도, Liu 혼합'],
   R4R: ['只在超重时才允许拼载的规则', 'Overweight-only coupling rule', '초과 중량일 때만 결합을 허용하는 규칙'],
+  R4B: ['边界加搜：最接近翻转的 66 个车队，少一台时搜索加到 3 倍', 'Boundary search: three times the search at one fewer for the 66 fleets nearest to a flip', '경계 추가 탐색: 뒤집힘에 가장 가까운 66개 차량군을 한 대 적게 3배 탐색'],
   V1: ['小规模实例上与 CP-SAT 精确解对照', 'Exact CP-SAT comparison on small instances', '소규모 인스턴스에서 CP-SAT 정확해와 비교'],
-  X1: ['装卸波动下的稳健配车', 'Robust sizing under handling variability', '적재·하역 변동하의 강건 산정'],
+  X1: ['装卸 ±50% 波动下仍达 95% 的台数', 'Count that still reaches 95% under ±50% handling', '적재·하역 ±50% 변동에서도 95%를 지키는 대수'],
 };
 function renderProg() {
   const n = v => v.toLocaleString('en-US'), P = D.late.progress;
-  $('progRows').innerHTML = ['R3', 'E7', 'E5', 'B4', 'R4R', 'V1', 'X1'].map(id => {
+  $('progRows').innerHTML = ['E5', 'E5D', 'X1', 'V1', 'R4B'].map(id => {
     const p = P[id];
     let cell;
     if (!p) cell = `<span class="pill ${id === 'V1' ? 'run' : 'pend'}">${t(id === 'V1' ? 'pilot' : 'planned')}</span>`;
+    else if (p[0] === null) cell = `<div class="pbar"><i style="width:${(100 * p[2] / p[3]).toFixed(0)}%"></i></div>
+         <div class="tiny" style="margin-top:3px">${fmt(t('phaseN'), { n: p[1] })} · ${n(p[2])} / ${n(p[3])} ${t('runs')}</div>`;   // X1: runs of the current phase
     else if (p[0] === p[1]) cell = `<span class="pill done">${t('doneP')}</span> <span class="tiny">${p[0]}/${p[1]} ${t('series')} · ${n(p[2])} ${t('runs')}</span>`;
     else cell = `<div class="pbar"><i style="width:${Math.min(100, 100 * p[2] / p[3]).toFixed(0)}%"></i></div>
          <div class="tiny" style="margin-top:3px">${p[0]}/${p[1]} ${t('series')} · ${n(p[2])} ${t('runs')} (${t('est')} ${n(p[3])})</div>`;
@@ -773,9 +782,52 @@ function drawE7() {
   $('e7Num').innerHTML = `${a.toLocaleString('en-US')} / ${n.toLocaleString('en-US')}<small>${t('e7Num')}</small>`;
 }
 
+// sensitivity (E5): one assumed parameter changed at a time; shift staffing, 4 conditions x 45 price settings per level
+const E5F = {
+  'coupling time (min)': [['对接时间', 'Coupling time', '결합 시간'], v => '10 → ' + v + ' min'],
+  'handling factor': [['装卸时间', 'Handling time', '적재·하역 시간'], v => '× ' + v],
+  'speed factor': [['车速', 'Speed', '속도'], v => v.startsWith('Liu') ? 'Liu 50/30 m/min' : '× ' + v],
+  'largest team': [['最大编组', 'Largest team', '최대 편성'], v => '3 → ' + v],
+  'turn time (s)': [['转弯耗时', 'Turn time', '회전 시간'], v => '0 → ' + v + ' s'],
+  'coupled-turn time (s)': [['编组转弯另加', 'Coupled turns', '결합 회전 추가'], v => '0 → ' + v + ' s'],
+};
+function drawE5() {
+  const groups = [];
+  D.late.e5.forEach(r => { const g = groups.find(g => g[0] === r[0]); g ? g[1].push(r) : groups.push([r[0], [r]]); });
+  groups.forEach(g => { if (g[0] === 'speed factor') g[1].sort((a, b) => (b[1].startsWith('Liu') ? -1 : +b[1]) - (a[1].startsWith('Liu') ? -1 : +a[1])); });
+  const n = D.late.e5.length, W = 660, top = 24, bot = 44, gap = 10, L = 262, R = 540, xm = 606;
+  const H = fitH('cE5', W, top + n * 24 + gap * (groups.length - 1) + bot, 0.85, 1.35), rh = (H - top - bot - gap * (groups.length - 1)) / n;
+  const s = frame('cE5', W, H, 'Settings whose cheapest fleet changed when one assumed parameter changed');
+  const x = lin(0, 180, L, R), gr = el('g', { class: 'grid' }, s);
+  for (const v of [0, 45, 90, 135, 180]) { el('line', { x1: x(v), x2: x(v), y1: top - 4, y2: H - bot + 4 }, gr); el('text', { x: x(v), y: H - bot + 20, 'text-anchor': 'middle' }, s, v); }
+  el('text', { x: (L + R) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('e5Ax'));
+  el('text', { x: xm, y: top - 8, 'text-anchor': 'middle', style: 'font-size:11px;fill:var(--ink3)' }, s, t('e5Max'));
+  let y = top;
+  groups.forEach(([f, rows], gi) => {
+    if (gi) { el('line', { x1: 0, x2: W, y1: y + gap / 2, y2: y + gap / 2, style: 'stroke:var(--line)' }, s); y += gap; }
+    const name = E5F[f][0][LI[lang]];
+    el('text', { x: 0, y: y + rh / 2 + 5, class: 't-strong', style: 'font-size:13px' }, s, name);
+    rows.forEach(([, v, chg, mx, has, le, tot], j) => {
+      const yc = y + rh / 2, nw = (tot - has) / 4, at = .3 + gi * .12 + j * .06, hi = mx > 10;   // a level without a cheapest fleet lacks it under every labour measure
+      const g = el('g', {}, s);
+      if (hi) el('rect', { x: L - 120, y: y + 1, width: W - L + 120, height: rh - 2, rx: 4, style: 'fill:var(--oxide-soft)' }, g);
+      el('text', { x: L - 10, y: yc + 4, 'text-anchor': 'end', style: 'font-family:var(--mono);font-size:12px;fill:var(--ink2)' }, g, E5F[f][1](v));
+      if (chg) anim(el('rect', { x: L, y: yc - rh * 0.3, width: x(chg) - L, height: rh * 0.6, rx: 2, style: 'fill:var(--amber-hi)' }, g), 'a-x', at);
+      if (nw) anim(el('rect', { x: x(chg), y: yc - rh * 0.3, width: x(chg + nw) - x(chg), height: rh * 0.6, style: 'fill:var(--g-empty)' }, g), 'a-x', at + .1);
+      const lab = anim(el('text', { x: x(chg + nw) + 6, y: yc + 4, class: chg ? 't-strong' : '', style: 'font-size:12px' + (chg ? '' : ';fill:var(--ink3)') }, g, String(chg)), 'a-fade', at + .3);
+      if (nw) el('tspan', { style: 'font-weight:400;fill:var(--ink3)' }, lab, ` (+${nw})`);
+      anim(el('text', { x: xm, y: yc + 4, 'text-anchor': 'middle', style: `font-family:var(--mono);font-size:12px;${hi ? 'font-weight:700;fill:var(--oxide)' : 'fill:var(--ink2)'}` }, g, mx.toFixed(1) + '%'), 'a-fade', at + .3);
+      el('rect', { x: 0, y, width: W, height: rh, style: 'fill:transparent' }, g);
+      hover(g, () => fmt(t('e5Tip'), { f: name, v: E5F[f][1](v), n: chg, nw: nw ? fmt(t('e5NoW'), { n: nw }) : '', c: mx.toFixed(1), le, has }));
+      y += rh;
+    });
+  });
+  swatches('e5Legend', [['var(--amber-hi)', t('e5Chg')], ['var(--g-empty)', t('e5None')], ['var(--oxide-soft)', t('e5Hi')]]);
+}
+
 function safe(f) { try { f(); } catch (e) { if (window.console) console.error(f.name, e); } }
 function drawAll() {
-  [drawPrice, drawCap, drawHeat, drawScatter, drawCase, drawAgree, drawLoad, drawTeam, renderProg, drawDay, drawGantt, drawMasses, fillCalcSelects, drawCalc, drawLiu, drawPor, renderB4, drawLate, drawTmax, drawE7].forEach(safe);
+  [drawPrice, drawCap, drawHeat, drawScatter, drawCase, drawAgree, drawLoad, drawTeam, renderProg, drawDay, drawGantt, drawMasses, fillCalcSelects, drawCalc, drawLiu, drawPor, renderB4, drawLate, drawTmax, drawE7, drawE5].forEach(safe);
   $('heatTip').innerHTML = `<p class="small">${t('heatHint')}</p>`;
 }
 
