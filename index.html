@@ -54,7 +54,8 @@ button,input,select{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--amber);outline-offset:2px}
 
 /* ---------- app shell ---------- */
-.app{height:100%;display:flex;flex-direction:column}
+.app{height:100%;display:flex;flex-direction:column;touch-action:manipulation}
+html:not(.flow),html:not(.flow) body{overflow:hidden;overscroll-behavior:none}
 .bar{display:flex;align-items:center;gap:10px;padding:8px 16px;border-bottom:1px solid var(--line);background:var(--paper);flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2);margin-right:auto;min-width:0}
 .brand b{font-family:var(--d-en);font-size:17px;letter-spacing:.04em;color:var(--ink);font-weight:600}
@@ -1642,5 +1643,5 @@ ul.clean li b{color:var(--ink)}
 </div>
 <div class="tip" id="tip" hidden></div>
 
-<script src="data.js?v=b9501bc181"></script>
-<script src="deck.js?v=b9501bc181"></script>
+<script src="data.js?v=3d50f04765"></script>
+<script src="deck.js?v=3d50f04765"></script>

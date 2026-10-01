@@ -905,9 +905,20 @@ document.addEventListener('keydown', e => {
   else if (k === 't' || k === 'T') toggleToc();
   else if (k === 'Escape') { toggleGloss(false); toggleToc(false); }
 });
-let tx = null;
-// a swipe that starts on a control (slider, select, button) belongs to that control, not to paging
-wrap.addEventListener('touchstart', e => { tx = e.target.closest('input,select,textarea,button,label') ? null : e.touches[0].clientX; }, { passive: true });
+// touch paging: one finger, mostly horizontal, at normal zoom. A gesture that starts on a control belongs to the control;
+// a second finger (pinch) or a zoomed-in view cancels paging, so zooming and panning a zoomed slide never turn the page.
+let ts = null;
+const zoomed = () => !!(window.visualViewport && visualViewport.scale > 1.05);
+wrap.addEventListener('touchstart', e => {
+  ts = root.classList.contains('flow') || e.touches.length > 1 || zoomed() || e.target.closest('input,select,textarea,button,label')
+    ? null : { x: e.touches[0].clientX, y: e.touches[0].clientY };
+}, { passive: true });
+wrap.addEventListener('touchmove', e => {
+  if (!ts) return;
+  if (e.touches.length > 1 || zoomed()) { ts = null; return; }
+  if (e.cancelable) e.preventDefault();          // the slide does not scroll at normal zoom: keep the page from drifting
+}, { passive: false });
+wrap.addEventListener('touchcancel', () => { ts = null; });
 // after a slider is dragged or a select is chosen with the mouse, hand the keyboard back to paging
 addEventListener('pointerup', () => {
   const a = document.activeElement;
@@ -915,10 +926,10 @@ addEventListener('pointerup', () => {
 });
 document.addEventListener('change', e => { if (e.target.matches('select')) e.target.blur(); });
 wrap.addEventListener('touchend', e => {
-  if (tx == null || root.classList.contains('flow')) return;
-  const dx = e.changedTouches[0].clientX - tx;
-  if (Math.abs(dx) > 50) go(cur + (dx < 0 ? 1 : -1));
-  tx = null;
+  if (!ts || e.touches.length) { ts = null; return; }
+  const dx = e.changedTouches[0].clientX - ts.x, dy = e.changedTouches[0].clientY - ts.y;
+  if (Math.abs(dx) > 60 && Math.abs(dx) > 2 * Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));
+  ts = null;
 });
 // mouse wheel / trackpad: one slide per gesture; momentum keeps the lock until the wheel goes quiet
 let wheelAcc = 0, wheelLock = 0;
