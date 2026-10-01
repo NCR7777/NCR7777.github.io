@@ -928,7 +928,7 @@ document.addEventListener('change', e => { if (e.target.matches('select')) e.tar
 wrap.addEventListener('touchend', e => {
   if (!ts || e.touches.length) { ts = null; return; }
   const dx = e.changedTouches[0].clientX - ts.x, dy = e.changedTouches[0].clientY - ts.y;
-  if (Math.abs(dx) > 60 && Math.abs(dx) > 2 * Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));
+  if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));   // more sideways than up/down
   ts = null;
 });
 // mouse wheel / trackpad: one slide per gesture; momentum keeps the lock until the wheel goes quiet
