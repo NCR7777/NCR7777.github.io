@@ -802,15 +802,23 @@ document.querySelectorAll('#agenda [data-go]').forEach(li => {
   li.addEventListener('click', () => go(i));
   li.addEventListener('keydown', e => { if (e.key === 'Enter') go(i); });
 });
+let playTimer = null;
 function go(i, keepHash) {
   i = Math.max(0, Math.min(slides.length - 1, i));
-  slides[cur].classList.remove('on');
+  root.dataset.dir = i < cur ? -1 : 1;
+  slides[cur].classList.remove('on', 'play');
   slides[cur].setAttribute('aria-hidden', 'true');
   cur = i;
   slides[cur].classList.add('on');
   slides[cur].removeAttribute('aria-hidden');
   $('count').textContent = `${cur + 1} / ${slides.length}`;
-  $('progI').style.width = (100 * (cur + 1) / slides.length) + '%';
+  const sl = slides[cur];
+  sl.classList.add('play');
+  clearTimeout(playTimer);
+  playTimer = setTimeout(() => sl.classList.remove('play'), 1500);
+  paintProg();
+  $('prev').setAttribute('aria-disabled', cur === 0);
+  $('next').setAttribute('aria-disabled', cur === slides.length - 1);
   tip.hidden = true;
   fillNotes();
   markToc();
@@ -818,7 +826,8 @@ function go(i, keepHash) {
 }
 let wasFlow = null;
 function layout() {
-  const flow = innerWidth < 760;
+  // reading mode on phones and on screens too short for a legible slide (e.g. a phone held sideways)
+  const flow = innerWidth < 760 || Math.min((innerWidth - 32) / 1280, (innerHeight - 120) / 720) < 0.42;
   root.classList.toggle('flow', flow);
   if (wasFlow !== null && wasFlow !== flow) drawAll();
   wasFlow = flow;
@@ -838,7 +847,28 @@ function setLang(l) {
   document.querySelectorAll('[data-set-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.setLang === l));
   drawAll();
   fillNotes();
+  buildProg();
 }
+// chapter progress: one segment per section, filled up to the current slide; click a segment to jump to its first slide
+function buildProg() {
+  const host = $('prog'), groups = [];
+  slides.forEach((s, i) => { const k = s.dataset.sec; if (!groups.length || groups[groups.length - 1].k !== k) groups.push({ k, first: i, n: 0 }); groups[groups.length - 1].n++; });
+  host.innerHTML = groups.map(g => {
+    const name = (SEC[g.k] || ['', '', ''])[LI[lang]] || (g.k === 'cover' ? { zh: '封面', en: 'Cover', ko: '표지' }[lang] : '');
+    return `<span class="ch" data-first="${g.first}" data-n="${g.n}" data-name="${name}" style="flex-grow:${g.n}" title="${name}"><i></i></span>`;
+  }).join('');
+  paintProg();
+}
+function paintProg() {
+  document.querySelectorAll('#prog .ch').forEach(c => {
+    const a = +c.dataset.first, n = +c.dataset.n, done = Math.max(0, Math.min(n, cur - a + 1));
+    c.firstChild.style.width = (100 * done / n) + '%';
+    c.classList.toggle('cur', cur >= a && cur < a + n);
+  });
+}
+// sliders show their value as a filled track
+function paintRange(el) { el.style.setProperty('--p', (100 * (el.value - el.min) / (el.max - el.min)) + '%'); }
+document.querySelectorAll('input[type="range"]').forEach(el => { paintRange(el); el.addEventListener('input', () => paintRange(el)); });
 function toggleNotes(on) {
   notesOn = on ?? !notesOn;
   $('notesp').hidden = !notesOn;
@@ -868,6 +898,7 @@ function toggleFull() {
 // controls
 document.querySelectorAll('[data-set-lang]').forEach(b => b.addEventListener('click', () => setLang(b.dataset.setLang)));
 $('prev').addEventListener('click', () => go(cur - 1));
+$('prog').addEventListener('click', e => { const c = e.target.closest('.ch'); if (c) go(+c.dataset.first); });
 $('next').addEventListener('click', () => go(cur + 1));
 $('btnNotes').addEventListener('click', () => toggleNotes());
 $('btnGloss').addEventListener('click', () => toggleGloss());

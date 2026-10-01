@@ -8,9 +8,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap">
 <style>
 :root{
-  --bg:#E7ECF0; --paper:#FAFBFC; --panel:#EFF3F6; --ink:#132030; --ink2:#44546A; --ink3:#748399; --line:#D2DAE2;
-  --steel:#285A88; --steel-soft:#DDE8F3; --amber:#B97F08; --amber-hi:#F0B42F; --amber-soft:#FAEED3;
-  --oxide:#AE422B; --oxide-soft:#F6E0DA; --good:#2B7A4D; --good-soft:#DCEFE3;
+  --bg:#E8ECF1; --paper:#FCFCFD; --panel:#F1F4F7; --ink:#0F1B29; --ink2:#3F4E61; --ink3:#66758A; --line:#D6DDE5;
+  --steel:#245081; --steel-soft:#E0E9F3; --amber:#9A6407; --amber-hi:#F2B12E; --amber-soft:#FBF0D8;
+  --oxide:#A83B23; --oxide-soft:#F7E2DC; --good:#22704A; --good-soft:#DDEFE4;
+  --ease:cubic-bezier(.16,1,.3,1); --ease-io:cubic-bezier(.65,0,.35,1);
   --g-empty:#C3C9CF; --g-load:#A9C8E2; --g-travel:#2F68A8; --g-couple:#E6BF6E;
   --f-latin:"IBM Plex Sans", system-ui, sans-serif;
   --f-zh:"IBM Plex Sans","Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
@@ -24,7 +25,7 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0A1017; --paper:#101923; --panel:#16222F; --ink:#E3E9F0; --ink2:#AAB7C5; --ink3:#77869A; --line:#243241;
+    --bg:#0A1017; --paper:#101923; --panel:#16222F; --ink:#E6ECF2; --ink2:#B0BCCA; --ink3:#8795A8; --line:#26354A;
     --steel:#79AADB; --steel-soft:#1B2E43; --amber:#F0B42F; --amber-hi:#F0B42F; --amber-soft:#3A2C10;
     --oxide:#E27A60; --oxide-soft:#3D1F18; --good:#62C08A; --good-soft:#15301F;
     --g-empty:#4C5661; --g-load:#5D86A8; --g-travel:#8DB8E6; --g-couple:#C79A3E;
@@ -32,7 +33,7 @@
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0A1017; --paper:#101923; --panel:#16222F; --ink:#E3E9F0; --ink2:#AAB7C5; --ink3:#77869A; --line:#243241;
+  --bg:#0A1017; --paper:#101923; --panel:#16222F; --ink:#E6ECF2; --ink2:#B0BCCA; --ink3:#8795A8; --line:#26354A;
   --steel:#79AADB; --steel-soft:#1B2E43; --amber:#F0B42F; --amber-hi:#F0B42F; --amber-soft:#3A2C10;
   --oxide:#E27A60; --oxide-soft:#3D1F18; --good:#62C08A; --good-soft:#15301F;
   --g-empty:#4C5661; --g-load:#5D86A8; --g-travel:#8DB8E6; --g-couple:#C79A3E;
@@ -302,7 +303,7 @@ ul.clean li b{color:var(--ink)}
 .toc .sh{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);padding:10px 8px 2px}
 
 /* ---------- phone / narrow: stacked reading mode ---------- */
-.flow .cols4,.flow .cols3,.flow .capgrid,.flow .cycle,.flow .mgrid{grid-template-columns:1fr!important}
+.flow .cols4,.flow .cols3,.flow .capgrid,.flow .cycle,.flow .mgrid{grid-template-columns:minmax(0,1fr)!important}
 .flow .cycle .card::after{display:none}
 .flow .fill{flex:none}
 .flow .fill > svg{position:static;height:auto}
@@ -312,7 +313,7 @@ ul.clean li b{color:var(--ink)}
 .flow .stagebox{width:auto!important;height:auto!important}
 .flow .stage{position:static;width:auto;height:auto;transform:none!important;box-shadow:none;background:transparent;overflow:visible}
 .flow .slide{position:relative;top:auto;right:auto;bottom:auto;left:auto;opacity:1;visibility:visible;padding:28px 0;border-bottom:1px solid var(--line)}
-.flow .content,.flow .cover,.flow .steps,.flow .recs,.flow .bigs,.flow .g3{grid-template-columns:1fr!important;grid-template-rows:auto!important}
+.flow .content,.flow .cover,.flow .steps,.flow .recs,.flow .bigs,.flow .g3{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto!important}
 .flow .quote{grid-column:auto!important}
 .flow .cover .left{padding:8px 0 20px}
 .flow .cover .right{padding:20px 16px 30px}
@@ -326,6 +327,119 @@ ul.clean li b{color:var(--ink)}
 .flow .chain .st{flex:1 1 40%}
 .flow .chain .ar{display:none}
 .flow .tblwrap{overflow-x:auto}
+
+/* ---------- polish: type, motion, micro-interactions ---------- */
+/* type: proportional CJK punctuation in display lines, balanced paragraphs */
+.ttl [lang="zh"],.ttl [lang="ko"],.cover h1 [lang="zh"],.cover h1 [lang="ko"],.quote [lang="zh"],.quote [lang="ko"],.agenda h3 [lang="zh"],.card h3 [lang="zh"]{font-feature-settings:"palt" 1}
+.ttl{letter-spacing:-.012em}
+p,li,dd{text-wrap:pretty}
+.num,.kn,.bignum,.mono,.count,output{font-variant-numeric:tabular-nums}
+/* slide header: section, hairline, folio */
+.eb{gap:14px}
+.eb::after{content:"";order:1;flex:1;height:1px;background:var(--line)}
+.eb .no{order:2;color:var(--ink3)}
+.eb .sec{color:var(--ink2);font-weight:600}
+
+/* motion: direction-aware slide entry, staggered content, charts revealed left to right */
+.slide{transition:opacity .2s ease,visibility 0s linear .2s}
+.slide.on{transition:none;animation:slideIn .6s var(--ease) both}
+[data-dir="-1"] .slide.on{animation-name:slideInL}
+@keyframes slideIn{from{opacity:0;transform:translate3d(36px,0,0)}to{opacity:1;transform:none}}
+@keyframes slideInL{from{opacity:0;transform:translate3d(-36px,0,0)}to{opacity:1;transform:none}}
+.slide.on .eb,.slide.on .ttl,.slide.on .content>*{animation:rise .65s var(--ease) both}
+.slide.on .eb{animation-delay:.02s}
+.slide.on .ttl{animation-delay:.07s}
+.slide.on .content>:nth-child(1){animation-delay:.14s}
+.slide.on .content>:nth-child(2){animation-delay:.22s}
+.slide.on .content>:nth-child(3){animation-delay:.3s}
+.slide.on .content>:nth-child(n+4){animation-delay:.36s}
+@keyframes rise{from{opacity:0;transform:translate3d(0,16px,0)}to{opacity:1;transform:none}}
+.slide.play .chart>svg,.slide.play .fill>svg,.slide.play .fill>img{animation:wipe 1.05s var(--ease-io) .28s both}
+@keyframes wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.slide.play .hbar .tr i,.slide.play .pbar i{animation:fillX .9s var(--ease) .35s both;transform-origin:left}
+@keyframes fillX{from{transform:scaleX(0)}to{transform:none}}
+/* cover */
+.cover.on .left>*{animation:rise .8s var(--ease) both}
+.cover.on .left>:nth-child(2){animation-delay:.08s}
+.cover.on .left>:nth-child(3){animation-delay:.18s}
+.cover.on .left>:nth-child(n+4){animation-delay:.28s}
+.cover.on .cv-drive{animation:cvDrive 1s var(--ease) var(--d,0s) both}
+.cover.on .cv-drop{animation:cvDrop .75s var(--ease) var(--d,0s) both}
+.cover.on .cv-pop{animation:cvPop .35s ease var(--d,0s) both}
+.cover.on .stripe{animation:fillX 1.2s var(--ease) .2s both;transform-origin:left}
+@keyframes cvDrive{from{opacity:0;transform:translate(-110px,0)}to{opacity:1;transform:none}}
+@keyframes cvDrop{from{opacity:0;transform:translate(0,-26px)}to{opacity:1;transform:none}}
+@keyframes cvPop{from{opacity:0}to{opacity:1}}
+
+/* micro-interactions */
+.tbtn,.seg button,.foot .nav,.tiers button,.agenda li,.toc button,.sel{transition:background-color .18s ease,color .18s ease,border-color .18s ease,transform .2s var(--ease),box-shadow .2s ease}
+.tbtn:hover,.foot .nav:hover{background:var(--panel);color:var(--ink);border-color:var(--ink3)}
+.tbtn:active,.seg button:active,.foot .nav:active,.tiers button:active{transform:scale(.95)}
+.seg{background:var(--panel);border:0;border-radius:8px;padding:2px;gap:2px}
+.seg button{border-radius:6px}
+.seg button+button{border-left:0}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper);box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.tiers button:hover{border-color:var(--steel);color:var(--ink)}
+.foot .nav{display:grid;place-items:center;color:var(--ink2)}
+.foot .nav[aria-disabled="true"]{opacity:.35;pointer-events:none}
+.agenda li:hover{background:var(--paper);border-color:var(--line);box-shadow:0 8px 24px rgba(15,27,41,.07);transform:translate3d(4px,0,0)}
+.agenda .pg::after{content:"→";display:inline-block;margin-left:6px;opacity:0;transform:translate3d(-4px,0,0);transition:opacity .2s ease,transform .2s var(--ease)}
+.agenda li:hover .pg::after{opacity:1;transform:none}
+.sel:hover{border-color:var(--ink3)}
+/* sliders: filled track shows the value at a glance; larger thumb for touch */
+input[type="range"]{-webkit-appearance:none;appearance:none;height:28px;background:transparent;cursor:pointer;margin:0;--p:50%}
+input[type="range"]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--amber-hi) var(--p),var(--line) var(--p))}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-7px;border-radius:50%;background:var(--paper);border:2px solid var(--amber);box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .15s var(--ease)}
+input[type="range"]:active::-webkit-slider-thumb{transform:scale(1.18)}
+input[type="range"]::-moz-range-track{height:6px;border-radius:3px;background:var(--line)}
+input[type="range"]::-moz-range-progress{height:6px;border-radius:3px;background:var(--amber-hi)}
+input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--paper);border:2px solid var(--amber);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+@media (pointer:coarse){
+  input[type="range"]{height:40px}
+  input[type="range"]::-webkit-slider-thumb{width:28px;height:28px;margin-top:-11px}
+  .tbtn kbd,.help{display:none}
+}
+/* charts: hover feedback */
+.chart circle{transform-box:fill-box;transform-origin:center;transition:transform .16s var(--ease)}
+.chart circle:hover{transform:scale(1.6)}
+#cHeat g:hover>rect:first-child,#cPor g:hover>rect:first-child{stroke:var(--ink);stroke-width:1.6}
+#cGantt rect:hover,#calcChart rect:hover,#cLiu rect:hover,#cCase rect:hover{filter:brightness(1.08)}
+.tip:not([hidden]){animation:tipIn .16s var(--ease)}
+@keyframes tipIn{from{opacity:0;transform:translate3d(0,4px,0)}to{opacity:1;transform:none}}
+/* chapter progress */
+.prog{display:flex;gap:3px;height:auto;background:none;overflow:visible;align-items:center}
+.prog .ch{position:relative;height:6px;border-radius:3px;background:var(--panel);cursor:pointer;flex-basis:0;transition:height .18s var(--ease)}
+.prog .ch>i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:3px;background:var(--amber-hi);transition:width .45s var(--ease)}
+.prog .ch:hover{height:10px}
+.prog .ch::after{content:attr(data-name);position:absolute;bottom:16px;left:50%;transform:translate(-50%,4px);white-space:nowrap;font-size:12px;background:var(--ink);color:var(--paper);padding:4px 8px;border-radius:4px;opacity:0;pointer-events:none;transition:opacity .15s ease,transform .2s var(--ease)}
+.prog .ch:hover::after{opacity:1;transform:translate(-50%,0)}
+.prog .ch.cur{background:var(--line)}
+
+/* responsive: top bar sheds text before it wraps */
+@media (max-width:1180px){.brand>span{display:none}}
+@media (max-width:980px){.tbtn kbd,.help{display:none}}
+
+/* reading mode (phones, short screens) */
+.flow .bar{position:-webkit-sticky;position:sticky;top:0;z-index:30;padding-top:calc(8px + env(safe-area-inset-top,0px))}
+.flow .slide{padding:36px 0 30px}
+.flow .slide.on,.flow .slide .eb,.flow .slide .ttl,.flow .slide .content>*{animation:none}
+.flow #cHeat,.flow #cPor,.flow #cGantt,.flow #calcChart,.flow #cLiu,.flow #cCase,.flow #cE7,.flow #cLate,.flow #cTmax{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.flow #cHeat>svg,.flow #cPor>svg,.flow #cGantt>svg,.flow #calcChart>svg,.flow #cLiu>svg,.flow #cCase>svg,.flow #cE7>svg,.flow #cLate>svg,.flow #cTmax>svg{min-width:620px}
+.flow .tbl{display:block;overflow-x:auto}
+/* nothing in reading mode may be wider than the screen: grid and flex children shrink, wide charts scroll in place */
+.flow .stagebox,.flow .stage,.flow .slide{max-width:100%;min-width:0}
+.flow .slide{overflow-x:hidden}
+.flow .bar{gap:6px}
+.flow .brand{flex-basis:100%}
+.flow #btnFull{display:none}
+.flow .content>*,.flow .cover>*,.flow .cols3>*,.flow .cols4>*,.flow .recs>*,.flow .bigs>*,.flow .steps>*,.flow .mgrid>*,.flow .capgrid>*,.flow .cycle>*,.flow .col,.flow .card{min-width:0}
+.flow #cHeat,.flow #cPor,.flow #cGantt,.flow #calcChart,.flow #cLiu,.flow #cCase,.flow #cE7,.flow #cLate,.flow #cTmax{max-width:100%}
+.flow .ctlrow .slider{min-width:0;width:100%}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -371,7 +485,7 @@ ul.clean li b{color:var(--ink)}
 <!-- 01 cover -->
 <section class="slide cover" data-sec="cover">
   <div class="left">
-    <div class="kick"><span lang="zh">研究进展汇报 · 2026 年 9 月</span><span lang="en">Progress briefing · September 2026</span><span lang="ko">연구 진행 보고 · 2026년 9월</span></div>
+    <div class="kick"><span lang="zh">研究进展汇报 · 2026 年 10 月</span><span lang="en">Progress briefing · October 2026</span><span lang="ko">연구 진행 보고 · 2026년 10월</span></div>
     <h1 class="d">
       <span lang="zh">几百吨的船体分段，<br>该用一台大车运，<br>还是几台小车拼着运？</span>
       <span lang="en">Carry a heavy hull block on one big transporter, or on several small ones coupled together?</span>
@@ -388,17 +502,17 @@ ul.clean li b{color:var(--ink)}
   <div class="right">
     <div class="fill"><svg viewBox="0 0 520 470" role="img" aria-label="One heavy transporter versus two coupled light transporters">
       <text x="80" y="30" style="fill:var(--ink);font:600 15px var(--mono)">A · 1 × 500 t</text>
-      <use href="#blk" x="90" y="46" width="340" height="110"/>
-      <text x="260" y="112" text-anchor="middle" style="fill:var(--paper);font:600 22px var(--d-en)">450 t</text>
-      <use href="#trL" x="80" y="156" width="360" height="34"/>
+      <g class="cv-drop" style="--d:.95s"><use href="#blk" x="90" y="46" width="340" height="110"/>
+      <text x="260" y="112" text-anchor="middle" style="fill:var(--paper);font:600 22px var(--d-en)">450 t</text></g>
+      <g class="cv-drive" style="--d:.35s"><use href="#trL" x="80" y="156" width="360" height="34"/></g>
       <text x="80" y="214" style="fill:var(--ink2);font:13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">1 台车 · 4 人</tspan><tspan lang="en">1 vehicle · 4 crew</tspan><tspan lang="ko" style="font-family:var(--f-ko)">차량 1대 · 인원 4명</tspan></text>
       <line x1="40" y1="238" x2="480" y2="238" style="stroke:var(--line);stroke-dasharray:4 4"/>
       <text x="80" y="268" style="fill:var(--ink);font:600 15px var(--mono)">B · 2 × 270 t</text>
-      <use href="#blk" x="90" y="284" width="340" height="110"/>
-      <text x="260" y="350" text-anchor="middle" style="fill:var(--paper);font:600 22px var(--d-en)">450 t</text>
-      <use href="#trS" x="80" y="394" width="170" height="34"/>
-      <use href="#trS" x="270" y="394" width="170" height="34"/>
-      <path d="M250 401H270" style="stroke:var(--ink);stroke-width:4"/>
+      <g class="cv-drop" style="--d:1.75s"><use href="#blk" x="90" y="284" width="340" height="110"/>
+      <text x="260" y="350" text-anchor="middle" style="fill:var(--paper);font:600 22px var(--d-en)">450 t</text></g>
+      <g class="cv-drive" style="--d:.55s"><use href="#trS" x="80" y="394" width="170" height="34"/></g>
+      <g class="cv-drive" style="--d:1.05s"><use href="#trS" x="270" y="394" width="170" height="34"/></g>
+      <path class="cv-pop" style="--d:1.5s;stroke:var(--ink);stroke-width:4" d="M250 401H270"/>
       <text x="80" y="452" style="fill:var(--ink2);font:13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">2 台车 · 8 人，等齐后再对接</tspan><tspan lang="en">2 vehicles · 8 crew, wait for both, then couple</tspan><tspan lang="ko" style="font-family:var(--f-ko)">차량 2대 · 인원 8명, 모두 도착 후 결합</tspan></text>
     </svg></div>
     <div class="stripe"></div>
@@ -915,7 +1029,7 @@ ul.clean li b{color:var(--ink)}
       <p class="small"><span lang="zh">只算 97 块分段的先后顺序，就有约 10<sup>152</sup> 种（还没算谁和谁组队）。作为对比，宇宙中的原子约 10<sup>80</sup> 个。</span><span lang="en">The order of 97 blocks alone has about 10<sup>152</sup> possibilities, before choosing any teams. For comparison, the universe has about 10<sup>80</sup> atoms.</span><span lang="ko">97개 블록의 순서만 해도 약 10<sup>152</sup>가지이며, 팀 구성은 아직 세지도 않았다. 참고로 우주의 원자 수는 약 10<sup>80</sup>개다.</span></p>
       <p class="small"><span lang="zh">所以用<b>自适应大邻域搜索（ALNS）</b>：从一张可行的时刻表出发，一点点改进。</span><span lang="en">So we use <b>adaptive large neighbourhood search (ALNS)</b>: start from a workable timetable and improve it step by step.</span><span lang="ko">그래서 <b>적응형 대규모 이웃 탐색(ALNS)</b>을 쓴다. 쓸 만한 배차표에서 시작해 조금씩 개선한다.</span></p>
     </div>
-    <div class="col compact-enko" style="gap:14px">
+    <div class="col compact" style="gap:14px">
       <div class="cycle">
         <div class="card"><span class="n">1</span><h3><span lang="zh">拆</span><span lang="en">Destroy</span><span lang="ko">파괴</span></h3><p><span lang="zh">从当前时刻表里拿掉一部分任务：随机的、最晚的、空驶最多的、拼载的、同一台车的……共 7 种拆法</span><span lang="en">Remove some tasks: random ones, the latest, those with most empty travel, coupled ones, one vehicle's tasks… 7 ways in all</span><span lang="ko">작업 일부를 뺀다: 무작위, 가장 늦은 것, 빈 차 이동이 많은 것, 결합 작업, 한 차량의 작업 등 7가지</span></p></div>
         <div class="card"><span class="n">2</span><h3><span lang="zh">补</span><span lang="en">Repair</span><span lang="ko">복구</span></h3><p><span lang="zh">把拿掉的任务插回最合适的位置，同时决定由哪台车或哪一队来搬；3 种插法</span><span lang="en">Reinsert them where they fit best, choosing the vehicle or team for each; 3 ways</span><span lang="ko">뺀 작업을 가장 알맞은 위치에 다시 넣고, 어느 차량이나 팀이 옮길지 정한다. 3가지</span></p></div>
@@ -1592,9 +1706,9 @@ ul.clean li b{color:var(--ink)}
 
   <div class="notesp" id="notesp" hidden><div class="nh"><span lang="zh">讲稿</span><span lang="en">Speaker notes</span><span lang="ko">발표 원고</span></div><div id="notesBody"></div></div>
   <div class="foot">
-    <button type="button" class="nav" id="prev" aria-label="Previous slide">‹</button>
-    <button type="button" class="nav" id="next" aria-label="Next slide">›</button>
-    <div class="prog"><i id="progI"></i></div>
+    <button type="button" class="nav" id="prev" aria-label="Previous slide"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button type="button" class="nav" id="next" aria-label="Next slide"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="prog" id="prog" role="navigation" aria-label="Chapters"></div>
     <span class="help"><span lang="zh">← → / 滚轮 翻页 · T 目录 · N 讲稿 · G 术语 · F 全屏</span><span lang="en">← → / wheel: slides · T contents · N notes · G glossary · F full screen</span><span lang="ko">← → / 휠: 넘기기 · T 목차 · N 원고 · G 용어 · F 전체 화면</span></span>
     <span class="count" id="count">1 / 19</span>
   </div>
@@ -1643,5 +1757,5 @@ ul.clean li b{color:var(--ink)}
 </div>
 <div class="tip" id="tip" hidden></div>
 
-<script src="data.js?v=b7ac3f5921"></script>
-<script src="deck.js?v=b7ac3f5921"></script>
+<script src="data.js?v=5924ee446c"></script>
+<script src="deck.js?v=5924ee446c"></script>
