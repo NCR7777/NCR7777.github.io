@@ -1,1 +1,1611 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>那纯瑞-西安电子科技大学</title><link href=./static/css/app.d017d131efb82feb5c2f5163b1cb1ad1.css rel=stylesheet></head><body><div id=app></div><script type=text/javascript src=./static/js/manifest.3ad1d5771e9b13dbdad2.js></script><script type=text/javascript src=./static/js/vendor.a444e52da6721c27eaa0.js></script><script type=text/javascript src=./static/js/app.259d1c9e2e63fe637bd1.js></script></body></html>
+<!doctype html>
+<meta charset="utf-8">
+<title>分段运输车选型</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>try{var l=localStorage.getItem('deck-lang');document.documentElement.dataset.lang=/^(zh|en|ko)$/.test(l)?l:'zh'}catch(e){document.documentElement.dataset.lang='zh'}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#E7ECF0; --paper:#FAFBFC; --panel:#EFF3F6; --ink:#132030; --ink2:#44546A; --ink3:#748399; --line:#D2DAE2;
+  --steel:#285A88; --steel-soft:#DDE8F3; --amber:#B97F08; --amber-hi:#F0B42F; --amber-soft:#FAEED3;
+  --oxide:#AE422B; --oxide-soft:#F6E0DA; --good:#2B7A4D; --good-soft:#DCEFE3;
+  --g-empty:#C3C9CF; --g-load:#A9C8E2; --g-travel:#2F68A8; --g-couple:#E6BF6E;
+  --f-latin:"IBM Plex Sans", system-ui, sans-serif;
+  --f-zh:"IBM Plex Sans","Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --f-ko:"IBM Plex Sans","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --d-en:"Barlow Condensed","Arial Narrow",sans-serif;
+  --d-zh:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --d-ko:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --body:var(--f-zh); --disp:var(--d-zh);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1017; --paper:#101923; --panel:#16222F; --ink:#E3E9F0; --ink2:#AAB7C5; --ink3:#77869A; --line:#243241;
+    --steel:#79AADB; --steel-soft:#1B2E43; --amber:#F0B42F; --amber-hi:#F0B42F; --amber-soft:#3A2C10;
+    --oxide:#E27A60; --oxide-soft:#3D1F18; --good:#62C08A; --good-soft:#15301F;
+    --g-empty:#4C5661; --g-load:#5D86A8; --g-travel:#8DB8E6; --g-couple:#C79A3E;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1017; --paper:#101923; --panel:#16222F; --ink:#E3E9F0; --ink2:#AAB7C5; --ink3:#77869A; --line:#243241;
+  --steel:#79AADB; --steel-soft:#1B2E43; --amber:#F0B42F; --amber-hi:#F0B42F; --amber-soft:#3A2C10;
+  --oxide:#E27A60; --oxide-soft:#3D1F18; --good:#62C08A; --good-soft:#15301F;
+  --g-empty:#4C5661; --g-load:#5D86A8; --g-travel:#8DB8E6; --g-couple:#C79A3E;
+  color-scheme:dark;
+}
+[lang="en"]{--body:var(--f-latin);--disp:var(--d-en)}
+[lang="zh"]{--body:var(--f-zh);--disp:var(--d-zh)}
+[lang="ko"]{--body:var(--f-ko);--disp:var(--d-ko)}
+[data-lang="zh"] :is([lang="en"],[lang="ko"]),
+[data-lang="en"] :is([lang="zh"],[lang="ko"]),
+[data-lang="ko"] :is([lang="zh"],[lang="en"]){display:none!important}
+
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);margin:0;-webkit-font-smoothing:antialiased}
+[lang]{font-family:var(--body)}
+.d,.d [lang]{font-family:var(--disp)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+
+/* ---------- app shell ---------- */
+.app{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;gap:10px;padding:8px 16px;border-bottom:1px solid var(--line);background:var(--paper);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2);margin-right:auto;min-width:0}
+.brand b{font-family:var(--d-en);font-size:17px;letter-spacing:.04em;color:var(--ink);font-weight:600}
+.brand i{width:10px;height:10px;background:var(--amber-hi);display:inline-block;transform:rotate(45deg);flex:none}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:5px 11px;font-size:13px;cursor:pointer;color:var(--ink2)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.tbtn{border:1px solid var(--line);background:transparent;border-radius:6px;padding:5px 10px;font-size:13px;cursor:pointer;color:var(--ink2)}
+.tbtn[aria-pressed="true"]{border-color:var(--amber);color:var(--ink);background:var(--amber-soft)}
+.tbtn kbd{font-family:var(--mono);font-size:11px;color:var(--ink3);margin-left:4px}
+
+.stagewrap{flex:1;min-height:0;display:grid;place-items:center;padding:14px 16px;position:relative}
+.stagebox{position:relative}
+.stage{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0;background:var(--paper);
+  border-radius:4px;box-shadow:0 1px 2px rgba(10,20,35,.08),0 10px 34px rgba(10,20,35,.10);overflow:hidden}
+.notesp{border-top:1px solid var(--line);background:var(--paper);padding:12px 16px;max-height:24vh;overflow:auto}
+.notesp .nh{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:4px}
+.notesp p{margin:0;font-size:15px;line-height:1.65;max-width:110ch;color:var(--ink)}
+.foot{display:flex;align-items:center;gap:12px;padding:8px 16px;border-top:1px solid var(--line);background:var(--paper)}
+.foot .nav{border:1px solid var(--line);background:transparent;border-radius:6px;width:36px;height:30px;cursor:pointer;font-size:16px;color:var(--ink)}
+.prog{flex:1;height:4px;background:var(--panel);border-radius:2px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--amber-hi);width:0;transition:width .3s}
+.count{font-family:var(--mono);font-size:13px;color:var(--ink2);min-width:56px;text-align:right}
+
+/* ---------- slides ---------- */
+.slide{position:absolute;inset:0;padding:38px 60px 34px;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .35s ease, visibility 0s linear .35s}
+.slide.on{opacity:1;visibility:visible;transition:opacity .35s ease}
+@media (prefers-reduced-motion: reduce){.slide,.slide.on{transition:none}.prog i{transition:none}}
+.eb{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.eb .sec{display:flex;align-items:center;gap:8px}
+.eb .sec::before{content:"";width:8px;height:8px;background:var(--amber-hi)}
+.eb .no{font-family:var(--mono);letter-spacing:0}
+.ttl{font-size:35px;line-height:1.22;font-weight:700;margin:12px 0 0;text-wrap:balance;max-width:1120px;letter-spacing:-.005em}
+.ttl [lang="en"]{font-weight:600;font-size:41px;letter-spacing:.005em;line-height:1.08}
+.lead{font-size:20px;line-height:1.55;color:var(--ink2);margin:10px 0 0;max-width:70ch}
+.content{flex:1;min-height:0;margin-top:22px;display:grid;gap:34px}
+.g2{grid-template-columns:1fr 1fr}
+.g-l{grid-template-columns:1.3fr 1fr}
+.g-r{grid-template-columns:1fr 1.3fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.col{display:flex;flex-direction:column;gap:14px;min-width:0}
+.card{background:var(--panel);border-radius:6px;padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.card h3{margin:0;font-size:19.5px;font-weight:700}
+.card p,.card li{font-size:17.5px;line-height:1.55;margin:0;color:var(--ink2)}
+.small{font-size:16px;line-height:1.5;color:var(--ink2)}
+.tiny{font-size:13.5px;line-height:1.45;color:var(--ink3)}
+.src{font-size:12px;color:var(--ink3);margin-top:auto}
+ul.clean{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+ul.clean li{position:relative;padding-left:20px;font-size:18.5px;line-height:1.5;color:var(--ink2)}
+ul.clean li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;background:var(--amber-hi)}
+ul.clean li b{color:var(--ink)}
+.num{font-family:var(--d-en);font-variant-numeric:tabular-nums;font-weight:600}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.num [lang="en"]{font-family:var(--d-en)}
+.num [lang="zh"]{font-family:"Barlow Condensed","Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif}
+.num [lang="ko"]{font-family:"Barlow Condensed","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+.hl{color:var(--steel);font-weight:600}
+.ox{color:var(--oxide);font-weight:600}
+.pill{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;font-weight:600;letter-spacing:.02em;white-space:nowrap}
+.pill.run{background:var(--amber-soft);color:var(--amber)}
+.pill.done{background:var(--good-soft);color:var(--good)}
+.pill.pend{background:var(--oxide-soft);color:var(--oxide)}
+.eq{font-family:var(--mono);font-size:15px;background:var(--panel);border-radius:4px;padding:8px 12px;color:var(--ink)}
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.fill{flex:1 1 0;min-height:0;position:relative}
+.fill > svg{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:visible}
+.vc{align-content:center}
+:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) ul.clean li{font-size:16.5px}
+:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .card p,:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .card li{font-size:15.5px}
+:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .card h3{font-size:18px}
+:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .small{font-size:14.5px}
+:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .stat{padding:7px 0}
+:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .stat .num{font-size:38px}
+:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .stat p{font-size:15.5px}
+:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .kn{font-size:32px}
+:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .tbl{font-size:15px}
+:is(.compact,[data-lang="en"] .compact-en,[data-lang="ko"] .compact-ko,[data-lang="en"] .compact-enko,[data-lang="ko"] .compact-enko) .tbl td{padding:6px 8px}
+#progRows td{padding-top:14px;padding-bottom:14px}
+.chart text{fill:var(--ink2);font-family:var(--f-latin);font-size:12px}
+.chart [lang]{font-family:var(--body)}
+.chart .axis line,.chart .axis path{stroke:var(--ink3);stroke-width:1;fill:none}
+.chart .grid line{stroke:var(--line);stroke-width:1}
+.chart .t-title{fill:var(--ink);font-weight:600;font-size:13px}
+.chart .t-strong{fill:var(--ink);font-weight:600}
+.chart .t-ox{fill:var(--oxide);font-weight:600}
+.slider{display:flex;align-items:center;gap:12px;font-size:16px;color:var(--ink2)}
+.slider input{flex:1;accent-color:var(--amber)}
+.slider output{font-family:var(--mono);color:var(--ink);min-width:64px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:12px;height:12px;border-radius:2px;display:inline-block;border:1px solid rgba(0,0,0,.15)}
+
+/* cover */
+.cover{padding:0;display:grid;grid-template-columns:1.08fr 1fr}
+.cover .left{padding:56px 40px 52px 64px;display:flex;flex-direction:column;gap:18px}
+.cover .kick{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);font-weight:600}
+.cover h1{margin:0;font-size:43px;line-height:1.22;font-weight:700;text-wrap:balance}
+.cover h1 [lang="en"]{font-size:50px;line-height:1.04;font-weight:600}
+.cover .sub{font-size:19px;line-height:1.5;color:var(--ink2);margin:0;max-width:36ch}
+.cover .meta{margin-top:auto;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--ink2)}
+.cover .meta b{color:var(--ink);font-weight:600}
+.cover .right{background:var(--panel);display:flex;flex-direction:column;justify-content:center;padding:30px 36px;position:relative}
+.cover .stripe{position:absolute;left:0;right:0;bottom:0;height:12px;background:repeating-linear-gradient(-45deg,var(--amber-hi) 0 14px,var(--ink) 14px 28px)}
+.cover .paper{font-size:13px;color:var(--ink3);font-style:italic;line-height:1.45;max-width:46ch}
+
+/* flow chain */
+.chain{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+.chain .st{flex:1;min-width:0;padding:14px 8px;border-top:4px solid var(--c);background:var(--panel);font-size:17px;line-height:1.35;text-align:center;display:flex;flex-direction:column;gap:3px;justify-content:center}
+.chain .st small{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.chain .ar{align-self:center;color:var(--ink3);padding:0 3px;font-size:15px}
+
+/* team widget */
+.tiers{display:flex;flex-wrap:wrap;gap:6px}
+.tiers button{border:1px solid var(--line);background:var(--paper);border-radius:5px;padding:5px 9px;font-family:var(--mono);font-size:13px;cursor:pointer;color:var(--ink2)}
+.tiers button[aria-pressed="true"]{background:var(--steel);border-color:var(--steel);color:var(--paper)}
+.verdict{font-size:19px;line-height:1.55;color:var(--ink);min-height:3.2em}
+.verdict .v-ok{color:var(--good);font-weight:700}
+.verdict .v-cp{color:var(--amber);font-weight:700}
+.verdict .v-no{color:var(--oxide);font-weight:700}
+
+/* scan strip */
+.scan{display:flex;gap:8px}
+.scan .k{flex:1;border:1px solid var(--line);border-radius:6px;padding:8px 6px;text-align:center;display:flex;flex-direction:column;gap:2px;background:var(--paper)}
+.scan .k .num{font-size:34px}
+.scan .k.fail{background:var(--oxide-soft);border-color:transparent}
+.scan .k.fail .num{color:var(--oxide)}
+.scan .k.ok{background:var(--good-soft);border-color:transparent}
+.scan .k.ok .num{color:var(--good)}
+.scan .k.star{outline:2px solid var(--good);outline-offset:1px}
+.scan .k small{font-size:14.5px;color:var(--ink2);line-height:1.3}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.steps .card{border-top:4px solid var(--steel)}
+.steps .card:last-child{border-top-color:var(--amber-hi)}
+.steps .n{font-family:var(--d-en);font-size:30px;font-weight:700;color:var(--steel);line-height:1}
+.steps .card:last-child .n{color:var(--amber)}
+
+/* big numbers */
+.bigs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bigs .card{gap:8px;justify-content:center}
+.bigs .num{font-size:76px;line-height:1;color:var(--steel)}
+.bigs .card.warm .num{color:var(--oxide)}
+.hbar{display:grid;grid-template-columns:minmax(0,1.3fr) 2fr 58px;align-items:center;gap:10px;font-size:16.5px;color:var(--ink2)}
+.hbar .tr{height:18px;background:var(--line);border-radius:2px;position:relative;overflow:hidden}
+.hbar .tr i{position:absolute;left:0;top:0;bottom:0;background:var(--steel)}
+.hbar .v{font-family:var(--mono);color:var(--ink);text-align:right}
+.quote{font-size:25px;line-height:1.4;font-weight:700;color:var(--ink);border-left:5px solid var(--amber-hi);padding:4px 0 4px 16px;margin:0}
+.quote [lang="en"]{font-family:var(--d-en);font-size:30px;font-weight:600}
+
+/* heatmap */
+.hm-tip{min-height:92px}
+.chips{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:14px;color:var(--ink2)}
+.chips span{display:inline-flex;align-items:center;gap:5px}
+.chips i{width:13px;height:13px;border-radius:2px;border:1px solid rgba(0,0,0,.18)}
+
+/* stats */
+.stat{display:flex;flex-direction:column;gap:2px;padding:12px 0;border-bottom:1px solid var(--line)}
+.stat:last-child{border-bottom:0}
+.stat .num{font-size:48px;line-height:1.05;color:var(--steel)}
+.stat .num small{font-size:20px;color:var(--ink3);margin-left:6px}
+.stat p{margin:0;font-size:17px;line-height:1.5;color:var(--ink2)}
+
+/* table */
+.tbl{width:100%;border-collapse:collapse;font-size:16.5px}
+.tbl th{text-align:left;font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);padding:6px 8px;border-bottom:1px solid var(--line)}
+.tbl td{padding:10px 8px;border-bottom:1px solid var(--line);color:var(--ink2);vertical-align:middle;line-height:1.4}
+.tbl td:first-child{font-family:var(--mono);color:var(--ink);font-weight:500;white-space:nowrap}
+.pbar{height:10px;background:var(--panel);border-radius:4px;overflow:hidden;min-width:90px}
+.pbar i{display:block;height:100%;background:var(--amber-hi)}
+.done-list{display:flex;flex-wrap:wrap;gap:6px}
+.done-list span{font-size:15px;background:var(--good-soft);color:var(--good);padding:3px 9px;border-radius:4px}
+
+/* recs */
+.recs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.recs .card{padding:20px;gap:10px;border-top:4px solid var(--steel)}
+.recs .n{font-family:var(--d-en);font-size:44px;font-weight:700;color:var(--steel);line-height:.9}
+.recs h3{font-size:24px;line-height:1.35}
+.tag{font-size:12px;color:var(--ink3)}
+.kn{font-family:var(--d-en);font-size:42px;font-weight:600;color:var(--steel);line-height:1.05;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px}
+.kn small{font-family:var(--body);font-size:15px;font-weight:400;color:var(--ink2);line-height:1.4}
+.kn [lang]{font-family:var(--body)}
+.kn.ox{color:var(--oxide)}
+.recs .kn{margin-top:auto;padding-top:12px;border-top:1px solid var(--line);color:var(--amber)}
+
+/* overlays */
+.tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--paper);font-size:13px;line-height:1.45;padding:7px 10px;border-radius:5px;max-width:280px;box-shadow:0 6px 18px rgba(0,0,0,.2)}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--paper);border-left:1px solid var(--line);z-index:40;overflow:auto;padding:calc(18px + env(safe-area-inset-top,0px)) 22px 24px;box-shadow:-12px 0 40px rgba(0,0,0,.12)}
+.drawer h2{margin:0 0 12px;font-size:20px;display:flex;justify-content:space-between;align-items:center}
+.drawer dl{margin:0;display:flex;flex-direction:column;gap:12px}
+.drawer dt{font-weight:700;font-size:15px;color:var(--ink)}
+.drawer dt .mono{font-weight:500;color:var(--ink3);font-size:12px;margin-left:6px}
+.drawer dd{margin:2px 0 0;font-size:14px;line-height:1.55;color:var(--ink2)}
+.slide aside.notes{display:none}
+.help{font-size:12px;color:var(--ink3)}
+
+/* ---------- explainer slides ---------- */
+.cols4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.sumc{border-top:4px solid var(--steel);gap:10px}
+.sumc .k{font-family:var(--d-en);font-size:40px;font-weight:700;color:var(--steel);line-height:.9}
+.sumc:nth-child(3){border-top-color:var(--amber-hi);background:var(--amber-soft)}
+.sumc:nth-child(3) .k{color:var(--amber)}
+.sumc p{font-size:19.5px;line-height:1.6}
+.agenda{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.agenda li{display:grid;grid-template-columns:54px 1fr auto;gap:16px;align-items:center;padding:12px 18px;background:var(--panel);border-radius:6px;cursor:pointer;border:1px solid transparent}
+.agenda li:hover,.agenda li:focus-visible{border-color:var(--amber)}
+.agenda .an{font-family:var(--d-en);font-size:34px;font-weight:700;color:var(--steel);line-height:1}
+.agenda h3{margin:0;font-size:21px}
+.agenda p{margin:2px 0 0;font-size:17.5px;color:var(--ink2);line-height:1.45}
+.agenda .pg{font-family:var(--mono);font-size:13px;color:var(--ink3)}
+.capgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.capgrid div{font-size:16.5px;line-height:1.45;color:var(--ink2)}
+.capgrid b{display:block;color:var(--ink);font-size:18px;margin-bottom:3px}
+.cycle{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;position:relative}
+.cycle .card{border-top:4px solid var(--steel);position:relative}
+.cycle .card:not(:last-child)::after{content:"→";position:absolute;right:-21px;top:40%;color:var(--ink3);font-size:18px}
+.cycle .n{font-family:var(--d-en);font-size:28px;font-weight:700;color:var(--steel);line-height:1}
+.loopnote{text-align:center;font-size:16px;color:var(--ink2);border:1px dashed var(--line);border-radius:6px;padding:6px}
+.bignum{font-family:var(--d-en);font-size:66px;font-weight:600;color:var(--steel);line-height:1}
+.bignum sup{font-size:.5em}
+.chainx{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap}
+.chainx .card{flex:1;min-width:0;padding:12px 14px;gap:4px}
+.chainx .card .num{font-size:30px;color:var(--steel);line-height:1.1}
+.chainx .ar{align-self:center;color:var(--ink3);font-size:18px}
+.chainx .card.res{background:var(--amber-soft)}
+.chainx .card.res .num{color:var(--amber)}
+.sel{border:1px solid var(--line);background:var(--paper);border-radius:5px;padding:4px 8px;font-size:15.5px}
+.ctlrow{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;font-size:16px;color:var(--ink2)}
+.ctlrow label{display:inline-flex;gap:6px;align-items:center}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 16px}
+.mgrid .m{display:flex;flex-direction:column;min-height:0}
+.mgrid .m h4{margin:0;font-size:16px;color:var(--ink)}
+.mgrid .m p{margin:0;font-size:13.5px;color:var(--ink3);line-height:1.35}
+.boot{display:flex;flex-wrap:wrap;gap:3px}
+.boot i{width:21px;height:21px;border-radius:2px;background:var(--steel-soft);font-style:normal;font-size:10.5px;line-height:21px;text-align:center;color:var(--ink2);font-family:var(--mono)}
+.boot i.dup{background:var(--amber-hi);color:#1b1b1b}
+.toc{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.toc button{all:unset;display:grid;grid-template-columns:30px 1fr;gap:8px;padding:6px 8px;border-radius:4px;cursor:pointer;font-size:14px;line-height:1.4;color:var(--ink2);width:100%;box-sizing:border-box}
+.toc button:hover,.toc button:focus-visible{background:var(--panel);color:var(--ink)}
+.toc button[aria-current="true"]{background:var(--amber-soft);color:var(--ink)}
+.toc .mono{color:var(--ink3);font-size:12px}
+.toc .sh{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);padding:10px 8px 2px}
+
+/* ---------- phone / narrow: stacked reading mode ---------- */
+.flow .cols4,.flow .cols3,.flow .capgrid,.flow .cycle,.flow .mgrid{grid-template-columns:1fr!important}
+.flow .cycle .card::after{display:none}
+.flow .fill{flex:none}
+.flow .fill > svg{position:static;height:auto}
+.flow,.flow body{height:auto}
+.flow .app{height:auto}
+.flow .stagewrap{display:block;padding:0 16px}
+.flow .stagebox{width:auto!important;height:auto!important}
+.flow .stage{position:static;width:auto;height:auto;transform:none!important;box-shadow:none;background:transparent;overflow:visible}
+.flow .slide{position:relative;inset:auto;opacity:1;visibility:visible;padding:28px 0;border-bottom:1px solid var(--line)}
+.flow .content,.flow .cover,.flow .steps,.flow .recs,.flow .bigs,.flow .g3{grid-template-columns:1fr!important;grid-template-rows:auto!important}
+.flow .quote{grid-column:auto!important}
+.flow .cover .left{padding:8px 0 20px}
+.flow .cover .right{padding:20px 16px 30px}
+.flow .ttl{font-size:25px}
+.flow .ttl [lang="en"]{font-size:28px}
+.flow .cover h1{font-size:30px}
+.flow .cover h1 [lang="en"]{font-size:34px}
+.flow .foot,.flow .notesp,.flow .help{display:none}
+.flow.show-notes .slide aside.notes{display:block;background:var(--panel);border-radius:6px;padding:12px 14px;margin-top:16px;font-size:15px;line-height:1.6}
+.flow .scan,.flow .chain{flex-wrap:wrap}
+.flow .chain .st{flex:1 1 40%}
+.flow .chain .ar{display:none}
+.flow .tblwrap{overflow-x:auto}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="blk" viewBox="0 0 340 110">
+      <path d="M6 8H334V70C334 96 312 104 286 104H54C28 104 6 96 6 70Z" style="fill:var(--steel)"/>
+      <path d="M6 32H334M60 8V104M112 8V104M164 8V104M216 8V104M268 8V104" style="stroke:var(--paper);stroke-opacity:.3;stroke-width:2;fill:none"/>
+    </symbol>
+    <symbol id="trL" viewBox="0 0 360 34">
+      <rect x="0" y="0" width="360" height="14" rx="2" style="fill:var(--amber-hi)"/>
+      <rect x="0" y="0" width="24" height="14" rx="2" style="fill:var(--ink)"/>
+      <g style="fill:var(--ink)"><circle cx="20" cy="24" r="8"/><circle cx="40" cy="24" r="8"/><circle cx="60" cy="24" r="8"/><circle cx="80" cy="24" r="8"/><circle cx="100" cy="24" r="8"/><circle cx="120" cy="24" r="8"/><circle cx="140" cy="24" r="8"/><circle cx="160" cy="24" r="8"/><circle cx="180" cy="24" r="8"/><circle cx="200" cy="24" r="8"/><circle cx="220" cy="24" r="8"/><circle cx="240" cy="24" r="8"/><circle cx="260" cy="24" r="8"/><circle cx="280" cy="24" r="8"/><circle cx="300" cy="24" r="8"/><circle cx="320" cy="24" r="8"/><circle cx="340" cy="24" r="8"/></g>
+    </symbol>
+    <symbol id="trS" viewBox="0 0 170 34">
+      <rect x="0" y="0" width="170" height="14" rx="2" style="fill:var(--amber-hi)"/>
+      <rect x="0" y="0" width="20" height="14" rx="2" style="fill:var(--ink)"/>
+      <g style="fill:var(--ink)"><circle cx="16" cy="24" r="8"/><circle cx="36" cy="24" r="8"/><circle cx="56" cy="24" r="8"/><circle cx="76" cy="24" r="8"/><circle cx="96" cy="24" r="8"/><circle cx="116" cy="24" r="8"/><circle cx="136" cy="24" r="8"/><circle cx="156" cy="24" r="8"/></g>
+    </symbol>
+    <pattern id="hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="#2b2b2b" stroke-width="1" stroke-opacity=".55"/></pattern>
+  </defs>
+</svg>
+
+<div class="app" id="app">
+  <div class="bar">
+    <div class="brand"><i></i><b>BLOCK TRANSPORTER CHOICE</b>
+      <span lang="zh">船厂分段运输车选型 · 研究汇报</span><span lang="en">Shipyard transporter fleet study · briefing</span><span lang="ko">조선소 블록 트랜스포터 선정 · 연구 보고</span></div>
+    <div class="seg" role="group" aria-label="Language">
+      <button type="button" data-set-lang="zh" id="lang-zh">中文</button>
+      <button type="button" data-set-lang="en" id="lang-en">EN</button>
+      <button type="button" data-set-lang="ko" id="lang-ko">한국어</button>
+    </div>
+    <button type="button" class="tbtn" id="btnToc" aria-pressed="false"><span lang="zh">目录</span><span lang="en">Contents</span><span lang="ko">목차</span><kbd>T</kbd></button>
+    <button type="button" class="tbtn" id="btnNotes" aria-pressed="false"><span lang="zh">讲稿</span><span lang="en">Notes</span><span lang="ko">발표 원고</span><kbd>N</kbd></button>
+    <button type="button" class="tbtn" id="btnGloss" aria-pressed="false"><span lang="zh">术语</span><span lang="en">Glossary</span><span lang="ko">용어</span><kbd>G</kbd></button>
+    <button type="button" class="tbtn" id="btnTheme" aria-label="Theme">◐</button>
+    <button type="button" class="tbtn" id="btnFull"><span lang="zh">全屏</span><span lang="en">Full screen</span><span lang="ko">전체 화면</span><kbd>F</kbd></button>
+  </div>
+
+  <div class="stagewrap" id="stagewrap">
+    <div class="stagebox" id="stagebox">
+      <div class="stage" id="stage">
+
+<!-- 01 cover -->
+<section class="slide cover" data-sec="cover">
+  <div class="left">
+    <div class="kick"><span lang="zh">研究进展汇报 · 2026 年 9 月</span><span lang="en">Progress briefing · September 2026</span><span lang="ko">연구 진행 보고 · 2026년 9월</span></div>
+    <h1 class="d">
+      <span lang="zh">几百吨的船体分段，<br>该用一台大车运，<br>还是几台小车拼着运？</span>
+      <span lang="en">Carry a heavy hull block on one big transporter, or on several small ones coupled together?</span>
+      <span lang="ko">수백 톤의 선체 블록,<br>대형 트랜스포터 한 대로 옮길까,<br>소형 여러 대를 결합해 옮길까?</span>
+    </h1>
+    <p class="sub"><span lang="zh">在服务水平相同的前提下，比较船厂平板运输车的吨级选择与总成本</span><span lang="en">Comparing transporter capacity tiers, and their total cost, when every fleet must deliver the same service</span><span lang="ko">모든 차량군이 같은 서비스 수준을 낼 때, 트랜스포터 용량 등급과 총비용 비교</span></p>
+    <p class="paper">Shipyard transporter capacity choice for single or coupled carriage of heavy hull blocks at equal service</p>
+    <div class="meta">
+      <div><b>Chunrui Na</b>, Qing Wang, Xiao Han, Jingzheng Yao, Kun Ma, Youngrong Kim</div>
+      <div><span lang="zh">哈尔滨工程大学 · 南洋理工大学</span><span lang="en">Harbin Engineering University · Nanyang Technological University</span><span lang="ko">하얼빈공정대학 · 난양이공대학</span></div>
+      <div><span lang="zh">目标期刊：Ocean Engineering（稿件准备中）</span><span lang="en">Target journal: Ocean Engineering (manuscript in preparation)</span><span lang="ko">목표 저널: Ocean Engineering (원고 준비 중)</span></div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="fill"><svg viewBox="0 0 520 470" role="img" aria-label="One heavy transporter versus two coupled light transporters">
+      <text x="80" y="30" style="fill:var(--ink);font:600 15px var(--mono)">A · 1 × 500 t</text>
+      <use href="#blk" x="90" y="46" width="340" height="110"/>
+      <text x="260" y="112" text-anchor="middle" style="fill:var(--paper);font:600 22px var(--d-en)">450 t</text>
+      <use href="#trL" x="80" y="156" width="360" height="34"/>
+      <text x="80" y="214" style="fill:var(--ink2);font:13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">1 台车 · 4 人</tspan><tspan lang="en">1 vehicle · 4 crew</tspan><tspan lang="ko" style="font-family:var(--f-ko)">차량 1대 · 인원 4명</tspan></text>
+      <line x1="40" y1="238" x2="480" y2="238" style="stroke:var(--line);stroke-dasharray:4 4"/>
+      <text x="80" y="268" style="fill:var(--ink);font:600 15px var(--mono)">B · 2 × 270 t</text>
+      <use href="#blk" x="90" y="284" width="340" height="110"/>
+      <text x="260" y="350" text-anchor="middle" style="fill:var(--paper);font:600 22px var(--d-en)">450 t</text>
+      <use href="#trS" x="80" y="394" width="170" height="34"/>
+      <use href="#trS" x="270" y="394" width="170" height="34"/>
+      <path d="M250 401H270" style="stroke:var(--ink);stroke-width:4"/>
+      <text x="80" y="452" style="fill:var(--ink2);font:13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">2 台车 · 8 人，等齐后再对接</tspan><tspan lang="en">2 vehicles · 8 crew, wait for both, then couple</tspan><tspan lang="ko" style="font-family:var(--f-ko)">차량 2대 · 인원 8명, 모두 도착 후 결합</tspan></text>
+    </svg></div>
+    <div class="stripe"></div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">这项研究回答船厂设备采购里的一个具体问题：搬运几百吨重的船体分段，是买能单独运的大车，还是买便宜的小车、遇到重分段时几台拼起来运。结论先说在前面：在服务水平相同的前提下，最省钱的车队几乎每块都单独运，拼载只适合作为补救手段。</p>
+    <p lang="en">This study answers one purchasing question for shipyards: to move hull blocks of several hundred tonnes, should a yard buy transporters big enough to carry each block alone, or cheaper light ones that couple for the heavy blocks? The short answer: at equal service, the cheapest fleet carries almost every block alone, and coupling is a remedy rather than a purchasing strategy.</p>
+    <p lang="ko">이 연구는 조선소 설비 구매의 한 가지 구체적 질문에 답합니다. 수백 톤의 선체 블록을 옮기기 위해 단독 운반이 가능한 대형 트랜스포터를 살 것인가, 아니면 값싼 소형을 사서 무거운 블록은 여러 대를 결합해 옮길 것인가. 결론부터 말씀드리면, 같은 서비스 수준에서 가장 싼 차량군은 거의 모든 블록을 단독으로 운반하며, 결합 운반은 구매 전략이 아니라 보완책입니다.</p>
+  </aside>
+</section>
+
+<!-- summary in one minute -->
+<section class="slide" data-sec="intro">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">先用一分钟讲完整件事</span><span lang="en">The whole study in one minute</span><span lang="ko">1분 만에 보는 전체 연구</span></h2>
+  <div class="content" style="grid-template-rows:auto auto;align-content:center;gap:28px">
+    <div class="cols4">
+      <div class="card sumc"><span class="k">1</span><h3><span lang="zh">问题</span><span lang="en">Question</span><span lang="ko">질문</span></h3>
+        <p><span lang="zh">船厂要买搬运船体分段的平板车：买大车，每块单独运；还是买便宜的小车，重的分段让几台车拼起来运？</span><span lang="en">A shipyard must buy transporters for hull blocks: big ones that carry every block alone, or cheaper small ones that team up for the heavy blocks?</span><span lang="ko">조선소가 선체 블록 운반용 트랜스포터를 사야 한다. 모든 블록을 혼자 옮기는 대형인가, 무거운 블록은 여러 대가 함께 옮기는 값싼 소형인가?</span></p></div>
+      <div class="card sumc"><span class="k">2</span><h3><span lang="zh">做法</span><span lang="en">Approach</span><span lang="ko">방법</span></h3>
+        <p><span lang="zh">在计算机里模拟 36 种工况、每种 30 个工作日。给每种车队配上“达到同样准时水平”所需的最少台数，再算买车钱 + 人工钱。</span><span lang="en">Simulate 36 workload conditions of 30 working days each. Give every fleet the fewest vehicles that reach the same punctuality, then add up vehicle and crew costs.</span><span lang="ko">36개 조건, 조건마다 30일을 컴퓨터로 모의한다. 모든 차량군에 같은 정시 수준을 내는 최소 대수를 주고 차량비와 인건비를 합산한다.</span></p></div>
+      <div class="card sumc"><span class="k">3</span><h3><span lang="zh">答案</span><span lang="en">Answer</span><span lang="ko">답</span></h3>
+        <p><span lang="zh">最省钱的车队几乎每块都单独运：6,480 种成本设定中，90.8% 的最省车队拼载的分段不超过十分之一。原因：拼载同时占住几台车和几组人，而一组人比一台车还贵。</span><span lang="en">The cheapest fleet carries almost every block alone: in 90.8% of 6,480 cost settings it couples at most one block in ten. Coupling holds several vehicles and crews at once, and a crew costs more than a vehicle.</span><span lang="ko">가장 싼 차량군은 거의 모든 블록을 단독 운반한다. 6,480개 비용 설정의 90.8%에서 결합 운반 블록이 10% 이하였다. 결합은 여러 대의 차량과 인원을 동시에 묶고, 작업 인원이 차량보다 비싸기 때문이다.</span></p></div>
+      <div class="card sumc"><span class="k">4</span><h3><span lang="zh">启示</span><span lang="en">What it means</span><span lang="ko">시사점</span></h3>
+        <p><span lang="zh">买能单独运几乎所有分段的最小吨级；同时规定准时率和最大延误；台数要靠完整排班来定，简单估算会买错车。</span><span lang="en">Buy the smallest tier that carries nearly every block alone; specify both punctuality and the worst delay; size the fleet by full scheduling, because rough estimates buy the wrong fleet.</span><span lang="ko">거의 모든 블록을 단독 운반하는 최소 등급을 사고, 정시율과 최대 지연을 함께 정하며, 대수는 완전한 스케줄링으로 정해야 한다. 어림 계산은 잘못된 차량을 사게 만든다.</span></p></div>
+    </div>
+    <p class="quote"><span lang="zh">拼载是补救手段，不是采购策略。</span><span lang="en">Coupling is a remedy, not a purchasing strategy.</span><span lang="ko">결합 운반은 보완책이지 구매 전략이 아니다.</span></p>
+  </div>
+  <aside class="notes">
+    <p lang="zh">先用一分钟把整件事讲完，后面再一步步展开。船厂要决定买哪种平板运输车。我们在计算机里模拟了大量工作日，让每种车队都达到同样的准时水平，再比较总成本。答案是：最省钱的车队几乎不拼载，因为拼载会同时占住几台车和几组人，而人工比车还贵。后面的每一页都是在解释这四张卡片中的某一张。</p>
+    <p lang="en">Here is the whole story in one minute; the rest of the briefing unpacks it step by step. A shipyard must decide which transporters to buy. We simulated many working days, gave every fleet the same punctuality, and compared total cost. The answer: the cheapest fleet hardly ever couples, because coupling ties up several vehicles and crews at once, and crews cost more than vehicles. Every later slide explains one of these four cards.</p>
+    <p lang="ko">먼저 1분 만에 전체 이야기를 말씀드리고, 이후 한 단계씩 풀어 가겠습니다. 조선소는 어떤 트랜스포터를 살지 정해야 합니다. 저희는 많은 작업일을 컴퓨터로 모의하여 모든 차량군이 같은 정시 수준을 내도록 한 뒤 총비용을 비교했습니다. 답은, 가장 싼 차량군은 거의 결합 운반을 하지 않는다는 것입니다. 결합 운반은 여러 대의 차량과 인원을 동시에 묶고, 인건비가 차량비보다 비싸기 때문입니다. 뒤의 모든 슬라이드는 이 네 카드 중 하나를 설명합니다.</p>
+  </aside>
+</section>
+
+<!-- agenda -->
+<section class="slide" data-sec="intro">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">今天按这个顺序讲（点击可跳转）</span><span lang="en">How this briefing is organised (click to jump)</span><span lang="ko">보고 순서 (클릭하면 이동)</span></h2>
+  <div class="content" style="align-content:start">
+    <ol class="agenda" id="agenda">
+      <li data-go="bg" tabindex="0"><span class="an">1</span><div><h3><span lang="zh">背景</span><span lang="en">Background</span><span lang="ko">배경</span></h3><p><span lang="zh">分段、平板运输车、拼载分别是什么？为什么“买什么车”不能靠简单算术？</span><span lang="en">What are hull blocks, transporters and coupling? Why is choosing a fleet not simple arithmetic?</span><span lang="ko">선체 블록, 트랜스포터, 결합 운반이란 무엇인가? 차량 선택은 왜 단순 계산으로 안 되는가?</span></p></div><span class="pg"></span></li>
+      <li data-go="method" tabindex="0"><span class="an">2</span><div><h3><span lang="zh">方法</span><span lang="en">Method</span><span lang="ko">방법</span></h3><p><span lang="zh">怎么公平地比较不同车队？怎么排出一天的时刻表？怎么把车钱和人工钱放在一起算？</span><span lang="en">How are fleets compared fairly? How is a day's timetable built? How are vehicle and crew costs combined?</span><span lang="ko">차량군을 어떻게 공정하게 비교하나? 하루 배차표는 어떻게 만드나? 차량비와 인건비는 어떻게 합치나?</span></p></div><span class="pg"></span></li>
+      <li data-go="setup" tabindex="0"><span class="an">3</span><div><h3><span lang="zh">实验</span><span lang="en">Experiments</span><span lang="ko">실험</span></h3><p><span lang="zh">在什么船厂、什么分段重量和工作条件下做比较？</span><span lang="en">Which yards, block masses and working conditions were used?</span><span lang="ko">어떤 조선소, 블록 중량, 작업 조건에서 비교했나?</span></p></div><span class="pg"></span></li>
+      <li data-go="res" tabindex="0"><span class="an">4</span><div><h3><span lang="zh">结果</span><span lang="en">Results</span><span lang="ko">결과</span></h3><p><span lang="zh">买什么最省？为什么？评估方法会不会改变答案？服务标准会不会改变答案？</span><span lang="en">What is cheapest, and why? Does the evaluation method, or the service standard, change the answer?</span><span lang="ko">무엇이 가장 싸고 왜 그런가? 평가 방법이나 서비스 기준이 답을 바꾸나?</span></p></div><span class="pg"></span></li>
+      <li data-go="rel" tabindex="0"><span class="an">5</span><div><h3><span lang="zh">可靠性</span><span lang="en">Reliability</span><span lang="ko">신뢰성</span></h3><p><span lang="zh">我们怎么检验结论？结论稳不稳？还有哪些局限？</span><span lang="en">How were the results tested, how robust are they, and what are the limits?</span><span lang="ko">결과를 어떻게 검증했고, 얼마나 견고하며, 한계는 무엇인가?</span></p></div><span class="pg"></span></li>
+      <li data-go="status" tabindex="0"><span class="an">6</span><div><h3><span lang="zh">进度与总结</span><span lang="en">Status and summary</span><span lang="ko">진행 상황과 요약</span></h3><p><span lang="zh">还有哪些实验在跑？给船厂的建议是什么？</span><span lang="en">Which runs are still going, and what do we recommend to a yard?</span><span lang="ko">어떤 실험이 진행 중이고, 조선소에 무엇을 권고하나?</span></p></div><span class="pg"></span></li>
+    </ol>
+  </div>
+  <aside class="notes">
+    <p lang="zh">汇报分六部分。前两部分会讲得比较细，因为后面的结果都建立在“怎么公平比较”这个方法上。任何时候都可以按 G 打开术语表，按 T 打开目录跳转。</p>
+    <p lang="en">The briefing has six parts. The first two go slowly, because every result rests on how the fleets are compared. Press G at any time for the glossary, and T for the table of contents.</p>
+    <p lang="ko">보고는 여섯 부분으로 구성됩니다. 모든 결과가 "어떻게 공정하게 비교하는가"에 달려 있으므로 앞의 두 부분을 자세히 설명하겠습니다. 언제든 G를 누르면 용어집, T를 누르면 목차가 열립니다.</p>
+  </aside>
+</section>
+
+<!-- how ships are built -->
+<section class="slide" data-sec="bg">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">现代船舶“分段建造”：先造一块块分段，再到船坞拼成整船</span><span lang="en">Modern ships are built in blocks, which are then joined in the dock</span><span lang="ko">현대 선박은 블록 단위로 만든 뒤 도크에서 하나로 합친다</span></h2>
+  <div class="content g-l">
+    <div class="col" style="justify-content:center">
+      <div class="fill"><svg viewBox="0 0 640 330" role="img" aria-label="A ship hull divided into blocks">
+        <defs><clipPath id="hullClip"><path d="M40 130H590C600 180 585 235 555 262H95C70 262 45 232 40 192Z"/></clipPath></defs>
+        <rect x="70" y="70" width="80" height="60" style="fill:var(--steel-soft);stroke:var(--steel)"/>
+        <rect x="90" y="46" width="44" height="24" style="fill:var(--steel-soft);stroke:var(--steel)"/>
+        <g clip-path="url(#hullClip)" style="stroke:var(--paper);stroke-width:3">
+          <rect x="40" y="130" width="560" height="140" style="fill:var(--steel)"/>
+          <path d="M95 130V270M150 130V270M205 130V270M260 130V270M315 130V270M370 130V270M425 130V270M480 130V270M535 130V270M40 176H600M40 222H600" style="fill:none"/>
+          <rect x="315" y="130" width="55" height="46" style="fill:var(--paper);stroke:none"/>
+        </g>
+        <path d="M40 130H590C600 180 585 235 555 262H95C70 262 45 232 40 192Z" style="fill:none;stroke:var(--ink);stroke-width:1.5"/>
+        <rect x="372" y="28" width="55" height="46" style="fill:var(--amber-hi);stroke:var(--ink);stroke-width:1.5"/>
+        <path d="M345 124L382 82" style="stroke:var(--ink);stroke-width:1.5;fill:none;stroke-dasharray:4 3"/>
+        <path d="M376 84L382 82L381 89" style="stroke:var(--ink);stroke-width:1.5;fill:none"/>
+        <text x="440" y="46" style="fill:var(--ink);font:600 15px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">一个分段</tspan><tspan lang="en">One block</tspan><tspan lang="ko" style="font-family:var(--f-ko)">블록 하나</tspan></text>
+        <text x="440" y="66" style="fill:var(--ink2);font:13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">几十到几百吨</tspan><tspan lang="en">tens to hundreds of tonnes</tspan><tspan lang="ko" style="font-family:var(--f-ko)">수십~수백 톤</tspan></text>
+        <path d="M20 280H620" style="stroke:var(--ink3)"/>
+        <g style="fill:var(--ink3)"><rect x="110" y="264" width="20" height="16"/><rect x="230" y="264" width="20" height="16"/><rect x="350" y="264" width="20" height="16"/><rect x="470" y="264" width="20" height="16"/></g>
+        <text x="320" y="306" text-anchor="middle" style="fill:var(--ink3);font:12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">船坞里的船体：由很多分段拼焊而成（示意）</tspan><tspan lang="en">A hull in the dock, welded together from many blocks (schematic)</tspan><tspan lang="ko" style="font-family:var(--f-ko)">도크 안의 선체: 많은 블록을 이어 용접해 만든다 (개념도)</tspan></text>
+      </svg></div>
+    </div>
+    <div class="col" style="justify-content:center">
+      <ul class="clean">
+        <li><span lang="zh">一条大船不是在船坞里从头造到尾，而是先切成几十到几百个<b>分段</b></span><span lang="en">A large ship is not built from keel to deck in the dock. It is first divided into tens to hundreds of <b>blocks</b></span><span lang="ko">대형 선박은 도크에서 처음부터 끝까지 짓지 않는다. 먼저 수십~수백 개의 <b>블록</b>으로 나눈다</span></li>
+        <li><span lang="zh">分段在不同车间里<b>同时</b>制造、装管线设备（舾装）、涂漆，最后运到船坞焊成整船</span><span lang="en">Blocks are built, fitted with pipes and equipment (outfitting) and painted in different workshops <b>at the same time</b>, then moved to the dock and welded together</span><span lang="ko">블록은 여러 공장에서 <b>동시에</b> 제작, 배관·장비 설치(의장), 도장을 거친 뒤 도크로 옮겨 용접한다</span></li>
+        <li><span lang="zh">好处：并行作业，船坞占用时间短</span><span lang="en">Benefit: parallel work, so the dock is occupied for less time</span><span lang="ko">장점: 병행 작업으로 도크 점유 시간이 짧다</span></li>
+        <li><span lang="zh">代价：几百吨的分段要在厂里<b>反复搬运</b>；某一次搬运晚了，下一道工序就得等</span><span lang="en">Cost: blocks of hundreds of tonnes must be <b>moved again and again</b>; if one move is late, the next process waits</span><span lang="ko">대가: 수백 톤 블록을 조선소 안에서 <b>반복해서 옮겨야</b> 하며, 한 번이라도 늦으면 다음 공정이 기다린다</span></li>
+      </ul>
+      <div class="card" style="background:var(--amber-soft)"><p style="color:var(--ink)"><span lang="zh">本研究关心的就是这些搬运：用什么车、用几台车来搬最省钱。</span><span lang="en">This study is about those moves: which vehicles, and how many, move the blocks at least cost.</span><span lang="ko">이 연구가 다루는 것이 바로 이 운반이다. 어떤 차량을 몇 대 써야 가장 싸게 옮길 수 있는가.</span></p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">先讲一点造船常识。现代船厂采用分段建造法：把船体切成很多块，每块在车间里单独造好、装好管线、刷好漆，再运到船坞焊在一起。这样很多工作可以同时进行，但也意味着大量几百吨重的分段要在厂里来回搬。搬运跟不上，整条生产线都会被拖慢。</p>
+    <p lang="en">A little shipbuilding background first. Modern yards use block construction: the hull is divided into many blocks, each built, outfitted and painted in a workshop, then moved to the dock and welded together. Much of the work can run in parallel, but it also means many blocks of several hundred tonnes must be moved around the yard. If the moves fall behind, the whole production line slows down.</p>
+    <p lang="ko">먼저 조선의 기본 개념입니다. 현대 조선소는 블록 공법을 씁니다. 선체를 여러 블록으로 나눠 각 블록을 공장에서 제작하고, 배관을 설치하고, 도장한 뒤 도크로 옮겨 용접합니다. 많은 작업을 병행할 수 있지만, 수백 톤짜리 블록을 조선소 안에서 많이 옮겨야 한다는 뜻이기도 합니다. 운반이 뒤처지면 전체 생산 라인이 느려집니다.</p>
+  </aside>
+</section>
+
+<!-- 02 background -->
+<section class="slide" data-sec="bg">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">每块分段要在车间、堆场和船坞之间被搬运好几次</span><span lang="en">Each block is moved several times between workshops, yards and the dock</span><span lang="ko">블록은 공장, 적치장, 도크 사이를 여러 번 오간다</span></h2>
+  <div class="content" style="grid-template-rows:auto 1fr;gap:26px">
+    <div class="col">
+      <div class="small"><span lang="zh">一块分段的典型路线（主案例中的 6 类场地）</span><span lang="en">A block's typical route (the six area types of the main case)</span><span lang="ko">블록의 전형적인 이동 경로 (주 사례의 6개 구역 유형)</span></div>
+      <div class="chain">
+        <div class="st" style="--c:#E0A95C"><span lang="zh">装配车间</span><span lang="en">Assembly workshop</span><span lang="ko">조립 공장</span><small>AW</small></div><span class="ar">→</span>
+        <div class="st" style="--c:#B9A6D3"><span lang="zh">舾装车间</span><span lang="en">Outfitting workshop</span><span lang="ko">의장 공장</span><small>OW</small></div><span class="ar">→</span>
+        <div class="st" style="--c:#C9744A"><span lang="zh">涂装车间</span><span lang="en">Paint workshop</span><span lang="ko">도장 공장</span><small>PW</small></div><span class="ar">→</span>
+        <div class="st" style="--c:#9CC39E"><span lang="zh">分段堆场</span><span lang="en">Block yard</span><span lang="ko">블록 적치장</span><small>YB</small></div><span class="ar">→</span>
+        <div class="st" style="--c:#6E4E86"><span lang="zh">总组场地</span><span lang="en">Assembly yard</span><span lang="ko">총조립장</span><small>AY</small></div><span class="ar">→</span>
+        <div class="st" style="--c:#6FA3C2"><span lang="zh">船坞</span><span lang="en">Dry dock</span><span lang="ko">도크</span><small>DD</small></div>
+      </div>
+    </div>
+    <div class="content g-r" style="margin-top:0">
+      <div class="col">
+        <div class="fill"><svg viewBox="0 0 400 190" role="img" aria-label="Block on a transporter">
+          <use href="#blk" x="30" y="20" width="340" height="110"/>
+          <text x="200" y="86" text-anchor="middle" style="fill:var(--paper);font:600 22px var(--d-en)">100–800 t</text>
+          <use href="#trL" x="20" y="130" width="360" height="34"/>
+          <text x="200" y="186" text-anchor="middle" style="fill:var(--ink2);font:13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">自行式液压平板车，额定 200–550 t</tspan><tspan lang="en">Self-propelled hydraulic transporter, rated 200–550 t</tspan><tspan lang="ko" style="font-family:var(--f-ko)">자항식 유압 트랜스포터, 정격 200–550 t</tspan></text>
+        </svg></div>
+      </div>
+      <div class="col">
+        <ul class="clean">
+          <li><span lang="zh"><b>分段</b>：船体切成的大型结构单元，100–800 t，只能整块搬运</span><span lang="en"><b>Blocks</b>: large structural units of the hull, 100–800 t, moved in one piece</span><span lang="ko"><b>블록</b>: 선체를 나눈 대형 구조 단위, 100–800 t, 한 덩어리로만 운반</span></li>
+          <li><span lang="zh"><b>运输车</b>：每台约 180–390 万元（不含税），吨级越大越贵</span><span lang="en"><b>Transporters</b>: about CNY 1.8–3.9 million each (ex VAT), rising with capacity</span><span lang="ko"><b>트랜스포터</b>: 대당 약 180만–390만 위안(부가세 제외), 용량이 클수록 비쌈</span></li>
+          <li><span lang="zh"><b>作业组</b>：每台车 4 人（文献报道 4–5 人），按 16 h 班次计</span><span lang="en"><b>Crews</b>: 4 workers per transporter (4–5 reported), over a 16-h shift</span><span lang="ko"><b>작업 인원</b>: 차량당 4명(문헌상 4–5명), 16시간 교대 기준</span></li>
+          <li><span lang="zh"><b>工作量</b>：一个工作日约 97 次分段搬运</span><span lang="en"><b>Workload</b>: about 97 block moves in a working day</span><span lang="ko"><b>작업량</b>: 하루 약 97회 블록 운반</span></li>
+        </ul>
+        <div class="src">Roh &amp; Cha 2011; Park &amp; Seo 2012; <span lang="zh">价格：33 份公开中标公告</span><span lang="en">prices: 33 public award notices</span><span lang="ko">가격: 공개 낙찰 공고 33건</span></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">先建立画面：船体被切成几百个分段，在装配、舾装、涂装、堆场、总组和船坞之间流转。每次搬运都要用专门的液压平板车。一台车一百八十万到近四百万元，还要配固定的作业组，所以“买什么车、买几台”是一项不小的投资决策。</p>
+    <p lang="en">First the picture: a hull is cut into hundreds of blocks that move between assembly, outfitting, painting, the block yard, pre-erection and the dock. Every move needs a dedicated hydraulic transporter. Each costs about CNY 1.8 to 3.9 million and needs a fixed crew, so which transporters to buy, and how many, is a significant investment.</p>
+    <p lang="ko">먼저 그림을 그려 보겠습니다. 선체는 수백 개의 블록으로 나뉘어 조립, 의장, 도장, 적치장, 총조립장, 도크 사이를 이동합니다. 운반할 때마다 전용 유압 트랜스포터가 필요합니다. 한 대에 약 180만–390만 위안이고 고정 작업 인원도 필요하므로, 어떤 차를 몇 대 살지는 상당한 투자 결정입니다.</p>
+  </aside>
+</section>
+
+<!-- how a transporter works -->
+<section class="slide" data-sec="bg">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">平板运输车怎么搬分段：钻到下面，顶起来，开走，放下</span><span lang="en">How a transporter moves a block: drive under, lift, drive off, set down</span><span lang="ko">트랜스포터의 블록 운반: 밑으로 들어가 들어 올리고, 이동해서 내려놓는다</span></h2>
+  <div class="content" style="grid-template-rows:1fr auto auto;gap:14px">
+    <div class="fill"><svg viewBox="0 0 640 170" role="img" aria-label="Four steps of a transporter move">
+      <g id="spmtSteps"></g>
+    </svg></div>
+    <div class="capgrid">
+      <div><b><span lang="zh">① 空车开进去</span><span lang="en">① Drive in empty</span><span lang="ko">① 빈 차로 진입</span></b><span lang="zh">分段搁在两排支墩上，车从下面的空隙开进去</span><span lang="en">The block rests on supports; the vehicle drives into the gap underneath</span><span lang="ko">블록은 지지대 위에 놓여 있고, 차는 그 아래 공간으로 들어간다</span></div>
+      <div><b><span lang="zh">② 液压顶升</span><span lang="en">② Lift hydraulically</span><span lang="ko">② 유압으로 들어 올림</span></b><span lang="zh">车台升高，把分段顶离支墩，这一步叫“装”</span><span lang="en">The platform rises and lifts the block off the supports: this is loading</span><span lang="ko">차대가 올라가 블록을 지지대에서 들어 올린다. 이것이 적재다</span></div>
+      <div><b><span lang="zh">③ 重载慢行</span><span lang="en">③ Drive loaded, slowly</span><span lang="ko">③ 적재 상태로 저속 주행</span></b><span lang="zh">带着分段开到目的地，速度约为空车的一半</span><span lang="en">It carries the block to the destination at about half its empty speed</span><span lang="ko">블록을 싣고 목적지까지 간다. 속도는 빈 차의 절반 정도</span></div>
+      <div><b><span lang="zh">④ 放下离开</span><span lang="en">④ Set down, leave</span><span lang="ko">④ 내려놓고 떠남</span></b><span lang="zh">车台降低，分段落在新的支墩上（“卸”），空车去接下一块</span><span lang="en">The platform lowers the block onto new supports (unloading), and the empty vehicle heads for the next block</span><span lang="ko">차대를 내려 블록을 새 지지대에 놓고(하역), 빈 차로 다음 블록을 가지러 간다</span></div>
+    </div>
+    <div class="cols4">
+      <div class="card"><h3><span lang="zh">额定载重</span><span lang="en">Rated capacity</span><span lang="ko">정격 용량</span></h3><p><span lang="zh">200–550 t，按吨级出售；单车不能运超过额定载重的分段</span><span lang="en">200–550 t, sold in tiers; one vehicle cannot carry a block above its rating</span><span lang="ko">200–550 t, 등급별 판매. 정격보다 무거운 블록은 혼자 못 옮긴다</span></p></div>
+      <div class="card"><h3><span lang="zh">速度</span><span lang="en">Speed</span><span lang="ko">속도</span></h3><p><span lang="zh">空车 12 km/h，重载 6 km/h（厂家参数）</span><span lang="en">12 km/h empty, 6 km/h loaded (manufacturer data)</span><span lang="ko">빈 차 12 km/h, 적재 6 km/h (제조사 자료)</span></p></div>
+      <div class="card"><h3><span lang="zh">装 / 卸时间</span><span lang="en">Loading / unloading</span><span lang="ko">적재 / 하역 시간</span></h3><p><span lang="zh">基准各 10 min；也测试了随重量变化和 30–60 min 的长装载</span><span lang="en">10 min each at baseline; mass-dependent and 30–60 min loading also tested</span><span lang="ko">기준 각 10분. 중량 비례와 30–60분 긴 적재도 시험</span></p></div>
+      <div class="card"><h3><span lang="zh">人和钱</span><span lang="en">Crew and price</span><span lang="ko">인원과 가격</span></h3><p><span lang="zh">每台 4 人作业组（文献 4–5 人）；单价约 180–390 万元</span><span lang="en">A crew of 4 per vehicle (4–5 reported); about CNY 1.8–3.9 million each</span><span lang="ko">차량당 작업 인원 4명 (문헌 4–5명), 대당 약 180만–390만 위안</span></p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">这种车叫自行式液压平板运输车。分段平时搁在支墩上，车从下面开进去，用液压把车台升起来，把分段顶离支墩，然后开到目的地再降下来放到新的支墩上。所以一次搬运由四段时间组成：空车赶过去、装、重载行驶、卸。车按额定载重分档出售，一台车不能单独运超过它载重的分段，这就引出了下一页的拼载。</p>
+    <p lang="en">This vehicle is a self-propelled hydraulic transporter. A block normally rests on supports. The vehicle drives in underneath, raises its platform hydraulically to lift the block off the supports, drives to the destination and lowers the block onto new supports. So one move has four time components: driving over empty, loading, loaded travel and unloading. Transporters are sold by rated capacity, and one vehicle cannot carry a block heavier than its rating, which leads to coupling on the next slide.</p>
+    <p lang="ko">이 차량은 자항식 유압 트랜스포터입니다. 블록은 평소 지지대 위에 놓여 있고, 차량이 그 아래로 들어가 유압으로 차대를 올려 블록을 지지대에서 들어 올린 뒤, 목적지로 가서 새 지지대 위에 내려놓습니다. 따라서 한 번의 운반은 빈 차 이동, 적재, 적재 주행, 하역의 네 구간으로 이루어집니다. 트랜스포터는 정격 용량별로 판매되며, 한 대로는 정격보다 무거운 블록을 옮길 수 없습니다. 이것이 다음 슬라이드의 결합 운반으로 이어집니다.</p>
+  </aside>
+</section>
+
+<!-- how coupling works -->
+<section class="slide" data-sec="bg">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">拼载：两三台车并排对接，像一台大车一样同步行驶</span><span lang="en">Coupling: two or three transporters join side by side and drive as one</span><span lang="ko">결합 운반: 두세 대를 나란히 연결해 한 대처럼 동기 주행한다</span></h2>
+  <div class="content g2">
+    <div class="col" style="justify-content:center">
+      <div class="fill"><svg viewBox="0 0 460 300" role="img" aria-label="Two coupled transporters under one block, seen from above">
+        <rect x="40" y="40" width="360" height="200" rx="6" style="fill:var(--steel);fill-opacity:.18;stroke:var(--steel);stroke-width:2;stroke-dasharray:8 5"/>
+        <g style="fill:var(--amber-hi);stroke:var(--ink);stroke-width:1.2"><rect x="70" y="66" width="300" height="60" rx="3"/><rect x="70" y="154" width="300" height="60" rx="3"/></g>
+        <g style="fill:var(--ink)"><rect x="70" y="66" width="30" height="60"/><rect x="70" y="154" width="30" height="60"/></g>
+        <g style="stroke:var(--ink);stroke-width:3"><path d="M160 126V154M280 126V154"/></g>
+        <text x="235" y="101" text-anchor="middle" style="fill:var(--ink);font:600 16px var(--mono)">270 t</text>
+        <text x="235" y="189" text-anchor="middle" style="fill:var(--ink);font:600 16px var(--mono)">270 t</text>
+        <text x="220" y="30" text-anchor="middle" style="fill:var(--steel);font:600 14px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">450 t 分段（俯视轮廓）</tspan><tspan lang="en">450 t block (outline from above)</tspan><tspan lang="ko" style="font-family:var(--f-ko)">450 t 블록 (위에서 본 윤곽)</tspan></text>
+        <text x="420" y="144" style="fill:var(--ink2);font:12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">对接</tspan><tspan lang="en">link</tspan><tspan lang="ko" style="font-family:var(--f-ko)">연결</tspan></text>
+        <path d="M416 140H290" style="stroke:var(--ink3);stroke-dasharray:3 3"/>
+        <text x="220" y="272" text-anchor="middle" style="fill:var(--ink);font:600 17px var(--mono)">270 + 270 = 540 t ≥ 450 t</text>
+      </svg></div>
+    </div>
+    <div class="col" style="justify-content:center">
+      <ul class="clean">
+        <li><span lang="zh"><b>载重相加</b>：两台 270 t 并排，最多能抬 540 t；三台最多 810 t</span><span lang="en"><b>Capacities add up</b>: two 270 t units side by side carry up to 540 t; three carry up to 810 t</span><span lang="ko"><b>용량 합산</b>: 270 t 두 대를 나란히 하면 최대 540 t, 세 대면 810 t</span></li>
+        <li><span lang="zh"><b>必须同时到场</b>：先到的车只能等后到的车</span><span lang="en"><b>All must be there</b>: the first to arrive waits for the others</span><span lang="ko"><b>모두 도착해야 함</b>: 먼저 온 차는 나머지를 기다린다</span></li>
+        <li><span lang="zh"><b>要对位、对接</b>：本研究假设每次拼载多花 10 min</span><span lang="en"><b>Aligning and connecting</b> take time: 10 min extra per coupled move assumed here</span><span lang="ko"><b>정렬·연결</b>에 시간이 든다: 결합 운반마다 10분 추가로 가정</span></li>
+        <li><span lang="zh"><b>全程一起被占用</b>：从装到卸，每台车和它的 4 人作业组都不能干别的</span><span lang="en"><b>Everyone is held throughout</b>: from loading to unloading, every member and its 4-person crew can do nothing else</span><span lang="ko"><b>전 과정 점유</b>: 적재부터 하역까지 모든 차량과 4명의 인원이 다른 일을 못 한다</span></li>
+        <li><span lang="zh">本研究一队最多 3 台车</span><span lang="en">At most three vehicles per team in this study</span><span lang="ko">이 연구에서 한 팀은 최대 3대</span></li>
+      </ul>
+      <div class="card" style="background:var(--amber-soft)"><p style="color:var(--ink)"><span lang="zh">拼载让轻车也能运重块，但一块分段要占用 2–3 倍的车和人。这是一个“省车钱、费车时”的交换。</span><span lang="en">Coupling lets light units carry heavy blocks, but one block ties up two to three times the vehicles and crews. It trades cheaper vehicles for more vehicle time.</span><span lang="ko">결합 운반 덕분에 경형으로도 무거운 블록을 옮길 수 있지만, 블록 하나에 2–3배의 차량과 인원이 묶인다. 싼 차량과 더 많은 차량 시간을 맞바꾸는 셈이다.</span></p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">如果分段比一台车的额定载重还重，可以让两三台车并排对接，由一套控制系统同步驾驶，载重相加。这就是拼载。它的好处是轻车也能运重块；代价是几台车必须同时到场，还要对位对接，而且整个搬运过程中每台车和它的作业组都被占住。</p>
+    <p lang="en">If a block is heavier than one vehicle's rating, two or three vehicles can be joined side by side and driven in sync as one unit, adding their capacities. That is coupling. It lets light vehicles carry heavy blocks. The cost is that all members must be present at the same time, they must align and connect, and every vehicle and its crew is held for the whole move.</p>
+    <p lang="ko">블록이 한 대의 정격 용량보다 무거우면 두세 대를 나란히 연결해 하나의 제어로 동기 주행하게 하여 용량을 합칩니다. 이것이 결합 운반입니다. 경형 차량으로도 무거운 블록을 옮길 수 있다는 장점이 있지만, 모든 차량이 동시에 와야 하고, 정렬·연결이 필요하며, 운반 내내 모든 차량과 인원이 묶인다는 대가가 있습니다.</p>
+  </aside>
+</section>
+
+<!-- 03 question -->
+<section class="slide" data-sec="bg">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">研究问题：重分段用大车单运，还是用小车拼载？</span><span lang="en">The question: buy heavy transporters, or light ones that couple?</span><span lang="ko">연구 질문: 대형 트랜스포터를 살까, 결합 가능한 소형을 살까?</span></h2>
+  <div class="content g2" style="grid-template-rows:1fr auto;row-gap:18px">
+    <div class="card">
+      <h3><span lang="zh">A · 买大车，单独运</span><span lang="en">A · Heavy tier, carry alone</span><span lang="ko">A · 대형 등급, 단독 운반</span></h3>
+      <div class="fill"><svg viewBox="0 0 400 150" role="img" aria-label="One 500 t transporter">
+        <use href="#blk" x="50" y="8" width="300" height="97"/>
+        <text x="200" y="66" text-anchor="middle" style="fill:var(--paper);font:600 20px var(--d-en)">450 t</text>
+        <use href="#trL" x="40" y="105" width="320" height="30"/>
+        <text x="370" y="120" style="fill:var(--ink);font:600 14px var(--mono)">500 t</text>
+      </svg></div>
+      <ul class="clean">
+        <li><span lang="zh">单价高：500 t 约 361 万元</span><span lang="en">Higher unit price: 500 t ≈ CNY 3.61 M</span><span lang="ko">단가 높음: 500 t 약 361만 위안</span></li>
+        <li><span lang="zh">每次搬运只占 <b>1 台车 · 4 人</b></span><span lang="en">Each move occupies <b>1 vehicle · 4 crew</b></span><span lang="ko">운반마다 <b>차량 1대 · 인원 4명</b>만 점유</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span lang="zh">B · 买小车，重块拼载</span><span lang="en">B · Light tier, couple for heavy blocks</span><span lang="ko">B · 소형 등급, 무거운 블록은 결합 운반</span></h3>
+      <div class="fill"><svg viewBox="0 0 400 150" role="img" aria-label="Two coupled 270 t transporters">
+        <use href="#blk" x="50" y="8" width="300" height="97"/>
+        <text x="200" y="66" text-anchor="middle" style="fill:var(--paper);font:600 20px var(--d-en)">450 t</text>
+        <use href="#trS" x="40" y="105" width="152" height="30"/>
+        <use href="#trS" x="208" y="105" width="152" height="30"/>
+        <path d="M192 111H208" style="stroke:var(--ink);stroke-width:4"/>
+        <text x="370" y="120" style="fill:var(--ink);font:600 14px var(--mono)">2×270 t</text>
+      </svg></div>
+      <ul class="clean">
+        <li><span lang="zh">单价低：270 t 约 221 万元；平时各运各的轻分段</span><span lang="en">Lower unit price: 270 t ≈ CNY 2.21 M; each carries light blocks on its own</span><span lang="ko">단가 낮음: 270 t 약 221만 위안, 평소엔 각자 가벼운 블록 운반</span></li>
+        <li><span lang="zh">拼载时占 <b>2 台车 · 8 人</b>，要等齐，再对接 10 min</span><span lang="en">A coupled move holds <b>2 vehicles · 8 crew</b>, waits for both, then couples for 10 min</span><span lang="ko">결합 시 <b>차량 2대 · 인원 8명</b> 점유, 모두 도착을 기다린 뒤 10분 결합</span></li>
+      </ul>
+    </div>
+    <p class="quote" style="grid-column:1/-1"><span lang="zh">当所有候选车队都必须达到同样的服务水平时，哪种吨级（或吨级组合）总成本最低？</span><span lang="en">When every candidate fleet must deliver the same service, which capacity tier, or mix of tiers, costs least?</span><span lang="ko">모든 후보 차량군이 같은 서비스 수준을 내야 할 때, 어떤 용량 등급(또는 조합)의 총비용이 가장 낮은가?</span></p>
+  </div>
+  <aside class="notes">
+    <p lang="zh">两种选择各有道理。小车便宜，平时可以各自运轻分段；遇到重分段时两三台拼起来运。但拼载时每台车和它的班组在整个搬运过程中都被占住，而且要等所有车到齐、再花 10 分钟对接。问题是：把这些都算进去之后，哪种车队更省？</p>
+    <p lang="en">Both options make sense. Light transporters are cheaper and can each carry light blocks; for heavy blocks two or three couple. But a coupled move holds every member and its crew for the whole journey, and the team must wait for all members and spend 10 minutes coupling. Once all of this is counted, which fleet is cheaper?</p>
+    <p lang="ko">두 선택 모두 일리가 있습니다. 소형 트랜스포터는 싸고 평소에는 각자 가벼운 블록을 옮기며, 무거운 블록은 두세 대가 결합해 옮깁니다. 그러나 결합 운반 중에는 모든 차량과 작업 인원이 운반 내내 묶이고, 모든 차량이 도착할 때까지 기다린 뒤 10분간 결합해야 합니다. 이 모든 것을 계산에 넣으면 어느 차량군이 더 쌀까요?</p>
+  </aside>
+</section>
+
+<!-- why not simple arithmetic -->
+<section class="slide" data-sec="bg">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">为什么不能用“总工作量 ÷ 每台车的工时”来算需要几台车？</span><span lang="en">Why not just divide the total work by one vehicle's working hours?</span><span lang="ko">왜 "총 작업량 ÷ 차량 1대 작업 시간"으로 대수를 정할 수 없나?</span></h2>
+  <div class="content" style="grid-template-rows:1fr auto;gap:18px">
+    <div class="card" style="gap:6px">
+      <h3><span lang="zh">一个小例子：4 块分段 8:00 同时可以搬，都要求 9:00 前送到，每块搬运要 1 h</span><span lang="en">A small example: 4 blocks all ready at 8:00, all due by 9:00, each move takes 1 h</span><span lang="ko">작은 예: 블록 4개가 모두 8:00에 준비되고 9:00까지 도착해야 하며, 운반마다 1시간</span></h3>
+      <div class="fill"><svg viewBox="0 0 640 200" role="img" aria-label="One vehicle makes three blocks late; four vehicles deliver all on time">
+        <g style="font:13px var(--f-latin);fill:var(--ink)">
+          <text x="10" y="18" style="font-weight:600"><tspan lang="zh" style="font-family:var(--f-zh)">只看总量：4 车·时 ÷ 16 h = 0.25 → 1 台就够？</tspan><tspan lang="en">Totals only: 4 vehicle-h ÷ 16 h = 0.25 → one vehicle?</tspan><tspan lang="ko" style="font-family:var(--f-ko)">총량만: 4 차량·시 ÷ 16 h = 0.25 → 1대면 충분?</tspan></text>
+          <text x="340" y="18" style="font-weight:600"><tspan lang="zh" style="font-family:var(--f-zh)">按交期：4 台车必须同时干</tspan><tspan lang="en">By due time: four vehicles at once</tspan><tspan lang="ko" style="font-family:var(--f-ko)">납기 기준: 4대가 동시에 일해야 함</tspan></text>
+        </g>
+        <g style="stroke:var(--paper);stroke-width:2">
+          <rect x="40" y="60" width="62" height="26" style="fill:var(--good)"/><rect x="102" y="60" width="62" height="26" style="fill:var(--oxide)"/><rect x="164" y="60" width="62" height="26" style="fill:var(--oxide)"/><rect x="226" y="60" width="62" height="26" style="fill:var(--oxide)"/>
+          <rect x="370" y="36" width="62" height="22" style="fill:var(--good)"/><rect x="370" y="62" width="62" height="22" style="fill:var(--good)"/><rect x="370" y="88" width="62" height="22" style="fill:var(--good)"/><rect x="370" y="114" width="62" height="22" style="fill:var(--good)"/>
+        </g>
+        <path d="M102 40V104M432 30V142" style="stroke:var(--oxide);stroke-width:1.5;stroke-dasharray:4 3"/>
+        <g style="font:12px var(--mono);fill:var(--ink3)"><text x="40" y="122" text-anchor="middle">8:00</text><text x="102" y="122" text-anchor="middle">9:00</text><text x="164" y="122" text-anchor="middle">10:00</text><text x="226" y="122" text-anchor="middle">11:00</text><text x="288" y="122" text-anchor="middle">12:00</text>
+          <text x="370" y="158" text-anchor="middle">8:00</text><text x="432" y="158" text-anchor="middle">9:00</text><text x="494" y="158" text-anchor="middle">10:00</text></g>
+        <line x1="40" y1="106" x2="290" y2="106" style="stroke:var(--ink3)"/><line x1="370" y1="142" x2="560" y2="142" style="stroke:var(--ink3)"/>
+        <text x="40" y="150" style="fill:var(--oxide);font:600 14px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">3 块迟到</tspan><tspan lang="en">3 blocks late</tspan><tspan lang="ko" style="font-family:var(--f-ko)">3개 지연</tspan></text>
+        <text x="370" y="184" style="fill:var(--good);font:600 14px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">全部准时，但要 4 台车</tspan><tspan lang="en">All on time, but it takes 4 vehicles</tspan><tspan lang="ko" style="font-family:var(--f-ko)">모두 정시, 그러나 4대 필요</tspan></text>
+        <text x="110" y="52" style="fill:var(--oxide);font:12px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">交期</tspan><tspan lang="en">due</tspan><tspan lang="ko" style="font-family:var(--f-ko)">납기</tspan></text>
+      </svg></div>
+    </div>
+    <div class="content g2" style="margin-top:0;gap:28px">
+      <ul class="clean">
+        <li><span lang="zh"><b>任务是分批来的</b>，每批都有交期，忙闲不均</span><span lang="en"><b>Work arrives in batches</b>, each with its own due times, so demand is uneven</span><span lang="ko"><b>작업은 배치로 들어오고</b> 배치마다 납기가 있어 수요가 고르지 않다</span></li>
+        <li><span lang="zh"><b>车在任务之间要空驶</b>，先搬哪块、后搬哪块，空驶距离不同</span><span lang="en"><b>Vehicles drive empty between tasks</b>; the order of tasks changes that distance</span><span lang="ko"><b>작업 사이에 빈 차로 이동</b>하며, 작업 순서에 따라 거리가 달라진다</span></li>
+        <li><span lang="zh"><b>拼载要几台车同时有空</b>，一台车晚到，整队都要等</span><span lang="en"><b>A coupled move needs several free vehicles at once</b>; one late arrival holds up the team</span><span lang="ko"><b>결합 운반은 여러 대가 동시에 비어 있어야</b> 하며, 한 대가 늦으면 팀 전체가 기다린다</span></li>
+      </ul>
+      <div class="card" style="background:var(--steel-soft)"><h3><span lang="zh">所以</span><span lang="en">Therefore</span><span lang="ko">그래서</span></h3><p style="color:var(--ink)"><span lang="zh">要知道几台车够用，必须把每一天<b>真正排出时刻表</b>：哪台车、几点、搬哪块。本研究就是这么做的。实际数据里，简单估算在交期紧时最多少估 5 台车（结论 3）。</span><span lang="en">To know how many vehicles are enough, each day's <b>actual timetable</b> must be built: which vehicle moves which block, and when. That is what this study does. In our data, the simple estimate fell short by up to five vehicles under tight due dates (Finding 3).</span><span lang="ko">몇 대면 충분한지 알려면 하루하루 <b>실제 배차표</b>를 만들어야 한다. 어느 차가 언제 어떤 블록을 옮기는지. 이 연구는 그렇게 했다. 실제 데이터에서 단순 추정은 납기가 촉박할 때 최대 5대까지 모자랐다 (결론 3).</span></p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">这一页解释为什么这个问题需要复杂的方法。最直觉的做法是用总工作量除以一台车一天能干的时间。但看这个小例子：4 块分段总共只要 4 车·时，一台车一天 16 h，看起来一台就够；可它们都要在同一个小时里送到，所以实际需要 4 台。真实船厂里还有分批到达、空驶距离、拼载要等队友这些因素，所以只能把每天的时刻表真正排出来，才知道几台车够用。</p>
+    <p lang="en">This slide explains why the problem needs a serious method. The intuitive approach divides total work by what one vehicle can do in a day. In this small example, the four blocks need only four vehicle-hours in total, and one vehicle works 16 h, so one vehicle seems enough. But all four are due within the same hour, so four vehicles are needed. A real yard adds batches, empty travel and coupled teams waiting for members, so the only way to know how many vehicles suffice is to build each day's timetable.</p>
+    <p lang="ko">이 슬라이드는 왜 이 문제에 제대로 된 방법이 필요한지 설명합니다. 직관적인 방법은 총 작업량을 차량 한 대가 하루에 할 수 있는 시간으로 나누는 것입니다. 이 작은 예에서 블록 4개는 모두 합쳐 4 차량·시만 필요하고 한 대가 16시간 일하므로 한 대면 될 것 같습니다. 하지만 네 블록 모두 같은 한 시간 안에 도착해야 하므로 실제로는 4대가 필요합니다. 실제 조선소에는 배치 도착, 빈 차 이동, 팀원을 기다리는 결합 운반까지 있으므로, 하루하루의 배차표를 실제로 만들어 봐야만 몇 대면 충분한지 알 수 있습니다.</p>
+  </aside>
+</section>
+
+<!-- 04 gap -->
+<section class="slide" data-sec="bg">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">已有研究都在“给定车队”下排调度，没有回答“该买什么车”</span><span lang="en">Existing work schedules a given fleet; it does not say what to buy</span><span lang="ko">기존 연구는 주어진 차량군을 스케줄링할 뿐, 무엇을 살지는 답하지 않는다</span></h2>
+  <div class="content g3">
+    <div class="card">
+      <h3><span lang="zh">船厂分段运输调度</span><span lang="en">Shipyard block-transport scheduling</span><span lang="ko">조선소 블록 운반 스케줄링</span></h3>
+      <ul class="clean">
+        <li><span lang="zh">两台车抬指定的大分段</span><span lang="en">Two transporters for designated big blocks</span><span lang="ko">지정된 대형 블록을 두 대가 운반</span> <span class="tiny">Jiang 2021; Tao 2019</span></li>
+        <li><span lang="zh">从现有车池中选单车或组合</span><span lang="en">Single or combined carriers from a given pool</span><span lang="ko">기존 차량 풀에서 단독 또는 조합 선택</span> <span class="tiny">Shin &amp; Bak 2014</span></li>
+        <li><span lang="zh">比较同一组车的 4、5、6 台</span><span lang="en">Four, five or six of one prescribed set</span><span lang="ko">정해진 차량 세트의 4·5·6대 비교</span> <span class="tiny">Sun 2024</span></li>
+      </ul>
+      <p style="margin-top:auto"><b class="ox"><span lang="zh">车队是给定的</span><span lang="en">The fleet is given</span><span lang="ko">차량군은 주어진 것</span></b></p>
+    </div>
+    <div class="card">
+      <h3><span lang="zh">车队规模与组成</span><span lang="en">Fleet sizing and mix</span><span lang="ko">차량군 규모와 구성</span></h3>
+      <ul class="clean">
+        <li><span lang="zh">先定车数，再比成本</span><span lang="en">Size vehicles, then compare costs</span><span lang="ko">대수를 먼저 정하고 비용 비교</span> <span class="tiny">Vis 2005; Hashemi Doulabi 2020</span></li>
+        <li><span lang="zh">可重构机器人：相同基本单元拼成不同容量</span><span lang="en">Reconfigurable robots: identical units form larger capacities</span><span lang="ko">재구성 로봇: 동일 단위가 결합해 용량 형성</span> <span class="tiny">Albert 2025</span></li>
+        <li><span lang="zh">人工成本决定车辆大小（运输经济学）</span><span lang="en">Crew cost drives vehicle size (transport economics)</span><span lang="ko">인건비가 차량 크기를 결정 (운송 경제학)</span> <span class="tiny">Jansson 1980</span></li>
+      </ul>
+      <p style="margin-top:auto"><b class="ox"><span lang="zh">容量来自组合，不是按吨级购买</span><span lang="en">Capacity comes from configuration, not a purchased tier</span><span lang="ko">용량은 구성에서 나오며 등급 구매가 아님</span></b></p>
+    </div>
+    <div class="card" style="background:var(--steel-soft)">
+      <h3><span lang="zh">本研究补上的三点</span><span lang="en">What this study adds</span><span lang="ko">이 연구가 더하는 세 가지</span></h3>
+      <ul class="clean">
+        <li><span lang="zh">在<b>市场上可买的吨级</b>之间比较</span><span lang="en">Compares <b>purchasable capacity tiers</b></span><span lang="ko"><b>구매 가능한 용량 등급</b> 간 비교</span></li>
+        <li><span lang="zh"><b>每块分段的延误有上限</b>：任何搬运都不能拒绝</span><span lang="en"><b>Bounds each block's delay</b>: no move can be refused</span><span lang="ko"><b>블록별 지연 상한</b>: 어떤 운반도 거절할 수 없음</span></li>
+        <li><span lang="zh">拼载占用几台车，就<b>付几组人的工资</b></span><span lang="en"><b>Pays a crew for every vehicle</b> a coupled move occupies</span><span lang="ko">결합 운반이 점유한 <b>차량마다 인건비</b> 계산</span></li>
+      </ul>
+      <p style="margin-top:auto"><b class="hl"><span lang="zh">这三点决定了比较的结果</span><span lang="en">These three differences decide the comparison</span><span lang="ko">이 세 가지가 비교 결과를 좌우</span></b></p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">已有的船厂研究都是“车队已经买好了，怎么排班”；车队设计方面的研究又大多假设车是同一种基本单元。船厂真实的采购有三个不同：只能在市场上有的吨级里挑；每块分段都不能被无限拖延；拼载占用几台车，就要付几组人的工资。这三点决定了比较的结果。</p>
+    <p lang="en">Shipyard studies schedule a fleet that has already been bought, and fleet-design studies mostly assume identical base units. Real purchasing differs in three ways: a yard picks among capacity tiers on the market, no block can be deferred indefinitely, and a coupled move pays a crew for every vehicle it occupies. These three differences decide the comparison.</p>
+    <p lang="ko">기존 조선소 연구는 이미 구매한 차량군을 어떻게 배차할지를 다루고, 차량군 설계 연구는 대부분 동일한 기본 단위를 가정합니다. 실제 구매는 세 가지가 다릅니다. 시장에 있는 용량 등급 중에서 골라야 하고, 어떤 블록도 무한정 미룰 수 없으며, 결합 운반은 점유한 차량마다 작업 인원 비용을 치러야 합니다. 이 세 가지가 비교 결과를 좌우합니다.</p>
+  </aside>
+</section>
+
+<!-- one working day -->
+<section class="slide" data-sec="method">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">问题的输入：一个“工作日”有 97 块分段，分 8 批释放，每块都有交期</span><span lang="en">The input: one working day of 97 blocks, released in 8 batches, each with a due time</span><span lang="ko">문제의 입력: 하루 97개 블록, 8개 배치로 투입, 블록마다 납기</span></h2>
+  <div class="content g-l">
+    <div class="col">
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">一个真实的实验工作日（均匀重量 · 短装卸 · 基准交期 · 第 101 号）</span><span lang="en">One actual test day (uniform masses · short handling · baseline due dates · day 101)</span><span lang="ko">실제 실험 작업일 하나 (균일 중량 · 짧은 적재·하역 · 기준 납기 · 101번)</span></b></div>
+      <div class="chart fill" id="cDay"></div>
+    </div>
+    <div class="col">
+      <ul class="clean">
+        <li><span lang="zh"><b>每条短线 = 一块分段</b>：左端是“可以开始搬”（释放），右端是“必须送到”（交期）</span><span lang="en"><b>Each bar is one block</b>: the left end is when it can be moved (release), the right end when it must arrive (due)</span><span lang="ko"><b>막대 하나 = 블록 하나</b>: 왼쪽 끝은 운반 가능 시각(투입), 오른쪽 끝은 도착해야 할 시각(납기)</span></li>
+        <li><span lang="zh"><b>高度 = 分段重量</b>，这一天在 104–500 t 之间</span><span lang="en"><b>Height = block mass</b>, 104–500 t on this day</span><span lang="ko"><b>높이 = 블록 중량</b>, 이날은 104–500 t</span></li>
+        <li><span lang="zh">每 2 h 释放一批约 12 块；给的时间是 150、180 或 210 min</span><span lang="en">A batch of about 12 blocks every 2 h, each given 150, 180 or 210 min</span><span lang="ko">2시간마다 약 12개 블록이 투입되고, 각각 150·180·210분이 주어진다</span></li>
+        <li><span lang="zh">最后一批 14:00 释放、最晚 17:30 到期，已经超过 16 h 的班次，所以常有班后作业</span><span lang="en">The last batch is released at 14 h and due by 17.5 h, after the 16-h shift, so after-shift work is common</span><span lang="ko">마지막 배치는 14시간에 투입되어 17.5시간까지 납기라 16시간 교대를 넘으므로 교대 후 작업이 흔하다</span></li>
+        <li><span lang="zh"><b class="ox">橙色</b>的块超过 270 t：如果买 270 t 的车，这些都要拼载（这天 62 块）</span><span lang="en"><b class="ox">Orange</b> blocks exceed 270 t: a 270 t fleet must couple every one of them (62 on this day)</span><span lang="ko"><b class="ox">주황색</b> 블록은 270 t 초과: 270 t 차량군이라면 모두 결합 운반해야 한다 (이날 62개)</span></li>
+      </ul>
+      <div class="card"><p><span lang="zh">每种工况生成 30 个这样的工作日；所有车队面对的是完全相同的 30 天。</span><span lang="en">Each condition has 30 such days, and every fleet faces exactly the same 30 days.</span><span lang="ko">조건마다 이런 작업일 30개를 만들며, 모든 차량군은 똑같은 30일을 상대한다.</span></p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">这是一个真实的实验输入。横轴是一天的时间，纵轴是分段重量，每条短线是一块分段：它从左端的时刻起可以被搬，最迟要在右端的时刻送到。任务每两小时来一批，最后一批的交期超过了 16 小时的班次。高于 270 t 那条线的分段，如果船厂买的是 270 t 的车，就必须两三台拼着运。后面我们会看到，同一天的任务交给不同车队，需要的车和人完全不同。</p>
+    <p lang="en">This is an actual test input. The horizontal axis is the time of day and the vertical axis the block mass; each bar is one block, which can be moved from its left end and must be delivered by its right end. A batch arrives every two hours, and the last batch is due after the 16-hour shift ends. Blocks above the 270 t line would all need coupling if the yard bought 270 t vehicles. We will see that the same day given to different fleets needs very different numbers of vehicles and crews.</p>
+    <p lang="ko">이것은 실제 실험 입력입니다. 가로축은 하루의 시간, 세로축은 블록 중량이며, 막대 하나가 블록 하나입니다. 왼쪽 끝부터 옮길 수 있고, 오른쪽 끝까지는 도착해야 합니다. 두 시간마다 배치가 들어오고, 마지막 배치의 납기는 16시간 교대가 끝난 뒤입니다. 270 t 선보다 위에 있는 블록은 조선소가 270 t 차량을 샀다면 모두 결합 운반해야 합니다. 같은 날의 작업을 서로 다른 차량군에 맡기면 필요한 차량과 인원이 크게 달라지는 것을 뒤에서 보게 됩니다.</p>
+  </aside>
+</section>
+
+<!-- 05 equal service -->
+<section class="slide" data-sec="method">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">核心思路：先让每个候选车队达到同样的服务，再比较成本</span><span lang="en">Key idea: size every candidate fleet to the same service, then compare cost</span><span lang="ko">핵심 아이디어: 모든 후보 차량군을 같은 서비스 수준에 맞춘 뒤 비용을 비교</span></h2>
+  <div class="content g-r">
+    <div class="col">
+      <div class="card">
+        <h3><span lang="zh">打个比方</span><span lang="en">An analogy</span><span lang="ko">비유하자면</span></h3>
+        <p><span lang="zh">比较两种公交车队，不能拿“准点率 80% 的 10 辆大巴”和“准点率 99% 的 20 辆小巴”直接比价。应该先把每种车队都配到同样准点，再看谁便宜。</span><span lang="en">To compare bus fleets, you cannot price 10 big buses at 80% punctuality against 20 minibuses at 99%. Size each to the same punctuality first, then see which is cheaper.</span><span lang="ko">버스 차량군을 비교할 때 정시율 80%인 대형 10대와 정시율 99%인 소형 20대를 그대로 비교할 수 없습니다. 각각 같은 정시율로 맞춘 뒤 어느 쪽이 싼지 봐야 합니다.</span></p>
+      </div>
+      <ul class="clean">
+        <li><span lang="zh">对每个吨级、每种混编，分别找出<b>刚好达标的最少台数 K*</b></span><span lang="en">For every tier and mix, find the <b>smallest count K* that just qualifies</b></span><span lang="ko">등급·혼합 구성마다 <b>목표를 겨우 충족하는 최소 대수 K*</b>를 찾음</span></li>
+        <li><span lang="zh">再用 K* 台车的资本 + 人工计算成本</span><span lang="en">Then price K* vehicles: capital plus crews</span><span lang="ko">그다음 K*대의 자본비 + 인건비로 비용 산정</span></li>
+      </ul>
+    </div>
+    <div class="col">
+      <div class="eq">S = (θ, T<sub>max</sub>) = (95%, 120 min)</div>
+      <div class="fill"><svg viewBox="0 0 600 190" role="img" aria-label="Service specification timeline">
+        <rect x="30" y="70" width="250" height="44" style="fill:var(--good-soft)"/>
+        <rect x="280" y="70" width="160" height="44" style="fill:var(--amber-soft)"/>
+        <rect x="440" y="70" width="140" height="44" style="fill:var(--oxide-soft)"/>
+        <rect x="440" y="70" width="140" height="44" fill="url(#hatch)" opacity=".35"/>
+        <line x1="20" y1="114" x2="590" y2="114" style="stroke:var(--ink3)"/>
+        <path d="M30 60V124M280 60V124M440 60V124" style="stroke:var(--ink);stroke-width:1.5"/>
+        <g style="font:13px var(--f-latin);fill:var(--ink)">
+          <text x="30" y="52"><tspan lang="zh" style="font-family:var(--f-zh)">释放</tspan><tspan lang="en">Release</tspan><tspan lang="ko" style="font-family:var(--f-ko)">투입</tspan></text>
+          <text x="280" y="52" text-anchor="middle"><tspan lang="zh" style="font-family:var(--f-zh)">交期</tspan><tspan lang="en">Due</tspan><tspan lang="ko" style="font-family:var(--f-ko)">납기</tspan></text>
+          <text x="440" y="52" text-anchor="middle"><tspan lang="zh" style="font-family:var(--f-zh)">交期 + 120 min</tspan><tspan lang="en">Due + 120 min</tspan><tspan lang="ko" style="font-family:var(--f-ko)">납기 + 120분</tspan></text>
+        </g>
+        <g style="font:600 13px var(--f-latin)">
+          <text x="155" y="97" text-anchor="middle" style="fill:var(--good)"><tspan lang="zh" style="font-family:var(--f-zh)">准时</tspan><tspan lang="en">On time</tspan><tspan lang="ko" style="font-family:var(--f-ko)">정시</tspan></text>
+          <text x="360" y="97" text-anchor="middle" style="fill:var(--amber)"><tspan lang="zh" style="font-family:var(--f-zh)">迟到，计入 5%</tspan><tspan lang="en">Late, counts to 5%</tspan><tspan lang="ko" style="font-family:var(--f-ko)">지연, 5%에 포함</tspan></text>
+          <text x="510" y="97" text-anchor="middle" style="fill:var(--oxide)"><tspan lang="zh" style="font-family:var(--f-zh)">不允许</tspan><tspan lang="en">Not allowed</tspan><tspan lang="ko" style="font-family:var(--f-ko)">허용 안 됨</tspan></text>
+        </g>
+        <text x="30" y="148" style="fill:var(--ink3);font:12px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">时间 →</tspan><tspan lang="en">Time →</tspan><tspan lang="ko" style="font-family:var(--f-ko)">시간 →</tspan></text>
+      </svg></div>
+      <ul class="clean">
+        <li><span lang="zh"><b>θ = 95%</b>：30 天共 2,910 块中至少 2,765 块准时（最多 145 块迟到）</span><span lang="en"><b>θ = 95%</b>: at least 2,765 of the 2,910 blocks of 30 days on time (at most 145 late)</span><span lang="ko"><b>θ = 95%</b>: 30일간 2,910개 블록 중 2,765개 이상 정시 (지연 최대 145개)</span></li>
+        <li><span lang="zh"><b>T<sub>max</sub> = 120 min</b>：任何一块都不能晚于交期 120 分钟，即一个释放批次的间隔</span><span lang="en"><b>T<sub>max</sub> = 120 min</b>: no block more than 120 min past its due time, one release-batch interval</span><span lang="ko"><b>T<sub>max</sub> = 120분</b>: 어떤 블록도 납기보다 120분 넘게 늦으면 안 됨 (투입 배치 간격 1회)</span></li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">这是整篇论文最关键的设计。不同车队如果服务水平不同，价格没有可比性。所以我们先为每个候选车队找出“刚好达标”的最少台数，再比较成本。达标有两个条件：95% 的分段准时，而且任何一块都不能晚超过 120 分钟。第二个条件很重要，后面结论 2 会讲它为什么会改变买车的决定。</p>
+    <p lang="en">This is the key design choice of the paper. Fleets with different service levels cannot be compared on price. So for every candidate fleet we first find the smallest count that just meets the target, and only then compare costs. The target has two parts: 95% of blocks on time, and no block more than 120 minutes late. The second part matters; Finding 2 shows how it changes the purchase.</p>
+    <p lang="ko">논문에서 가장 중요한 설계입니다. 서비스 수준이 다른 차량군은 가격으로 비교할 수 없습니다. 그래서 먼저 후보 차량군마다 목표를 겨우 충족하는 최소 대수를 찾고, 그 다음에 비용을 비교합니다. 목표는 두 부분입니다. 블록의 95%가 납기를 지키고, 어떤 블록도 120분 넘게 늦지 않을 것. 두 번째 조건이 중요하며, 결론 2에서 이것이 구매를 어떻게 바꾸는지 설명합니다.</p>
+  </aside>
+</section>
+
+<!-- 06 minimal teams -->
+<section class="slide" data-sec="method">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">谁可以一起运？只允许“最小可行队”</span><span lang="en">Who may carry a block together? Only minimal feasible teams</span><span lang="ko">누가 함께 운반할 수 있나? 최소 가능 팀만 허용</span></h2>
+  <div class="content g-r">
+    <div class="col">
+      <p class="lead" style="margin:0"><span lang="zh">队伍的额定载重之和要不小于分段重量，而且去掉任何一台就不够。多出来的车只会白白占用车辆和人工。</span><span lang="en">The team's rated capacities must add up to the block mass, and removing any member must make it fall short. An extra member only ties up a vehicle and its crew.</span><span lang="ko">팀의 정격 용량 합이 블록 중량 이상이어야 하고, 어느 한 대라도 빼면 모자라야 한다. 남는 차량은 차량과 인원만 묶어 둔다.</span></p>
+      <div class="eq">Σ Q<sub>k</sub> ≥ m<sub>i</sub> &nbsp;·&nbsp; Σ Q<sub>k</sub> − min Q<sub>k</sub> &lt; m<sub>i</sub> &nbsp;·&nbsp; |S| ≤ 3</div>
+      <ul class="clean">
+        <li><span lang="zh">在加权投票博弈里，这叫“最小获胜联盟”</span><span lang="en">In weighted voting games these are the minimal winning coalitions</span><span lang="ko">가중 투표 게임에서는 이를 최소 승리 연합이라 한다</span></li>
+        <li><span lang="zh">轻车 + 重车的混编里，只有比重车还重的分段才会出现两种吨级混合拼载（推论 1）</span><span lang="en">In a light–heavy mix, a team with both tiers forms only for blocks heavier than the heavy tier (Corollary 1)</span><span lang="ko">경형+대형 혼합에서 두 등급이 섞인 팀은 대형보다 무거운 블록에서만 생긴다 (따름정리 1)</span></li>
+        <li><span lang="zh">同质车队中，“随时可拼”和“只在超重时拼”两种规则完全等价</span><span lang="en">For a homogeneous fleet, flexible and overweight-only coupling admit the same teams</span><span lang="ko">단일 등급 차량군에서는 유연 결합과 초과 중량 전용 결합이 같은 팀을 허용한다</span></li>
+      </ul>
+    </div>
+    <div class="card" style="gap:12px">
+      <h3><span lang="zh">试一试</span><span lang="en">Try it</span><span lang="ko">직접 해 보기</span></h3>
+      <div class="small"><span lang="zh">车型（额定载重）</span><span lang="en">Transporter tier (rated capacity)</span><span lang="ko">트랜스포터 등급 (정격 용량)</span></div>
+      <div class="tiers" id="tierSeg"></div>
+      <div class="slider"><label for="massR"><span lang="zh">分段重量</span><span lang="en">Block mass</span><span lang="ko">블록 중량</span></label><input type="range" id="massR" min="100" max="850" step="10" value="450"><output id="massV" for="massR">450 t</output></div>
+      <div class="chart fill" id="teamViz"></div>
+      <div class="verdict" id="teamTxt"></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">可以现场拖动演示：选 270 t 车、把分段调到 450 t，就需要两台拼载；调到 600 t 需要三台；超过 810 t 就运不了。如果分段只有 250 t，一台就够，不允许两台一起运，因为多出的那台只会白占资源。这个规则在数学上等价于加权投票博弈里的“最小获胜联盟”。</p>
+    <p lang="en">Try it live: pick 270 t and set the block to 450 t, and two transporters must couple; at 600 t it takes three; above 810 t the tier cannot carry it. A 250 t block needs one transporter, and two together are not allowed because the extra one only wastes resources. Mathematically this is the minimal winning coalition of a weighted voting game.</p>
+    <p lang="ko">직접 조작해 보실 수 있습니다. 270 t를 고르고 블록을 450 t로 하면 두 대가 결합해야 하고, 600 t면 세 대, 810 t를 넘으면 운반할 수 없습니다. 250 t 블록은 한 대로 충분하며, 두 대가 함께 옮기는 것은 허용하지 않습니다. 남는 한 대는 자원만 낭비하기 때문입니다. 수학적으로는 가중 투표 게임의 최소 승리 연합과 같습니다.</p>
+  </aside>
+</section>
+
+<!-- real timetables -->
+<section class="slide" data-sec="method">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">同一天、同样 97 块分段，交给两种车队：真实的排班表</span><span lang="en">The same day and the same 97 blocks, given to two fleets: the real timetables</span><span lang="ko">같은 날, 같은 97개 블록을 두 차량군에 맡긴 실제 배차표</span></h2>
+  <div class="content" style="grid-template-columns:1.55fr 1fr;gap:24px;margin-top:16px">
+    <div class="col" style="gap:8px">
+      <div class="chart fill" id="cGantt"></div>
+      <div class="legend" id="ganttLegend"></div>
+    </div>
+    <div class="col compact" style="gap:12px">
+      <table class="tbl" id="cmpTable"></table>
+      <div class="card" style="background:var(--amber-soft)"><p style="color:var(--ink)"><span lang="zh">270 t 车队要 9 台车、两倍的车辆工时才干完同样的活，62 块分段要两台车一起搬。在这个工况里，它连买车的钱都更多。</span><span lang="en">The 270 t fleet needs 9 vehicles and twice the vehicle-hours for the same work, and 62 blocks need two vehicles each. In this condition it even costs more capital.</span><span lang="ko">270 t 차량군은 같은 일을 하는 데 9대와 두 배의 차량 시간이 필요하고, 62개 블록은 두 대가 함께 옮겨야 한다. 이 조건에서는 차량 구매비마저 더 많다.</span></p></div>
+      <div class="tiny"><span lang="zh">每一行是一台车，色块是它在做的事；鼠标放到色块上可看是哪块分段。两张表都是 R4 存档的达标排班（各自最少台数 K*），已重新推演核对。</span><span lang="en">One row per vehicle; hover a bar to see the block. Both are qualifying R4 schedules at each fleet's K*, replayed and checked.</span><span lang="ko">각 행은 차량 하나, 막대는 그 차량이 하는 일이다. 막대에 마우스를 올리면 블록 정보가 보인다. 두 배차표 모두 R4에 저장된 목표 충족 배차(각 최소 대수 K*)이며, 재계산으로 확인했다.</span></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">这是算法排出来的真实时刻表，同一天、同样的 97 块分段。上面是 5 台 500 t 车：每块都单独运，灰色的空驶很少，所有分段准时。下面是 9 台 270 t 车：橙色是拼载，一块分段同时占两行，所以车多、车时翻倍。右边的表把两者放在一起比：车辆工作时间 70 对 145 车·时。按基准价格算，每天总成本 421 对 688 人时。这一页就是整篇论文结论的一个缩影。</p>
+    <p lang="en">These are real timetables produced by the algorithm for the same day and the same 97 blocks. On top, five 500 t vehicles: every block goes alone, there is little grey empty travel, and every block is on time. Below, nine 270 t vehicles: orange bars are coupled moves, each occupying two rows at once, so more vehicles and twice the vehicle-hours. The table compares them: 70 against 145 vehicle-hours of work, and at the reference price 421 against 688 labour-hours of daily cost. This one slide is the paper's finding in miniature.</p>
+    <p lang="ko">알고리즘이 만든 실제 배차표로, 같은 날 같은 97개 블록입니다. 위는 500 t 5대입니다. 모든 블록을 단독 운반하고, 회색 빈 차 이동이 적으며, 모든 블록이 정시입니다. 아래는 270 t 9대입니다. 주황색이 결합 운반으로, 블록 하나가 동시에 두 행을 차지하므로 차량이 많고 차량 시간이 두 배입니다. 오른쪽 표에서 차량 작업 시간은 70 대 145 차량·시, 기준 가격에서 하루 총비용은 421 대 688 인시입니다. 이 한 장이 논문 결론의 축소판입니다.</p>
+  </aside>
+</section>
+
+<!-- 07 scheduling -->
+<section class="slide" data-sec="method">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">拼载的代价：几台车必须同时到场，整段路程一起被占用</span><span lang="en">The price of coupling: every member must arrive, and all stay occupied for the whole move</span><span lang="ko">결합 운반의 대가: 모든 차량이 모여야 하고, 운반 내내 함께 묶인다</span></h2>
+  <div class="content" style="grid-template-rows:1fr auto;gap:16px">
+    <div class="col">
+      <div class="fill"><svg viewBox="0 0 640 262" role="img" aria-label="Occupation of single and coupled carriage">
+        <g style="font:14px var(--f-latin);fill:var(--ink)">
+          <text x="0" y="45"><tspan lang="zh" style="font-family:var(--f-zh)">一台重车</tspan><tspan lang="en">One heavy</tspan><tspan lang="ko" style="font-family:var(--f-ko)">대형 1대</tspan></text>
+          <text x="0" y="105"><tspan lang="zh" style="font-family:var(--f-zh)">轻车 1</tspan><tspan lang="en">Light 1</tspan><tspan lang="ko" style="font-family:var(--f-ko)">경형 1</tspan></text>
+          <text x="0" y="165"><tspan lang="zh" style="font-family:var(--f-zh)">轻车 2</tspan><tspan lang="en">Light 2</tspan><tspan lang="ko" style="font-family:var(--f-ko)">경형 2</tspan></text>
+        </g>
+        <g>
+          <rect x="100" y="26" width="110" height="28" style="fill:var(--g-empty)"/><rect x="210" y="26" width="55" height="28" style="fill:var(--g-load)"/><rect x="265" y="26" width="165" height="28" style="fill:var(--g-travel)"/><rect x="430" y="26" width="55" height="28" style="fill:var(--g-load)"/>
+          <rect x="100" y="86" width="70" height="28" style="fill:var(--g-empty)"/><rect x="170" y="86" width="55" height="28" style="fill:var(--paper);stroke:var(--ink3)"/><rect x="225" y="86" width="33" height="28" style="fill:var(--g-couple)"/><rect x="258" y="86" width="55" height="28" style="fill:var(--g-load)"/><rect x="313" y="86" width="165" height="28" style="fill:var(--g-travel)"/><rect x="478" y="86" width="55" height="28" style="fill:var(--g-load)"/>
+          <rect x="100" y="146" width="125" height="28" style="fill:var(--g-empty)"/><rect x="225" y="146" width="33" height="28" style="fill:var(--g-couple)"/><rect x="258" y="146" width="55" height="28" style="fill:var(--g-load)"/><rect x="313" y="146" width="165" height="28" style="fill:var(--g-travel)"/><rect x="478" y="146" width="55" height="28" style="fill:var(--g-load)"/>
+        </g>
+        <path d="M545 86H553V174H545" style="stroke:var(--oxide);stroke-width:1.5;fill:none"/>
+        <text x="560" y="126" style="fill:var(--oxide);font:600 13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">2 台车</tspan><tspan lang="en">2 vehicles</tspan><tspan lang="ko" style="font-family:var(--f-ko)">차량 2대</tspan></text>
+        <text x="560" y="144" style="fill:var(--oxide);font:600 13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">8 人被占用</tspan><tspan lang="en">8 crew held</tspan><tspan lang="ko" style="font-family:var(--f-ko)">인원 8명 점유</tspan></text>
+        <line x1="100" y1="196" x2="600" y2="196" style="stroke:var(--ink3)"/><path d="M594 192L600 196L594 200" style="stroke:var(--ink3);fill:none"/>
+        <text x="600" y="214" text-anchor="end" style="fill:var(--ink3);font:12px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">时间（示意）</tspan><tspan lang="en">Time (schematic)</tspan><tspan lang="ko" style="font-family:var(--f-ko)">시간 (개념도)</tspan></text>
+        <g style="font:12.5px var(--f-latin);fill:var(--ink2)">
+          <rect x="0" y="236" width="13" height="13" style="fill:var(--g-empty)"/><text x="18" y="247"><tspan lang="zh" style="font-family:var(--f-zh)">空驶</tspan><tspan lang="en">Empty travel</tspan><tspan lang="ko" style="font-family:var(--f-ko)">공차 주행</tspan></text>
+          <rect x="120" y="236" width="13" height="13" style="fill:var(--paper);stroke:var(--ink3)"/><text x="138" y="247"><tspan lang="zh" style="font-family:var(--f-zh)">等待</tspan><tspan lang="en">Waiting</tspan><tspan lang="ko" style="font-family:var(--f-ko)">대기</tspan></text>
+          <rect x="220" y="236" width="13" height="13" style="fill:var(--g-couple)"/><text x="238" y="247"><tspan lang="zh" style="font-family:var(--f-zh)">对接</tspan><tspan lang="en">Coupling</tspan><tspan lang="ko" style="font-family:var(--f-ko)">결합</tspan></text>
+          <rect x="325" y="236" width="13" height="13" style="fill:var(--g-load)"/><text x="343" y="247"><tspan lang="zh" style="font-family:var(--f-zh)">装 / 卸</tspan><tspan lang="en">Load / unload</tspan><tspan lang="ko" style="font-family:var(--f-ko)">적재 / 하역</tspan></text>
+          <rect x="460" y="236" width="13" height="13" style="fill:var(--g-travel)"/><text x="478" y="247"><tspan lang="zh" style="font-family:var(--f-zh)">重载行驶</tspan><tspan lang="en">Loaded travel</tspan><tspan lang="ko" style="font-family:var(--f-ko)">적재 주행</tspan></text>
+        </g>
+      </svg></div>
+    </div>
+    <div class="card">
+      <h3><span lang="zh">放大看一次搬运：上图怎么读</span><span lang="en">One move up close: how to read the sketch</span><span lang="ko">운반 한 번 확대: 위 그림 읽는 법</span></h3>
+      <ul class="clean" style="display:grid;grid-template-columns:1fr 1fr;gap:10px 30px">
+        <li><span lang="zh"><b>单运</b>：车一到就能装，卸完马上去下一个任务</span><span lang="en"><b>Alone</b>: the vehicle loads as soon as it arrives and leaves for the next task right after unloading</span><span lang="ko"><b>단독</b>: 도착하자마자 적재하고, 하역 후 곧바로 다음 작업으로 간다</span></li>
+        <li><span lang="zh"><b>拼载</b>：先到的轻车 1 要等轻车 2（白色），再一起对接 10 min（黄色）</span><span lang="en"><b>Coupled</b>: Light 1 arrives first and waits for Light 2 (white), then both couple for 10 min (yellow)</span><span lang="ko"><b>결합</b>: 먼저 온 경형 1이 경형 2를 기다리고(흰색), 함께 10분간 결합한다(노란색)</span></li>
+        <li><span lang="zh">之后两台车一起装、一起走、一起卸：车时和人时是单运的两倍多</span><span lang="en">Then both load, travel and unload together: more than twice the vehicle-hours and crew-hours of a single move</span><span lang="ko">이후 함께 적재·주행·하역한다: 차량 시간과 인시가 단독의 두 배 이상</span></li>
+        <li><span lang="zh">实际数据里“等”只占很小一部分；真正的成本是两台车一起被占住（见结果部分的机制页）</span><span lang="en">In the data the waiting is small; the real cost is that both vehicles are held (see the mechanism slide in the results)</span><span lang="ko">실제 데이터에서 대기는 작다. 진짜 비용은 두 대가 함께 묶이는 것이다 (결과 부분의 메커니즘 슬라이드)</span></li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">把上一页的一次搬运放大来看。单独运时，一台车跑完就能去下一个任务。拼载时，先到的车要等后到的车，再对接，然后整段路程几台车一起被占用，所以一次拼载要花掉两倍多的车时和人时。后面数据会显示，“等”其实不多，贵的是“占”。</p>
+    <p lang="en">This zooms in on one move from the previous slide. Carrying alone, a vehicle goes to its next task as soon as it finishes. Coupled, the first arrival waits for the other, they couple, and both are held for the whole move, so one coupled move costs more than twice the vehicle-hours and crew-hours. The data will show that waiting is small; occupation is what costs.</p>
+    <p lang="ko">앞 슬라이드의 운반 한 번을 확대한 것입니다. 단독 운반이면 끝나는 즉시 다음 작업으로 갑니다. 결합 운반이면 먼저 온 차가 다른 차를 기다리고, 결합한 뒤 운반 내내 두 대가 함께 묶이므로, 결합 운반 한 번에 차량 시간과 인시가 두 배 이상 듭니다. 데이터를 보면 대기는 적고, 비용은 점유에서 나옵니다.</p>
+  </aside>
+</section>
+
+<!-- ALNS in plain words -->
+<section class="slide" data-sec="method">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">时刻表是怎么排出来的？排法多到无法逐一尝试，只能聪明地搜索</span><span lang="en">How is a timetable found? There are far too many to try one by one, so we search cleverly</span><span lang="ko">배차표는 어떻게 찾나? 경우의 수가 너무 많아 하나씩 해 볼 수 없으니 영리하게 탐색한다</span></h2>
+  <div class="content" style="grid-template-columns:1fr 2.3fr;gap:30px">
+    <div class="col" style="justify-content:center;gap:10px">
+      <div class="bignum">97! ≈ 10<sup>152</sup></div>
+      <p class="small"><span lang="zh">只算 97 块分段的先后顺序，就有约 10<sup>152</sup> 种（还没算谁和谁组队）。作为对比，宇宙中的原子约 10<sup>80</sup> 个。</span><span lang="en">The order of 97 blocks alone has about 10<sup>152</sup> possibilities, before choosing any teams. For comparison, the universe has about 10<sup>80</sup> atoms.</span><span lang="ko">97개 블록의 순서만 해도 약 10<sup>152</sup>가지이며, 팀 구성은 아직 세지도 않았다. 참고로 우주의 원자 수는 약 10<sup>80</sup>개다.</span></p>
+      <p class="small"><span lang="zh">所以用<b>自适应大邻域搜索（ALNS）</b>：从一张可行的时刻表出发，一点点改进。</span><span lang="en">So we use <b>adaptive large neighbourhood search (ALNS)</b>: start from a workable timetable and improve it step by step.</span><span lang="ko">그래서 <b>적응형 대규모 이웃 탐색(ALNS)</b>을 쓴다. 쓸 만한 배차표에서 시작해 조금씩 개선한다.</span></p>
+    </div>
+    <div class="col compact-enko" style="gap:14px">
+      <div class="cycle">
+        <div class="card"><span class="n">1</span><h3><span lang="zh">拆</span><span lang="en">Destroy</span><span lang="ko">파괴</span></h3><p><span lang="zh">从当前时刻表里拿掉一部分任务：随机的、最晚的、空驶最多的、拼载的、同一台车的……共 7 种拆法</span><span lang="en">Remove some tasks: random ones, the latest, those with most empty travel, coupled ones, one vehicle's tasks… 7 ways in all</span><span lang="ko">작업 일부를 뺀다: 무작위, 가장 늦은 것, 빈 차 이동이 많은 것, 결합 작업, 한 차량의 작업 등 7가지</span></p></div>
+        <div class="card"><span class="n">2</span><h3><span lang="zh">补</span><span lang="en">Repair</span><span lang="ko">복구</span></h3><p><span lang="zh">把拿掉的任务插回最合适的位置，同时决定由哪台车或哪一队来搬；3 种插法</span><span lang="en">Reinsert them where they fit best, choosing the vehicle or team for each; 3 ways</span><span lang="ko">뺀 작업을 가장 알맞은 위치에 다시 넣고, 어느 차량이나 팀이 옮길지 정한다. 3가지</span></p></div>
+        <div class="card"><span class="n">3</span><h3><span lang="zh">判</span><span lang="en">Accept</span><span lang="ko">판정</span></h3><p><span lang="zh">新表更好就留下；偶尔也接受稍差的，免得困在“局部最优”</span><span lang="en">Keep the new timetable if it is better; now and then accept a slightly worse one so the search does not get stuck</span><span lang="ko">새 배차표가 더 좋으면 채택하고, 가끔은 조금 나쁜 것도 받아들여 국소 최적에 갇히지 않게 한다</span></p></div>
+        <div class="card"><span class="n">4</span><h3><span lang="zh">学</span><span lang="en">Learn</span><span lang="ko">학습</span></h3><p><span lang="zh">记下哪种拆法、补法更常带来改进，以后多用它们，这就是“自适应”</span><span lang="en">Record which destroy and repair moves pay off and use them more often: the "adaptive" part</span><span lang="ko">어떤 파괴·복구가 개선을 자주 가져오는지 기록해 더 자주 쓴다. 이것이 "적응형"이다</span></p></div>
+      </div>
+      <div class="loopnote"><span lang="zh">↻ 每次运行重复 786 轮。开始前先用贪心、后悔值插入和 5,000 次随机构造，取最好的一张作为起点。</span><span lang="en">↻ 786 rounds per run, starting from the best of greedy, regret insertion and 5,000 random constructions.</span><span lang="ko">↻ 실행마다 786회 반복. 시작 배차표는 탐욕 구성, 후회값 삽입, 무작위 구성 5,000회 중 가장 좋은 것.</span></div>
+      <div class="card">
+        <h3><span lang="zh">两张时刻表比好坏时的优先顺序</span><span lang="en">How two timetables are ranked</span><span lang="ko">두 배차표를 비교하는 우선순위</span></h3>
+        <p><span lang="zh">① 晚于交期 120 min 以上的块数 → ② 迟到的块数 → ③ 总迟延时间 → ④ 作业人工。前一项多一块，后面几项再好也不行。</span><span lang="en">① Blocks more than 120 min late → ② late blocks → ③ total delay → ④ crew time. One more block on an earlier item outweighs any gain on the later ones.</span><span lang="ko">① 납기보다 120분 넘게 늦은 블록 수 → ② 지연 블록 수 → ③ 총 지연 시간 → ④ 작업 인시. 앞 항목에서 한 개가 더 많으면 뒤 항목이 아무리 좋아도 소용없다.</span></p>
+        <p class="tiny"><span lang="zh">每一步推演时，同一队的几台车一起更新，保证拼载同步。在 8–15 块的小实例上与精确最优解对照，平均差距 0.06–0.28%，最大 2.9%（旧目标函数）；新目标下的精确对照（V1）正在进行。</span><span lang="en">Each step updates a team's members together. On instances of 8–15 blocks the mean gap to proven optima was 0.06–0.28%, at most 2.9% (earlier objective); V1 checks the current one.</span><span lang="ko">매 단계에서 한 팀의 차량을 함께 갱신해 결합 운반의 동기화를 보장한다. 블록 8–15개의 소규모 인스턴스에서 증명된 최적해와의 평균 차이는 0.06–0.28%, 최대 2.9% (이전 목적함수). 현재 목적함수의 정확해 비교(V1)는 진행 중.</span></p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">时刻表怎么排出来？可能的排法是天文数字，不可能挨个试。所以我们用 ALNS：先有一张能用的时刻表，然后反复“拆掉一部分、再更好地补回去”，好的就留下，并且记住哪种拆补方法更有效。比较时刻表时，先看有没有分段晚超过 120 分钟，再看迟到几块，然后是总迟延，最后才是人工。这个算法在小规模问题上和精确最优解比过，差距很小；新目标函数下的精确对照还在做。</p>
+    <p lang="en">How is a timetable found? The number of possible timetables is astronomical, so they cannot be tried one by one. We use ALNS: start from a workable timetable, then repeatedly remove part of it and put it back better, keep improvements, and learn which moves work. Timetables are ranked first by blocks more than 120 minutes late, then late blocks, then total delay, and only then crew time. On small problems the algorithm was compared with proven optima and the gap was small; the exact comparison for the current objective is still running.</p>
+    <p lang="ko">배차표는 어떻게 찾을까요? 가능한 배차표의 수는 천문학적이어서 하나씩 해 볼 수 없습니다. 그래서 ALNS를 씁니다. 쓸 만한 배차표에서 시작해 일부를 빼고 더 좋게 다시 넣는 과정을 반복하고, 개선되면 유지하며, 어떤 방법이 잘 통하는지 학습합니다. 배차표는 먼저 120분 넘게 늦은 블록 수, 다음 지연 블록 수, 총 지연, 마지막으로 인시 순으로 비교합니다. 소규모 문제에서는 증명된 최적해와 비교해 차이가 작았고, 현재 목적함수의 정확해 비교는 진행 중입니다.</p>
+  </aside>
+</section>
+
+<!-- 08 method pipeline -->
+<section class="slide" data-sec="method">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">方法：四步，把每个车队“配到同样服务”后再定价</span><span lang="en">Method: four steps from a service target to a price</span><span lang="ko">방법: 서비스 목표에서 가격까지 네 단계</span></h2>
+  <div class="content vc" style="gap:30px">
+    <div class="steps">
+      <div class="card"><span class="n">1</span><h3><span lang="zh">规定服务</span><span lang="en">Set the service</span><span lang="ko">서비스 규정</span></h3><p>S = (95%, 120 min)</p></div>
+      <div class="card"><span class="n">2</span><h3><span lang="zh">完整调度</span><span lang="en">Schedule</span><span lang="ko">스케줄링</span></h3><p><span lang="zh">每个实例、每个台数都用 ALNS 排出完整时刻表</span><span lang="en">ALNS builds a full timetable for every instance and count</span><span lang="ko">인스턴스·대수마다 ALNS로 전체 시간표 작성</span></p></div>
+      <div class="card"><span class="n">3</span><h3><span lang="zh">对称台数扫描</span><span lang="en">Symmetric count scan</span><span lang="ko">대칭 대수 스캔</span></h3><p><span lang="zh">达标就减一台，不达标就加一台，得到 K*</span><span lang="en">Down while it qualifies, up while it fails, giving K*</span><span lang="ko">충족하면 줄이고 못 하면 늘려 K* 도출</span></p></div>
+      <div class="card"><span class="n">4</span><h3><span lang="zh">定价比较</span><span lang="en">Price and compare</span><span lang="ko">가격 비교</span></h3><p class="mono" style="color:var(--ink)">C(r) = r·P + L</p><p><span lang="zh">P：资本（以 270 t 车为 1）；L：每天人工（人时）</span><span lang="en">P: capital, one 270 t = 1; L: labour-hours per day</span><span lang="ko">P: 자본 (270 t 1대 = 1), L: 하루 인시</span></p></div>
+    </div>
+    <div class="col">
+      <div class="small"><span lang="zh">台数扫描示例（某一吨级、某一工况，30 天实例）</span><span lang="en">Count scan, one tier in one condition (30 daily instances)</span><span lang="ko">대수 스캔 예시 (한 등급, 한 조건, 30일 인스턴스)</span></div>
+      <div class="scan">
+        <div class="k fail"><span class="num">K = 3</span><small><span lang="zh">不达标</span><span lang="en">fails</span><span lang="ko">미충족</span></small></div>
+        <div class="k fail"><span class="num">K = 4</span><small><span lang="zh">K*−1：再多跑 2 次，仍不达标</span><span lang="en">K*−1: two more runs, still fails</span><span lang="ko">K*−1: 2회 추가 실행, 여전히 미충족</span></small></div>
+        <div class="k ok star"><span class="num">K* = 5</span><small><span lang="zh">最少达标台数</span><span lang="en">smallest qualifying count</span><span lang="ko">최소 충족 대수</span></small></div>
+        <div class="k ok"><span class="num">K = 6</span><small><span lang="zh">达标</span><span lang="en">qualifies</span><span lang="ko">충족</span></small></div>
+        <div class="k ok"><span class="num">K = 7</span><small><span lang="zh">达标</span><span lang="en">qualifies</span><span lang="ko">충족</span></small></div>
+      </div>
+      <ul class="clean" style="margin-top:6px">
+        <li><span lang="zh">每个吨级、每种混编各扫各的，只用自己的运行结果，搜索规则相同，比较才公平</span><span lang="en">Each tier and mix is scanned on its own runs with identical search rules, so the comparison is fair</span><span lang="ko">등급·혼합마다 자기 실행 결과만으로, 같은 탐색 규칙으로 스캔하므로 공정하게 비교됨</span></li>
+        <li><span lang="zh">种子、预算和规则在运行前写定（预注册），看到结果后不改</span><span lang="en">Seeds, budgets and rules were fixed before the runs (pre-registered) and not changed after seeing results</span><span lang="ko">시드·예산·규칙은 실행 전에 고정(사전 등록)했고 결과를 본 뒤 바꾸지 않음</span></li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">方法分四步。每一种吨级、每一种混编都单独扫描台数：从一个起点开始，达标就往下减，不达标就往上加，直到找到最少的达标台数 K*。在 K*−1 这个边界上还会再多跑两次，防止只是搜索运气不好。所有车队用同一套搜索规则，保证比较公平。</p>
+    <p lang="en">The method has four steps. Each tier and each mix is scanned separately: start from a count, go down while it qualifies and up while it fails, until the smallest qualifying count K* is found. At the boundary K*−1 two more runs are made, so a failure is not just bad luck in the search. Every fleet gets the same search rules, so the comparison is fair.</p>
+    <p lang="ko">방법은 네 단계입니다. 각 용량 등급과 각 혼합 차량군을 따로 스캔합니다. 시작 대수에서 충족하면 줄이고, 못 하면 늘려서 충족하는 최소 대수 K*를 찾습니다. 경계인 K*−1에서는 탐색 운이 나빴던 것이 아닌지 확인하려고 두 번 더 실행합니다. 모든 차량군에 같은 탐색 규칙을 적용해 공정하게 비교합니다.</p>
+  </aside>
+</section>
+
+<!-- price ratio worked example -->
+<section class="slide" data-sec="method">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">车钱和人工钱怎么放在一起比？都换成“人时”（一个工人干一小时的钱）</span><span lang="en">How can vehicle money and crew money be compared? Convert both to labour-hours</span><span lang="ko">차량비와 인건비를 어떻게 비교하나? 둘 다 인시(노동자 1명의 1시간 비용)로 환산한다</span></h2>
+  <div class="content compact-en" style="grid-template-rows:auto auto auto 1fr;gap:12px;margin-top:18px">
+    <div class="chainx">
+      <div class="card"><span class="tag"><span lang="zh">车的钱</span><span lang="en">Vehicle</span><span lang="ko">차량</span></span><span class="num"><span lang="zh">221.5 万元</span><span lang="en">CNY 2.21 M</span><span lang="ko">221.5만 위안</span></span><p class="small"><span lang="zh">一台 270 t 车的价格（不含税，按中标价拟合）</span><span lang="en">Price of one 270 t transporter (ex VAT, fitted to award prices)</span><span lang="ko">270 t 트랜스포터 1대 가격 (부가세 제외, 낙찰가 적합)</span></p></div>
+      <span class="ar">→</span>
+      <div class="card"><span class="tag">&nbsp;</span><span class="num"><span lang="zh">32.9 万元/年</span><span lang="en">CNY 329 k / yr</span><span lang="ko">32.9만 위안/년</span></span><p class="small"><span lang="zh">按 8 年、年利率 4% 摊还（资本回收系数 0.1485）</span><span lang="en">Spread over 8 years at 4% interest (capital recovery factor 0.1485)</span><span lang="ko">8년, 연이율 4%로 분할 상환 (자본 회수 계수 0.1485)</span></p></div>
+      <span class="ar">→</span>
+      <div class="card"><span class="tag">&nbsp;</span><span class="num">1,316 <small style="font-size:16px"><span lang="zh">元/天</span><span lang="en">CNY / day</span><span lang="ko">위안/일</span></small></span><p class="small"><span lang="zh">每年 250 个工作日</span><span lang="en">250 working days a year</span><span lang="ko">연 250 작업일</span></p></div>
+    </div>
+    <div class="chainx">
+      <div class="card"><span class="tag"><span lang="zh">人的钱</span><span lang="en">Labour</span><span lang="ko">인건비</span></span><span class="num">79,182 <small style="font-size:16px"><span lang="zh">元/年</span><span lang="en">CNY / yr</span><span lang="ko">위안/년</span></small></span><p class="small"><span lang="zh">全国制造业生产人员平均工资（国家统计局，2025）</span><span lang="en">Average wage of manufacturing production workers in China (NBS, 2025)</span><span lang="ko">중국 제조업 생산직 평균 임금 (국가통계국, 2025)</span></p></div>
+      <span class="ar">→</span>
+      <div class="card"><span class="tag">&nbsp;</span><span class="num">× 1.3 ÷ 2,000 h</span><p class="small"><span lang="zh">加 30% 企业附加成本（社保等），每年 2,000 工时</span><span lang="en">Plus 30% employer on-costs (social insurance etc.), 2,000 hours a year</span><span lang="ko">사업주 부담 30% (사회보험 등) 추가, 연 2,000시간</span></p></div>
+      <span class="ar">→</span>
+      <div class="card"><span class="tag">&nbsp;</span><span class="num">51.5 <small style="font-size:16px"><span lang="zh">元/人时</span><span lang="en">CNY / labour-h</span><span lang="ko">위안/인시</span></small></span><p class="small"><span lang="zh">一个工人干一小时的成本</span><span lang="en">Cost of one worker for one hour</span><span lang="ko">노동자 1명의 1시간 비용</span></p></div>
+    </div>
+    <div class="chainx">
+      <div class="card res"><span class="tag"><span lang="zh">价格比</span><span lang="en">Price ratio</span><span lang="ko">가격비</span></span><span class="num">r = 1,316 ÷ 51.5 = 25.6</span><p class="small" style="color:var(--ink)"><span lang="zh">一台 270 t 车每天的资本成本 = 25.6 个人时</span><span lang="en">One 270 t transporter's daily capital cost = 25.6 labour-hours</span><span lang="ko">270 t 1대의 하루 자본비 = 25.6인시</span></p></div>
+      <div class="card"><span class="tag"><span lang="zh">对比</span><span lang="en">Compare</span><span lang="ko">비교</span></span><span class="num">64</span><p class="small"><span lang="zh">一台车的作业组每天：4 人 × 16 h = 64 人时</span><span lang="en">One vehicle's crew per day: 4 workers × 16 h = 64 labour-hours</span><span lang="ko">차량 1대 작업 인원의 하루: 4명 × 16시간 = 64인시</span></p></div>
+      <div class="card"><span class="tag"><span lang="zh">总成本</span><span lang="en">Total cost</span><span lang="ko">총비용</span></span><span class="num">C = r·P + L</span><p class="small"><span lang="zh">P：车队的钱相当于几台 270 t 车；L：车队每天的总人时</span><span lang="en">P: the fleet's price in units of one 270 t transporter; L: the fleet's labour-hours per day</span><span lang="ko">P: 차량군 가격을 270 t 대수로 환산, L: 차량군의 하루 총 인시</span></p></div>
+    </div>
+    <p class="small" style="align-self:end"><span lang="zh">换成上海制造业工资（120.1 元/人时）时 r = 11.0。年限 8–15 年、利率 4–8%、每年 250–300 个工作日等 144 种组合下，r 在 5.1–30 之间，所以所有结果都在这个范围内报告，不押注某一个值。</span><span lang="en">With the Shanghai manufacturing wage (CNY 120.1 per labour-hour), r = 11.0. Over 144 combinations of 8–15 years, 4–8% interest and 250–300 working days, r lies between 5.1 and 30, so every result is reported across that range rather than at one value.</span><span lang="ko">상하이 제조업 임금(120.1위안/인시)을 쓰면 r = 11.0이다. 8–15년, 이자율 4–8%, 연 250–300 작업일 등 144개 조합에서 r은 5.1–30이므로, 모든 결과를 한 값이 아니라 이 범위 전체에서 보고한다.</span></p>
+  </div>
+  <aside class="notes">
+    <p lang="zh">比较车队成本，要把两种钱换成同一个单位。这里用“人时”，即一个工人干一小时的成本。一台 270 t 的车大约 221 万元，按 8 年、4% 利率摊到每年约 33 万元，再摊到每个工作日约 1,316 元；一个工人每小时的成本大约 51.5 元。两者一除，r 约等于 25.6，也就是说一台 270 t 车每天的资本成本相当于 25.6 个人时。而一台车配 4 个人、干 16 小时，就是 64 人时，比车本身贵得多。因为工资和贷款条件各地不同，我们不押一个值，而是把 r 从 5.1 扫到 30。</p>
+    <p lang="en">To compare fleet costs, both kinds of money must be in one unit. We use labour-hours, the cost of one worker for one hour. A 270 t transporter costs about CNY 2.21 million; spread over 8 years at 4% it is about CNY 329,000 a year, or about CNY 1,316 per working day. One worker costs about CNY 51.5 an hour. Dividing gives r ≈ 25.6: a 270 t transporter's daily capital cost equals 25.6 labour-hours. Its crew of 4 working 16 hours is 64 labour-hours, far more than the vehicle. Since wages and financing vary, we do not bet on one value and instead scan r from 5.1 to 30.</p>
+    <p lang="ko">차량군 비용을 비교하려면 두 종류의 돈을 같은 단위로 바꿔야 합니다. 여기서는 인시, 즉 노동자 한 명이 한 시간 일하는 비용을 씁니다. 270 t 트랜스포터는 약 221만 위안이고, 8년·이자율 4%로 나누면 연 약 32.9만 위안, 작업일당 약 1,316위안입니다. 노동자 한 명의 시간당 비용은 약 51.5위안입니다. 둘을 나누면 r ≈ 25.6, 즉 270 t 한 대의 하루 자본비는 25.6인시와 같습니다. 반면 4명이 16시간 일하는 작업 인원은 64인시로 차량보다 훨씬 비쌉니다. 임금과 금융 조건은 지역마다 다르므로 한 값에 걸지 않고 r을 5.1에서 30까지 모두 살펴봅니다.</p>
+  </aside>
+</section>
+
+<!-- 09 prices -->
+<section class="slide" data-sec="method">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">价格：一台车的资本，比不过一组人的工资</span><span lang="en">Prices: a vehicle's capital against its crew's wages</span><span lang="ko">가격: 차량의 자본비 대 작업 인원의 인건비</span></h2>
+  <div class="content g2">
+    <div class="col">
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">39 台车的中标单价（33 份公开中标公告，2022–2026，不含税）</span><span lang="en">Unit award prices of 39 transporters (33 public award notices, 2022–2026, ex VAT)</span><span lang="ko">트랜스포터 39대 낙찰 단가 (공개 낙찰 공고 33건, 2022–2026, 부가세 제외)</span></b></div>
+      <div class="chart fill" id="cPrice"></div>
+      <div class="tiny"><span lang="zh">单一幂律被失拟检验拒绝（p = 0.039）；分段线性和幂指数 0.72–0.96 作为敏感性情形。</span><span lang="en">A single power law is rejected by a lack-of-fit test (p = 0.039); piecewise-linear and power laws with exponents 0.72–0.96 are sensitivity cases.</span><span lang="ko">단일 거듭제곱 법칙은 적합 결여 검정에서 기각(p = 0.039). 구간 선형과 지수 0.72–0.96의 거듭제곱 법칙은 민감도 사례.</span></div>
+    </div>
+    <div class="col">
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">每台车每天：资本成本（柱）与一组人的工资（虚线），单位：人时</span><span lang="en">Per transporter and day: capital (bars) against one crew (dashed), in labour-hours</span><span lang="ko">차량 1대·하루당: 자본비(막대) 대 작업 인원(점선), 단위: 인시</span></b></div>
+      <div class="slider"><label for="rCap"><span lang="zh">价格比 r</span><span lang="en">Price ratio r</span><span lang="ko">가격비 r</span></label><input type="range" id="rCap" min="5.1" max="30" step="0.1" value="30"><output id="rCapV" for="rCap">30.0</output></div>
+      <div class="chart fill" id="cCap"></div>
+      <div class="verdict" id="capTxt" style="font-size:15.5px;min-height:0"></div>
+      <div class="tiny"><span lang="zh">r = 一台 270 t 车每天分摊的资本成本折合多少人时。按 8–15 年、4–8% 利率、全国与上海工资标定，r ∈ [5.1, 30]。</span><span lang="en">r = daily capital cost of one 270 t transporter in labour-hours. Calibrated over 8–15 years, 4–8% interest and national or Shanghai wages: r ∈ [5.1, 30].</span><span lang="ko">r = 270 t 트랜스포터 1대의 하루 자본비를 인시로 환산한 값. 8–15년, 이자율 4–8%, 전국·상하이 임금으로 보정: r ∈ [5.1, 30].</span></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">价格来自 33 份公开中标公告，共 39 台车。r 把“车的钱”和“人的钱”换成同一个单位：一台 270 t 车每天分摊的资本成本相当于多少人时。用全国和上海两种工资标定，r 在 5.1 到 30 之间。拖动右边的滑块可以看到：即使 r 取到最高 30，最贵的 550 t 车每天也只相当于 53 人时，而一台车的班组每天是 64 人时。所以少买一台车，比升级到更大吨级更省。</p>
+    <p lang="en">Prices come from 33 public award notices covering 39 transporters. The ratio r puts vehicle money and crew money in one unit: the daily capital cost of a 270 t transporter, in labour-hours. Calibrated with national and Shanghai wages, r lies between 5.1 and 30. Drag the slider: even at r = 30, the most expensive 550 t transporter costs 53 labour-hours a day, while its crew costs 64. Saving one transporter therefore saves more than moving up a tier.</p>
+    <p lang="ko">가격은 공개 낙찰 공고 33건, 트랜스포터 39대에서 얻었습니다. r은 차량 비용과 인건비를 같은 단위로 바꿉니다. 즉, 270 t 트랜스포터 한 대의 하루 자본비가 몇 인시에 해당하는지입니다. 중국 전국 임금과 상하이 임금으로 보정하면 r은 5.1–30입니다. 오른쪽 슬라이더를 움직여 보면, r = 30이라도 가장 비싼 550 t가 하루 53인시인 반면 한 대의 작업 인원은 하루 64인시입니다. 따라서 한 대를 덜 사는 것이 더 큰 등급으로 올리는 것보다 절약이 큽니다.</p>
+  </aside>
+</section>
+
+<!-- 10 setup -->
+<section class="slide" data-sec="setup">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">实验：一个数字化船厂 + 一个公开数据船厂</span><span lang="en">Experiments: one digitised yard and one yard with published data</span><span lang="ko">실험: 디지털화한 조선소 하나 + 공개 데이터 조선소 하나</span></h2>
+  <div class="content" style="grid-template-columns:1.15fr 1fr;gap:28px">
+    <div class="col">
+      <div class="fill"><img src="assets/fig_layout.png" alt="Digitised shipyard layout and generated flow weights" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:left top"></div>
+      <div class="tiny"><span lang="zh">左：由卫星图数字化的韩国巨济岛某大型船厂道路与场地；右：8 条加权物流方向。任务位置与释放时间为生成场景。</span><span lang="en">Left: roads and areas of a large shipyard on Geoje Island, South Korea, digitised from satellite imagery. Right: the eight weighted flows. Task locations and release times are generated scenarios.</span><span lang="ko">왼쪽: 위성 사진으로 디지털화한 한국 거제도 대형 조선소의 도로와 구역. 오른쪽: 가중 물류 흐름 8개. 작업 위치와 투입 시각은 생성한 시나리오.</span></div>
+    </div>
+    <div class="col compact" style="gap:0;justify-content:space-between">
+      <div class="stat"><span class="num">97 <small><span lang="zh">次 / 天</span><span lang="en">moves / day</span><span lang="ko">회 / 일</span></small></span><p><span lang="zh">16 h 班次，8 个批次，每 2 h 释放一批</span><span lang="en">16-h shift, eight release batches 2 h apart</span><span lang="ko">16시간 교대, 2시간 간격 8개 투입 배치</span></p></div>
+      <div class="stat"><span class="num">36 <small>× 30</small></span><p><span lang="zh">36 种工况 = 6 种分段重量 × 3 种装卸时间 × 2 种交期；每种 30 个工作日</span><span lang="en">36 conditions = 6 mass scenarios × 3 handling settings × 2 due-date settings; 30 working days each</span><span lang="ko">36개 조건 = 중량 시나리오 6 × 적재·하역 시간 3 × 납기 설정 2, 조건마다 30일</span></p></div>
+      <div class="stat"><span class="num">384</span><p><span lang="zh">车队系列：9 个吨级（200–550 t）+ 2 种混编（270 t + 1 或 2 台重车），各自扫描 K*</span><span lang="en">fleet series: 9 tiers (200–550 t) + 2 mixes (270 t with 1 or 2 heavy units), each scanned for K*</span><span lang="ko">차량군 시리즈: 9개 등급(200–550 t) + 혼합 2종(270 t + 대형 1 또는 2대), 각각 K* 스캔</span></p></div>
+      <div class="stat"><span class="num">6,480</span><p><span lang="zh">成本设定 = 36 工况 × 5 条价格曲线 × 9 个 r × 4 种人工口径</span><span lang="en">cost settings = 36 conditions × 5 price curves × 9 values of r × 4 labour measures</span><span lang="ko">비용 설정 = 36개 조건 × 가격 곡선 5 × r 값 9 × 인건비 기준 4</span></p></div>
+      <div class="stat"><span class="num">50 <small><span lang="zh">次 / 周</span><span lang="en">moves / week</span><span lang="ko">회 / 주</span></small></span><p><span lang="zh">第二船厂：上海外高桥造船公开的一周任务（204–399 t，Liu et al. 2022）</span><span lang="en">Second yard: a published week at Shanghai Waigaoqiao Shipbuilding (204–399 t, Liu et al. 2022)</span><span lang="ko">두 번째 조선소: 상하이 와이가오차오 조선의 공개된 1주일 작업 (204–399 t, Liu et al. 2022)</span></p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">主案例是根据卫星图数字化的韩国巨济岛一家大型船厂的道路网络。每天 97 次搬运来自文献中一个真实工作日的规模；分段位置和释放时间是生成的场景。我们变化了分段重量、装卸时间和交期松紧，共 36 种工况，每种 30 天。仅主实验就有七万多次调度运行。第二个船厂用的是上海外高桥造船公开的一周数据。</p>
+    <p lang="en">The main case is the road network of a large shipyard on Geoje Island, South Korea, digitised from satellite imagery. The 97 moves a day follow the size of a published working day; locations and release times are generated scenarios. We varied block masses, handling times and due-date tightness: 36 conditions with 30 days each. The main experiment alone took over 70,000 scheduling runs. The second yard uses a published week from Shanghai Waigaoqiao Shipbuilding.</p>
+    <p lang="ko">주 사례는 위성 사진으로 디지털화한 한국 거제도 대형 조선소의 도로망입니다. 하루 97회 운반은 문헌에 보고된 실제 작업일 규모를 따르고, 위치와 투입 시각은 생성한 시나리오입니다. 블록 중량, 적재·하역 시간, 납기 여유를 바꿔 36개 조건, 조건마다 30일을 만들었습니다. 주 실험만 7만 회 이상의 스케줄링 실행이 들었습니다. 두 번째 조선소는 상하이 와이가오차오 조선이 공개한 1주일 데이터를 사용합니다.</p>
+  </aside>
+</section>
+
+<!-- the 36 conditions -->
+<section class="slide" data-sec="setup">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">36 种工况 = 6 种分段重量 × 3 种装卸时间 × 2 种交期</span><span lang="en">36 conditions = 6 mass scenarios × 3 handling settings × 2 due-date settings</span><span lang="ko">36개 조건 = 중량 시나리오 6 × 적재·하역 시간 3 × 납기 설정 2</span></h2>
+  <div class="content" style="grid-template-columns:1.45fr 1fr;gap:26px;margin-top:16px">
+    <div class="col" style="gap:8px">
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">6 种分段重量：30 天共 2,910 块的重量分布（虚线 = 270 t）</span><span lang="en">Six mass scenarios: masses of the 2,910 blocks in 30 days (dashed line = 270 t)</span><span lang="ko">중량 시나리오 6개: 30일간 블록 2,910개의 중량 분포 (점선 = 270 t)</span></b></div>
+      <div class="mgrid" id="massGrid" style="flex:1;min-height:0;grid-template-rows:1fr 1fr"></div>
+    </div>
+    <div class="col compact-en" style="gap:12px">
+      <div class="card">
+        <h3><span lang="zh">3 种装卸时间</span><span lang="en">Three handling settings</span><span lang="ko">적재·하역 시간 3가지</span></h3>
+        <ul class="clean">
+          <li><span lang="zh"><b>短（基准）</b>：装 10 min + 卸 10 min（Liu 2022）</span><span lang="en"><b>Short (baseline)</b>: 10 min loading + 10 min unloading (Liu 2022)</span><span lang="ko"><b>짧음 (기준)</b>: 적재 10분 + 하역 10분 (Liu 2022)</span></li>
+          <li><span lang="zh"><b>随重量</b>：每次 10–20 min + 0.05 × 重量 − 5 min（Kim &amp; Joo）</span><span lang="en"><b>Mass-dependent</b>: 10–20 min + 0.05 × mass − 5 min per operation (Kim &amp; Joo)</span><span lang="ko"><b>중량 비례</b>: 회당 10–20분 + 0.05 × 중량 − 5분 (Kim &amp; Joo)</span></li>
+          <li><span lang="zh"><b>长装载</b>：装 30–60 min + 卸 10 min</span><span lang="en"><b>Long loading</b>: 30–60 min loading + 10 min unloading</span><span lang="ko"><b>긴 적재</b>: 적재 30–60분 + 하역 10분</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span lang="zh">2 种交期</span><span lang="en">Two due-date settings</span><span lang="ko">납기 설정 2가지</span></h3>
+        <ul class="clean">
+          <li><span lang="zh"><b>基准</b>：释放后 150 / 180 / 210 min 内送到（概率 0.6 / 0.2 / 0.2，Roh &amp; Cha 2011）</span><span lang="en"><b>Baseline</b>: deliver within 150 / 180 / 210 min of release (probabilities 0.6 / 0.2 / 0.2, Roh &amp; Cha 2011)</span><span lang="ko"><b>기준</b>: 투입 후 150 / 180 / 210분 이내 도착 (확률 0.6 / 0.2 / 0.2, Roh &amp; Cha 2011)</span></li>
+          <li><span lang="zh"><b>紧</b>：释放后 120–150 min 内送到（假设）</span><span lang="en"><b>Tight</b>: within 120–150 min of release (assumed)</span><span lang="ko"><b>촉박</b>: 투입 후 120–150분 이내 (가정)</span></li>
+        </ul>
+      </div>
+      <p class="tiny"><span lang="zh">没有公开数值的参数（对接时间、紧交期、部分重量场景）都标为“假设”，并在敏感性实验 E5 中改变它们，找出改变结论的临界值。</span><span lang="en">Parameters without published values (coupling time, tight due dates, some mass scenarios) are marked as assumed and varied in the sensitivity runs (E5) to find where the answer changes.</span><span lang="ko">공개된 값이 없는 매개변수(결합 시간, 촉박한 납기, 일부 중량 시나리오)는 "가정"으로 표시하고, 민감도 실험 E5에서 바꿔 결론이 바뀌는 경계를 찾는다.</span></p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">为了不让结论依赖某一种特定情况，我们变化了三个因素。分段重量有 6 种：三种来自文献的真实数据，三种是人为设定的，用来拉开轻重分布，包括一种有些分段比任何车都重的超重场景。每张小图里的虚线是 270 t，线右边的分段对 270 t 车队来说都得拼载，比例从 23% 到 90% 不等。装卸时间有短、随重量变化和长三种；交期有基准和紧两种。组合起来 36 种工况。</p>
+    <p lang="en">So that the answer does not hinge on one situation, we varied three factors. There are six mass scenarios: three from published data and three constructed to spread light and heavy blocks, including an extra-heavy one where some blocks exceed every vehicle. The dashed line in each small chart is 270 t; every block to its right would need coupling in a 270 t fleet, from 23% to 90% of blocks depending on the scenario. Handling is short, mass-dependent or long, and due dates are baseline or tight. Together that makes 36 conditions.</p>
+    <p lang="ko">결론이 한 가지 상황에 좌우되지 않도록 세 가지 요인을 바꿨습니다. 중량 시나리오는 6가지로, 셋은 문헌의 실제 데이터이고 셋은 가볍고 무거운 블록의 분포를 넓히려고 만든 것이며, 일부 블록이 모든 차량보다 무거운 초중량 시나리오도 포함됩니다. 각 작은 그림의 점선은 270 t이며, 그 오른쪽 블록은 270 t 차량군이라면 모두 결합 운반해야 합니다. 그 비율은 시나리오에 따라 23%에서 90%입니다. 적재·하역은 짧음, 중량 비례, 긴 적재 세 가지, 납기는 기준과 촉박 두 가지로, 합쳐서 36개 조건입니다.</p>
+  </aside>
+</section>
+
+<!-- cost calculator -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">自己算一算：选一个工况和价格比，看哪种车队最便宜</span><span lang="en">Try it: pick a condition and a price ratio, and see which fleet is cheapest</span><span lang="ko">직접 계산: 조건과 가격비를 고르면 어느 차량군이 가장 싼지 보여 준다</span></h2>
+  <div class="content" style="grid-template-rows:auto 1fr auto;gap:10px;margin-top:14px">
+    <div class="ctlrow">
+      <label for="calcM"><span lang="zh">分段重量</span><span lang="en">Masses</span><span lang="ko">중량</span> <select class="sel" id="calcM"></select></label>
+      <label for="calcH"><span lang="zh">装卸</span><span lang="en">Handling</span><span lang="ko">적재·하역</span> <select class="sel" id="calcH"></select></label>
+      <label for="calcD"><span lang="zh">交期</span><span lang="en">Due dates</span><span lang="ko">납기</span> <select class="sel" id="calcD"></select></label>
+      <div class="seg" role="group" aria-label="Labour measure" id="calcLab">
+        <button type="button" data-i="3"><span lang="zh">班次人工</span><span lang="en">Shift staffing</span><span lang="ko">교대 인원</span></button>
+        <button type="button" data-i="5"><span lang="zh">运营（按车）</span><span lang="en">Operating, per vehicle</span><span lang="ko">운영 (차량별)</span></button>
+        <button type="button" data-i="4"><span lang="zh">运营（按队）</span><span lang="en">Operating, per team</span><span lang="ko">운영 (팀별)</span></button>
+      </div>
+      <div class="slider" style="flex:1;min-width:220px"><label for="rCalc">r</label><input type="range" id="rCalc" min="5.1" max="30" step="0.1" value="12.4"><output id="rCalcV" for="rCalc">12.4</output></div>
+    </div>
+    <div class="chart fill" id="calcChart"></div>
+    <div class="col" style="gap:4px">
+      <div class="verdict" id="calcTxt" style="font-size:15.5px;min-height:0"></div>
+      <div class="tiny"><span lang="zh">每天成本 C = r × P + L（单位：人时/天）。P：车队价格折合几台 270 t 车（仿射价格曲线）；混编中的重车按 500 t（Jiang、偏轻、均匀）、425 t（Liu）或 550 t 计价。班次人工 = 每台车 64 人时；运营人工只计排班中实际干活的时间。</span><span lang="en">Daily cost C = r × P + L (labour-hours per day). P: the fleet's price in units of one 270 t transporter (affine price curve); heavy members of mixes are priced at 500 t (Jiang, light-skewed, uniform), 425 t (Liu) or 550 t. Shift staffing = 64 labour-hours per vehicle; operating measures count only the work in the timetable.</span><span lang="ko">하루 비용 C = r × P + L (인시/일). P: 차량군 가격을 270 t 대수로 환산 (아핀 가격 곡선), 혼합 차량군의 대형은 500 t (Jiang·경량 편중·균일), 425 t (Liu) 또는 550 t로 계산. 교대 인원 = 차량당 64인시, 운영 기준은 배차표상 실제 작업 시간만 계산.</span></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">这一页可以现场操作，把前面讲的方法走一遍。选定一个工况，表里列出 11 种车队：每种都已经算出达标的最少台数 K*。每一行的横条分两段：蓝色是买车的钱 r × P，黄色是人工 L。可以看到，大部分情况下黄色远长于蓝色，所以台数少的车队最便宜。把 r 拖大（车更贵）或者切换到只按实际干活计人工，结果会怎么变，可以当场试。</p>
+    <p lang="en">This slide lets you walk through the method live. Pick a condition, and the table lists the 11 fleets, each already sized to its smallest qualifying count K*. Each bar has two parts: blue is capital, r × P, and yellow is labour, L. In most cases the yellow part is much longer, so the fleet with the fewest vehicles wins. Try dragging r up (dearer vehicles) or switching to operating labour, which pays only for scheduled work, and watch what changes.</p>
+    <p lang="ko">이 슬라이드에서 앞의 방법을 직접 따라가 볼 수 있습니다. 조건을 고르면 11개 차량군이 나오며, 각각 목표를 충족하는 최소 대수 K*가 이미 계산되어 있습니다. 각 막대는 두 부분으로, 파란색은 자본비 r × P, 노란색은 인건비 L입니다. 대부분 노란색이 훨씬 길어서 대수가 적은 차량군이 이깁니다. r을 키우거나(차량이 비싸짐) 실제 작업만 계산하는 운영 기준으로 바꾸면 무엇이 달라지는지 바로 확인할 수 있습니다.</p>
+  </aside>
+</section>
+
+<!-- 11 finding 1 -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">结论 1：最省钱的车队，几乎每块都单独运</span><span lang="en">Finding 1: the cheapest fleet carries almost every block alone</span><span lang="ko">결론 1: 가장 싼 차량군은 거의 모든 블록을 단독 운반한다</span></h2>
+  <div class="content g-r">
+    <div class="bigs">
+      <div class="card"><span class="num">90.8%</span><p><span lang="zh">的成本设定里，最省车队拼载的分段 ≤ 1/10（共 6,480 个）</span><span lang="en">of the 6,480 cost settings: the cheapest fleet coupled at most one block in ten</span><span lang="ko">의 비용 설정(총 6,480개)에서 최저비용 차량군의 결합 운반 블록 ≤ 10%</span></p></div>
+      <div class="card"><span class="num">57.5%</span><p><span lang="zh">完全不拼载</span><span lang="en">coupled no block at all</span><span lang="ko">결합 운반이 전혀 없음</span></p></div>
+      <div class="card warm"><span class="num">1.2%</span><p><span lang="zh">全是轻车（≤ 325 t）、重块只能拼载的同质车队胜出</span><span lang="en">all-light homogeneous fleets (≤ 325 t), which must couple every heavier block, were cheapest</span><span lang="ko">무거운 블록을 모두 결합해야 하는 경형(≤ 325 t) 단일 차량군이 최저</span></p></div>
+      <div class="card"><span class="num">26.1%</span><p><span lang="zh">轻车 + 1–2 台重车的混编胜出，重车只运最重的块</span><span lang="en">a light fleet with 1–2 heavy units won; the heavy units carry the heaviest blocks alone</span><span lang="ko">경형 + 대형 1–2대 혼합이 최저, 대형은 가장 무거운 블록만 단독 운반</span></p></div>
+    </div>
+    <div class="col" style="gap:16px">
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">换人工计价口径，结论不变（拼载 ≤ 1/10 的比例）</span><span lang="en">Holds under every labour measure (share coupling ≤ one in ten)</span><span lang="ko">모든 인건비 기준에서 성립 (결합 ≤ 10% 비율)</span></b></div>
+      <div class="hbar"><span><span lang="zh">班次人工</span><span lang="en">Shift staffing</span><span lang="ko">교대 인원</span></span><span class="tr"><i style="width:91.0%"></i></span><span class="v">91.0%</span></div>
+      <div class="hbar"><span><span lang="zh">班次 + 加班计价</span><span lang="en">Shift + after-shift</span><span lang="ko">교대 + 연장 근무</span></span><span class="tr"><i style="width:91.1%"></i></span><span class="v">91.1%</span></div>
+      <div class="hbar"><span><span lang="zh">运营人工（按车）</span><span lang="en">Operating, per vehicle</span><span lang="ko">운영 인원 (차량별)</span></span><span class="tr"><i style="width:94.0%"></i></span><span class="v">94.0%</span></div>
+      <div class="hbar"><span><span lang="zh">运营人工（按队）*</span><span lang="en">Operating, per team*</span><span lang="ko">운영 인원 (팀별)*</span></span><span class="tr"><i style="width:86.9%"></i></span><span class="v">86.9%</span></div>
+      <div class="tiny">* <span lang="zh">拼载时释放多余班组，对拼载最有利的口径</span><span lang="en">surplus crews released during joint service: the measure most favourable to coupling</span><span lang="ko">결합 운반 중 남는 인원을 풀어 주는 기준으로, 결합 운반에 가장 유리함</span></div>
+      <div class="card"><p><span lang="zh"><b>怎么读</b>：一个“成本设定” = 一个工况 + 一条价格曲线 + 一个价格比 r + 一种人工口径，共 36 × 5 × 9 × 4 = 6,480 个。在每个设定里找出最便宜的车队，再统计它拼载了多少分段。</span><span lang="en"><b>How to read this</b>: one cost setting = one condition + one price curve + one price ratio r + one labour measure, 36 × 5 × 9 × 4 = 6,480 in all. In each setting we find the cheapest fleet and count how many blocks it couples.</span><span lang="ko"><b>읽는 법</b>: 비용 설정 하나 = 조건 하나 + 가격 곡선 하나 + 가격비 r 하나 + 인건비 기준 하나, 총 36 × 5 × 9 × 4 = 6,480개. 설정마다 가장 싼 차량군을 찾고, 그것이 결합 운반한 블록 수를 센다.</span></p></div>
+      <p class="quote" style="margin-top:auto"><span lang="zh">拼载是补救手段，不是采购策略。</span><span lang="en">Coupling is a remedy, not a purchasing strategy.</span><span lang="ko">결합 운반은 보완책이지 구매 전략이 아니다.</span></p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">这是第一个结论。6,480 个成本设定里，90.8% 的最省车队拼载的分段不超过十分之一，57.5% 完全不拼载。全是轻车、靠拼载运重块的车队只在 1.2% 的设定里胜出。换哪种人工计价口径，结论都成立；即使在最有利于拼载的“按队计人工”口径下也有 86.9%。36 种工况里有 29 种在所有价格和口径下都满足；其余 7 种最多拼载 19.4%，主要是有分段超过所有吨级的超重工况。</p>
+    <p lang="en">This is Finding 1. In 90.8% of the 6,480 cost settings the cheapest fleet coupled at most one block in ten, and in 57.5% it coupled none. All-light fleets that rely on coupling were cheapest in only 1.2%. The result holds under every labour measure, including 86.9% under per-team operating crews, the measure most favourable to coupling. In 29 of the 36 conditions it held at every price and labour measure; the other seven coupled at most 19.4%, mainly extra-heavy conditions where some blocks exceed every tier.</p>
+    <p lang="ko">결론 1입니다. 6,480개 비용 설정 중 90.8%에서 최저비용 차량군이 결합 운반한 블록은 10% 이하였고, 57.5%에서는 전혀 없었습니다. 경형만으로 구성해 결합 운반에 의존하는 차량군은 1.2%에서만 최저였습니다. 어떤 인건비 기준에서도 성립하며, 결합 운반에 가장 유리한 팀별 운영 인원 기준에서도 86.9%입니다. 36개 조건 중 29개는 모든 가격과 기준에서 성립했고, 나머지 7개도 결합 비율이 최대 19.4%였으며 주로 일부 블록이 모든 등급을 넘는 초중량 조건입니다.</p>
+  </aside>
+</section>
+
+<!-- 12 heatmap -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">全景：36 种工况 × 9 个价格比，哪种车队最便宜</span><span lang="en">The full picture: the cheapest fleet in 36 conditions × 9 price ratios</span><span lang="ko">전체 그림: 36개 조건 × 가격비 9개에서 최저비용 차량군</span></h2>
+  <div class="content" style="grid-template-columns:1.2fr 1fr;gap:28px;margin-top:14px">
+    <div class="chart fill" id="cHeat"></div>
+    <div class="col">
+      <div class="seg" role="group" aria-label="Labour measure" id="heatSeg" style="align-self:flex-start">
+        <button type="button" data-lab="shift_h" id="hl-shift"><span lang="zh">班次人工</span><span lang="en">Shift staffing</span><span lang="ko">교대 인원</span></button>
+        <button type="button" data-lab="crew_team_h" id="hl-team"><span lang="zh">运营人工（按队）</span><span lang="en">Operating, per team</span><span lang="ko">운영 인원 (팀별)</span></button>
+      </div>
+      <ul class="clean">
+        <li><span lang="zh"><b>颜色</b>：胜出的车队类型</span><span lang="en"><b>Colour</b>: the winning fleet type</span><span lang="ko"><b>색</b>: 최저비용 차량군 유형</span></li>
+        <li><span lang="zh"><b>数字</b>：胜出车队拼载的分段比例（%）</span><span lang="en"><b>Number</b>: % of blocks the winner couples</span><span lang="ko"><b>숫자</b>: 승자가 결합 운반한 블록 비율(%)</span></li>
+        <li><span lang="zh"><b>斜线</b>：按天重抽样时胜者支持率 &lt; 80%（两车队几乎打平）</span><span lang="en"><b>Hatching</b>: winner kept in &lt; 80% of day resamples (near tie)</span><span lang="ko"><b>빗금</b>: 일자 재표본에서 승자 유지 &lt; 80% (거의 동률)</span></li>
+        <li><span lang="zh"><b>红点</b>：弱搜索依赖，多搜一点可能翻转</span><span lang="en"><b>Red dot</b>: weak search dependence, a little more search could flip it</span><span lang="ko"><b>빨간 점</b>: 약한 탐색 의존성, 탐색을 조금 더 하면 뒤집힐 수 있음</span></li>
+      </ul>
+      <div class="chips" id="heatLegend"></div>
+      <div class="card hm-tip" id="heatTip"><p class="small"><span lang="zh">把鼠标移到格子上查看细节。</span><span lang="en">Hover a cell for details.</span><span lang="ko">칸에 마우스를 올리면 세부 정보가 표시됩니다.</span></p></div>
+      <div class="tiny"><span lang="zh">仿射价格曲线。混编：轻车 270 t；重车按工况计价为 500 t 或 425 t。</span><span lang="en">Affine price curve. Mixes: 270 t light units; heavy units priced as 500 t or 425 t by condition.</span><span lang="ko">선형(아핀) 가격 곡선. 혼합: 경형 270 t, 대형은 조건에 따라 500 t 또는 425 t로 가격 산정.</span></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">这张图是所有结果的全景。每一行是一种工况，每一列是一个价格比。颜色表示哪种车队最便宜，格子里的数字是它拼载的分段比例，大部分是 0 或个位数。可以切换到“按队计人工”对比。鼠标放到格子上可以看细节。斜线表示按天重抽样时胜者不稳定，这些工况里两种车队几乎打平。</p>
+    <p lang="en">This is the full picture. Each row is a condition and each column a price ratio. The colour shows which fleet is cheapest, and the number is the share of blocks it couples, mostly 0 or single digits. Switch to per-team crews to compare, and hover a cell for details. Hatching marks cells where the winner changes under day resampling; there two fleets are nearly tied.</p>
+    <p lang="ko">전체 결과를 한눈에 보여 주는 그림입니다. 각 행은 조건, 각 열은 가격비입니다. 색은 최저비용 차량군, 칸 안의 숫자는 그 차량군이 결합 운반한 블록 비율로, 대부분 0이거나 한 자릿수입니다. 팀별 인원 기준으로 바꿔 비교할 수 있고, 칸에 마우스를 올리면 세부 정보가 나옵니다. 빗금은 일자 재표본에서 승자가 바뀌는 칸으로, 두 차량군이 거의 동률인 경우입니다.</p>
+  </aside>
+</section>
+
+<!-- 13 mechanism -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">为什么：拼载贵在“占用”，不在“等待”</span><span lang="en">Why: coupling costs through occupation, not waiting</span><span lang="ko">이유: 결합 운반의 비용은 대기가 아니라 점유에서 나온다</span></h2>
+  <div class="content g-l">
+    <div class="col">
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">384 个车队系列：拼载占服务时间的比例 vs 比本工况最省车队贵多少</span><span lang="en">384 fleet series: coupled share of service time against cost above the cheapest fleet of the condition</span><span lang="ko">차량군 시리즈 384개: 결합 운반이 서비스 시간에서 차지하는 비율 대 해당 조건 최저비용 대비 추가 비용</span></b> <span class="tiny">r = 12.4 · <span lang="zh">班次人工</span><span lang="en">shift staffing</span><span lang="ko">교대 인원</span></span></div>
+      <div class="chart fill" id="cScatter"></div>
+      <div class="chips" id="scatLegend"></div>
+      <div class="tiny"><span lang="zh">每个点 = 某工况下的一种车队（共 384 个）。横轴：它的车辆服务时间（装、运、卸）中有多少花在拼载任务上；纵轴：它比该工况里最便宜的车队贵多少。</span><span lang="en">Each dot is one fleet in one condition (384 in all). Horizontal: the share of its service time (loading, carrying, unloading) spent on coupled moves. Vertical: how much more it costs than the cheapest fleet of that condition.</span><span lang="ko">점 하나 = 한 조건의 차량군 하나 (총 384개). 가로: 서비스 시간(적재·운반·하역) 중 결합 운반에 쓴 비율, 세로: 해당 조건 최저비용 차량군보다 얼마나 비싼가.</span></div>
+    </div>
+    <div class="col" style="gap:0;justify-content:space-evenly">
+      <div class="stat"><span class="num">0.19% <small><span lang="zh">中位</span><span lang="en">median</span><span lang="ko">중앙값</span></small></span><p><span lang="zh">最省车队里，等队友到齐的时间只占车辆工作时间的 0.19%（最多 1.00%）</span><span lang="en">In the cheapest fleets, waiting for team members took 0.19% of transporter time (at most 1.00%)</span><span lang="ko">최저비용 차량군에서 팀원을 기다린 시간은 차량 작업 시간의 0.19% (최대 1.00%)</span></p></div>
+      <div class="stat"><span class="num">9.0% <small>vs</small> 41.7%</span><p><span lang="zh">拼载占服务时间：最省车队中位 9.0%，全部系列中位 41.7%。越依赖拼载，越需要多买车</span><span lang="en">Coupled share of service time: median 9.0% in the cheapest fleets, 41.7% over all series. The more a fleet couples, the more vehicles it needs</span><span lang="ko">결합 운반의 서비스 시간 비율: 최저비용 차량군 중앙값 9.0%, 전체 시리즈 41.7%. 결합에 의존할수록 더 많은 차량이 필요</span></p></div>
+      <div class="stat"><span class="num">64 <small>&gt;</small> 53</span><p><span lang="zh">一台车的班组每天 64 人时，大于最贵的 550 t 车在 r = 30 时的每天资本 53 人时：人比车贵</span><span lang="en">One crew costs 64 labour-hours a day, more than the 53 of a 550 t transporter's capital even at r = 30: crews outweigh vehicles</span><span lang="ko">작업 인원은 하루 64인시로, r = 30에서도 550 t 차량 자본비 53인시보다 크다: 사람이 차보다 비싸다</span></p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">为什么拼载不划算？直觉上会以为是“等车”浪费时间，但数据显示等待只占车辆时间的 0.19%。真正的成本是占用：越依赖拼载，就越需要更多台车才能按时完成，成本随拼载比例几乎线性上升。再加上一组人每天 64 人时，比任何一台车的资本都贵，多一台车就多一大笔工资。这也是运输经济学里“人工成本决定车辆大小”的经典结论在船厂重载运输中的体现。</p>
+    <p lang="en">Why doesn't coupling pay? Intuition says waiting wastes time, but waiting took only 0.19% of transporter time. The real cost is occupation: the more a fleet relies on coupling, the more transporters it needs to finish on time, and cost rises almost linearly with the coupled share. And since a crew at 64 labour-hours a day costs more than any vehicle's capital, every extra transporter adds a large wage bill. This is the classic transport-economics result that crew cost drives vehicle size, quantified for heavy shipyard transport.</p>
+    <p lang="ko">왜 결합 운반은 이득이 없을까요? 직관적으로는 기다리는 시간이 낭비라고 생각하지만, 대기는 차량 시간의 0.19%에 불과했습니다. 진짜 비용은 점유입니다. 결합 운반에 의존할수록 납기를 지키려면 더 많은 차량이 필요하고, 비용은 결합 비율에 거의 선형으로 증가합니다. 게다가 하루 64인시의 작업 인원이 어떤 차량의 자본비보다 비싸므로, 차량 한 대가 늘 때마다 큰 인건비가 추가됩니다. 운송 경제학의 고전적 결과인 "인건비가 차량 크기를 결정한다"를 조선소 중량물 운반에서 정량화한 것입니다.</p>
+  </aside>
+</section>
+
+<!-- 14 second yard -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">换一个船厂，答案相同：425 t 最省</span><span lang="en">A second yard gives the same answer: 425 t is cheapest</span><span lang="ko">두 번째 조선소에서도 같은 답: 425 t가 최저</span></h2>
+  <div class="content g-l">
+    <div class="col">
+      <div class="slider"><label for="rCase"><span lang="zh">价格比 r</span><span lang="en">Price ratio r</span><span lang="ko">가격비 r</span></label><input type="range" id="rCase" min="5.1" max="30" step="0.1" value="12.4"><output id="rCaseV" for="rCase">12.4</output></div>
+      <div class="chart fill" id="cCase"></div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <h3><span lang="zh">数据</span><span lang="en">Data</span><span lang="ko">데이터</span></h3>
+        <p><span lang="zh">上海外高桥造船公开的一周 50 次分段搬运，分段重 204–399 t，原车队 5 台（250–420 t）。按周重采样出每种工作量的 30 个日实例，工作量放大 k 倍，从零开始配车，10 h 班次。</span><span lang="en">A published week of 50 block moves at Shanghai Waigaoqiao Shipbuilding, 204–399 t, with a fleet of five (250–420 t). Thirty daily instances per workload multiple k are resampled from that week, and fleets are sized from scratch over a 10-h shift.</span><span lang="ko">상하이 와이가오차오 조선이 공개한 1주일 블록 운반 50회, 블록 204–399 t, 기존 차량 5대(250–420 t). 작업량 배수 k마다 그 주에서 30개 일 인스턴스를 재표본하고, 10시간 교대로 처음부터 차량을 산정.</span></p>
+      </div>
+      <ul class="clean">
+        <li><span lang="zh">k = 6、8 时，425 t 只需 <b>5 台和 6 台</b>，与 500、550 t 并列最少</span><span lang="en">At k = 6 and 8, 425 t needs only <b>five and six</b> transporters, tied fewest with 500 and 550 t</span><span lang="ko">k = 6, 8에서 425 t는 <b>5대와 6대</b>만 필요, 500·550 t와 함께 최소</span></li>
+        <li><span lang="zh">在所有标定价格下都最便宜，比第二名低 <b>2.2–7.5%</b></span><span lang="en">Cheapest at every calibrated price, <b>2.2–7.5%</b> below the runner-up</span><span lang="ko">보정된 모든 가격에서 최저, 2위보다 <b>2.2–7.5%</b> 낮음</span></li>
+        <li><span lang="zh">主船厂里用 Liu 分段重量的 6 种工况，在 11 种标准车队中同样是 425 t 在所有价格下最省；再加入“300 t + 425 t”混编后，混编更省（见下一页）</span><span lang="en">In the main yard, the six conditions with Liu masses also pick 425 t among the 11 standard fleets at every price; once 300 t + 425 t mixes are added, a mix is cheaper (next slide)</span><span lang="ko">주 조선소의 Liu 중량 6개 조건에서도 표준 차량군 11개 중에서는 모든 가격에서 425 t가 최저다. "300 t + 425 t" 혼합을 더하면 혼합이 더 싸다 (다음 슬라이드)</span></li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">为了避免结论只是某个船厂的特例，我们用了另一家船厂公开的真实任务数据：上海外高桥造船一周 50 次分段搬运。把工作量放大到 6 倍和 8 倍，从零开始配车，425 t 同样最省，在所有价格下都比第二名便宜 2.2% 到 7.5%。拖动滑块可以看到这一点不随价格比变化。</p>
+    <p lang="en">To check that the answer is not specific to one yard, we used published task data from another: 50 block moves in one week at Shanghai Waigaoqiao Shipbuilding. Scaling the workload by 6 and 8 and sizing from scratch, 425 t is again cheapest, 2.2% to 7.5% below the runner-up at every price. The slider shows this holds across the price ratio.</p>
+    <p lang="ko">결론이 특정 조선소만의 경우가 아닌지 확인하려고 다른 조선소의 공개 작업 데이터를 사용했습니다. 상하이 와이가오차오 조선의 1주일 블록 운반 50회입니다. 작업량을 6배, 8배로 늘려 처음부터 차량을 산정하면 425 t가 역시 최저이며, 모든 가격에서 2위보다 2.2–7.5% 쌉니다. 슬라이더로 가격비와 무관하게 성립함을 볼 수 있습니다.</p>
+  </aside>
+</section>
+
+<!-- Liu mixes (B4) -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">再加入“300 t 轻车 + 几台 425 t 重车”：在 Liu 重量下，这种混编比全 425 t 更省</span><span lang="en">Add light-plus-heavy mixes: under Liu masses, 300 t units with a few 425 t units beat an all-425 t fleet</span><span lang="ko">"300 t 경형 + 425 t 대형 몇 대"를 더하면: Liu 중량에서 이 혼합이 425 t 단일보다 싸다</span> <span class="pill done" style="vertical-align:middle;font-size:14px"><span lang="zh">新结果</span><span lang="en">new</span><span lang="ko">새 결과</span></span></h2>
+  <div class="content" style="grid-template-columns:1.45fr 1fr;gap:26px;margin-top:14px">
+    <div class="col" style="gap:8px">
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">Liu 重量 · 短装卸 · 基准交期；车速取厂家参数（对混编最不利的口径）；每天成本，班次人工</span><span lang="en">Liu masses · short handling · baseline due dates; manufacturer speeds (the case least favourable to mixes); daily cost, shift staffing</span><span lang="ko">Liu 중량 · 짧은 적재·하역 · 기준 납기, 제조사 속도 (혼합에 가장 불리한 조건), 하루 비용, 교대 인원</span></b></div>
+      <div class="slider"><label for="rLiu"><span lang="zh">价格比 r</span><span lang="en">Price ratio r</span><span lang="ko">가격비 r</span></label><input type="range" id="rLiu" min="5.1" max="30" step="0.1" value="12.4"><output id="rLiuV" for="rLiu">12.4</output></div>
+      <div class="chart fill" id="cLiu"></div>
+    </div>
+    <div class="col compact-enko" style="gap:0;justify-content:space-evenly">
+      <div class="stat"><span class="num" id="liuWin"></span><p><span lang="zh">个成本设定中 300 t + 425 t 混编最便宜；其余由 500 t 胜出，此时混编最多只贵 0.5%</span><span lang="en">cost settings where a 300 t + 425 t mix is cheapest; 500 t wins the rest, and there the mix costs at most 0.5% more</span><span lang="ko">개 비용 설정에서 300 t + 425 t 혼합이 최저. 나머지는 500 t가 이기며, 그때 혼합은 최대 0.5%만 비싸다</span></p></div>
+      <div class="stat"><span class="num">5 = 5</span><p><span lang="zh">台数一样：2 台 300 t + 3 台 425 t 与 5 台 425 t 都是 5 台，但前者车价更低（P = 6.44 对 7.13），而且几乎不拼载（0.1%）</span><span lang="en">Same count: 2 × 300 t + 3 × 425 t and 5 × 425 t are both five vehicles, but the mix costs less capital (P = 6.44 vs 7.13) and almost never couples (0.1%)</span><span lang="ko">대수는 같다: 300 t 2대 + 425 t 3대와 425 t 5대 모두 5대지만, 혼합의 차량 가격이 더 낮고 (P = 6.44 대 7.13) 결합 운반이 거의 없다 (0.1%)</span></p></div>
+      <div class="card" style="background:var(--steel-soft)"><p style="color:var(--ink)"><span lang="zh">原因：Liu 的分段重 204–399 t，44% 超过 300 t。这些重块交给 3 台 425 t 单独运，其余交给 300 t 车：没有块需要拼载，贵车也只买需要的数量。这正是结论 1 说的“轻车 + 少量重车”。</span><span lang="en">Why: Liu blocks weigh 204–399 t and 44% exceed 300 t. Three 425 t units carry those alone and the 300 t units carry the rest, so no block needs coupling and the yard buys only as many dear vehicles as it needs. This is the "light fleet with a few heavy units" of Finding 1.</span><span lang="ko">이유: Liu 블록은 204–399 t이고 44%가 300 t를 넘는다. 이 무거운 블록은 425 t 3대가 단독으로 옮기고 나머지는 300 t가 옮기므로, 결합 운반이 필요 없고 비싼 차량도 필요한 만큼만 산다. 결론 1의 "경형 + 소수의 대형"이 바로 이것이다.</span></p></div>
+      <p class="tiny" id="liuProv"></p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">这是新完成的 B4 实验的主要结果。前面第二个船厂的比较里，只在 11 种标准车队中选，425 t 最省。这里再加入“300 t 轻车 + 1 到 4 台 425 t 重车”的混编，并且故意把车速都按厂家给的较慢参数算，这对混编最不利。结果是 8,000 个成本设定中，有 7,846 个混编最便宜。道理很简单：同样 5 台车，把其中 2 台换成更便宜的 300 t，让它们只运轻块，重块交给 425 t 单独运，几乎不用拼载。这支持了结论 1：买能单独运大部分块的轻车，再配少量重车。共用车速下的对照还差 R3 里 3 个边界核查，目前是初步结果。</p>
+    <p lang="en">This is the main result of the newly finished B4 study. In the second-yard comparison only the 11 standard fleets competed, and 425 t was cheapest. Here we add mixes of 300 t units with one to four 425 t units, and deliberately run every mix at the slower manufacturer speeds, the case least favourable to mixes. A mix is still cheapest in 7,846 of 8,000 cost settings. The reason is simple: with the same five vehicles, two of them become cheaper 300 t units that carry only light blocks while the 425 t units carry heavy blocks alone, so there is almost no coupling. This supports Finding 1: buy light units that carry most blocks alone, plus a few heavy units. The comparison at common speeds still waits for three boundary checks in R3 and is provisional.</p>
+    <p lang="ko">새로 끝난 B4 실험의 주요 결과입니다. 앞의 두 번째 조선소 비교에서는 표준 차량군 11개만 경쟁해 425 t가 최저였습니다. 여기서는 "300 t 경형 + 425 t 대형 1–4대" 혼합을 더하고, 혼합에 가장 불리하도록 모든 혼합을 제조사의 더 느린 속도로 계산했습니다. 그래도 8,000개 비용 설정 중 7,846개에서 혼합이 가장 쌉니다. 같은 5대 중 2대를 더 싼 300 t로 바꿔 가벼운 블록만 옮기게 하고, 무거운 블록은 425 t가 단독으로 옮기므로 결합 운반이 거의 없기 때문입니다. 이는 결론 1을 뒷받침합니다. 공통 속도에서의 비교는 R3의 경계 확인 3건이 남아 있어 아직 예비 결과입니다.</p>
+  </aside>
+</section>
+
+<!-- overweight-only coupling (R4R) -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">如果混编只许“超重才拼”？大多数混编达不到服务标准，买车成本最多高 9.4%</span><span lang="en">What if mixes may couple only for overweight blocks? Most mixes miss the target, and cost rises by up to 9.4%</span><span lang="ko">혼합 차량군이 "초과 중량일 때만 결합"한다면? 대부분 목표에 못 미치고 비용은 최대 9.4% 오른다</span> <span class="pill done" style="vertical-align:middle;font-size:14px"><span lang="zh">新结果</span><span lang="en">new</span><span lang="ko">새 결과</span></span></h2>
+  <div class="content" style="grid-template-columns:1fr 1.15fr;gap:26px;margin-top:14px">
+    <div class="col compact" style="gap:12px">
+      <div class="card">
+        <h3><span lang="zh">两种拼载规则</span><span lang="en">Two coupling rules</span><span lang="ko">두 가지 결합 규칙</span></h3>
+        <ul class="clean">
+          <li><span lang="zh"><b>灵活拼载</b>（本研究主口径）：任何最小可行队都行，例如车队里有 500 t 车，两台 270 t 也可以合运 400 t 的块</span><span lang="en"><b>Flexible</b> (main rule): any minimal team, e.g. two 270 t units may carry a 400 t block even with a 500 t unit in the fleet</span><span lang="ko"><b>유연 결합</b> (주 규칙): 어떤 최소 가능 팀도 허용. 예를 들어 500 t가 있어도 270 t 두 대가 400 t 블록을 옮길 수 있다</span></li>
+          <li><span lang="zh"><b>超重才拼</b>（Jiang 2021、Tao 2019 的做法）：只要车队里有一台车能单独运，就必须由它单独运</span><span lang="en"><b>Overweight-only</b> (as in Jiang 2021, Tao 2019): if any vehicle in the fleet can carry the block alone, it must</span><span lang="ko"><b>초과 중량 결합</b> (Jiang 2021, Tao 2019 방식): 차량군 중 한 대라도 단독 운반이 가능하면 그 차량이 옮겨야 한다</span></li>
+          <li><span lang="zh">同质车队两种规则完全一样，只影响“270 t + 1 或 2 台重车”的混编</span><span lang="en">For a homogeneous fleet the two rules coincide; only the 270 t + 1 or 2 heavy mixes are affected</span><span lang="ko">단일 등급 차량군에서는 두 규칙이 같고, "270 t + 대형 1 또는 2대" 혼합만 영향을 받는다</span></li>
+        </ul>
+      </div>
+      <div class="kn">66 / 72<small><span lang="zh">个“超重才拼”的混编系列，加到起始台数 + 4 台仍达不到服务标准：重块全压在 1–2 台重车上</span><span lang="en">overweight-only mixes miss the target even at the start count + 4: heavy blocks queue for one or two heavy units</span><span lang="ko">개 "초과 중량 결합" 혼합 시리즈는 시작 대수 + 4대에서도 목표 미달: 무거운 블록이 모두 대형 1–2대에 몰린다</span></small></div>
+      <div class="kn ox" id="porNum"></div>
+      <p class="tiny" id="porNote"></p>
+    </div>
+    <div class="col" style="gap:8px">
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">换成“超重才拼”后，最省车队贵了多少（仿射价格 · 班次人工）</span><span lang="en">How much dearer the cheapest fleet becomes under overweight-only coupling (affine price · shift staffing)</span><span lang="ko">"초과 중량 결합"으로 바꾸면 최저비용 차량군이 얼마나 비싸지는가 (아핀 가격 · 교대 인원)</span></b></div>
+      <div class="chart fill" id="cPor"></div>
+      <div class="chips" id="porLegend"></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">这是新完成的 R4R 实验。以往文献规定：只要车队里有一台车能单独运，就不许拼载。我们把两种混编在这个规则下重新定了台数。结果 72 个系列里有 66 个怎么加车都达不到服务标准，因为重块只能排队等那一两台重车。换算成买车成本，大多数设定里没有影响，因为最省的车队本来就很少拼载；但在混编原本胜出的工况里，成本最多高 9.4%。所以：混编要配合灵活拼载才有意义。有一处要特别说明：在超重、短装卸、基准交期这个工况，受限规则反而用 5 台车就找到了达标排班，而灵活规则的搜索停在了 6 台。受限规则允许的车组在灵活规则下都允许，所以灵活规则其实 5 台也够，主实验在这里多算了 1 台，这个工况的最省车队会变。这正是我们在热力图里标为“弱搜索依赖”的格子，需要用重放正式确认。</p>
+    <p lang="en">This is the newly finished R4R study. Earlier work allows coupling only when no single vehicle in the fleet can carry the block. We re-sized the two mixes under that rule. In 66 of 72 series no number of added vehicles met the service target, because every heavy block had to queue for the one or two heavy units. In purchase cost, most settings are unaffected, because the cheapest fleets rarely couple anyway; but where a mix used to win, cost rises by up to 9.4%. So mixes make sense only with flexible coupling. One point needs care: in the extra-heavy, short-handling, baseline condition, the restricted search found qualifying schedules with 5 vehicles while the flexible search stopped at 6. Every restricted team is also a flexible team, so 5 suffice under flexible coupling too: the main experiment over-counted by one there, and the cheapest fleet in that condition changes. This is exactly a cell we had marked as weakly search-dependent in the heatmap, and it must be confirmed by replay.</p>
+    <p lang="ko">새로 끝난 R4R 실험입니다. 기존 문헌은 차량군 중 한 대라도 단독 운반이 가능하면 결합을 허용하지 않습니다. 두 혼합 차량군을 이 규칙으로 다시 산정했습니다. 72개 시리즈 중 66개는 차량을 아무리 더해도 목표를 채우지 못했습니다. 모든 무거운 블록이 대형 1–2대를 기다려야 했기 때문입니다. 구매 비용으로 보면 대부분의 설정은 영향이 없습니다. 최저비용 차량군은 원래 결합을 거의 하지 않기 때문입니다. 다만 혼합이 이기던 조건에서는 비용이 최대 9.4% 오릅니다. 즉, 혼합은 유연 결합과 함께여야 의미가 있습니다. 한 가지 짚어야 할 점이 있습니다. 초중량·짧은 적재 하역·기준 납기 조건에서 제한 규칙의 탐색은 5대로 목표를 충족하는 배차를 찾았지만, 유연 규칙의 탐색은 6대에서 멈췄습니다. 제한 규칙의 팀은 모두 유연 규칙에서도 허용되므로 유연 결합에서도 5대면 충분합니다. 즉, 주 실험이 이 조건에서 1대를 더 셌고, 그 조건의 최저비용 차량군이 바뀝니다. 히트맵에서 "약한 탐색 의존성"으로 표시했던 바로 그 칸이며, 재생으로 확인해야 합니다.</p>
+  </aside>
+</section>
+
+<!-- three ways to size a fleet -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">决定一个车队需要几台车，有三种做法</span><span lang="en">Three ways to decide how many vehicles a fleet needs</span><span lang="ko">차량군에 필요한 대수를 정하는 세 가지 방법</span></h2>
+  <div class="content vc" style="gap:22px">
+    <div class="cols3">
+      <div class="card" style="border-top:4px solid var(--ink3)">
+        <h3><span lang="zh">① 负荷估算（只看输入）</span><span lang="en">① Load estimate (inputs only)</span><span lang="ko">① 부하 추정 (입력만)</span></h3>
+        <div class="eq" style="font-size:14.5px"><span lang="zh">K<sub>ρ</sub> = 使“Σ 标准工时 ÷ (K × 16 h) ≤ 1”的最少 K</span><span lang="en">K<sub>ρ</sub> = smallest K with Σ nominal work ÷ (K × 16 h) ≤ 1</span><span lang="ko">K<sub>ρ</sub> = "Σ 표준 작업 시간 ÷ (K × 16시간) ≤ 1"인 최소 K</span></div>
+        <p><span lang="zh">把一天所有搬运的标准工时加起来，除以“台数 × 16 h”，取比值不超过 1 的最少台数。</span><span lang="en">Add up the nominal work of all moves in a day, divide by vehicles × 16 h, and take the fewest vehicles with a ratio of at most 1.</span><span lang="ko">하루 모든 운반의 표준 작업 시간을 합해 "대수 × 16시간"으로 나누고, 비율이 1 이하인 최소 대수를 택한다.</span></p>
+        <p><b class="hl">+</b> <span lang="zh">几秒钟，不用排班</span><span lang="en">Takes seconds, no scheduling</span><span lang="ko">몇 초, 스케줄링 불필요</span></p>
+        <p><b class="ox">−</b> <span lang="zh">看不到批次和交期（第 9 页的小例子）</span><span lang="en">Blind to batches and due dates (the small example earlier)</span><span lang="ko">배치와 납기를 보지 못함 (앞의 작은 예)</span></p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--oxide)">
+        <h3><span lang="zh">② 贪心排班</span><span lang="en">② Greedy scheduling</span><span lang="ko">② 탐욕 배차</span></h3>
+        <div class="eq" style="font-size:14.5px"><span lang="zh">按释放顺序 → 最早能开工的车 / 队 → 不回头</span><span lang="en">by release time → earliest-starting vehicle or team → no revision</span><span lang="ko">투입 순서 → 가장 빨리 시작하는 차량/팀 → 수정 없음</span></div>
+        <p><span lang="zh">按时间顺序，每块交给最早能开始的车或车队，排完就定，不回头修改。很多调度软件和人工派车都类似这样。</span><span lang="en">Take blocks in time order and give each to the vehicle or team that can start it earliest, never revising. Much dispatching software, and many human dispatchers, work like this.</span><span lang="ko">시간 순서대로 블록마다 가장 빨리 시작할 수 있는 차량이나 팀에 맡기고 다시 고치지 않는다. 많은 배차 소프트웨어와 사람의 배차가 이와 비슷하다.</span></p>
+        <p><b class="hl">+</b> <span lang="zh">真的排了班；每个车队系列的整条台数扫描中位只要 13 s</span><span lang="en">Builds a real timetable; a full count scan takes a median 13 s per fleet series</span><span lang="ko">실제 배차표를 만든다. 시리즈당 전체 대수 스캔 중앙값 13초</span></p>
+        <p><b class="ox">−</b> <span lang="zh">早先的选择无法纠正，容易浪费车</span><span lang="en">Early choices cannot be corrected, which wastes vehicles</span><span lang="ko">초기 선택을 바로잡지 못해 차량을 낭비하기 쉽다</span></p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--steel)">
+        <h3><span lang="zh">③ 完整搜索（本研究）</span><span lang="en">③ Full search (this study)</span><span lang="ko">③ 완전 탐색 (본 연구)</span></h3>
+        <div class="eq" style="font-size:14.5px"><span lang="zh">每个实例 ALNS 786 轮 → 在 K*−1 处再跑 2 次</span><span lang="en">ALNS, 786 rounds per day → 2 more runs at K*−1</span><span lang="ko">하루당 ALNS 786회 → K*−1에서 2회 추가</span></div>
+        <p><span lang="zh">ALNS 反复改进时刻表，并在 K*−1 处再多跑两次，确认少一台确实不行。</span><span lang="en">ALNS improves the timetable repeatedly, with two more runs at K*−1 to confirm that one vehicle fewer really fails.</span><span lang="ko">ALNS로 배차표를 반복 개선하고, K*−1에서 두 번 더 실행해 한 대 적으면 정말 안 되는지 확인한다.</span></p>
+        <p><b class="hl">+</b> <span lang="zh">最接近真正需要的台数</span><span lang="en">Closest to the number really needed</span><span lang="ko">실제 필요 대수에 가장 가깝다</span></p>
+        <p><b class="ox">−</b> <span lang="zh">慢：每个车队系列中位约 0.9 h 计算；主实验共 7 万多次运行</span><span lang="en">Slow: a median of about 0.9 h of computing per fleet series; over 70,000 runs in the main experiment</span><span lang="ko">느림: 시리즈당 계산 시간 중앙값 약 0.9시간, 주 실험 7만 회 이상 실행</span></p>
+      </div>
+    </div>
+    <p class="quote"><span lang="zh">问题：用前两种简单办法，会不会买到不同的车？</span><span lang="en">The question: do the two simpler methods buy a different fleet?</span><span lang="ko">질문: 앞의 두 간단한 방법을 쓰면 다른 차량을 사게 되는가?</span></p>
+  </div>
+  <aside class="notes">
+    <p lang="zh">船厂实际决定台数时，常见两种简便办法：一是负荷估算，总工时除以班次时间；二是贪心派车，按时间顺序谁先有空就给谁。我们的方法是完整搜索，慢得多。结论 3 回答的问题是：用简便办法，最后买的车会不会不一样。</p>
+    <p lang="en">In practice, two shortcuts are common for deciding the count: a load estimate, total work divided by shift time, and greedy dispatching, which gives each block to whoever is free first. Our method is a full search, which is much slower. Finding 3 asks whether the shortcuts end up buying a different fleet.</p>
+    <p lang="ko">실무에서는 대수를 정할 때 두 가지 간편법이 흔합니다. 하나는 총 작업 시간을 교대 시간으로 나누는 부하 추정, 다른 하나는 먼저 비는 차량에 블록을 맡기는 탐욕 배차입니다. 저희 방법은 훨씬 느린 완전 탐색입니다. 결론 3은 간편법을 쓰면 결국 다른 차량을 사게 되는지를 묻습니다.</p>
+  </aside>
+</section>
+
+<!-- 15 finding 3 -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">结论 3：用简化方法评估车队，会买错车</span><span lang="en">Finding 3: simplified evaluation changes the purchase</span><span lang="ko">결론 3: 간소화된 평가는 구매 결정을 바꾼다</span></h2>
+  <div class="content g2">
+    <div class="col">
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">不同评估强度下，选中的车队与最终结果相同的比例（1,620 个设定，班次人工）</span><span lang="en">Settings where each evaluation level picks the same fleet as the final scan (1,620, shift staffing)</span><span lang="ko">평가 수준별로 최종 스캔과 같은 차량군을 고른 비율 (1,620개 설정, 교대 인원)</span></b></div>
+      <div class="chart fill" id="cAgree"></div>
+      <p class="small"><span lang="zh">贪心排班在 <b class="ox">561 / 1,620</b> 个设定里选了不同的车队；它给出的台数只有 88 / 384 个系列等于 K*，253 个多 1 台，43 个多 2 台以上。大车队（K* &gt; 10）和高拼载（&gt; 30%）时最差。</span><span lang="en">Greedy scheduling chose a different fleet in <b class="ox">561 of 1,620</b> settings; its count equalled K* in only 88 of 384 series, one more in 253 and two or more in 43. It was weakest for large fleets (K* &gt; 10) and heavy coupling (&gt; 30%).</span><span lang="ko">탐욕 배차는 <b class="ox">1,620개 중 561개</b> 설정에서 다른 차량군을 골랐고, 대수가 K*와 같은 시리즈는 384개 중 88개뿐, 1대 많음 253개, 2대 이상 많음 43개. 대형 차량군(K* &gt; 10)과 결합 비율이 높을 때(&gt; 30%) 가장 나빴다.</span></p>
+    </div>
+    <div class="col">
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">只看输入的负荷估算：K* − K<sub>ρ</sub>（正数 = 少估）</span><span lang="en">Input-only load estimate: K* − K<sub>ρ</sub> (positive = underestimate)</span><span lang="ko">입력만 보는 부하 추정: K* − K<sub>ρ</sub> (양수 = 과소 추정)</span></b></div>
+      <div class="chart fill" id="cLoad"></div>
+      <p class="small"><span lang="zh">交期宽松时全部在 ±1 台内；交期一紧，平均少估 <b class="ox">1.0 台</b>，最多少估 <b class="ox">5 台</b>。负荷指标只算总工作量，看不到同一批次里要多少台车同时在场。</span><span lang="en">Under baseline due dates every series was within ±1; under tight due dates it underestimated by <b class="ox">1.0</b> on average and by up to <b class="ox">five</b>. The load index counts total work and misses how many vehicles one release batch needs at once.</span><span lang="ko">기준 납기에서는 모두 ±1대 이내, 촉박한 납기에서는 평균 <b class="ox">1.0대</b>, 최대 <b class="ox">5대</b> 과소 추정. 부하 지표는 총 작업량만 세고, 한 배치에서 동시에 필요한 차량 수를 보지 못한다.</span></p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">第三个结论对工程实践很重要：评估方法不同，买的车就不同。用简单的贪心排班来评估，35% 的设定会买错；用“总工作量 ÷ 班次时间”估算台数，在交期宽松时还行，但交期一紧，最多会少估 5 台。原因是负荷指标只看总工作量，不看同一批任务里需要多少台车同时在场。左图也说明搜索越充分，决定越接近最终结果；这也提醒我们，最终台数仍然是搜索估计。</p>
+    <p lang="en">Finding 3 matters in practice: a different evaluation buys a different fleet. Evaluating fleets with a simple greedy schedule picks the wrong fleet in 35% of settings. Estimating the count as total work divided by shift time works under generous due dates, but under tight ones it underestimates by up to five transporters, because the load index counts total work and ignores how many vehicles one release batch needs at once. The left chart also shows that the purchase converges as search increases, a reminder that the final counts are still search estimates.</p>
+    <p lang="ko">결론 3은 실무에서 중요합니다. 평가 방법이 다르면 사는 차량도 달라집니다. 단순한 탐욕 배차로 평가하면 35%의 설정에서 다른 차량군을 고릅니다. 총 작업량을 교대 시간으로 나눠 대수를 추정하면 납기가 여유로울 때는 괜찮지만, 촉박하면 최대 5대까지 과소 추정합니다. 부하 지표는 총 작업량만 보고, 한 배치에서 동시에 필요한 차량 수를 보지 않기 때문입니다. 왼쪽 그림은 탐색이 늘수록 결정이 최종 결과에 수렴함을 보여 주며, 최종 대수 역시 탐색 추정치라는 점을 상기시킵니다.</p>
+  </aside>
+</section>
+
+<!-- 16 finding 2 (in progress) -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">结论 2：服务怎么规定，本身就决定买什么车</span><span lang="en">Finding 2: how service is specified changes what to buy</span><span lang="ko">결론 2: 서비스를 어떻게 규정하느냐가 구매를 바꾼다</span> <span class="pill run" style="vertical-align:middle;font-size:14px"><span lang="zh">实验进行中</span><span lang="en">runs in progress</span><span lang="ko">실험 진행 중</span></span></h2>
+  <div class="content g-r">
+    <div class="col">
+      <div class="card">
+        <h3><span lang="zh">逻辑</span><span lang="en">The logic</span><span lang="ko">논리</span></h3>
+        <p><span lang="zh">只规定“95% 准时”时，剩下 5% 的迟到块可以任意晚。排班会主动牺牲这几块，让更少的车达标。这在排序理论中早有结论（Moore 1968）。</span><span lang="en">With only a 95% on-time target, the remaining 5% of late blocks may be arbitrarily late. A scheduler sacrifices them so a smaller fleet qualifies, a classic result in scheduling theory (Moore 1968).</span><span lang="ko">95% 정시 목표만 두면 나머지 5%의 지연 블록은 얼마든지 늦어도 됩니다. 스케줄러는 이 블록들을 희생해 더 적은 차량으로 목표를 맞춥니다. 스케줄링 이론의 고전적 결과입니다 (Moore 1968).</span></p>
+      </div>
+      <div class="card" style="background:var(--good-soft)">
+        <h3><span class="pill done"><span lang="zh">已确认</span><span lang="en">Confirmed</span><span lang="ko">확인됨</span></span></h3>
+        <p><span lang="zh">有 120 min 上限时，384 个系列里没有任何 4 台车的车队达标；最少是 5 台（Liu 重量、短装卸下的 425、500、550 t）。</span><span lang="en">With the 120-min cap, no four-transporter fleet qualified in any of the 384 series; the fewest was five (425, 500 and 550 t under Liu masses and short handling).</span><span lang="ko">120분 상한이 있으면 384개 시리즈 중 4대로 충족한 차량군은 없고, 최소는 5대 (Liu 중량·짧은 적재 하역에서 425, 500, 550 t).</span></p>
+      </div>
+      <div class="card" style="background:var(--amber-soft)">
+        <h3><span class="pill run"><span lang="zh">待确认</span><span lang="en">To be confirmed</span><span lang="ko">확인 대기</span></span></h3>
+        <p><span lang="zh">初步结果：去掉上限后，4 台车可以把个别分段拖延到约 16 h 来达到 95%。需在全部 30 个实例上确认，目前不作为结论。</span><span lang="en">Preliminary: without the cap, four transporters reached 95% by delaying single blocks for up to about 16 h. This must be confirmed on all 30 instances and is not yet a finding.</span><span lang="ko">예비 결과: 상한을 없애면 4대가 일부 블록을 최대 약 16시간 지연시켜 95%를 달성. 30개 인스턴스 전체로 확인해야 하므로 아직 결론이 아님.</span></p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="fill"><svg viewBox="0 0 560 330" role="img" aria-label="Two fleets with the same on-time share but different worst delays">
+        <g style="font:600 14px var(--f-latin);fill:var(--ink)">
+          <text x="0" y="22"><tspan lang="zh" style="font-family:var(--f-zh)">车队 A · 5 台：迟到都在 120 min 内</tspan><tspan lang="en">Fleet A · 5 vehicles: every late block within 120 min</tspan><tspan lang="ko" style="font-family:var(--f-ko)">차량군 A · 5대: 지연은 모두 120분 이내</tspan></text>
+          <text x="0" y="182"><tspan lang="zh" style="font-family:var(--f-zh)">车队 B · 4 台：同样 95% 准时</tspan><tspan lang="en">Fleet B · 4 vehicles: the same 95% on time</tspan><tspan lang="ko" style="font-family:var(--f-ko)">차량군 B · 4대: 똑같이 95% 정시</tspan></text>
+        </g>
+        <g id="c2A"></g><g id="c2B"></g>
+        <line x1="40" y1="130" x2="540" y2="130" style="stroke:var(--ink3)"/>
+        <line x1="40" y1="290" x2="540" y2="290" style="stroke:var(--ink3)"/>
+        <g style="font:12px var(--f-latin);fill:var(--ink3)">
+          <text x="40" y="148">0</text><text x="140" y="148">2 h</text><text x="540" y="148" text-anchor="end">16 h</text>
+          <text x="40" y="308">0</text><text x="140" y="308">2 h</text><text x="540" y="308" text-anchor="end">16 h</text>
+          <text x="290" y="324" text-anchor="middle"><tspan lang="zh" style="font-family:var(--f-zh)">每块分段晚于交期多久（示意）</tspan><tspan lang="en">Delay past due time per block (schematic)</tspan><tspan lang="ko" style="font-family:var(--f-ko)">블록별 납기 대비 지연 시간 (개념도)</tspan></text>
+        </g>
+        <path d="M140 40V130M140 200V290" style="stroke:var(--oxide);stroke-dasharray:4 3"/>
+        <text x="146" y="52" style="fill:var(--oxide);font:600 13px var(--f-latin)">T<tspan dy="3" style="font-size:10px">max</tspan></text>
+      </svg></div>
+      <p class="small"><span lang="zh">正在运行的 R3 把 T<sub>max</sub> 从 30 min 一直放宽到无上限，给出车数和成本如何随上限变化。</span><span lang="en">The running R3 experiment moves T<sub>max</sub> from 30 min to no cap and reports how the count and cost of the cheapest fleet change.</span><span lang="ko">진행 중인 R3 실험은 T<sub>max</sub>를 30분에서 상한 없음까지 바꾸며 최저비용 차량군의 대수와 비용 변화를 산출한다.</span></p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">第二个结论的实验还在跑，这里讲清楚逻辑和目前能确定的部分。如果只规定“95% 准时”，那剩下 5% 的迟到块可以被任意推迟，排班算法会主动牺牲它们来让更少的车达标。这在理论上早有结论（Moore 1968）。初步结果显示 4 台车可以靠把个别分段拖延十几个小时达标，但要等 30 个实例全部跑完才能确认，目前不作为结论。</p>
+    <p lang="en">The runs for Finding 2 are still in progress, so this slide gives the logic and what is already certain. With only a 95% on-time target, the remaining 5% of late blocks can be deferred without limit, and the scheduler sacrifices them so a smaller fleet qualifies; this is a classic result (Moore 1968). A preliminary run showed four transporters qualifying by delaying single blocks for many hours, but it must be confirmed on all 30 instances and is not yet a finding.</p>
+    <p lang="ko">결론 2의 실험은 아직 진행 중이므로, 여기서는 논리와 현재 확실한 부분만 말씀드립니다. 95% 정시 목표만 두면 나머지 5%의 지연 블록은 얼마든지 미뤄질 수 있고, 스케줄러는 더 적은 차량으로 목표를 맞추려고 이 블록들을 희생시킵니다. 이는 고전적인 결과입니다(Moore 1968). 예비 실행에서 4대가 일부 블록을 여러 시간 지연시켜 목표를 충족했지만, 30개 인스턴스 전체로 확인해야 하므로 아직 결론이 아닙니다.</p>
+  </aside>
+</section>
+
+<!-- how the results are tested -->
+<section class="slide" data-sec="rel">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">怎么知道结论可不可靠？我们做了三种自我检验</span><span lang="en">How do we know the results hold? Three self-tests</span><span lang="ko">결과가 믿을 만한지 어떻게 아나? 세 가지 자체 검증</span></h2>
+  <div class="content compact-en" style="grid-template-rows:1fr auto;gap:16px">
+    <div class="cols3">
+      <div class="card">
+        <h3><span lang="zh">① 换一批工作日再算</span><span lang="en">① Redraw the days</span><span lang="ko">① 작업일을 다시 뽑아 계산</span></h3>
+        <p><span lang="zh">从 30 个工作日中<b>有放回地</b>抽 30 个（有的天被抽到两次，有的一次也没有），重新比较所有车队。重复 2,000 次（自助法），看胜者在多少次里不变。</span><span lang="en">Draw 30 days from the 30 <b>with replacement</b> (some days twice, some not at all) and compare all fleets again. Repeat 2,000 times (the bootstrap) and count how often the winner stays the same.</span><span lang="ko">30일 중에서 <b>복원 추출</b>로 30일을 뽑아 (어떤 날은 두 번, 어떤 날은 한 번도 안 뽑힘) 모든 차량군을 다시 비교한다. 2,000번 반복(부트스트랩)해 승자가 몇 번 유지되는지 센다.</span></p>
+        <div class="boot" id="bootA"></div>
+        <div class="boot" id="bootB"></div>
+        <p class="tiny"><span lang="zh">上：原来的 30 天；下：一次重抽，黄色 = 重复抽到的天</span><span lang="en">Top: the original 30 days; bottom: one redraw, yellow = days drawn more than once</span><span lang="ko">위: 원래 30일, 아래: 한 번의 재추출, 노란색 = 중복 추출된 날</span></p>
+      </div>
+      <div class="card">
+        <h3><span lang="zh">② 离“翻转”还有多远</span><span lang="en">② Distance to a flip</span><span lang="ko">② 뒤집히기까지의 거리</span></h3>
+        <p><span lang="zh">台数是搜索出来的：多搜一会儿，输掉的车队也许能少用一台而反超。我们算出它在少一台时还差多少块准时，再和“多跑两次搜索”通常能多挽回多少块相比。差得越多，这个决定越不容易被翻转。</span><span lang="en">Counts come from search: with more search, a losing fleet might manage with one vehicle fewer and overtake. We compute how many on-time blocks it still lacks at one fewer, and compare that with how many two extra runs usually recover. The larger the shortfall, the harder the decision is to flip.</span><span lang="ko">대수는 탐색으로 얻는다. 더 탐색하면 진 차량군이 한 대 적게 쓰고 역전할 수도 있다. 한 대 적을 때 정시 블록이 몇 개 모자라는지 계산하고, "두 번 더 실행"이 보통 몇 개를 만회하는지와 비교한다. 모자란 수가 클수록 결정이 뒤집히기 어렵다.</span></p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><span class="pill done" style="font-size:14px"><span lang="zh">强：差 &gt; 92 块</span><span lang="en">strong: short by &gt; 92</span><span lang="ko">강: 92개 초과 부족</span></span><span class="pill run" style="font-size:14px"><span lang="zh">中：60–92 块</span><span lang="en">medium: 60–92</span><span lang="ko">중: 60–92개</span></span><span class="pill pend" style="font-size:14px"><span lang="zh">弱：≤ 59 块</span><span lang="en">weak: ≤ 59</span><span lang="ko">약: 59개 이하</span></span></div>
+        <p class="tiny"><span lang="zh">92 = 多跑两次在任何车队系列中挽回的最多准时块数（30 天合计）；59 = 其 95% 分位</span><span lang="en">92 = the most on-time blocks two extra runs recovered in any fleet series (30 days); 59 = its 95th percentile</span><span lang="ko">92 = 두 번 더 실행해 어느 시리즈에서든 만회한 정시 블록의 최댓값 (30일 합계), 59 = 그 95% 분위</span></p>
+      </div>
+      <div class="card">
+        <h3><span lang="zh">③ 给输入加扰动</span><span lang="en">③ Disturb the inputs</span><span lang="ko">③ 입력 교란</span></h3>
+        <p><span lang="zh">排好的时刻表不变，把每次装、卸的时间随机乘 0.5–1.5（即 ±50%），每天重放 20 次，看准时率掉多少。这是在问：现实中装卸快慢不一时，刚好达标的车队还够不够？</span><span lang="en">Keep the timetable fixed, multiply every loading and unloading time by a random factor of 0.5–1.5 (±50%), and replay each day 20 times to see how far punctuality drops. It asks: when real handling times vary, is a fleet sized exactly to the target still enough?</span><span lang="ko">배차표는 그대로 두고 모든 적재·하역 시간에 0.5–1.5 (±50%)의 무작위 배수를 곱해 날마다 20번 재생하고 정시율이 얼마나 떨어지는지 본다. 실제 적재·하역 시간이 들쭉날쭉할 때, 목표에 딱 맞춘 차량군으로 충분한가를 묻는 것이다.</span></p>
+        <div class="eq" style="font-size:14.5px"><span lang="zh">装、卸时间 × U(0.5, 1.5) · 每天 20 个场景 · 排班不重排（结果偏悲观）</span><span lang="en">load / unload time × U(0.5, 1.5) · 20 scenarios per day · plans not re-optimised (pessimistic)</span><span lang="ko">적재·하역 시간 × U(0.5, 1.5) · 하루 20개 시나리오 · 재배차 없음 (비관적)</span></div>
+      </div>
+    </div>
+    <div class="card" style="background:var(--steel-soft)">
+      <h3><span lang="zh">研究纪律：预注册</span><span lang="en">Research discipline: pre-registration</span><span lang="ko">연구 규율: 사전 등록</span></h3>
+      <p style="color:var(--ink)"><span lang="zh">规则、参数和随机种子都在运行前写定，看到结果后不重抽种子、不增删实例、不改门槛；全部 7 万多次运行都保留、可复算；每一处偏离都有记录，并会在论文中说明。</span><span lang="en">Rules, parameters and random seeds were written down before the runs. After seeing results we did not redraw seeds, add or drop instances, or move thresholds. All 70,000+ runs are kept and can be recomputed, and every deviation is recorded and will be reported in the paper.</span><span lang="ko">규칙, 매개변수, 난수 시드는 실행 전에 확정했다. 결과를 본 뒤 시드를 다시 뽑거나 인스턴스를 늘리고 빼거나 기준을 바꾸지 않았다. 7만 회 이상의 실행을 모두 보관해 재계산할 수 있으며, 모든 이탈은 기록해 논문에 밝힌다.</span></p>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">结论是模拟出来的，所以我们主动检验它会不会因为偶然因素而改变。第一，换一批工作日：从 30 天里有放回地重抽，重复两千次。第二，搜索本身有随机性，我们衡量每个决定离被翻转还有多远。第三，给装卸时间加上正负 50% 的随机波动。另外，所有规则在看结果之前就定好了，这叫预注册，防止“看着结果改方法”。</p>
+    <p lang="en">These results come from simulation, so we actively test whether chance could change them. First, redraw the days: resample 30 days with replacement, 2,000 times. Second, search has randomness, so we measure how far each decision is from flipping. Third, add ±50% random variation to handling times. And every rule was fixed before looking at results, which is called pre-registration and prevents adjusting the method to the results.</p>
+    <p lang="ko">결과는 모의실험에서 나온 것이므로 우연 때문에 바뀔 수 있는지 적극적으로 검증했습니다. 첫째, 30일을 복원 추출로 2,000번 다시 뽑습니다. 둘째, 탐색에는 무작위성이 있으므로 각 결정이 뒤집히기까지 얼마나 먼지 측정합니다. 셋째, 적재·하역 시간에 ±50%의 무작위 변동을 줍니다. 그리고 모든 규칙은 결과를 보기 전에 확정했습니다. 이를 사전 등록이라 하며, 결과에 맞춰 방법을 고치는 것을 막습니다.</p>
+  </aside>
+</section>
+
+<!-- 17 reliability -->
+<section class="slide" data-sec="rel">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">检验结果：结论主干稳定，具体胜者有时打平，装卸波动是弱点</span><span lang="en">Test results: the main claim holds, the exact winner is sometimes a tie, and handling variability is a weak spot</span><span lang="ko">검증 결과: 핵심 주장은 안정적, 정확한 승자는 때로 동률, 적재·하역 변동은 약점</span></h2>
+  <div class="content compact-en" style="grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:16px 22px">
+    <div class="card">
+      <h3><span lang="zh">按天重抽样 2,000 次</span><span lang="en">2,000 day resamples</span><span lang="ko">일자 재표본 2,000회</span> <span class="pill done"><span lang="zh">稳</span><span lang="en">stable</span><span lang="ko">안정</span></span></h3>
+      <div class="kn">1,350 / 1,350<small><span lang="zh">个超重以外的班次设定中，“拼载 ≤ 1/10”在 ≥ 95% 的重抽样里成立</span><span lang="en">shift settings outside extra-heavy where "couples ≤ one in ten" held in ≥ 95% of resamples</span><span lang="ko">초중량 외 교대 설정에서 "결합 ≤ 10%"가 재표본 95% 이상에서 성립</span></small></div>
+      <p><span lang="zh">“最省车队拼载 ≤ 1/10”：在超重工况以外的全部 1,350 个班次设定中，≥ 95% 的重抽样都成立（此指标为事后加入）。K* 本身在中位 97% 的重抽样中复现。</span><span lang="en">"The cheapest fleet couples at most one block in ten" held in ≥ 95% of resamples in all 1,350 shift-staffing settings outside the extra-heavy scenario (a measure added after seeing results). K* itself was reproduced in a median 97% of resamples.</span><span lang="ko">"최저비용 차량군의 결합 운반 ≤ 10%"는 초중량 조건 밖의 교대 인원 설정 1,350개 모두에서 재표본의 95% 이상 성립 (결과를 본 뒤 추가한 지표). K* 자체는 재표본의 중앙값 97%에서 재현.</span></p>
+      <p class="small"><span lang="zh">但“具体哪一种车胜出”只在 1,016 / 1,620 个设定中 ≥ 95% 稳定：一些工况里两种车队几乎打平。</span><span lang="en">But the identity of the winner was stable (≥ 95%) in only 1,016 of 1,620 settings: in some conditions two fleets are nearly tied.</span><span lang="ko">다만 "정확히 어느 차량군이 이기는지"는 1,620개 중 1,016개 설정에서만 95% 이상 안정: 일부 조건은 거의 동률.</span></p>
+    </div>
+    <div class="card">
+      <h3><span lang="zh">搜索依赖</span><span lang="en">Search dependence</span><span lang="ko">탐색 의존성</span> <span class="pill run"><span lang="zh">已分级</span><span lang="en">graded</span><span lang="ko">등급화</span></span></h3>
+      <div class="kn">5,033 / 6,480<small><span lang="zh">个决策依赖搜索，其中 3,513 个属于“强”</span><span lang="en">decisions depend on search; 3,513 of them are strong</span><span lang="ko">개 결정이 탐색에 의존, 그중 3,513개는 "강"</span></small></div>
+      <p><span lang="zh">台数是搜索得到的。下界没能证明 4 台一定不行（最好的下界合计 117 个迟到块，证明需要 146），所以 5,033 / 6,480 个决策依赖搜索。按“离翻转还差多少准时块”分级：3,513 个强、298 个中、1,222 个弱。</span><span lang="en">Counts come from search. Lower bounds could not prove four transporters infeasible (best bounds sum to 117 late blocks; 146 are needed), so 5,033 of 6,480 decisions depend on search. Graded by how many on-time blocks a loser still lacks: 3,513 strong, 298 medium, 1,222 weak.</span><span lang="ko">대수는 탐색으로 얻었습니다. 하한으로 4대가 불가능함을 증명하지 못해 (최선의 하한 합계 지연 117개, 증명에 146개 필요) 6,480개 중 5,033개 결정이 탐색에 의존. 패자가 부족한 정시 블록 수로 등급화: 강 3,513, 중 298, 약 1,222.</span></p>
+    </div>
+    <div class="card">
+      <h3><span lang="zh">装卸时间波动 ±50%</span><span lang="en">Handling times ±50%</span><span lang="ko">적재·하역 시간 ±50% 변동</span> <span class="pill pend"><span lang="zh">弱点</span><span lang="en">weak spot</span><span lang="ko">약점</span></span></h3>
+      <div class="kn ox">−9.5 pp<small><span lang="zh">准时率中位下降；354 / 384 个系列跌破 95%</span><span lang="en">median drop in on-time share; 354 of 384 series fall below 95%</span><span lang="ko">정시율 중앙값 하락, 384개 중 354개 시리즈가 95% 미만</span></small></div>
+      <p><span lang="zh">固定排班重放 20 个扰动场景：准时率中位下降 9.5 个百分点（2.4–19.4），384 个系列中 354 个跌破 95%。刚好达标的最省车队余量最小。下一步做稳健配车（X1）。</span><span lang="en">Replaying fixed plans in 20 perturbed scenarios lowered the on-time share by a median 9.5 points (2.4–19.4); 354 of 384 series fell below 95%. The cheapest fleet has the least spare capacity. Robust sizing (X1) is the next step.</span><span lang="ko">고정 계획을 20개 교란 시나리오로 재생하면 정시율이 중앙값 9.5%p 하락 (2.4–19.4), 384개 중 354개 시리즈가 95% 미만. 최저비용 차량군은 여유가 가장 적다. 다음 단계는 강건 산정 (X1).</span></p>
+    </div>
+    <div class="card">
+      <h3><span lang="zh">局限</span><span lang="en">Limitations</span><span lang="ko">한계</span></h3>
+      <ul class="clean">
+        <li><span lang="zh">主案例只有一个数字化布局，需求是生成的</span><span lang="en">One digitised layout with generated demand</span><span lang="ko">디지털화한 배치 하나, 수요는 생성</span></li>
+        <li><span lang="zh">未与真实作业记录对比；装卸、车速、对接时间需实测</span><span lang="en">No comparison with recorded operations; handling, speeds and coupling times need measuring</span><span lang="ko">실제 작업 기록과 비교하지 않음, 적재·하역·속도·결합 시간은 실측 필요</span></li>
+        <li><span lang="zh">不考虑道路上的车辆相互干扰；成本不含能耗与维护</span><span lang="en">No road interaction; costs exclude energy and maintenance</span><span lang="ko">도로상 차량 간섭 미고려, 비용에 에너지·유지보수 제외</span></li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">我们也在挑战自己的结论。按天重抽样 2,000 次，“最省车队几乎不拼载”这一点在超重工况以外全部稳定，但具体哪一种车胜出，在一些工况里两者几乎打平。车数是搜索得到的，下界没能证明更少的车一定不行，所以我们对每个决策给出“离翻转还有多远”的分级。装卸时间一旦波动 ±50%，按 95% 刚好配出的车队准时率会明显下降，这是下一步要做的稳健配车。</p>
+    <p lang="en">We also stress-test these results. Over 2,000 day resamples, the claim that the cheapest fleet rarely couples held in every setting outside the extra-heavy scenario, but which exact fleet wins is nearly tied in some conditions. Counts come from search and lower bounds could not prove a smaller fleet infeasible, so each decision is graded by how far it is from flipping. With ±50% handling variability, fleets sized exactly to 95% lose on-time share, which motivates the robust sizing step next.</p>
+    <p lang="ko">저희 스스로도 결과를 검증하고 있습니다. 일자를 2,000회 재표본하면 "최저비용 차량군은 거의 결합 운반하지 않는다"는 주장은 초중량 조건 밖의 모든 설정에서 안정적이지만, 정확히 어느 차량군이 이기는지는 일부 조건에서 거의 동률입니다. 대수는 탐색으로 얻었고 하한으로 더 적은 대수가 불가능함을 증명하지 못했으므로, 각 결정이 뒤집히기까지 얼마나 먼지 등급을 매겼습니다. 적재·하역 시간이 ±50% 변동하면 95%에 딱 맞춘 차량군의 정시율이 크게 떨어지며, 이것이 다음 단계인 강건 산정의 동기입니다.</p>
+  </aside>
+</section>
+
+<!-- manufacturer speeds (B4) -->
+<section class="slide" data-sec="rel">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">车速换成厂家参数（B4）：425、500、550 t 台数不变，380 t 和 2 重车混编多需 1 台</span><span lang="en">Manufacturer speeds (B4): 425, 500 and 550 t need no extra vehicle; 380 t and the two-heavy mix need one more</span><span lang="ko">제조사 속도 (B4): 425·500·550 t는 대수 불변, 380 t와 대형 2대 혼합은 1대 추가</span> <span class="pill done" style="vertical-align:middle;font-size:14px"><span lang="zh">新结果</span><span lang="en">new</span><span lang="ko">새 결과</span></span></h2>
+  <div class="content" style="grid-template-columns:1.2fr 1fr;gap:28px">
+    <div class="col tblwrap" style="justify-content:center;gap:10px">
+      <div class="small"><b style="color:var(--ink)"><span lang="zh">达标台数 K*：共用 12/6 km/h → 厂家车速（黄色 = 变了）</span><span lang="en">Qualifying count K*: common 12/6 km/h → manufacturer speeds (yellow = changed)</span><span lang="ko">충족 대수 K*: 공통 12/6 km/h → 제조사 속도 (노란색 = 변화)</span></b></div>
+      <table class="tbl" id="b4Table"></table>
+    </div>
+    <div class="col" style="justify-content:center">
+      <ul class="clean">
+        <li><span lang="zh">主实验里所有吨级共用 12/6 km/h（空车/重载，200 t 与 270 t 的厂家参数）</span><span lang="en">The main experiment gives every tier 12/6 km/h (empty/loaded), the manufacturer figures for 200 t and 270 t</span><span lang="ko">주 실험은 모든 등급에 12/6 km/h(빈 차/적재)를 쓴다. 200 t와 270 t의 제조사 수치다</span></li>
+        <li><span lang="zh">B4 改用厂家参数：380、425 t 按 10/5 km/h，500、550 t 与 2 重车混编按 12/5 km/h，在 6 个工况里重新定台数</span><span lang="en">B4 uses manufacturer figures instead: 10/5 km/h for 380 and 425 t, 12/5 km/h for 500 t, 550 t and the two-heavy mix, re-sized in six conditions</span><span lang="ko">B4는 제조사 수치를 쓴다: 380·425 t는 10/5 km/h, 500·550 t와 대형 2대 혼합은 12/5 km/h로 6개 조건에서 다시 산정</span></li>
+        <li><span lang="zh">提高任何车的速度都不会让任何一块更晚完成，所以共用车速是乐观情形、按最慢成员算是保守情形</span><span lang="en">Making any vehicle faster never makes a block finish later, so common speeds are the optimistic case and the slowest-member speed the conservative one</span><span lang="ko">어떤 차량이든 빨라지면 어떤 블록도 늦게 끝나지 않으므로, 공통 속도는 낙관적, 가장 느린 구성원 속도는 보수적인 경우다</span></li>
+      </ul>
+      <div class="card" style="background:var(--amber-soft)"><p style="color:var(--ink)"><span lang="zh">车慢了，大车的台数却没变；只有 380 t 和 2 重车混编在 6 个工况中的 4 个多需 1 台。在最不利的车速口径下，Liu 混编仍在 98% 的设定中最省（前面的结果页）。</span><span lang="en">Slower vehicles did not change the heavy tiers' counts; only 380 t and the two-heavy mix need one more, in four of six conditions. Even at the least favourable speeds, the Liu mixes stay cheapest in 98% of settings (results section).</span><span lang="ko">차가 느려져도 대형 등급의 대수는 그대로였고, 380 t와 대형 2대 혼합만 6개 중 4개 조건에서 1대가 더 필요했다. 가장 불리한 속도에서도 Liu 혼합은 98%의 설정에서 최저다 (결과 부분).</span></p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">主实验为了公平，所有车型用同一个车速。但厂家资料里大车更慢：380 t 是 10/5 km/h，500 t 是 12/5 km/h。B4 用这些厂家车速在 6 个工况里重新定台数。结果 425、500、550 t 一台都没多；只有 380 t 和 2 台重车的混编，在 6 个工况里有 4 个要多 1 台。也就是说，车速假设没有改变大车的台数。</p>
+    <p lang="en">For a fair comparison, the main experiment gives every tier the same speed. Manufacturer data say the big vehicles are slower: 10/5 km/h for 380 t and 12/5 km/h for 500 t. B4 re-sized the fleets in six conditions at those speeds. The 425, 500 and 550 t tiers needed no extra vehicle; only 380 t and the two-heavy mix needed one more, in four of the six conditions. The speed assumption did not change the counts of the heavy tiers.</p>
+    <p lang="ko">공정한 비교를 위해 주 실험은 모든 등급에 같은 속도를 씁니다. 제조사 자료에서는 큰 차가 더 느립니다. 380 t는 10/5 km/h, 500 t는 12/5 km/h입니다. B4는 이 속도로 6개 조건에서 대수를 다시 산정했습니다. 425·500·550 t는 한 대도 늘지 않았고, 380 t와 대형 2대 혼합만 6개 중 4개 조건에서 1대가 더 필요했습니다. 즉, 속도 가정은 대형 등급의 대수를 바꾸지 않았습니다.</p>
+  </aside>
+</section>
+
+<!-- 18 status -->
+<section class="slide" data-sec="status">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">进度：主实验已完成，补充实验正在运行</span><span lang="en">Status: the main experiment is done; supporting runs are in progress</span><span lang="ko">진행 상황: 주 실험 완료, 보조 실험 진행 중</span></h2>
+  <div class="content vc" style="grid-template-columns:1.55fr 1fr;gap:28px">
+    <div class="col tblwrap">
+      <table class="tbl">
+        <thead><tr><th><span lang="zh">实验</span><span lang="en">Run</span><span lang="ko">실험</span></th><th><span lang="zh">回答什么</span><span lang="en">Question</span><span lang="ko">질문</span></th><th><span lang="zh">进度</span><span lang="en">Progress</span><span lang="ko">진행</span></th></tr></thead>
+        <tbody id="progRows"></tbody>
+      </table>
+      <div class="tiny" id="asofNote"></div>
+    </div>
+    <div class="col">
+      <div class="card" style="background:var(--good-soft)">
+        <h3><span lang="zh">已完成</span><span lang="en">Done</span><span lang="ko">완료</span></h3>
+        <div class="done-list">
+          <span>R4 · <span lang="zh">主实验 384 系列</span><span lang="en">main, 384 series</span><span lang="ko">주 실험 384 시리즈</span></span>
+          <span>R1 · <span lang="zh">下界</span><span lang="en">lower bounds</span><span lang="ko">하한</span></span>
+          <span>R2 · <span lang="zh">价格标定</span><span lang="en">price calibration</span><span lang="ko">가격 보정</span></span>
+          <span>R5 · <span lang="zh">跨车型汇集</span><span lang="en">pooling</span><span lang="ko">교차 풀링</span></span>
+          <span>R6 · <span lang="zh">班后作业</span><span lang="en">after-shift work</span><span lang="ko">교대 후 작업</span></span>
+          <span>R7 · <span lang="zh">搜索强度</span><span lang="en">search levels</span><span lang="ko">탐색 강도</span></span>
+          <span>R8 · <span lang="zh">决策脆弱性</span><span lang="en">decision fragility</span><span lang="ko">결정 취약성</span></span>
+          <span>E6 · <span lang="zh">装卸扰动</span><span lang="en">handling noise</span><span lang="ko">적재·하역 교란</span></span>
+          <span>C1 · <span lang="zh">第二船厂</span><span lang="en">second yard</span><span lang="ko">두 번째 조선소</span></span>
+          <span><span lang="zh">负荷规则</span><span lang="en">load rule</span><span lang="ko">부하 규칙</span></span>
+          <span>B4 · <span lang="zh">厂家车速</span><span lang="en">manufacturer speeds</span><span lang="ko">제조사 속도</span></span>
+          <span>R4R · <span lang="zh">超重才拼</span><span lang="en">overweight-only rule</span><span lang="ko">초과 중량 결합</span></span>
+        </div>
+      </div>
+      <div class="card">
+        <h3><span lang="zh">接下来</span><span lang="en">Next</span><span lang="ko">다음 단계</span></h3>
+        <ul class="clean">
+          <li><span lang="zh">实验跑完后，按预注册规则写结论 2 并填入稿件占位</span><span lang="en">Write Finding 2 by the pre-registered rule and fill the manuscript placeholders</span><span lang="ko">사전 등록 규칙에 따라 결론 2를 쓰고 원고 빈칸 채우기</span></li>
+          <li><span lang="zh">发布代码与结果表，取得 Zenodo DOI</span><span lang="en">Release code and result tables with a Zenodo DOI</span><span lang="ko">코드와 결과표 공개, Zenodo DOI 발급</span></li>
+          <li><span lang="zh">投稿 Ocean Engineering</span><span lang="en">Submit to Ocean Engineering</span><span lang="ko">Ocean Engineering 투고</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">主实验和大部分分析已经完成。还在跑的是：延误上限轴（结论 2）、分吨级车速、重块比例、敏感性边界和仅超重拼载的规则对照，以及用 CP-SAT 精确求解的小规模对照。跑完之后按预注册规则填入论文中的占位，发布代码并取得 Zenodo DOI，然后投 Ocean Engineering。</p>
+    <p lang="en">The main experiment and most analyses are done. Still running: the delay-cap axis for Finding 2, tier-specific speeds, the heavy-block share, sensitivity boundaries, the overweight-only coupling rule, and an exact CP-SAT comparison on small instances. Then we fill the manuscript placeholders by the pre-registered rules, release the code with a Zenodo DOI and submit to Ocean Engineering.</p>
+    <p lang="ko">주 실험과 대부분의 분석은 끝났습니다. 아직 진행 중인 것은 결론 2를 위한 지연 상한 축, 등급별 속도, 무거운 블록 비율, 민감도 경계, 초과 중량 전용 결합 규칙, 그리고 소규모 인스턴스에서 CP-SAT 정확해와의 비교입니다. 이후 사전 등록 규칙에 따라 원고의 빈칸을 채우고, 코드를 Zenodo DOI와 함께 공개한 뒤 Ocean Engineering에 투고할 예정입니다.</p>
+  </aside>
+</section>
+
+<!-- 19 takeaways -->
+<section class="slide" data-sec="end">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">给船厂的三条建议</span><span lang="en">Three recommendations for a shipyard</span><span lang="ko">조선소를 위한 세 가지 권고</span></h2>
+  <div class="content" style="grid-template-rows:1fr auto auto;gap:22px">
+    <div class="recs">
+      <div class="card"><span class="n">1</span><h3><span lang="zh">买能单独运几乎所有分段的最小吨级</span><span lang="en">Buy the smallest tier that carries nearly every block alone</span><span lang="ko">거의 모든 블록을 단독 운반하는 최소 등급을 사라</span></h3><p><span lang="zh">重分段少时加几台重车，不要靠拼载。只有资本相对人工很贵时（如自动化减少班组），拼载才划算。</span><span lang="en">Add a few heavy units rather than rely on coupling. Coupling pays only when capital is expensive relative to crews, for example when automation reduces the crew.</span><span lang="ko">무거운 블록이 적으면 대형 몇 대를 더하고 결합 운반에 의존하지 마라. 결합은 자동화 등으로 인원이 줄어 자본이 상대적으로 비쌀 때만 이득이다.</span></p><div class="kn">90.8%<small><span lang="zh">的成本设定中，最省车队拼载 ≤ 1/10</span><span lang="en">of cost settings: the cheapest fleet couples ≤ one block in ten</span><span lang="ko">비용 설정에서 최저비용 차량군의 결합 ≤ 10%</span></small></div><span class="tag"><span lang="zh">结论 1</span><span lang="en">Finding 1</span><span lang="ko">결론 1</span></span></div>
+      <div class="card"><span class="n">2</span><h3><span lang="zh">同时规定准时率和最大延误</span><span lang="en">Specify both the on-time share and the largest delay</span><span lang="ko">정시율과 최대 지연을 함께 규정하라</span></h3><p><span lang="zh">只看准时率，小车队可以靠拖延个别分段达标，而生产计划承受不了这种拖延。</span><span lang="en">An on-time share alone lets a smaller fleet qualify by deferring single blocks, which a production schedule cannot absorb.</span><span lang="ko">정시율만 보면 작은 차량군이 일부 블록을 미뤄 목표를 맞출 수 있고, 생산 계획은 그런 지연을 감당할 수 없다.</span></p><div class="kn">120 min<small><span lang="zh">每块分段的延误上限；无上限时的影响待 R3 确认</span><span lang="en">cap on each block's delay; the effect of no cap awaits R3</span><span lang="ko">블록별 지연 상한, 상한이 없을 때의 영향은 R3로 확인 예정</span></small></div><span class="tag"><span lang="zh">结论 2 · 进行中</span><span lang="en">Finding 2 · in progress</span><span lang="ko">결론 2 · 진행 중</span></span></div>
+      <div class="card"><span class="n">3</span><h3><span lang="zh">用完整调度、在服务边界上定台数</span><span lang="en">Size fleets by complete scheduling at the service boundary</span><span lang="ko">서비스 경계에서 완전한 스케줄링으로 대수를 정하라</span></h3><p><span lang="zh">负荷估算可做初筛；交期紧或用贪心派工时，台数和买的车都会变。</span><span lang="en">Load arithmetic is fine for screening; tight due dates and greedy dispatching change the count and the purchase.</span><span lang="ko">부하 계산은 1차 선별로는 괜찮지만, 납기가 촉박하거나 탐욕 배차를 쓰면 대수와 구매가 바뀐다.</span></p><div class="kn">35% · 5<small><span lang="zh">贪心排班买错车的设定比例 · 负荷估算最多少估的台数</span><span lang="en">settings where greedy buys a different fleet · most vehicles the load estimate falls short</span><span lang="ko">탐욕 배차가 다른 차량을 고른 설정 비율 · 부하 추정이 가장 많이 모자란 대수</span></small></div><span class="tag"><span lang="zh">结论 3</span><span lang="en">Finding 3</span><span lang="ko">결론 3</span></span></div>
+    </div>
+    <p class="quote"><span lang="zh">一句话：拼载是补救手段，不是采购策略。</span><span lang="en">In one line: coupling is a remedy, not a purchasing strategy.</span><span lang="ko">한 줄 요약: 결합 운반은 보완책이지 구매 전략이 아니다.</span></p>
+    <div class="d" style="font-size:30px;font-weight:700;color:var(--ink3)"><span lang="zh">谢谢，请老师指正</span><span lang="en">Thank you. Comments welcome</span><span lang="ko">감사합니다. 조언 부탁드립니다</span></div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">最后总结成三条建议。一句话：拼载是补救手段，不是采购策略。买车时要同时规定准时率和最大延误，并用完整调度来定台数。</p>
+    <p lang="en">To close, three recommendations. In one sentence: coupling is a remedy, not a purchasing strategy. When buying, specify both the on-time share and the largest delay, and size the fleet by complete scheduling.</p>
+    <p lang="ko">마지막으로 세 가지 권고입니다. 한 문장으로 요약하면, 결합 운반은 보완책이지 구매 전략이 아닙니다. 구매할 때는 정시율과 최대 지연을 함께 규정하고, 완전한 스케줄링으로 대수를 산정해야 합니다.</p>
+  </aside>
+</section>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="notesp" id="notesp" hidden><div class="nh"><span lang="zh">讲稿</span><span lang="en">Speaker notes</span><span lang="ko">발표 원고</span></div><div id="notesBody"></div></div>
+  <div class="foot">
+    <button type="button" class="nav" id="prev" aria-label="Previous slide">‹</button>
+    <button type="button" class="nav" id="next" aria-label="Next slide">›</button>
+    <div class="prog"><i id="progI"></i></div>
+    <span class="help"><span lang="zh">← → / 滚轮 翻页 · T 目录 · N 讲稿 · G 术语 · F 全屏</span><span lang="en">← → / wheel: slides · T contents · N notes · G glossary · F full screen</span><span lang="ko">← → / 휠: 넘기기 · T 목차 · N 원고 · G 용어 · F 전체 화면</span></span>
+    <span class="count" id="count">1 / 19</span>
+  </div>
+</div>
+
+<div class="drawer" id="drawer" hidden role="dialog" aria-label="Glossary">
+  <h2><span><span lang="zh">术语表</span><span lang="en">Glossary</span><span lang="ko">용어집</span></span><button type="button" class="tbtn" id="gClose" aria-label="Close">✕</button></h2>
+  <dl>
+    <dt><span lang="zh">分段</span><span lang="en">Hull block</span><span lang="ko">선체 블록</span></dt>
+    <dd><span lang="zh">船体按结构切成的大型单元，本研究中 100–800 t，只能整块搬运。</span><span lang="en">A large structural unit of the hull; 100–800 t here, moved in one piece.</span><span lang="ko">선체를 구조별로 나눈 대형 단위. 본 연구에서는 100–800 t이며 한 덩어리로만 운반한다.</span></dd>
+    <dt><span lang="zh">平板运输车</span><span lang="en">Block transporter</span><span lang="ko">트랜스포터</span></dt>
+    <dd><span lang="zh">自行式液压平板车，按额定载重分吨级出售（本研究 200–550 t）。</span><span lang="en">Self-propelled hydraulic platform vehicle, sold in capacity tiers (200–550 t here).</span><span lang="ko">자항식 유압 평판차. 정격 하중 등급별로 판매된다 (본 연구 200–550 t).</span></dd>
+    <dt><span lang="zh">拼载（联合运输）</span><span lang="en">Coupled carriage</span><span lang="ko">결합 운반</span></dt>
+    <dd><span lang="zh">2–3 台车对接后同步抬运一块分段；所有队员到齐才能开始。</span><span lang="en">Two or three transporters couple to carry one block in sync; the move starts only when all have arrived.</span><span lang="ko">2–3대가 결합해 한 블록을 동기화하여 운반. 모든 차량이 도착해야 시작한다.</span></dd>
+    <dt><span lang="zh">同质 / 混编车队</span><span lang="en">Homogeneous / mixed fleet</span><span lang="ko">단일 / 혼합 차량군</span></dt>
+    <dd><span lang="zh">全部同一吨级；或 270 t 轻车加 1–2 台重车。</span><span lang="en">All one tier; or 270 t light units plus one or two heavy units.</span><span lang="ko">모두 같은 등급, 또는 270 t 경형에 대형 1–2대를 더한 구성.</span></dd>
+    <dt><span lang="zh">服务规格</span><span lang="en">Service specification</span><span lang="ko">서비스 규격</span><span class="mono">S = (θ, Tmax)</span></dt>
+    <dd><span lang="zh">至少 95% 分段准时，且没有分段晚于交期 120 min 以上。</span><span lang="en">At least 95% of blocks on time, and no block more than 120 min past its due time.</span><span lang="ko">블록의 95% 이상 정시, 그리고 납기보다 120분 넘게 늦은 블록 없음.</span></dd>
+    <dt><span lang="zh">达标台数</span><span lang="en">Service-qualified count</span><span lang="ko">서비스 충족 대수</span><span class="mono">K*</span></dt>
+    <dd><span lang="zh">达到服务规格的最少台数，每个吨级或混编分别求。</span><span lang="en">The smallest count that meets the specification, found separately for each tier or mix.</span><span lang="ko">서비스 규격을 충족하는 최소 대수. 등급·혼합 구성마다 따로 구한다.</span></dd>
+    <dt><span lang="zh">价格比</span><span lang="en">Price ratio</span><span lang="ko">가격비</span><span class="mono">r</span></dt>
+    <dd><span lang="zh">一台 270 t 车每天的资本成本折合的人时数；标定范围 5.1–30。</span><span lang="en">Daily capital cost of one 270 t transporter in labour-hours; calibrated range 5.1–30.</span><span lang="ko">270 t 트랜스포터 1대의 하루 자본비를 인시로 환산한 값. 보정 범위 5.1–30.</span></dd>
+    <dt><span lang="zh">人工口径</span><span lang="en">Labour measure</span><span lang="ko">인건비 기준</span></dt>
+    <dd><span lang="zh">班次人工：每台车 4 人 × 16 h = 64 人时/天；另有加班计价，以及两种只按实际作业计价的运营口径（按车 / 按队）。</span><span lang="en">Shift staffing: 4 workers × 16 h = 64 labour-hours per transporter and day; plus after-shift pricing and two operating measures that pay only scheduled work (per vehicle / per team).</span><span lang="ko">교대 인원: 차량당 4명 × 16시간 = 하루 64인시. 연장 근무 가산과, 실제 작업만 계산하는 두 운영 기준(차량별 / 팀별)도 있다.</span></dd>
+    <dt><span lang="zh">工况</span><span lang="en">Condition</span><span lang="ko">조건</span></dt>
+    <dd><span lang="zh">分段重量 × 装卸时间 × 交期松紧 的一种组合，共 36 种；每种 30 个工作日实例。</span><span lang="en">One combination of mass scenario, handling setting and due-date setting; 36 in all, each with 30 daily instances.</span><span lang="ko">중량 시나리오 × 적재·하역 시간 × 납기 설정의 한 조합. 총 36개, 각각 30일 인스턴스.</span></dd>
+    <dt><span lang="zh">释放 / 交期</span><span lang="en">Release / due time</span><span lang="ko">투입 / 납기</span></dt>
+    <dd><span lang="zh">释放：分段可以开始搬的时刻；交期：必须送到的时刻。晚于交期就算迟到。</span><span lang="en">Release: when a block may start moving. Due time: when it must arrive. Arriving later counts as late.</span><span lang="ko">투입: 블록을 옮기기 시작할 수 있는 시각. 납기: 도착해야 하는 시각. 그보다 늦으면 지연이다.</span></dd>
+    <dt><span lang="zh">人时 / 车·时</span><span lang="en">Labour-hour / vehicle-hour</span><span lang="ko">인시 / 차량·시</span></dt>
+    <dd><span lang="zh">人时：一个工人工作一小时（的成本）；车·时：一台车工作一小时。</span><span lang="en">Labour-hour: one worker working one hour (and its cost). Vehicle-hour: one vehicle working one hour.</span><span lang="ko">인시: 노동자 1명이 1시간 일한 것(그 비용). 차량·시: 차량 1대가 1시간 일한 것.</span></dd>
+    <dt><span lang="zh">成本设定</span><span lang="en">Cost setting</span><span lang="ko">비용 설정</span></dt>
+    <dd><span lang="zh">一个工况 + 一条价格曲线 + 一个 r + 一种人工口径；共 6,480 个。每个设定选出一个最便宜的车队。</span><span lang="en">One condition + one price curve + one value of r + one labour measure; 6,480 in all. Each setting picks one cheapest fleet.</span><span lang="ko">조건 하나 + 가격 곡선 하나 + r 하나 + 인건비 기준 하나, 총 6,480개. 설정마다 가장 싼 차량군을 하나 고른다.</span></dd>
+    <dt><span lang="zh">自助法（重抽样）</span><span lang="en">Bootstrap</span><span lang="ko">부트스트랩</span></dt>
+    <dd><span lang="zh">从已有的 30 天里有放回地重抽 30 天，重复多次，看结论变不变。</span><span lang="en">Redraw 30 days from the 30 with replacement, many times, and see whether the conclusion changes.</span><span lang="ko">기존 30일에서 복원 추출로 30일을 여러 번 다시 뽑아 결론이 바뀌는지 본다.</span></dd>
+    <dt><span lang="zh">预注册</span><span lang="en">Pre-registration</span><span lang="ko">사전 등록</span></dt>
+    <dd><span lang="zh">在看到结果之前写定规则、参数和种子，之后不改，防止“看结果调方法”。</span><span lang="en">Writing down rules, parameters and seeds before seeing results and not changing them afterwards, so the method is not tuned to the results.</span><span lang="ko">결과를 보기 전에 규칙, 매개변수, 시드를 확정하고 이후 바꾸지 않아, 결과에 맞춰 방법을 조정하지 않게 한다.</span></dd>
+    <dt><span lang="zh">超重才拼</span><span lang="en">Overweight-only coupling</span><span lang="ko">초과 중량 결합</span></dt>
+    <dd><span lang="zh">只要车队里有一台车能单独运某块分段，就必须由它单独运；只有比所有车都重的块才允许拼载（Jiang 2021 等的做法）。本研究主口径是灵活拼载。</span><span lang="en">If any vehicle in the fleet can carry a block alone, it must; only blocks heavier than every vehicle may be coupled (as in Jiang 2021). Our main rule is flexible coupling.</span><span lang="ko">차량군 중 한 대라도 단독 운반이 가능하면 그 차량이 옮겨야 하고, 모든 차량보다 무거운 블록만 결합할 수 있다 (Jiang 2021 등). 본 연구의 주 규칙은 유연 결합이다.</span></dd>
+    <dt>ALNS</dt>
+    <dd><span lang="zh">自适应大邻域搜索：反复“拆掉部分任务再插回”来改进排班。</span><span lang="en">Adaptive large neighbourhood search: improves a schedule by repeatedly removing and reinserting tasks.</span><span lang="ko">적응형 대규모 이웃 탐색: 작업 일부를 빼고 다시 넣기를 반복해 일정을 개선한다.</span></dd>
+  </dl>
+</div>
+<div class="drawer" id="tocDrawer" hidden role="dialog" aria-label="Contents">
+  <h2><span><span lang="zh">目录</span><span lang="en">Contents</span><span lang="ko">목차</span></span><button type="button" class="tbtn" id="tocClose" aria-label="Close">✕</button></h2>
+  <ol class="toc" id="toc"></ol>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script src="data.js"></script>
+<script src="deck.js"></script>
