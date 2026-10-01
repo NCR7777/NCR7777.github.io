@@ -163,6 +163,9 @@ function fitH(id, W, H0, lo = 0.8, hi = 1.8) {
   if (root.classList.contains('flow') || !host.clientWidth || !host.clientHeight) return H0;
   return Math.round(Math.min(H0 * hi, Math.max(H0 * lo, W * host.clientHeight / host.clientWidth)));
 }
+// entrance motion (the .a-* rules in index.html), played once when the slide opens; d is the delay in seconds
+function anim(e, cls, d) { e.classList.add(cls); e.style.setProperty('--d', d.toFixed(2) + 's'); return e; }
+const spread = k => (k * 0.618034) % 1;   // even but unordered spread in [0, 1), so points do not appear in a sweep
 const lin = (d0, d1, r0, r1) => v => r0 + (v - d0) * (r1 - r0) / (d1 - d0);
 function yTitle(s, x, y, text) { el('text', { x, y, transform: `rotate(-90 ${x} ${y})`, 'text-anchor': 'middle' }, s, text); }
 function swatches(id, items) {
@@ -202,11 +205,12 @@ function drawPrice() {
   for (let v = 0; v <= 5; v++) el('text', { x: m.l - 8, y: y(v) + 4, 'text-anchor': 'end' }, s, v);
   el('text', { x: (m.l + W - m.r) / 2, y: H - 8, 'text-anchor': 'middle' }, s, t('pX'));
   yTitle(s, 14, (m.t + H - m.b) / 2, t('pY'));
-  el('line', { x1: x(80), y1: y(pQ(80)), x2: x(620), y2: y(pQ(620)), style: 'stroke:var(--amber);stroke-width:2.5' }, s);
-  el('line', { x1: x(20), x2: x(48), y1: y(4.6), y2: y(4.6), style: 'stroke:var(--amber);stroke-width:2.5' }, s);
-  el('text', { x: x(56), y: y(4.6) + 4, class: 't-strong' }, s, `${t('pFit')}: p(Q) = 0.575 + 0.00607 Q`);
-  for (const [q, p, n] of D.price) {
+  anim(el('path', { d: `M${x(80)} ${y(pQ(80))}L${x(620)} ${y(pQ(620))}`, pathLength: 1, style: 'fill:none;stroke:var(--amber);stroke-width:2.5' }, s), 'a-draw', .8);
+  anim(el('line', { x1: x(20), x2: x(48), y1: y(4.6), y2: y(4.6), style: 'stroke:var(--amber);stroke-width:2.5' }, s), 'a-fade', 1);
+  anim(el('text', { x: x(56), y: y(4.6) + 4, class: 't-strong' }, s, `${t('pFit')}: p(Q) = 0.575 + 0.00607 Q`), 'a-fade', 1);
+  for (const [k, [q, p, n]] of D.price.entries()) {
     const c = el('circle', { cx: x(q), cy: y(p), r: 4.5 + (n - 1) * 1.6, style: 'fill:var(--steel);fill-opacity:.45;stroke:var(--steel);stroke-width:1.2' }, s);
+    anim(c, 'a-pop', .25 + .5 * spread(k));
     hover(c, () => `${q} t · ${p.toFixed(2)} ${t('mcny')}${n > 1 ? ` · ×${n}` : ''}`);
   }
 }
@@ -225,12 +229,12 @@ function drawCap() {
   el('line', { x1: m.l, x2: W - m.r, y1: y(0), y2: y(0), style: 'stroke:var(--ink3)' }, s);
   tiers.forEach((q, i) => {
     const x0 = m.l + i * band + band * 0.17, bw = band * 0.66, v = vals[i];
-    el('rect', { x: x0, y: y(v), width: bw, height: y(0) - y(v), style: `fill:${v > 64 ? 'var(--oxide)' : 'var(--steel)'}` }, s);
-    el('text', { x: x0 + bw / 2, y: y(v) - 5, 'text-anchor': 'middle', class: 't-strong' }, s, v.toFixed(0));
+    anim(el('rect', { x: x0, y: y(v), width: bw, height: y(0) - y(v), style: `fill:${v > 64 ? 'var(--oxide)' : 'var(--steel)'}` }, s), 'a-y', .3 + i * .05);
+    anim(el('text', { x: x0 + bw / 2, y: y(v) - 5, 'text-anchor': 'middle', class: 't-strong' }, s, v.toFixed(0)), 'a-fade', .6 + i * .05);
     el('text', { x: x0 + bw / 2, y: y(0) + 17, 'text-anchor': 'middle' }, s, q);
   });
-  el('line', { x1: m.l, x2: W - m.r, y1: y(64), y2: y(64), style: 'stroke:var(--oxide);stroke-width:2;stroke-dasharray:7 5' }, s);
-  el('text', { x: m.l + 4, y: y(64) - 7, class: 't-ox' }, s, t('crew'));
+  anim(el('line', { x1: m.l, x2: W - m.r, y1: y(64), y2: y(64), style: 'stroke:var(--oxide);stroke-width:2;stroke-dasharray:7 5' }, s), 'a-fade', 1.1);
+  anim(el('text', { x: m.l + 4, y: y(64) - 7, class: 't-ox' }, s, t('crew')), 'a-fade', 1.1);
   el('text', { x: (m.l + W - m.r) / 2, y: H - 4, 'text-anchor': 'middle' }, s, t('capX'));
   yTitle(s, 14, (m.t + H - m.b) / 2, t('capY'));
   $('capTxt').textContent = fmt(t('capTxt'), { r: r.toFixed(1), v: vals[8].toFixed(0) });
@@ -256,7 +260,7 @@ function drawHeat() {
     el('text', { x: L - 6, y: y + rh - 3, 'text-anchor': 'end', style: 'font-size:9px' }, s, `${t(h)} · ${t(d)}`);
     rows[i].forEach(([f, share, hatch, weak], j) => {
       used.add(f);
-      const x = L + j * cw, cell = el('g', { style: 'cursor:default' }, s);
+      const x = L + j * cw, cell = anim(el('g', { style: 'cursor:default' }, s), 'a-fade', .25 + i * .022);
       el('rect', { x, y, width: cw - 1, height: rh - 1, fill: COL[f] }, cell);
       if (hatch) el('rect', { x, y, width: cw - 1, height: rh - 1, fill: 'url(#hatch)' }, cell);
       el('text', { x: x + cw / 2, y: y + rh - 3, 'text-anchor': 'middle', style: `font-size:8.5px;fill:${DARK.has(f) ? '#fff' : '#1b1b1b'}` }, cell, share);
@@ -281,8 +285,8 @@ function drawScatter() {
   for (let v = 0; v <= 100; v += 25) { el('line', { x1: x(v), x2: x(v), y1: m.t, y2: H - m.b }, g); el('text', { x: x(v), y: H - m.b + 18, 'text-anchor': 'middle' }, s, v); }
   el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('sX'));
   yTitle(s, 14, (m.t + H - m.b) / 2, t('sY'));
-  for (const [f, cx, cy, K, cell] of D.scatter) {
-    const c = el('circle', { cx: x(cx), cy: y(cy), r: 4.8, fill: COL[f], style: 'stroke:var(--ink);stroke-opacity:.5;stroke-width:.7' }, s);
+  for (const [k, [f, cx, cy, K, cell]] of D.scatter.entries()) {
+    const c = anim(el('circle', { cx: x(cx), cy: y(cy), r: 4.8, fill: COL[f], style: 'stroke:var(--ink);stroke-opacity:.5;stroke-width:.7' }, s), 'a-pop', .25 + .8 * spread(k));
     hover(c, () => `<b>${famName(f)}</b> · K* = ${K}<br>${cellName(cell)}<br>${t('sX')}: ${cx}%<br>${t('sY')}: +${cy}%`);
   }
   swatches('scatLegend', FAMS.map(f => [COL[f], famName(f)]));
@@ -307,9 +311,9 @@ function drawCase() {
       const y = top + i * rh, pct = 100 * (o.cost / best - 1), win = pct < 1e-9;
       el('text', { x: x0 + 86, y: y + rh / 2 + 4, 'text-anchor': 'end', class: win ? 't-strong' : '' }, s, famName(o.f));
       el('text', { x: x0 + 104, y: y + rh / 2 + 4, 'text-anchor': 'middle', style: 'font-family:var(--mono);font-size:12px' }, s, o.K);
-      if (!win) el('rect', { x: x0 + bx, y: y + 6, width: Math.min(pct, dom) * bw / dom, height: rh - 12, fill: COL[o.f], style: 'stroke:var(--ink3);stroke-width:.6' }, s);
-      el('text', { x: x0 + bx + (win ? 0 : Math.min(pct, dom) * bw / dom) + 5, y: y + rh / 2 + 4, class: win ? 't-strong' : '', style: win ? 'fill:var(--good)' : 'font-size:11.5px' }, s,
-        win ? '★ ' + t('cheapest') : '+' + (pct < 10 ? pct.toFixed(1) : pct.toFixed(0)) + '%');
+      if (!win) anim(el('rect', { x: x0 + bx, y: y + 6, width: Math.min(pct, dom) * bw / dom, height: rh - 12, fill: COL[o.f], style: 'stroke:var(--ink3);stroke-width:.6' }, s), 'a-x', .3 + i * .04);
+      anim(el('text', { x: x0 + bx + (win ? 0 : Math.min(pct, dom) * bw / dom) + 5, y: y + rh / 2 + 4, class: win ? 't-strong' : '', style: win ? 'fill:var(--good)' : 'font-size:11.5px' }, s,
+        win ? '★ ' + t('cheapest') : '+' + (pct < 10 ? pct.toFixed(1) : pct.toFixed(0)) + '%'), 'a-fade', .6 + i * .04);
     });
     el('text', { x: x0 + bx + bw / 2, y: H - 4, 'text-anchor': 'middle', style: 'font-size:11.5px' }, s, t('above'));
   });
@@ -323,12 +327,12 @@ function drawAgree() {
   const g = el('g', { class: 'grid' }, s);
   for (const v of [60, 70, 80, 90, 100]) { el('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }, g); el('text', { x: m.l - 8, y: y(v) + 4, 'text-anchor': 'end' }, s, v); }
   yTitle(s, 14, (m.t + H - m.b) / 2, t('aY'));
-  el('path', { d: lv.map(([, v], i) => `${i ? 'L' : 'M'}${x(i)} ${y(v)}`).join(''), style: 'fill:none;stroke:var(--steel);stroke-width:2.5' }, s);
+  anim(el('path', { d: lv.map(([, v], i) => `${i ? 'L' : 'M'}${x(i)} ${y(v)}`).join(''), pathLength: 1, style: 'fill:none;stroke:var(--steel);stroke-width:2.5' }, s), 'a-draw', .3);
   lv.forEach(([k, v], i) => {
-    const c = el('circle', { cx: x(i), cy: y(v), r: 7, style: `fill:${i ? 'var(--steel)' : 'var(--oxide)'};stroke:var(--paper);stroke-width:2` }, s);
+    const c = anim(el('circle', { cx: x(i), cy: y(v), r: 7, style: `fill:${i ? 'var(--steel)' : 'var(--oxide)'};stroke:var(--paper);stroke-width:2` }, s), 'a-pop', .3 + i * .2);
     const [a, b, cc] = D.stack[k];
     hover(c, () => fmt(t('stackTip'), { a, b, c: cc }));
-    el('text', { x: x(i), y: y(v) - 13, 'text-anchor': 'middle', class: i ? 't-strong' : 't-ox' }, s, v.toFixed(0) + '%');
+    anim(el('text', { x: x(i), y: y(v) - 13, 'text-anchor': 'middle', class: i ? 't-strong' : 't-ox' }, s, v.toFixed(0) + '%'), 'a-fade', .4 + i * .2);
     el('text', { x: x(i), y: H - m.b + 20, 'text-anchor': 'middle', style: 'font-size:11.5px' }, s, t(k));
   });
 }
@@ -343,8 +347,8 @@ function drawLoad() {
   [['D-emp', 'var(--g-load)', 0], ['D-tight', 'var(--oxide)', 1]].forEach(([due, col, o]) => {
     D.load[due].forEach(([d, n], i) => {
       const bw = band * 0.36, x0 = m.l + i * band + band * 0.12 + o * bw;
-      if (n) el('rect', { x: x0, y: y(n), width: bw, height: y(0) - y(n), style: `fill:${col}` }, s);
-      if (n) el('text', { x: x0 + bw / 2, y: y(n) - 4, 'text-anchor': 'middle', style: 'font-size:10.5px' }, s, n);
+      if (n) anim(el('rect', { x: x0, y: y(n), width: bw, height: y(0) - y(n), style: `fill:${col}` }, s), 'a-y', .3 + i * .06 + o * .03);
+      if (n) anim(el('text', { x: x0 + bw / 2, y: y(n) - 4, 'text-anchor': 'middle', style: 'font-size:10.5px' }, s, n), 'a-fade', .65 + i * .06 + o * .03);
     });
   });
   xs.forEach((d, i) => el('text', { x: m.l + i * band + band / 2, y: y(0) + 17, 'text-anchor': 'middle', class: d === 0 ? 't-strong' : '' }, s, d > 0 ? '+' + d : d));
@@ -365,15 +369,16 @@ function drawTeam() {
   const n = mass <= tier ? 1 : Math.ceil(mass / tier), ok = n <= 3;
   const W = 460, H = fitH('teamViz', 460, 124, 1, 2.6), s = el('g', { transform: `translate(0 ${(H - 124) / 2})` }, frame('teamViz', W, H, 'Team for the chosen block'));
   const bw = 80 + mass * 0.34;
-  el('rect', { x: (W - bw) / 2, y: 4, width: bw, height: 46, rx: 6, style: 'fill:var(--steel)' }, s);
-  el('text', { x: W / 2, y: 33, 'text-anchor': 'middle', style: 'fill:var(--paper);font:600 18px var(--d-en)' }, s, mass + ' t');
   const tw = 40 + tier * 0.2, gp = 8, tot = n * tw + (n - 1) * gp;
+  const blk = anim(el('g', {}, s), 'a-drop', .45 + n * .14);
+  el('rect', { x: (W - bw) / 2, y: 4, width: bw, height: 46, rx: 6, style: 'fill:var(--steel)' }, blk);
+  el('text', { x: W / 2, y: 33, 'text-anchor': 'middle', style: 'fill:var(--paper);font:600 18px var(--d-en)' }, blk, mass + ' t');
   for (let i = 0; i < n; i++) {
-    const x0 = (W - tot) / 2 + i * (tw + gp);
-    el('rect', { x: x0, y: 54, width: tw, height: 14, rx: 2, style: ok ? 'fill:var(--amber-hi)' : 'fill:var(--oxide-soft);stroke:var(--oxide);stroke-dasharray:4 3' }, s);
-    for (let w = 8; w < tw; w += 14) el('circle', { cx: x0 + w, cy: 76, r: 5.5, style: `fill:${ok ? 'var(--ink)' : 'var(--ink3)'}` }, s);
-    el('text', { x: x0 + tw / 2, y: 100, 'text-anchor': 'middle', style: 'font-family:var(--mono);font-size:12px' }, s, tier + ' t');
-    if (i && ok) el('line', { x1: x0 - gp, x2: x0, y1: 58, y2: 58, style: 'stroke:var(--ink);stroke-width:4' }, s);
+    const x0 = (W - tot) / 2 + i * (tw + gp), v = anim(el('g', {}, s), 'a-rise', .3 + i * .14);
+    el('rect', { x: x0, y: 54, width: tw, height: 14, rx: 2, style: ok ? 'fill:var(--amber-hi)' : 'fill:var(--oxide-soft);stroke:var(--oxide);stroke-dasharray:4 3' }, v);
+    for (let w = 8; w < tw; w += 14) el('circle', { cx: x0 + w, cy: 76, r: 5.5, style: `fill:${ok ? 'var(--ink)' : 'var(--ink3)'}` }, v);
+    el('text', { x: x0 + tw / 2, y: 100, 'text-anchor': 'middle', style: 'font-family:var(--mono);font-size:12px' }, v, tier + ' t');
+    if (i && ok) anim(el('line', { x1: x0 - gp, x2: x0, y1: 58, y2: 58, style: 'stroke:var(--ink);stroke-width:4' }, s), 'a-fade', .3 + n * .14);
   }
   $('teamTxt').innerHTML = n === 1 ? fmt(t('single1'), { Q: tier, m: mass })
     : ok ? fmt(t('couple'), { n, Q: tier, S: n * tier, S2: (n - 1) * tier, m: mass, w: 4 * n })
@@ -384,7 +389,7 @@ function drawTeam() {
 
 // transporter move in four steps (static sketch)
 function drawSpmt() {
-  const g = $('spmtSteps');
+  let g;
   const block = (x0, y) => el('rect', { x: x0 + 8, y, width: 134, height: 48, rx: 5, style: 'fill:var(--steel)' }, g);
   const supports = x0 => { for (const dx of [14, 124]) el('rect', { x: x0 + dx, y: 120, width: 12, height: 30, style: 'fill:var(--ink3)' }, g); };
   const vehicle = (x0, py) => {
@@ -397,6 +402,7 @@ function drawSpmt() {
     el('path', { d: `M${x2} ${y2}L${x2 - h * Math.cos(a - .5)} ${y2 - h * Math.sin(a - .5)}L${x2 - h * Math.cos(a + .5)} ${y2 - h * Math.sin(a + .5)}Z`, style: 'fill:var(--oxide)' }, g);
   };
   [0, 163, 326, 489].forEach((x0, i) => {
+    g = anim(el('g', {}, $('spmtSteps')), 'a-rise', .3 + i * .25);
     el('line', { x1: x0, x2: x0 + 150, y1: 150, y2: 150, style: 'stroke:var(--ink3)' }, g);
     el('text', { x: x0 + 75, y: 20, 'text-anchor': 'middle', style: 'fill:var(--ink);font:600 16px var(--d-en)' }, g, ['①', '②', '③', '④'][i]);
     if (i === 0) { supports(x0); block(x0, 72); vehicle(x0, 132); arrow(x0 + 4, 136, x0 + 30, 136); }
@@ -423,8 +429,9 @@ function drawDay() {
   el('text', { x: W - m.r + 4, y: y(270) + 4, class: 't-strong', style: 'fill:var(--amber)' }, s, '270 t');
   for (const [ms, r, d] of tk) {
     const heavy = ms > 270, c = heavy ? 'var(--amber-hi)' : 'var(--steel)';
-    const ln = el('line', { x1: x(r), x2: x(d), y1: y(ms), y2: y(ms), style: `stroke:${c};stroke-width:3.2;stroke-linecap:round` }, s);
-    el('circle', { cx: x(r), cy: y(ms), r: 2.6, style: `fill:${heavy ? 'var(--amber)' : 'var(--steel)'}` }, s);
+    const at = .25 + 1.1 * r / (16 * 3600);
+    const ln = anim(el('line', { x1: x(r), x2: x(d), y1: y(ms), y2: y(ms), style: `stroke:${c};stroke-width:3.2;stroke-linecap:round` }, s), 'a-x', at);
+    anim(el('circle', { cx: x(r), cy: y(ms), r: 2.6, style: `fill:${heavy ? 'var(--amber)' : 'var(--steel)'}` }, s), 'a-pop', at);
     hover(ln, () => fmt(t('dayTip'), { m: ms, r: clock(r), d: clock(d) }));
   }
 }
@@ -447,12 +454,13 @@ function drawGantt() {
       let prev = 0;
       for (const [i, a, st, c, n] of seq) {
         const [ms, rel, due] = tk[i], bh = rowH - 6, by = yy + 2;
-        if (a > prev) el('rect', { x: x(prev), y: by + 3, width: Math.max(.5, x(a) - x(prev)), height: bh - 6, style: 'fill:var(--g-empty)' }, s);
+        const at = v => .25 + 1.6 * v / (19.5 * 3600);
+        if (a > prev) anim(el('rect', { x: x(prev), y: by + 3, width: Math.max(.5, x(a) - x(prev)), height: bh - 6, style: 'fill:var(--g-empty)' }, s), 'a-x', at(prev));
         const w0 = Math.max(a, rel);
-        if (st > w0 + 1) el('rect', { x: x(w0), y: by, width: x(st) - x(w0), height: bh, style: 'fill:var(--oxide-soft);stroke:var(--oxide);stroke-width:.6' }, s);
+        if (st > w0 + 1) anim(el('rect', { x: x(w0), y: by, width: x(st) - x(w0), height: bh, style: 'fill:var(--oxide-soft);stroke:var(--oxide);stroke-width:.6' }, s), 'a-x', at(w0));
         const late = c > due;
-        const b = el('rect', { x: x(st), y: by, width: Math.max(1, x(c) - x(st)), height: bh, rx: 1.5,
-          style: `fill:${n > 1 ? 'var(--amber-hi)' : 'var(--steel)'};${late ? 'stroke:#e03131;stroke-width:1.6' : 'stroke:var(--paper);stroke-width:.5'}` }, s);
+        const b = anim(el('rect', { x: x(st), y: by, width: Math.max(1, x(c) - x(st)), height: bh, rx: 1.5,
+          style: `fill:${n > 1 ? 'var(--amber-hi)' : 'var(--steel)'};${late ? 'stroke:#e03131;stroke-width:1.6' : 'stroke:var(--paper);stroke-width:.5'}` }, s), 'a-x', at(st));
         hover(b, () => fmt(t('gTip'), { id: i + 1, m: ms, team: n > 1 ? fmt(t('teamOf'), { n }) : t('alone'), r: hm(rel), d: hm(due), c: hm(c) }) +
           ' · ' + (late ? fmt(t('lateBy'), { m: Math.round((c - due) / 60) }) : t('onTime')));
         prev = c;
@@ -479,7 +487,7 @@ function drawGantt() {
 function drawMasses() {
   const host = $('massGrid');
   host.innerHTML = '';
-  ['M1', 'M2', 'M3', 'M4', 'M5', 'M6'].forEach(k => {
+  ['M1', 'M2', 'M3', 'M4', 'M5', 'M6'].forEach((k, mi) => {
     const mm = D.masses[k], div = document.createElement('div');
     div.className = 'm';
     div.innerHTML = `<h4>${t(k)} · <span class="mono" style="font-weight:400;color:var(--ink3)">${mm.lo}–${mm.hi} t</span></h4><p>${t(k + 'd')}</p>`;
@@ -492,12 +500,12 @@ function drawMasses() {
     mm.hist.forEach((n, i) => {
       if (!n) return;
       const h = (H - b.t - b.b) * n / mx;
-      el('rect', { x: b.l + i * bw + .5, y: H - b.b - h, width: bw - 1, height: h, style: `fill:${i * 50 >= 270 ? 'var(--amber-hi)' : 'var(--steel)'}` }, s);
+      anim(el('rect', { x: b.l + i * bw + .5, y: H - b.b - h, width: bw - 1, height: h, style: `fill:${i * 50 >= 270 ? 'var(--amber-hi)' : 'var(--steel)'}` }, s), 'a-y', .3 + mi * .08 + i * .012);
     });
     el('line', { x1: b.l, x2: W - b.r, y1: H - b.b, y2: H - b.b, style: 'stroke:var(--ink3)' }, s);
     const x270 = b.l + 270 / 50 * bw;
-    el('line', { x1: x270, x2: x270, y1: 4, y2: H - b.b, style: 'stroke:var(--oxide);stroke-dasharray:4 3;stroke-width:1.2' }, s);
-    el('text', { x: x270 + 4, y: 13, style: 'font-size:11px;fill:var(--oxide);font-weight:600' }, s, fmt(t('above270'), { p: Math.round(mm.above['270']) }));
+    anim(el('line', { x1: x270, x2: x270, y1: 4, y2: H - b.b, style: 'stroke:var(--oxide);stroke-dasharray:4 3;stroke-width:1.2' }, s), 'a-fade', 1.1 + mi * .08);
+    anim(el('text', { x: x270 + 4, y: 13, style: 'font-size:11px;fill:var(--oxide);font-weight:600' }, s, fmt(t('above270'), { p: Math.round(mm.above['270']) })), 'a-fade', 1.1 + mi * .08);
     for (const v of [0, 400, 800]) el('text', { x: b.l + v / 50 * bw, y: H - 4, 'text-anchor': v ? (v === 800 ? 'end' : 'middle') : 'start', style: 'font-size:10px;fill:var(--ink3)' }, s, v + (v === 800 ? ' t' : ''));
   });
 }
@@ -539,8 +547,8 @@ function drawCalc() {
     el('text', { x: cols.comp, y: y + rowH / 2 + 5, style: 'font-size:13px;font-family:var(--mono)' }, s, comp);
     el('text', { x: cols.k, y: y + rowH / 2 + 5, 'text-anchor': 'middle', class: 't-strong', style: 'font-size:14px;font-family:var(--mono)' }, s, o.K);
     const wc = cols.barW * o.cap / max, wl = cols.barW * o.L / max;
-    el('rect', { x: cols.bar, y: y + rowH * 0.24, width: wc, height: rowH * 0.52, style: 'fill:var(--steel)' }, s);
-    el('rect', { x: cols.bar + wc, y: y + rowH * 0.24, width: wl, height: rowH * 0.52, style: 'fill:var(--amber-hi)' }, s);
+    anim(el('rect', { x: cols.bar, y: y + rowH * 0.24, width: wc, height: rowH * 0.52, style: 'fill:var(--steel)' }, s), 'a-x', .3 + i * .05);
+    anim(el('rect', { x: cols.bar + wc, y: y + rowH * 0.24, width: wl, height: rowH * 0.52, style: 'fill:var(--amber-hi)' }, s), 'a-x', .65 + i * .05);
     el('text', { x: cols.tot, y: y + rowH / 2 + 5, 'text-anchor': 'end', class: win ? 't-strong' : '', style: 'font-size:13px;font-family:var(--mono)' }, s, o.cost.toFixed(0));
     el('text', { x: cols.pct, y: y + rowH / 2 + 5, style: `font-size:13px;font-family:var(--mono);fill:${win ? 'var(--good)' : 'var(--ink2)'}` }, s, win ? '★' : '+' + (100 * (o.cost / best - 1)).toFixed(1) + '%');
     el('text', { x: cols.cp, y: y + rowH / 2 + 5, 'text-anchor': 'end', style: 'font-size:13px;font-family:var(--mono)' }, s, o.cp.toFixed(0) + '%');
@@ -558,7 +566,7 @@ function drawBoot() {
   const cnt = {};
   draw.forEach(d => { cnt[d] = (cnt[d] || 0) + 1; });
   $('bootA').innerHTML = Array.from({ length: 30 }, (_, i) => `<i>${i + 1}</i>`).join('');
-  $('bootB').innerHTML = draw.map(d => `<i class="${cnt[d] > 1 ? 'dup' : ''}">${d}</i>`).join('');
+  $('bootB').innerHTML = draw.map((d, k) => `<i class="a-pop${cnt[d] > 1 ? ' dup' : ''}" style="--d:${(.4 + k * .03).toFixed(2)}s">${d}</i>`).join('');
 }
 
 // status of the R25 runs: progress.json snapshots carried in data.js (make_data.py)
@@ -613,8 +621,8 @@ function drawLiu() {
     el('text', { x: cx.name, y: ty, class: win || mix ? 't-strong' : '', style: 'font-size:12.5px;font-family:var(--mono)' }, s, liuName(o.f, o.K, o.hv));
     el('text', { x: cx.k, y: ty, 'text-anchor': 'middle', style: 'font-size:12.5px;font-family:var(--mono)' }, s, o.K);
     const wc = cx.barW * o.cap / max, wl = cx.barW * o.L / max;
-    el('rect', { x: cx.bar, y: y + rowH * 0.22, width: wc, height: rowH * 0.56, style: 'fill:var(--steel)' }, s);
-    el('rect', { x: cx.bar + wc, y: y + rowH * 0.22, width: wl, height: rowH * 0.56, style: 'fill:var(--amber-hi)' }, s);
+    anim(el('rect', { x: cx.bar, y: y + rowH * 0.22, width: wc, height: rowH * 0.56, style: 'fill:var(--steel)' }, s), 'a-x', .3 + i * .035);
+    anim(el('rect', { x: cx.bar + wc, y: y + rowH * 0.22, width: wl, height: rowH * 0.56, style: 'fill:var(--amber-hi)' }, s), 'a-x', .65 + i * .035);
     el('text', { x: cx.tot, y: ty, 'text-anchor': 'end', style: 'font-size:12px;font-family:var(--mono)' }, s, o.cost.toFixed(0));
     el('text', { x: cx.pct, y: ty, style: `font-size:12px;font-family:var(--mono);fill:${win ? 'var(--good)' : 'var(--ink3)'}` }, s, win ? '★' : '+' + (100 * (o.cost / best - 1)).toFixed(1) + '%');
     el('text', { x: cx.cp, y: ty, 'text-anchor': 'end', style: 'font-size:12px;font-family:var(--mono)' }, s, o.cp.toFixed(0) + '%');
@@ -640,7 +648,7 @@ function drawPor() {
     if (i % 6 === 0) el('text', { x: 0, y: y + 3 * rh + 4, class: 't-strong', style: 'font-size:11px' }, s, t(m));
     el('text', { x: L - 6, y: y + rh - 3, 'text-anchor': 'end', style: 'font-size:9px' }, s, `${t(h)} · ${t(d)}`);
     D.late.por_grid[i].forEach(([v, a, b], j) => {
-      const x = L + j * cw, g = el('g', {}, s);
+      const x = L + j * cw, g = anim(el('g', {}, s), 'a-fade', .25 + i * .022);
       el('rect', { x, y, width: cw - 1, height: rh - 1, fill: porColour(v) }, g);
       if (Math.abs(v) >= 0.05) el('text', { x: x + cw / 2, y: y + rh - 3, 'text-anchor': 'middle', style: `font-size:8.5px;fill:${v > 4 ? '#fff' : '#1b1b1b'}` }, g, v.toFixed(1));
       hover(g, () => fmt(t('porTip'), { cell: cellName(c), r: D.r[j].toFixed(1), v: v.toFixed(2), a: famName(a), b: famName(b) }));
@@ -699,8 +707,8 @@ function drawLate() {
     const y = top + i * rh;
     el('text', { x: 0, y: y + rh * 0.42, class: 't-strong', style: 'font-size:13px' }, s, `${t(SC[o.c])} · ${o.name}`);
     el('text', { x: 0, y: y + rh * 0.42 + 17, style: 'font-size:11.5px' }, s, fmt(t('lateLbl'), { k: o.k, k1: o.k1, n: o.n4 }));
-    el('rect', { x: L, y: y + rh * 0.2, width: x(o.mx) - L, height: rh * 0.5, rx: 2, style: `fill:${SC_COL[SC[o.c]]};opacity:.85` }, s);
-    el('text', { x: x(o.mx) + 6, y: y + rh * 0.45 + 5, class: 't-strong' }, s, o.mx.toFixed(1) + ' h');
+    anim(el('rect', { x: L, y: y + rh * 0.2, width: x(o.mx) - L, height: rh * 0.5, rx: 2, style: `fill:${SC_COL[SC[o.c]]};opacity:.85` }, s), 'a-x', .3 + i * .12);
+    anim(el('text', { x: x(o.mx) + 6, y: y + rh * 0.45 + 5, class: 't-strong' }, s, o.mx.toFixed(1) + ' h'), 'a-fade', .75 + i * .12);
   });
   el('line', { x1: x(2), x2: x(2), y1: top, y2: H - bot, style: 'stroke:var(--amber);stroke-width:2;stroke-dasharray:5 4' }, s);
   el('text', { x: x(2) + 4, y: top + 10, style: 'font-size:11px;fill:var(--amber);font-weight:600' }, s, t('capLine'));
@@ -725,12 +733,13 @@ function drawTmax() {
   const yb = panel(top + 10 + ph + gapP, -0.5, 5, [0, 1, 2, 3, 4, 5], t('tmaxB'));
   keys.forEach((c, k) => {
     const col = SC_COL[SC[c]], off = (k - 1) * 9;
-    el('path', { d: R[c].map((r, i) => `${i ? 'L' : 'M'}${xc(i) + off} ${ya(r[4])}`).join(''), style: `fill:none;stroke:${col};stroke-width:2` }, s);
+    anim(el('path', { d: R[c].map((r, i) => `${i ? 'L' : 'M'}${xc(i) + off} ${ya(r[4])}`).join(''), pathLength: 1, style: `fill:none;stroke:${col};stroke-width:2` }, s), 'a-draw', .3 + k * .15);
     R[c].forEach((r, i) => {
       const tipf = () => fmt(t('tmaxTip'), { sc: t(SC[c]), lev: capName(r[0]), fleet: fleetStr(r[3]), c: r[4], md: r[5], lo: r[6], hi: r[7] });
-      hover(el('circle', { cx: xc(i) + off, cy: ya(r[4]), r: 5, style: `fill:${col};stroke:var(--paper);stroke-width:1.5` }, s), tipf);
-      el('line', { x1: xc(i) + off, x2: xc(i) + off, y1: yb(r[6]), y2: yb(r[7]), style: `stroke:${col};stroke-width:2` }, s);
-      hover(el('rect', { x: xc(i) + off - 4.5, y: yb(r[5]) - 4.5, width: 9, height: 9, style: `fill:${col};stroke:var(--paper);stroke-width:1.5` }, s), tipf);
+      const at = .3 + k * .15 + i * .18;
+      hover(anim(el('circle', { cx: xc(i) + off, cy: ya(r[4]), r: 5, style: `fill:${col};stroke:var(--paper);stroke-width:1.5` }, s), 'a-pop', at), tipf);
+      anim(el('line', { x1: xc(i) + off, x2: xc(i) + off, y1: yb(r[6]), y2: yb(r[7]), style: `stroke:${col};stroke-width:2` }, s), 'a-fade', at);
+      hover(anim(el('rect', { x: xc(i) + off - 4.5, y: yb(r[5]) - 4.5, width: 9, height: 9, style: `fill:${col};stroke:var(--paper);stroke-width:1.5` }, s), 'a-pop', at), tipf);
     });
   });
   levs.forEach((lev, i) => el('text', { x: xc(i), y: H - bot + 18, 'text-anchor': 'middle' }, s, capName(lev)));
@@ -751,7 +760,7 @@ function drawE7() {
     const y = top + i * rh;
     el('text', { x: 0, y: y + rh / 2 + 4, class: 't-strong', style: 'font-size:13px' }, s, t(hk + 'l'));
     E[hk].forEach(([p, f, c], j) => {
-      const g = el('g', {}, s), x0 = L + j * cw;
+      const g = anim(el('g', {}, s), 'a-pop', .3 + j * .1 + i * .05), x0 = L + j * cw;
       el('rect', { x: x0 + 3, y: y + 6, width: cw - 6, height: rh - 12, rx: 6, fill: COL[f], style: 'stroke:var(--ink3);stroke-width:.6' }, g);
       el('text', { x: x0 + cw / 2, y: y + rh / 2, 'text-anchor': 'middle', style: `font-family:var(--mono);font-size:12.5px;font-weight:600;fill:${DARK.has(f) ? '#fff' : '#1b1b1b'}` }, g, lab(f));
       el('text', { x: x0 + cw / 2, y: y + rh / 2 + 17, 'text-anchor': 'middle', style: `font-size:11px;fill:${DARK.has(f) ? '#fff' : '#333'}` }, g, c + '%');
@@ -815,7 +824,7 @@ function go(i, keepHash) {
   const sl = slides[cur];
   sl.classList.add('play');
   clearTimeout(playTimer);
-  playTimer = setTimeout(() => sl.classList.remove('play'), 1500);
+  playTimer = setTimeout(() => sl.classList.remove('play'), 3000);
   paintProg();
   $('prev').setAttribute('aria-disabled', cur === 0);
   $('next').setAttribute('aria-disabled', cur === slides.length - 1);
