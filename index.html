@@ -1175,20 +1175,23 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
   <header class="eb"></header>
   <h2 class="ttl d"><span lang="zh">方法全景：一张图看整篇论文的架构（论文插图）</span><span lang="en">The whole method on one page: the paper's framework figure</span><span lang="ko">한 장으로 보는 논문 전체 구조 (논문 그림)</span></h2>
   <div class="content" style="grid-template-columns:1.55fr 1fr;gap:26px;margin-top:10px">
-    <div class="col"><a class="fill" href="assets/framework.svg?v=bfca791373" target="_blank" rel="noopener" aria-label="Open the framework figure full size"><img src="assets/framework.svg?v=bfca791373" alt="Framework of equal-service fleet sizing: inputs, four method steps, output with three answers, robustness and validation checks"></a></div>
+    <div class="col"><a class="fill" href="assets/framework.svg?v=85082f48e6" target="_blank" rel="noopener" aria-label="Open the framework figure full size"><img src="assets/framework.svg?v=85082f48e6" alt="Framework of equal-service fleet sizing: inputs, four method steps, output with three answers, robustness and validation checks"></a></div>
     <div class="col compact" style="justify-content:center;gap:12px">
       <ul class="clean">
-        <li><span lang="zh"><b>中间：方法</b>。从上往下读：输入 → ① 定服务标准 → 对每个候选车队，② 排时刻表 ⇄ ③ 增减台数，直到刚好达标（K*）→ ④ 定价 → 最便宜的车队</span><span lang="en"><b>Middle: the method</b>, read top to bottom: inputs → ① set the service → for each candidate fleet, ② schedule ⇄ ③ change the count until it just qualifies (K*) → ④ price → the cheapest fleet</span><span lang="ko"><b>가운데: 방법</b>. 위에서 아래로: 입력 → ① 서비스 규정 → 후보 차량군마다 ② 배차 ⇄ ③ 대수를 늘리고 줄여 겨우 충족(K*) → ④ 가격 → 가장 싼 차량군</span></li>
-        <li><span lang="zh"><b>左边：研究问题</b>，放在它考察的那一步旁边：C2 对服务标准，C3 对调度与台数扫描，C1 对最终选车</span><span lang="en"><b>Left: the research questions</b>, each beside the step it probes: C2 the service specification, C3 scheduling and the count scan, C1 the final choice</span><span lang="ko"><b>왼쪽: 연구 질문</b>. 각각 다루는 단계 옆에: C2는 서비스 규정, C3는 스케줄링과 대수 스캔, C1은 최종 선택</span></li>
-        <li><span lang="zh"><b>右边：检验</b>，放在它检验的那一步旁边：数据、搜索与模型假设、定价</span><span lang="en"><b>Right: the checks</b>, each beside what it tests: data, search and model assumptions, pricing</span><span lang="ko"><b>오른쪽: 검증</b>. 각각 검증하는 단계 옆에: 데이터, 탐색과 모형 가정, 가격</span></li>
+        <li><span lang="zh"><b>左：输入</b>，分段搬运任务、试验工况、道路网络、候选车队和价格</span><span lang="en"><b>Left: inputs</b>, the block moves, test conditions, road network, candidate fleets and prices</span><span lang="ko"><b>왼쪽: 입력</b>. 블록 운반 작업, 시험 조건, 도로망, 후보 차량군, 가격</span></li>
+        <li><span lang="zh"><b>① 服务标准</b> S = (θ, T<sub>max</sub>)，所有车队都一样</span><span lang="en"><b>① Service specification</b> S = (θ, T<sub>max</sub>), the same for every fleet</span><span lang="ko"><b>① 서비스 규정</b> S = (θ, T<sub>max</sub>), 모든 차량군에 동일</span></li>
+        <li><span lang="zh"><b>② 调度 ⇄ ③ 台数扫描</b>：排时刻表，增减台数，直到刚好达标（K*）</span><span lang="en"><b>② Scheduling ⇄ ③ count scan</b>: build timetables and change the count until it just qualifies (K*)</span><span lang="ko"><b>② 스케줄링 ⇄ ③ 대수 스캔</b>: 배차표를 만들고 대수를 바꿔 겨우 충족(K*)할 때까지</span></li>
+        <li><span lang="zh"><b>④ 定价</b>：C = r·P + L，车钱 + 人工</span><span lang="en"><b>④ Pricing</b>: C = r·P + L, capital plus crew labour</span><span lang="ko"><b>④ 가격 산정</b>: C = r·P + L, 자본비 + 인건비</span></li>
+        <li><span lang="zh"><b>右：输出</b>，最便宜的车队，以及它回答的三个问题 C1–C3</span><span lang="en"><b>Right: output</b>, the cheapest fleet and the three questions C1–C3 it answers</span><span lang="ko"><b>오른쪽: 출력</b>. 가장 싼 차량군과 그것이 답하는 세 질문 C1–C3</span></li>
+        <li><span lang="zh"><b>底部</b>：稳健性与验证</span><span lang="en"><b>Bottom</b>: robustness and validation checks</span><span lang="ko"><b>아래</b>: 강건성과 검증</span></li>
       </ul>
       <div class="tiny"><span lang="zh">点图可在新页面放大。</span><span lang="en">Click the figure to open it full size.</span><span lang="ko">그림을 누르면 크게 볼 수 있다.</span></div>
     </div>
   </div>
   <aside class="notes">
-    <p lang="zh">这一页是论文的架构图，把前面讲过的方法串成一条线。中间一列从上往下读：输入是分段搬运任务和候选车队；先定服务标准 S，对所有车队都一样；然后对每个候选车队，调度和台数扫描来回迭代：给定台数排出时刻表，不达标就加一台，达标就试着减一台，直到找到刚好达标的最少台数 K*；再把车钱和人工换成同一单位定价，选出最便宜的车队。左边三个研究问题各自对着它考察的那一步：服务标准怎么定、车队怎么评估、最后买什么。右边是对应的检验：数据、搜索与模型假设、定价。</p>
-    <p lang="en">This is the paper's framework figure; it strings the method together. Read the middle column from top to bottom. The inputs are the block moves and the candidate fleets. First the service specification S is set, the same for every fleet. Then, for each candidate fleet, scheduling and the count scan iterate: a timetable is built for a given count, a transporter is added if the fleet fails and removed if it qualifies, until the smallest qualifying count K* is found. The fleet is then priced, with capital and crew labour in one unit, and the cheapest fleet is chosen. On the left, each research question sits beside the step it probes: how to specify service, how to evaluate fleets, and what to buy. On the right are the matching checks: data, search and model assumptions, and pricing.</p>
-    <p lang="ko">이 슬라이드는 논문의 구조도로, 앞에서 설명한 방법을 한 줄로 잇습니다. 가운데 열을 위에서 아래로 읽습니다. 입력은 블록 운반 작업과 후보 차량군입니다. 먼저 모든 차량군에 같은 서비스 규정 S를 정합니다. 그다음 후보 차량군마다 스케줄링과 대수 스캔을 반복합니다. 주어진 대수로 배차표를 만들고, 목표에 못 미치면 한 대를 늘리고 충족하면 한 대를 줄여 보면서 겨우 충족하는 최소 대수 K*를 찾습니다. 이어 차량비와 인건비를 같은 단위로 바꿔 가격을 매기고 가장 싼 차량군을 고릅니다. 왼쪽의 세 연구 질문은 각각 다루는 단계 옆에 있습니다. 서비스를 어떻게 규정할지, 차량군을 어떻게 평가할지, 무엇을 살지입니다. 오른쪽은 그에 맞는 검증으로, 데이터, 탐색과 모형 가정, 가격입니다.</p>
+    <p lang="zh">这一页是论文的架构图，把前面讲过的方法放在一张图里。左边是输入：分段搬运任务、试验工况、道路网络、候选车队和价格。中间是四步：先定服务标准 S，对所有车队都一样；再给每个车队排时刻表，只允许最小可行队，拼载的几台车同时开工；台数扫描反复调用调度，找出刚好达标的最少台数 K*；最后把车钱和人工换成同一单位定价。右边是输出：每个工况、每个价格设定下最便宜的车队，用来回答三个问题：买什么车、延误上限、怎样评估车队。底部是稳健性与验证。</p>
+    <p lang="en">This is the paper's framework figure, with the method on one page. On the left are the inputs: block moves, test conditions, the road network, the candidate fleets and the prices. In the middle are the four steps. First the service specification S is set, the same for every fleet. Each fleet is then scheduled, admitting only minimal teams, with coupled members starting together. The count scan calls the scheduler repeatedly to find the smallest qualifying count K*. Finally, capital and crew labour are priced in one unit. On the right is the output: the cheapest fleet for every condition and price setting, which answers three questions: what to buy, the delay cap, and how to evaluate fleets. Along the bottom are the robustness and validation checks.</p>
+    <p lang="ko">이 슬라이드는 논문의 구조도로, 방법을 한 장에 담았습니다. 왼쪽은 입력입니다. 블록 운반 작업, 시험 조건, 도로망, 후보 차량군, 가격입니다. 가운데는 네 단계입니다. 먼저 모든 차량군에 같은 서비스 규정 S를 정합니다. 이어 최소 팀만 허용하고 결합 차량이 함께 시작하도록 차량군마다 배차표를 만듭니다. 대수 스캔이 스케줄링을 반복 호출해 목표를 겨우 충족하는 최소 대수 K*를 찾습니다. 마지막으로 차량비와 인건비를 같은 단위로 바꿔 가격을 매깁니다. 오른쪽은 출력으로, 조건과 가격 설정마다 가장 싼 차량군이며, 무엇을 살지, 지연 상한, 차량군 평가 방법이라는 세 질문에 답합니다. 아래는 강건성과 검증입니다.</p>
   </aside>
 </section>
 
@@ -1807,5 +1810,5 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
 </div>
 <div class="tip" id="tip" hidden></div>
 
-<script src="data.js?v=bfca791373"></script>
-<script src="deck.js?v=bfca791373"></script>
+<script src="data.js?v=85082f48e6"></script>
+<script src="deck.js?v=85082f48e6"></script>
