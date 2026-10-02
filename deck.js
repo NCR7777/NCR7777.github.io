@@ -83,12 +83,12 @@ const T = {
   cP: ['车队价格 P（270 t = 1）', 'Fleet price P (270 t = 1)', '차량군 가격 P (270 t = 1)'],
   cCost: ['每天成本，人时（r = 12.4，班次人工）', 'Daily cost (labour-h, r = 12.4)', '하루 비용, 인시 (r = 12.4, 교대 인원)'],
   // mass scenarios
-  M1d: ['68 条实测任务重量（Jiang 2021）重抽样', '68 recorded task masses (Jiang 2021), resampled', '실측 작업 중량 68건 (Jiang 2021) 재표본'],
-  M2d: ['90% 为 100–300 t，10% 为 300–500 t（假设）', '90% at 100–300 t, 10% at 300–500 t (assumed)', '90%는 100–300 t, 10%는 300–500 t (가정)'],
-  M3d: ['100–500 t 均匀分布（假设）', 'Uniform over 100–500 t (assumed)', '100–500 t 균일 분포 (가정)'],
-  M4d: ['90% 同偏轻，10% 为 500–800 t：有的块超过所有吨级（假设）', '90% light-skewed, 10% at 500–800 t: some blocks exceed every tier (assumed)', '90%는 경량 편중, 10%는 500–800 t: 일부 블록은 모든 등급 초과 (가정)'],
-  M5d: ['文献中 10 块分段的重量重抽样（Roh &amp; Cha 2011）', 'Ten block masses from Roh &amp; Cha (2011), resampled', 'Roh &amp; Cha (2011)의 블록 중량 10개 재표본'],
-  M6d: ['外高桥一周 50 块分段的重量重抽样（Liu 2022）', '50 block masses of one week at Waigaoqiao (Liu 2022), resampled', '와이가오차오 1주일 블록 중량 50개 (Liu 2022) 재표본'],
+  M1d: ['Jiang et al. (2021) 三组算例的 68 个重量，有放回抽样', '68 masses from the three instances of Jiang et al. (2021), resampled', 'Jiang et al. (2021) 세 인스턴스의 중량 68개 재표본'],
+  M2d: ['90% 为 100–300 t（Park &amp; Seo 2012），10% 为 300–500 t（设定）', '90% at 100–300 t (Park &amp; Seo 2012), 10% at 300–500 t (assumed)', '90%는 100–300 t (Park &amp; Seo 2012), 10%는 300–500 t (설정)'],
+  M3d: ['100–500 t 均匀（Kweon et al. 2026 公开实例的规则）', 'Uniform 100–500 t (the rule of the public instances of Kweon et al. 2026)', '100–500 t 균일 (Kweon et al. 2026 공개 인스턴스 규칙)'],
+  M4d: ['偏轻分布加 10% 的 500–800 t 尾部：有的块超过所有吨级（设定，压力测试）', 'Light-skewed plus a 10% tail at 500–800 t: some blocks exceed every tier (assumed, a stress test)', '경량 편중 + 500–800 t 꼬리 10%: 일부 블록은 모든 등급 초과 (설정, 압력 시험)'],
+  M5d: ['Roh &amp; Cha (2011) 表 2 的 10 个分段重量，有放回抽样', 'The ten block masses of Roh &amp; Cha (2011) Table 2, resampled', 'Roh &amp; Cha (2011) 표 2의 블록 중량 10개 재표본'],
+  M6d: ['Liu et al. (2022) 一周 50 块分段的重量，有放回抽样', 'The 50 block masses of one week in Liu et al. (2022), resampled', 'Liu et al. (2022) 1주일 블록 50개의 중량 재표본'],
   above270: ['超过 270 t：{p}%', 'above 270 t: {p}%', '270 t 초과: {p}%'],
   // calculator
   fleetH: ['车队', 'Fleet', '차량군'], compH: ['组成', 'Composition', '구성'], costH: ['每天成本（人时）', 'Daily cost (labour-h)', '하루 비용 (인시)'],
@@ -133,13 +133,13 @@ const T = {
   brkCal: ['标定范围', 'calibrated range', '보정 범위'], brkCrew: ['一组人一班 = 64 人时', 'one crew-shift = 64 labour-h', '1개 조 1교대 = 64 인시'],
   brkX: ['一台 270 t 车每天的资本成本 r（人时，对数轴）', 'Daily capital cost of a 270 t transporter, r (labour-hours, log scale)', '270 t 차량의 일일 자본 비용 r (인시, 로그 축)'],
   brkY: ['拼载 ≤ 1/10 的车队胜出（%）', 'Won by fleets coupling ≤ 1/10 (%)', '결합 ≤ 10% 차량군 승리 (%)'],
-  brkEx: ['不含超重场景 M4', 'excluding the extra-heavy scenario M4', '초중량 시나리오 M4 제외'], brkAll: ['全部 36 种工况', 'all 36 conditions', '36개 조건 전체'],
+  brkEx: ['不含超重尾部场景', 'excluding the extra-heavy scenario', '초중량 시나리오 제외'], brkAll: ['全部 36 种工况', 'all 36 conditions', '36개 조건 전체'],
   robNom: ['蓝：名义最省 {f}', 'blue: nominal cheapest, {f}', '파랑: 명목 최저 {f}'], robHi: ['名义最省车队', 'nominal cheapest fleet', '명목 최저비용 차량군'],
   robOther: ['其他车队', 'other fleets', '기타 차량군'], rob95: ['95% 目标', '95% target', '95% 목표'],
   budEq: ['h* = κ ÷ (1 + 2δ / w̄) = κ ÷ {f}；δ = {d} min，w̄ = 43 min（短装卸时单运一块的平均车时）；价格按 α = 0.84 幂律，班次人工', 'h* = κ ÷ (1 + 2δ / w̄) = κ ÷ {f}; δ = {d} min, w̄ = 43 min (mean single-carry occupancy per block, short handling); prices on the α = 0.84 power law, shift labour', 'h* = κ ÷ (1 + 2δ / w̄) = κ ÷ {f}, δ = {d}분, w̄ = 43분 (짧은 적재·하역의 블록당 평균 단독 점유), 가격 α = 0.84 거듭제곱, 교대 인건비'],
   budK: ['κ：大车每天比小车贵多少', 'κ: how much dearer the larger unit is per day', 'κ: 큰 차가 하루에 얼마나 더 비싼가'],
   budH: ['h*：小车最多能拼载的工作量比例', 'h*: the largest coupled share of workload the light tier can afford', 'h*: 경형이 감당할 수 있는 최대 결합 작업 비율'],
-  v1Exact: ['精确臂（CP-SAT）；ALNS 臂已完成', 'exact arm (CP-SAT); ALNS arm done', '정확해 (CP-SAT), ALNS 완료'],
+  v1Exact: ['精确求解部分（CP-SAT）；启发式部分已完成', 'exact solver (CP-SAT); heuristic part done', '정확해 (CP-SAT), 휴리스틱 부분 완료'],
   e5NoW: ['；{n} 个无达标车队', '; no fleet qualifies in {n}', '; {n}개는 충족 차량군 없음'],
   e5Chg: ['最省车队改变', 'cheapest fleet changed', '최저비용 차량군 변경'], e5None: ['没有车队达标', 'no fleet qualifies', '충족 차량군 없음'], e5Hi: ['拼载 > 1/10', 'couples > one in ten', '결합 > 10%'],
   e7Num: ['个设定中最省车队拼载 ≤ 1/10；例外是 p = 35%、随重量装卸、按队计运营人工下的 2 重车混编（19.6%）', 'settings where the cheapest fleet couples at most one block in ten; the exceptions are the two-heavy mix at p = 35% with mass-dependent handling under per-team crews (19.6%)', '개 설정에서 최저비용 차량군의 결합 ≤ 10%. 예외는 p = 35%, 중량 비례 적재·하역, 팀별 운영 인원에서의 대형 2대 혼합 (19.6%)'],
@@ -535,6 +535,7 @@ function drawBoot() {
 }
 
 // status of the R25 runs: progress.json snapshots carried in data.js (make_data.py)
+const PROGN = { S2: ['新工作日确认', 'Fresh days', '새 작업일 확인'], V1: ['精确解对照', 'Exact benchmark', '정확해 비교'], S4: ['扩展混编推广', 'Richer mixes', '확장 혼합'] };
 const PROGQ = {
   S2: ['新抽 30 个工作日（第 601–630 天）上重新确认 42 个系列', 'Re-check 42 series on 30 fresh days (days 601–630)', '새로 뽑은 30일(601–630일)에서 42개 시리즈 재확인'],
   V1: ['小规模单批次实例上与 CP-SAT 精确解对照', 'Exact CP-SAT comparison on small single-batch instances', '소규모 단일 배치 인스턴스에서 CP-SAT 정확해와 비교'],
@@ -551,7 +552,7 @@ function renderProg() {
     else if (p[0] === p[1]) cell = `<span class="pill done">${t('doneP')}</span> <span class="tiny">${p[0]}/${p[1]} ${t('series')} · ${n(p[2])} ${t('runs')}</span>`;
     else cell = `<div class="pbar"><i style="width:${Math.min(100, 100 * p[2] / p[3]).toFixed(0)}%"></i></div>
          <div class="tiny" style="margin-top:3px">${p[0]}/${p[1]} ${t('series')} · ${n(p[2])} ${t('runs')} (${t('est')} ${n(p[3])})</div>`;
-    return `<tr><td>${id}</td><td>${PROGQ[id][LI[lang]]}</td><td style="min-width:190px">${cell}</td></tr>`;
+    return `<tr><td style="font-family:var(--body);font-weight:600">${PROGN[id][LI[lang]]}</td><td>${PROGQ[id][LI[lang]]}</td><td style="min-width:190px">${cell}</td></tr>`;
   }).join('');
   $('asofNote').textContent = fmt(t('asofTxt'), { d: D.late.asof });
 }
@@ -743,7 +744,7 @@ function drawKt() {
     const top = Math.ceil(Math.max(...ks) / 6) * 6, x = lin(200, 550, L, R), y = lin(0, top, B, T0), g = el('g', { class: 'grid' }, s);
     for (const v of [0, top / 2, top]) { el('line', { x1: L, x2: R, y1: y(v), y2: y(v) }, g); el('text', { x: L - 6, y: y(v) + 4, 'text-anchor': 'end', style: 'font-size:11px' }, s, v); }
     for (const q of [200, 300, 425, 550]) el('text', { x: x(q), y: B + 16, 'text-anchor': 'middle', style: 'font-size:11px' }, s, q);
-    el('text', { x: x0 + 4, y: y0 + 14, class: 't-strong', style: 'font-size:12.5px' }, s, `${m} · ${t(m)}`);
+    el('text', { x: x0 + 4, y: y0 + 14, class: 't-strong', style: 'font-size:12.5px' }, s, t(m));
     const sc = D.oe.sct[m];
     if (sc) {
       el('line', { x1: x(sc), x2: x(sc), y1: T0 - 4, y2: B, style: 'stroke:var(--ink2);stroke-width:1.2;stroke-dasharray:4 3' }, s);
@@ -862,8 +863,8 @@ function drawAll() {
 }
 
 // ---------- deck ----------
-const SEC = { intro: ['导读', 'Overview', '개요'], bg: ['背景', 'Background', '배경'], method: ['方法', 'Method', '방법'], theory: ['机理', 'Mechanism', '메커니즘'], setup: ['实验设置', 'Setup', '실험 설정'],
-  res: ['结果', 'Results', '결과'], rel: ['可靠性', 'Reliability', '신뢰성'], disc: ['讨论', 'Discussion', '논의'], status: ['进度', 'Status', '진행 상황'], end: ['总结', 'Summary', '요약'] };
+const SEC = { intro: ['导读', 'Overview', '개요'], bg: ['背景', 'Background', '배경'], method: ['方法', 'Method', '방법'], theory: ['机理', 'Mechanism', '메커니즘'], why: ['机理', 'Why', '이유'], bound: ['边界条件', 'When it changes', '경계 조건'], setup: ['实验设置', 'Setup', '실험 설정'],
+  res: ['结果', 'Results', '결과'], rel: ['可靠性', 'Reliability', '신뢰성'], disc: ['讨论与进度', 'Discussion', '논의'], ref: ['参考文献', 'References', '참고문헌'], status: ['进度', 'Status', '진행 상황'], end: ['总结', 'Summary', '요약'] };
 const slides = [...document.querySelectorAll('.slide')];
 const stage = $('stage'), box = $('stagebox'), wrap = $('stagewrap');
 let cur = 0, notesOn = false;
