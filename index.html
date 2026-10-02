@@ -1175,7 +1175,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
   <header class="eb"></header>
   <h2 class="ttl d"><span lang="zh">方法全景：一张图看整篇论文的架构（论文插图）</span><span lang="en">The whole method on one page: the paper's framework figure</span><span lang="ko">한 장으로 보는 논문 전체 구조 (논문 그림)</span></h2>
   <div class="content" style="grid-template-columns:1.55fr 1fr;gap:26px;margin-top:10px">
-    <div class="col"><a class="fill" href="assets/framework.svg?v=217a28e984" target="_blank" rel="noopener" aria-label="Open the framework figure full size"><img src="assets/framework.svg?v=217a28e984" alt="Framework of equal-service fleet sizing: inputs, four method steps, output with three answers, robustness and validation checks"></a></div>
+    <div class="col"><a class="fill" href="assets/framework.svg?v=dd8e5cc1ed" target="_blank" rel="noopener" aria-label="Open the framework figure full size"><img src="assets/framework.svg?v=dd8e5cc1ed" alt="Framework of equal-service fleet sizing: inputs, four method steps, output with three answers, robustness and validation checks"></a></div>
     <div class="col compact" style="justify-content:center;gap:12px">
       <ul class="clean">
         <li><span lang="zh"><b>左：输入</b>，分段搬运任务、试验工况、道路网络、候选车队和价格</span><span lang="en"><b>Left: inputs</b>, the block moves, test conditions, road network, candidate fleets and prices</span><span lang="ko"><b>왼쪽: 입력</b>. 블록 운반 작업, 시험 조건, 도로망, 후보 차량군, 가격</span></li>
@@ -1200,8 +1200,8 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
   <h2 class="ttl d"><span lang="zh">实验：一个数字化船厂 + 一个公开数据船厂</span><span lang="en">Experiments: one digitised yard and one yard with published data</span><span lang="ko">실험: 디지털화한 조선소 하나 + 공개 데이터 조선소 하나</span></h2>
   <div class="content" style="grid-template-columns:1.15fr 1fr;gap:28px">
     <div class="col">
-      <div class="fill"><img src="assets/fig_layout.png" alt="Digitised shipyard layout and generated flow weights" style="object-position:left top"></div>
-      <div class="tiny"><span lang="zh">左：由卫星图数字化的韩国巨济岛某大型船厂道路与场地；右：8 条加权物流方向。任务位置与释放时间为生成场景。</span><span lang="en">Left: roads and areas of a large shipyard on Geoje Island, South Korea, digitised from satellite imagery. Right: the eight weighted flows. Task locations and release times are generated scenarios.</span><span lang="ko">왼쪽: 위성 사진으로 디지털화한 한국 거제도 대형 조선소의 도로와 구역. 오른쪽: 가중 물류 흐름 8개. 작업 위치와 투입 시각은 생성한 시나리오.</span></div>
+      <div class="fill"><img src="assets/fig_flows.png" alt="Generated demand: flow weights between yard zones" style="object-position:center top"></div>
+      <div class="tiny"><span lang="zh">8 条加权物流方向：AW 装配车间、OW 舾装车间、PW 涂装车间、YB 分段堆场、AY 总组场、DD 船坞。道路网来自一家大型船厂的数字化布局（不公开）；任务位置与释放时间为生成场景。</span><span lang="en">The eight weighted flows: AW assembly, OW outfitting and PW paint workshops, YB block yard, AY assembly yard, DD dock. The road network is the digitised layout of a large shipyard (not released); task locations and release times are generated scenarios.</span><span lang="ko">가중 물류 흐름 8개: AW 조립 공장, OW 의장 공장, PW 도장 공장, YB 블록 야적장, AY 총조립장, DD 도크. 도로망은 한 대형 조선소의 디지털화 배치(비공개)이며, 작업 위치와 투입 시각은 생성한 시나리오.</span></div>
     </div>
     <div class="col compact" style="gap:0;justify-content:space-between">
       <div class="stat"><span class="num">97 <small><span lang="zh">次 / 天</span><span lang="en">moves / day</span><span lang="ko">회 / 일</span></small></span><p><span lang="zh">16 h 班次，8 个批次，每 2 h 释放一批</span><span lang="en">16-h shift, eight release batches 2 h apart</span><span lang="ko">16시간 교대, 2시간 간격 8개 투입 배치</span></p></div>
@@ -1212,9 +1212,9 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
     </div>
   </div>
   <aside class="notes">
-    <p lang="zh">主案例是根据卫星图数字化的韩国巨济岛一家大型船厂的道路网络。每天 97 次搬运来自文献中一个真实工作日的规模；分段位置和释放时间是生成的场景。我们变化了分段重量、装卸时间和交期松紧，共 36 种工况，每种 30 天。仅主实验就有七万多次调度运行。第二个船厂用的是上海外高桥造船公开的一周数据。</p>
-    <p lang="en">The main case is the road network of a large shipyard on Geoje Island, South Korea, digitised from satellite imagery. The 97 moves a day follow the size of a published working day; locations and release times are generated scenarios. We varied block masses, handling times and due-date tightness: 36 conditions with 30 days each. The main experiment alone took over 70,000 scheduling runs. The second yard uses a published week from Shanghai Waigaoqiao Shipbuilding.</p>
-    <p lang="ko">주 사례는 위성 사진으로 디지털화한 한국 거제도 대형 조선소의 도로망입니다. 하루 97회 운반은 문헌에 보고된 실제 작업일 규모를 따르고, 위치와 투입 시각은 생성한 시나리오입니다. 블록 중량, 적재·하역 시간, 납기 여유를 바꿔 36개 조건, 조건마다 30일을 만들었습니다. 주 실험만 7만 회 이상의 스케줄링 실행이 들었습니다. 두 번째 조선소는 상하이 와이가오차오 조선이 공개한 1주일 데이터를 사용합니다.</p>
+    <p lang="zh">主案例是一家大型船厂数字化后的道路网络，布局本身不公开。每天 97 次搬运来自文献中一个真实工作日的规模；分段位置和释放时间是生成的场景。我们变化了分段重量、装卸时间和交期松紧，共 36 种工况，每种 30 天。仅主实验就有七万多次调度运行。第二个船厂用的是上海外高桥造船公开的一周数据。</p>
+    <p lang="en">The main case is the digitised road network of a large shipyard; the layout itself is not released. The 97 moves a day follow the size of a published working day; locations and release times are generated scenarios. We varied block masses, handling times and due-date tightness: 36 conditions with 30 days each. The main experiment alone took over 70,000 scheduling runs. The second yard uses a published week from Shanghai Waigaoqiao Shipbuilding.</p>
+    <p lang="ko">주 사례는 한 대형 조선소의 디지털화한 도로망이며, 배치 자체는 공개하지 않습니다. 하루 97회 운반은 문헌에 보고된 실제 작업일 규모를 따르고, 위치와 투입 시각은 생성한 시나리오입니다. 블록 중량, 적재·하역 시간, 납기 여유를 바꿔 36개 조건, 조건마다 30일을 만들었습니다. 주 실험만 7만 회 이상의 스케줄링 실행이 들었습니다. 두 번째 조선소는 상하이 와이가오차오 조선이 공개한 1주일 데이터를 사용합니다.</p>
   </aside>
 </section>
 
@@ -1839,5 +1839,5 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
 </div>
 <div class="tip" id="tip" hidden></div>
 
-<script src="data.js?v=217a28e984"></script>
-<script src="deck.js?v=217a28e984"></script>
+<script src="data.js?v=dd8e5cc1ed"></script>
+<script src="deck.js?v=dd8e5cc1ed"></script>
