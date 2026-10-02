@@ -125,6 +125,21 @@ const T = {
   e5Ax: ['最省车队改变的班次配员设定（每个水平共 180 个）', 'Shift-staffing settings whose cheapest fleet changed (180 per level)', '최저비용 차량군이 바뀐 교대 인원 설정 (수준별 180개)'],
   e5Max: ['最省车队拼载', 'Coupled', '결합 비율'],
   e5Tip: ['{f}：{v}<br>最省车队改变 {n} / 180{nw}<br>最省车队最多拼载 {c}%<br>四种人工口径下拼载 ≤ 1/10：{le} / {has}', '{f}: {v}<br>cheapest fleet changed in {n} of 180{nw}<br>cheapest fleet couples at most {c}%<br>≤ one in ten over all labour measures: {le} of {has}', '{f}: {v}<br>최저비용 차량군 변경 {n} / 180{nw}<br>최저비용 차량군 최대 결합 {c}%<br>4가지 인건비 기준에서 결합 ≤ 10%: {le} / {has}'],
+  ktTier: ['单运吨级', 'single-carry tier', '단독 운반 등급'], ktNone: ['无单运吨级：9% 的块 > 550 t', 'no single-carry tier: 9% of blocks > 550 t', '단독 운반 등급 없음: 블록 9% > 550 t'],
+  occX: ['拼载的分段比例（%）', 'Blocks carried by a coupled team (%)', '결합 운반 블록 비율 (%)'],
+  occY: ['每天车时，比单运车队多（%）', 'Transporter-hours vs single-carry fleet (%)', '일일 차량 시간, 단독 운반 대비 (%)'],
+  occFit: ['每多拼 1 个百分点，车时 +{b}%（r = {r}）', '+{b}% transporter-hours per point coupled (r = {r})', '결합 1%p당 차량 시간 +{b}% (r = {r})'],
+  slackY: ['比负荷估算多需的车（%）', 'Beyond the workload rule (%)', '부하 추정 대비 추가 (%)'],
+  brkCal: ['标定范围', 'calibrated range', '보정 범위'], brkCrew: ['一组人一班 = 64 人时', 'one crew-shift = 64 labour-h', '1개 조 1교대 = 64 인시'],
+  brkX: ['一台 270 t 车每天的资本成本 r（人时，对数轴）', 'Daily capital cost of a 270 t transporter, r (labour-hours, log scale)', '270 t 차량의 일일 자본 비용 r (인시, 로그 축)'],
+  brkY: ['拼载 ≤ 1/10 的车队胜出（%）', 'Won by fleets coupling ≤ 1/10 (%)', '결합 ≤ 10% 차량군 승리 (%)'],
+  brkEx: ['不含超重场景 M4', 'excluding the extra-heavy scenario M4', '초중량 시나리오 M4 제외'], brkAll: ['全部 36 种工况', 'all 36 conditions', '36개 조건 전체'],
+  robNom: ['蓝：名义最省 {f}', 'blue: nominal cheapest, {f}', '파랑: 명목 최저 {f}'], robHi: ['名义最省车队', 'nominal cheapest fleet', '명목 최저비용 차량군'],
+  robOther: ['其他车队', 'other fleets', '기타 차량군'], rob95: ['95% 目标', '95% target', '95% 목표'],
+  budEq: ['h* = κ ÷ (1 + 2δ / w̄) = κ ÷ {f}；δ = {d} min，w̄ = 43 min（短装卸时单运一块的平均车时）；价格按 α = 0.84 幂律，班次人工', 'h* = κ ÷ (1 + 2δ / w̄) = κ ÷ {f}; δ = {d} min, w̄ = 43 min (mean single-carry occupancy per block, short handling); prices on the α = 0.84 power law, shift labour', 'h* = κ ÷ (1 + 2δ / w̄) = κ ÷ {f}, δ = {d}분, w̄ = 43분 (짧은 적재·하역의 블록당 평균 단독 점유), 가격 α = 0.84 거듭제곱, 교대 인건비'],
+  budK: ['κ：大车每天比小车贵多少', 'κ: how much dearer the larger unit is per day', 'κ: 큰 차가 하루에 얼마나 더 비싼가'],
+  budH: ['h*：小车最多能拼载的工作量比例', 'h*: the largest coupled share of workload the light tier can afford', 'h*: 경형이 감당할 수 있는 최대 결합 작업 비율'],
+  v1Exact: ['精确臂（CP-SAT）；ALNS 臂已完成', 'exact arm (CP-SAT); ALNS arm done', '정확해 (CP-SAT), ALNS 완료'],
   e5NoW: ['；{n} 个无达标车队', '; no fleet qualifies in {n}', '; {n}개는 충족 차량군 없음'],
   e5Chg: ['最省车队改变', 'cheapest fleet changed', '최저비용 차량군 변경'], e5None: ['没有车队达标', 'no fleet qualifies', '충족 차량군 없음'], e5Hi: ['拼载 > 1/10', 'couples > one in ten', '결합 > 10%'],
   e7Num: ['个设定中最省车队拼载 ≤ 1/10；例外是 p = 35%、随重量装卸、按队计运营人工下的 2 重车混编（19.6%）', 'settings where the cheapest fleet couples at most one block in ten; the exceptions are the two-heavy mix at p = 35% with mass-dependent handling under per-team crews (19.6%)', '개 설정에서 최저비용 차량군의 결합 ≤ 10%. 예외는 p = 35%, 중량 비례 적재·하역, 팀별 운영 인원에서의 대형 2대 혼합 (19.6%)'],
@@ -281,21 +296,6 @@ function drawHeat() {
   document.querySelectorAll('#heatSeg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lab === heatLab));
 }
 
-function drawScatter() {
-  const W = 600, H = fitH('cScatter', 600, 390), m = { l: 56, r: 14, t: 10, b: 46 };
-  const s = frame('cScatter', W, H, 'Coupled share against cost premium');
-  const x = lin(0, 100, m.l, W - m.r), y = lin(-5, 185, H - m.b, m.t);
-  const g = el('g', { class: 'grid' }, s);
-  for (let v = 0; v <= 175; v += 25) { el('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }, g); el('text', { x: m.l - 8, y: y(v) + 4, 'text-anchor': 'end' }, s, v); }
-  for (let v = 0; v <= 100; v += 25) { el('line', { x1: x(v), x2: x(v), y1: m.t, y2: H - m.b }, g); el('text', { x: x(v), y: H - m.b + 18, 'text-anchor': 'middle' }, s, v); }
-  el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('sX'));
-  yTitle(s, 14, (m.t + H - m.b) / 2, t('sY'));
-  for (const [k, [f, cx, cy, K, cell]] of D.scatter.entries()) {
-    const c = anim(el('circle', { cx: x(cx), cy: y(cy), r: 4.8, fill: COL[f], style: 'stroke:var(--ink);stroke-opacity:.5;stroke-width:.7' }, s), 'a-pop', .25 + .8 * spread(k));
-    hover(c, () => `<b>${famName(f)}</b> · K* = ${K}<br>${cellName(cell)}<br>${t('sX')}: ${cx}%<br>${t('sY')}: +${cy}%`);
-  }
-  swatches('scatLegend', FAMS.map(f => [COL[f], famName(f)]));
-}
 
 function drawCase() {
   const r = +$('rCase').value;
@@ -324,47 +324,7 @@ function drawCase() {
   });
 }
 
-function drawAgree() {
-  const lv = [['greedy', 65.4], ['cp0', 69.4], ['cp100', 74.7], ['cp300', 88.0], ['single', 94.4], ['final', 100]];
-  const W = 540, H = fitH('cAgree', 540, 300), m = { l: 54, r: 20, t: 24, b: 44 };
-  const s = frame('cAgree', W, H, 'Agreement with the final purchase by evaluation level');
-  const x = i => m.l + 20 + i * (W - m.l - m.r - 40) / 5, y = lin(55, 102, H - m.b, m.t);
-  const g = el('g', { class: 'grid' }, s);
-  for (const v of [60, 70, 80, 90, 100]) { el('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }, g); el('text', { x: m.l - 8, y: y(v) + 4, 'text-anchor': 'end' }, s, v); }
-  yTitle(s, 14, (m.t + H - m.b) / 2, t('aY'));
-  anim(el('path', { d: lv.map(([, v], i) => `${i ? 'L' : 'M'}${x(i)} ${y(v)}`).join(''), pathLength: 1, style: 'fill:none;stroke:var(--steel);stroke-width:2.5' }, s), 'a-draw', .3);
-  lv.forEach(([k, v], i) => {
-    const c = anim(el('circle', { cx: x(i), cy: y(v), r: 7, style: `fill:${i ? 'var(--steel)' : 'var(--oxide)'};stroke:var(--paper);stroke-width:2` }, s), 'a-pop', .3 + i * .2);
-    const [a, b, cc] = D.stack[k];
-    hover(c, () => fmt(t('stackTip'), { a, b, c: cc }));
-    anim(el('text', { x: x(i), y: y(v) - 13, 'text-anchor': 'middle', class: i ? 't-strong' : 't-ox' }, s, v.toFixed(0) + '%'), 'a-fade', .4 + i * .2);
-    el('text', { x: x(i), y: H - m.b + 20, 'text-anchor': 'middle', style: 'font-size:11.5px' }, s, t(k));
-  });
-}
 
-function drawLoad() {
-  const W = 540, H = fitH('cLoad', 540, 300), m = { l: 50, r: 14, t: 34, b: 44 };
-  const s = frame('cLoad', W, H, 'Load-rule count error by due-date setting');
-  const xs = [-1, 0, 1, 2, 3, 4, 5], band = (W - m.l - m.r) / xs.length, y = lin(0, 140, H - m.b, m.t);
-  const g = el('g', { class: 'grid' }, s);
-  for (const v of [25, 50, 75, 100, 125]) { el('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }, g); el('text', { x: m.l - 8, y: y(v) + 4, 'text-anchor': 'end' }, s, v); }
-  el('line', { x1: m.l, x2: W - m.r, y1: y(0), y2: y(0), style: 'stroke:var(--ink3)' }, s);
-  [['D-emp', 'var(--g-load)', 0], ['D-tight', 'var(--oxide)', 1]].forEach(([due, col, o]) => {
-    D.load[due].forEach(([d, n], i) => {
-      const bw = band * 0.36, x0 = m.l + i * band + band * 0.12 + o * bw;
-      if (n) anim(el('rect', { x: x0, y: y(n), width: bw, height: y(0) - y(n), style: `fill:${col}` }, s), 'a-y', .3 + i * .06 + o * .03);
-      if (n) anim(el('text', { x: x0 + bw / 2, y: y(n) - 4, 'text-anchor': 'middle', style: 'font-size:10.5px' }, s, n), 'a-fade', .65 + i * .06 + o * .03);
-    });
-  });
-  xs.forEach((d, i) => el('text', { x: m.l + i * band + band / 2, y: y(0) + 17, 'text-anchor': 'middle', class: d === 0 ? 't-strong' : '' }, s, d > 0 ? '+' + d : d));
-  el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('lX'));
-  yTitle(s, 14, (m.t + H - m.b) / 2, t('lY'));
-  el('rect', { x: m.l + 150, y: 6, width: 12, height: 12, style: 'fill:var(--g-load)' }, s);
-  el('text', { x: m.l + 167, y: 16 }, s, t('base'));
-  el('rect', { x: m.l + 300, y: 6, width: 12, height: 12, style: 'fill:var(--oxide)' }, s);
-  el('text', { x: m.l + 317, y: 16 }, s, t('tight'));
-  el('text', { x: W - m.r, y: y(128), 'text-anchor': 'end', class: 't-ox' }, s, t('under'));
-}
 
 // minimal-team demo (Eq. teams of the manuscript, homogeneous fleet, kappa = 3)
 let tier = 270;
@@ -576,24 +536,18 @@ function drawBoot() {
 
 // status of the R25 runs: progress.json snapshots carried in data.js (make_data.py)
 const PROGQ = {
-  R3: ['延误上限轴：T<sub>max</sub> 从 30 min 到无上限（结论 2）', 'Delay-cap axis, T<sub>max</sub> from 30 min to no cap (Finding 2)', '지연 상한 축: T<sub>max</sub> 30분 → 상한 없음 (결론 2)'],
-  E7: ['重块比例多高时，同质重车才值得买', 'Heavy-block share at which a homogeneous heavy tier pays', '무거운 블록 비율이 얼마일 때 대형 단일 등급이 이득인가'],
-  E5: ['敏感性：一次改一个未实测参数', 'Sensitivity: one unmeasured parameter at a time', '민감도: 실측하지 않은 매개변수를 하나씩 변경'],
-  E5D: ['对接时间 2.5、5 min：0 与 10 min 之间的边界', 'Coupling time 2.5 and 5 min: the boundary between 0 and 10 min', '결합 시간 2.5·5분: 0과 10분 사이의 경계'],
-  B4: ['各吨级用厂家标称车速；Liu 混编', 'Manufacturer speeds per tier; the Liu mixes', '등급별 제조사 속도, Liu 혼합'],
-  R4R: ['只在超重时才允许拼载的规则', 'Overweight-only coupling rule', '초과 중량일 때만 결합을 허용하는 규칙'],
-  R4B: ['边界加搜：最接近翻转的 66 个车队，少一台时搜索加到 3 倍', 'Boundary search: three times the search at one fewer for the 66 fleets nearest to a flip', '경계 추가 탐색: 뒤집힘에 가장 가까운 66개 차량군을 한 대 적게 3배 탐색'],
-  V1: ['小规模实例上与 CP-SAT 精确解对照', 'Exact CP-SAT comparison on small instances', '소규모 인스턴스에서 CP-SAT 정확해와 비교'],
-  X1: ['装卸 ±50% 波动下仍达 95% 的台数', 'Count that still reaches 95% under ±50% handling', '적재·하역 ±50% 변동에서도 95%를 지키는 대수'],
+  S2: ['新抽 30 个工作日（第 601–630 天）上重新确认 42 个系列', 'Re-check 42 series on 30 fresh days (days 601–630)', '새로 뽑은 30일(601–630일)에서 42개 시리즈 재확인'],
+  V1: ['小规模单批次实例上与 CP-SAT 精确解对照', 'Exact CP-SAT comparison on small single-batch instances', '소규모 단일 배치 인스턴스에서 CP-SAT 정확해와 비교'],
+  S4: ['把扩展混编推广到更多工况（52 个系列）', 'Extend the richer mixes to more conditions (52 series)', '확장 혼합을 더 많은 조건으로 (52개 시리즈)'],
 };
 function renderProg() {
   const n = v => v.toLocaleString('en-US'), P = D.late.progress;
-  $('progRows').innerHTML = ['E5', 'E5D', 'X1', 'V1', 'R4B'].map(id => {
+  $('progRows').innerHTML = ['S2', 'V1', 'S4'].map(id => {
     const p = P[id];
     let cell;
-    if (!p) cell = `<span class="pill ${id === 'V1' ? 'run' : 'pend'}">${t(id === 'V1' ? 'pilot' : 'planned')}</span>`;
+    if (!p) cell = `<span class="pill pend">${t('planned')}</span>`;
     else if (p[0] === null) cell = `<div class="pbar"><i style="width:${(100 * p[2] / p[3]).toFixed(0)}%"></i></div>
-         <div class="tiny" style="margin-top:3px">${fmt(t('phaseN'), { n: p[1] })} · ${n(p[2])} / ${n(p[3])} ${t('runs')}</div>`;   // X1: runs of the current phase
+         <div class="tiny" style="margin-top:3px">${t(p[1])} · ${n(p[2])} / ${n(p[3])}</div>`;   // [null, label key, done, total]
     else if (p[0] === p[1]) cell = `<span class="pill done">${t('doneP')}</span> <span class="tiny">${p[0]}/${p[1]} ${t('series')} · ${n(p[2])} ${t('runs')}</span>`;
     else cell = `<div class="pbar"><i style="width:${Math.min(100, 100 * p[2] / p[3]).toFixed(0)}%"></i></div>
          <div class="tiny" style="margin-top:3px">${p[0]}/${p[1]} ${t('series')} · ${n(p[2])} ${t('runs')} (${t('est')} ${n(p[3])})</div>`;
@@ -611,35 +565,6 @@ const liuName = (f, K, hv) => {
   else add(f, K);
   return fleetStr(caps.join(' '));
 };
-function drawLiu() {
-  const r = +$('rLiu').value;
-  $('rLiuV').value = r.toFixed(1);
-  const L = D.late.liu;
-  const items = L.table.map(([f, K, P, Ls, Lt, Lv, cp, hv]) => ({ f, K, P, L: Ls, cap: r * P, cost: r * P + Ls, cp, hv: hv || 550 }))
-    .sort((a, b) => a.cost - b.cost);
-  const best = items[0].cost, max = Math.max(...items.map(o => o.cost));
-  const W = 760, top = 22, H0 = top + items.length * 24 + 6;
-  const rowH = Math.max(18, Math.min(30, (fitH('cLiu', W, H0, 0.8, 1.6) - top - 6) / items.length)), H = top + items.length * rowH + 6;
-  const s = frame('cLiu', W, H, 'Daily cost of every fleet under Liu masses');
-  const cx = { name: 4, k: 250, bar: 280, barW: 330, tot: 660, pct: 668, cp: 756 };
-  const hdr = (x, txt, a) => el('text', { x, y: 14, 'text-anchor': a || 'start', style: 'font-size:11.5px;fill:var(--ink3);font-weight:600' }, s, txt);
-  hdr(cx.name, t('fleetH')); hdr(cx.k, 'K*', 'middle'); hdr(cx.bar, t('costH')); hdr(cx.cp, t('coupH'), 'end');
-  items.forEach((o, i) => {
-    const y = top + i * rowH, win = i === 0, mix = /^L/.test(o.f), ty = y + rowH / 2 + 4.5;
-    if (win) el('rect', { x: 0, y: y + 1, width: W, height: rowH - 2, rx: 3, style: 'fill:var(--amber-soft)' }, s);
-    el('text', { x: cx.name, y: ty, class: win || mix ? 't-strong' : '', style: 'font-size:12.5px;font-family:var(--mono)' }, s, liuName(o.f, o.K, o.hv));
-    el('text', { x: cx.k, y: ty, 'text-anchor': 'middle', style: 'font-size:12.5px;font-family:var(--mono)' }, s, o.K);
-    const wc = cx.barW * o.cap / max, wl = cx.barW * o.L / max;
-    anim(el('rect', { x: cx.bar, y: y + rowH * 0.22, width: wc, height: rowH * 0.56, style: 'fill:var(--steel)' }, s), 'a-x', .3 + i * .035);
-    anim(el('rect', { x: cx.bar + wc, y: y + rowH * 0.22, width: wl, height: rowH * 0.56, style: 'fill:var(--amber-hi)' }, s), 'a-x', .65 + i * .035);
-    el('text', { x: cx.tot, y: ty, 'text-anchor': 'end', style: 'font-size:12px;font-family:var(--mono)' }, s, o.cost.toFixed(0));
-    el('text', { x: cx.pct, y: ty, style: `font-size:12px;font-family:var(--mono);fill:${win ? 'var(--good)' : 'var(--ink3)'}` }, s, win ? '★' : '+' + (100 * (o.cost / best - 1)).toFixed(1) + '%');
-    el('text', { x: cx.cp, y: ty, 'text-anchor': 'end', style: 'font-size:12px;font-family:var(--mono)' }, s, o.cp.toFixed(0) + '%');
-  });
-  const a = L.all_10_5, m = L.main, n = v => v.toLocaleString('en-US');
-  $('liuWin').textContent = `${n(a.l300_cheapest)} / ${n(a.settings)}`;
-  $('liuProv').textContent = fmt(t('liuFinal'), { n: n(m.l300_cheapest), N: n(m.settings), lo: m.premium_min_pct, hi: m.premium_max_pct, c: m.coop_max });
-}
 
 // price of overweight-only coupling (R4R), affine curve, shift staffing
 function porColour(v) {
@@ -648,27 +573,6 @@ function porColour(v) {
     return `rgb(${a.map((x, i) => Math.round(x + (b[i] - x) * Math.sqrt(k))).join(',')})`;
   }
   return v < -1e-9 ? '#cfe1f0' : '#e6ebf0';
-}
-function drawPor() {
-  const L = 172, cw = 44, rh = 12, gap = 4, top = 2, W = L + cw * 9 + 2, H = top + 36 * rh + 5 * gap + 40;
-  const s = frame('cPor', W, H, 'Cost increase under overweight-only coupling');
-  D.cells.forEach((c, i) => {
-    const grp = Math.floor(i / 6), y = top + i * rh + grp * gap, [m, h, d] = c.split('_');
-    if (i % 6 === 0) el('text', { x: 0, y: y + 3 * rh + 4, class: 't-strong', style: 'font-size:11px' }, s, t(m));
-    el('text', { x: L - 6, y: y + rh - 3, 'text-anchor': 'end', style: 'font-size:9px' }, s, `${t(h)} · ${t(d)}`);
-    D.late.por_grid[i].forEach(([v, a, b], j) => {
-      const x = L + j * cw, g = anim(el('g', {}, s), 'a-fade', .25 + i * .022);
-      el('rect', { x, y, width: cw - 1, height: rh - 1, fill: porColour(v) }, g);
-      if (Math.abs(v) >= 0.05) el('text', { x: x + cw / 2, y: y + rh - 3, 'text-anchor': 'middle', style: `font-size:8.5px;fill:${v > 4 ? '#fff' : '#1b1b1b'}` }, g, v.toFixed(1));
-      hover(g, () => fmt(t('porTip'), { cell: cellName(c), r: D.r[j].toFixed(1), v: v.toFixed(2), a: famName(a), b: famName(b) }));
-    });
-  });
-  D.r.forEach((r, j) => el('text', { x: L + j * cw + cw / 2, y: H - 24, 'text-anchor': 'middle', style: 'font-size:10px' }, s, r.toFixed(1)));
-  el('text', { x: L + cw * 4.5, y: H - 5, 'text-anchor': 'middle', style: 'font-size:10.5px' }, s, t('xr'));
-  const pa = D.late.por_all;
-  swatches('porLegend', [['#e6ebf0', t('porZero')], [porColour(pa.max), fmt(t('porPos'), { max: pa.max })], ['#cfe1f0', t('porNeg')]]);
-  $('porNum').innerHTML = `${pa.pos.toLocaleString('en-US')} / ${pa.n.toLocaleString('en-US')}<small>${fmt(t('porNum'), { max: pa.max })}</small>`;
-  $('porNote').textContent = fmt(t('porNote'), { neg: pa.neg, small: pa.neg_small, big: pa.neg_big, min: Math.abs(pa.neg_min), cell: pa.big_cells.map(cellShort).join(', '), m4: D.late.m4 });
 }
 
 // manufacturer speeds (B4): K* at common speeds -> K* at manufacturer speeds, and the decisions
@@ -825,15 +729,141 @@ function drawE5() {
   swatches('e5Legend', [['var(--amber-hi)', t('e5Chg')], ['var(--g-empty)', t('e5None')], ['var(--oxide-soft)', t('e5Hi')]]);
 }
 
+// ---------- OE manuscript figures (data: D.oe, from make_data.py with the definitions of paper/oe/scripts) ----------
+const TQ = [200, 250, 270, 300, 325, 380, 425, 500, 550];
+const HCOL = { H1: 'var(--steel)', H2: 'var(--ink3)', H3: 'var(--g-empty)' };
+
+// Fig. 3: transporters needed by capacity tier, baseline due dates; dashed: smallest tier that carries every block alone
+function drawKt() {
+  const W = 660, H = fitH('cKt', W, 420, 0.85, 1.3), pw = W / 3, ph = H / 2;
+  const s = frame('cKt', W, H, 'Transporters needed by capacity tier');
+  ['M1', 'M2', 'M3', 'M4', 'M5', 'M6'].forEach((m, k) => {
+    const x0 = (k % 3) * pw, y0 = Math.floor(k / 3) * ph, L = x0 + 30, R = x0 + pw - 12, T0 = y0 + 26, B = y0 + ph - 30;
+    const ks = ['H1', 'H2', 'H3'].flatMap(h => TQ.map(q => D.kstar[`${m}_${h}_D-emp`][q]).filter(v => v));
+    const top = Math.ceil(Math.max(...ks) / 6) * 6, x = lin(200, 550, L, R), y = lin(0, top, B, T0), g = el('g', { class: 'grid' }, s);
+    for (const v of [0, top / 2, top]) { el('line', { x1: L, x2: R, y1: y(v), y2: y(v) }, g); el('text', { x: L - 6, y: y(v) + 4, 'text-anchor': 'end', style: 'font-size:11px' }, s, v); }
+    for (const q of [200, 300, 425, 550]) el('text', { x: x(q), y: B + 16, 'text-anchor': 'middle', style: 'font-size:11px' }, s, q);
+    el('text', { x: x0 + 4, y: y0 + 14, class: 't-strong', style: 'font-size:12.5px' }, s, `${m} · ${t(m)}`);
+    const sc = D.oe.sct[m];
+    if (sc) {
+      el('line', { x1: x(sc), x2: x(sc), y1: T0 - 4, y2: B, style: 'stroke:var(--ink2);stroke-width:1.2;stroke-dasharray:4 3' }, s);
+      el('text', { x: x(sc) - 4, y: T0 + 6, 'text-anchor': 'end', style: 'font-size:10.5px;fill:var(--ink2)' }, s, t('ktTier'));
+    } else el('text', { x: R, y: T0 + 6, 'text-anchor': 'end', style: 'font-size:10.5px;fill:var(--oxide)' }, s, t('ktNone'));
+    ['H3', 'H2', 'H1'].forEach((h, j) => {
+      const c = `${m}_${h}_D-emp`, pts = TQ.filter(q => D.kstar[c][q]).map(q => [q, D.kstar[c][q]]);
+      anim(el('path', { d: pts.map(([q, v], i) => `${i ? 'L' : 'M'}${x(q)} ${y(v)}`).join(''), pathLength: 1, style: `fill:none;stroke:${HCOL[h]};stroke-width:${h === 'H1' ? 2.4 : 1.6}` }, s), 'a-draw', .3 + k * .08 + j * .1);
+      pts.forEach(([q, v]) => hover(anim(el('circle', { cx: x(q), cy: y(v), r: h === 'H1' ? 3.6 : 2.8, style: `fill:${HCOL[h]};stroke:var(--paper);stroke-width:1` }, s), 'a-pop', .5 + k * .08 + j * .1),
+        () => `${t(m)} · ${t(h + 'l')}<br>${q} t: K* = ${v}`));
+    });
+  });
+  swatches('ktLegend', ['H1', 'H2', 'H3'].map(h => [HCOL[h], t(h + 'l')]));
+}
+
+// Fig. 5a: transporter-hours per day against the share of coupled blocks (330 series outside the extra-heavy scenario)
+function drawOcc() {
+  const W = 600, H = fitH('cOcc', W, 390), m = { l: 56, r: 14, t: 10, b: 46 }, [b, a, r] = D.oe.occ_fit;
+  const s = frame('cOcc', W, H, 'Transporter-hours against the share of coupled blocks');
+  const x = lin(0, 100, m.l, W - m.r), y = lin(-10, 240, H - m.b, m.t), g = el('g', { class: 'grid' }, s);
+  for (let v = 0; v <= 200; v += 50) { el('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }, g); el('text', { x: m.l - 8, y: y(v) + 4, 'text-anchor': 'end' }, s, v); }
+  for (let v = 0; v <= 100; v += 20) { el('line', { x1: x(v), x2: x(v), y1: m.t, y2: H - m.b }, g); el('text', { x: x(v), y: H - m.b + 18, 'text-anchor': 'middle' }, s, v); }
+  el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('occX'));
+  yTitle(s, 14, (m.t + H - m.b) / 2, t('occY'));
+  D.oe.occ.forEach(([f, cx, cy, cell], k) => hover(anim(el('circle', { cx: x(cx), cy: y(cy), r: 4.2, fill: COL[f], style: 'stroke:var(--ink);stroke-opacity:.5;stroke-width:.7' }, s), 'a-pop', .25 + .8 * spread(k)),
+    () => `<b>${famName(f)}</b><br>${cellName(cell)}<br>${t('occX')}: ${cx.toFixed(1)}%<br>${t('occY')}: ${cy >= 0 ? '+' : ''}${cy.toFixed(1)}%`));
+  anim(el('path', { d: `M${x(0)} ${y(a)}L${x(100)} ${y(a + 100 * b)}`, pathLength: 1, style: 'fill:none;stroke:var(--oxide);stroke-width:2.4' }, s), 'a-draw', 1.1);
+  anim(el('text', { x: x(58), y: y(18), class: 't-strong', style: 'fill:var(--oxide);font-size:13px' }, s, fmt(t('occFit'), { b: b.toFixed(1), r: r.toFixed(2) })), 'a-fade', 1.5);
+  swatches('occLegend', FAMS.map(f => [COL[f], famName(f)]));
+}
+
+// Fig. 5b: transporters beyond the input-only workload rule, by coupled share and due dates (means with 95% intervals)
+function drawSlack() {
+  const S = D.oe.slack, W = 520, H = fitH('cSlack', W, 320), m = { l: 46, r: 10, t: 14, b: 46 };
+  const s = frame('cSlack', W, H, 'Transporters beyond the workload rule');
+  const y = lin(-11, 14, H - m.b, m.t), band = (W - m.l - m.r) / 5, g = el('g', { class: 'grid' }, s);
+  for (const v of [-10, -5, 0, 5, 10]) { el('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), style: v ? '' : 'stroke:var(--ink3)' }, g); el('text', { x: m.l - 6, y: y(v) + 4, 'text-anchor': 'end' }, s, v); }
+  ['D-emp', 'D-tight'].forEach((due, k) => S[due].forEach(([lab, mean, ci, n], i) => {
+    const bw = band * 0.34, x0 = m.l + i * band + band * 0.14 + k * bw, cx = x0 + bw / 2, col = k ? 'var(--steel)' : 'var(--g-empty)';
+    const bar = anim(el('rect', { x: x0, y: Math.min(y(mean), y(0)), width: bw * 0.92, height: Math.abs(y(mean) - y(0)), style: `fill:${col}` }, s), mean >= 0 ? 'a-y' : 'a-fade', .3 + i * .1 + k * .05);
+    anim(el('path', { d: `M${cx} ${y(mean - ci)}V${y(mean + ci)}M${cx - 3} ${y(mean - ci)}h6M${cx - 3} ${y(mean + ci)}h6`, style: 'stroke:var(--ink2);stroke-width:1;fill:none' }, s), 'a-fade', .7 + i * .1);
+    hover(bar, () => `${t(due + 'l')} · ${lab}%<br>${mean >= 0 ? '+' : ''}${mean.toFixed(1)}% (± ${ci.toFixed(1)}) · n = ${n}`);
+    if (!k) el('text', { x: m.l + i * band + band / 2, y: H - m.b + 18, 'text-anchor': 'middle' }, s, lab);
+  }));
+  el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('occX'));
+  yTitle(s, 12, (m.t + H - m.b) / 2, t('slackY'));
+  swatches('slackLegend', [['var(--g-empty)', t('D-empl')], ['var(--steel)', t('D-tightl')]]);
+}
+
+// Fig. 7: share of settings won by a fleet that couples at most 10%, as r runs far beyond its calibrated range
+function drawBrk() {
+  const B = D.oe.brk, W = 620, H = fitH('cBrk', W, 340), m = { l: 50, r: 14, t: 12, b: 46 }, lg = Math.log10;
+  const s = frame('cBrk', W, H, 'Single-carry share against the capital-to-labour ratio');
+  const x = v => lin(lg(0.5), lg(5000), m.l, W - m.r)(lg(v)), y = lin(0, 102, H - m.b, m.t), g = el('g', { class: 'grid' }, s);
+  el('rect', { x: x(5.1), y: m.t, width: x(30) - x(5.1), height: H - m.b - m.t, style: 'fill:var(--steel-soft)' }, s);
+  el('text', { x: (x(5.1) + x(30)) / 2, y: y(6), 'text-anchor': 'middle', style: 'font-size:11px;fill:var(--steel)' }, s, t('brkCal'));
+  for (let v = 0; v <= 100; v += 20) { el('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }, g); el('text', { x: m.l - 8, y: y(v) + 4, 'text-anchor': 'end' }, s, v); }
+  for (const v of [1, 10, 100, 1000]) { el('line', { x1: x(v), x2: x(v), y1: m.t, y2: H - m.b }, g); el('text', { x: x(v), y: H - m.b + 18, 'text-anchor': 'middle' }, s, v.toLocaleString('en-US')); }
+  el('line', { x1: x(64), x2: x(64), y1: m.t, y2: H - m.b, style: 'stroke:var(--ink2);stroke-dasharray:4 3' }, s);
+  el('text', { x: x(64) + 5, y: y(14), style: 'font-size:11px;fill:var(--ink2)' }, s, t('brkCrew'));
+  [['all', 'var(--ink3)', 1.8], ['ex', 'var(--steel)', 2.6]].forEach(([k, col, w], j) =>
+    anim(el('path', { d: B.r.map((r, i) => `${i ? 'L' : 'M'}${x(r).toFixed(1)} ${y(B[k][i]).toFixed(1)}`).join(''), pathLength: 1, style: `fill:none;stroke:${col};stroke-width:${w}` }, s), 'a-draw', .3 + j * .25));
+  el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('brkX'));
+  yTitle(s, 12, (m.t + H - m.b) / 2, t('brkY'));
+  swatches('brkLegend', [['var(--steel)', t('brkEx')], ['var(--ink3)', t('brkAll')]]);
+}
+
+// Fig. 8: on-time share under +-50% handling noise as transporters are added to K* (one line per fleet type)
+function drawRobust() {
+  const W = 660, H = fitH('cRob', W, 400, 0.85, 1.3), pw = W / 3, ph = H / 2;
+  const s = frame('cRob', W, H, 'On-time share under handling noise');
+  D.oe.robust.forEach(({ cell, nominal, lines }, k) => {
+    const x0 = (k % 3) * pw, y0 = Math.floor(k / 3) * ph, L = x0 + 30, R = x0 + pw - 14, T0 = y0 + 24, Bm = y0 + ph - 28;
+    const x = lin(0, 3, L, R), y = lin(78, 100, Bm, T0), g = el('g', { class: 'grid' }, s), [m, h] = cell.split('_');
+    for (const v of [80, 90, 100]) { el('line', { x1: L, x2: R, y1: y(v), y2: y(v) }, g); el('text', { x: L - 6, y: y(v) + 4, 'text-anchor': 'end', style: 'font-size:11px' }, s, v); }
+    ['K*', '+1', '+2', '+3'].forEach((lab, i) => el('text', { x: x(i), y: Bm + 16, 'text-anchor': 'middle', style: 'font-size:11px' }, s, lab));
+    el('line', { x1: L, x2: R, y1: y(95), y2: y(95), style: 'stroke:var(--oxide);stroke-dasharray:4 3' }, s);
+    el('text', { x: x0 + 4, y: y0 + 13, class: 't-strong', style: 'font-size:12.5px' }, s, `${t(m)} · ${t(h + 'l')}`);
+    lines.slice().sort((p, q) => (p[0] === nominal) - (q[0] === nominal)).forEach(([f, ys, K, Kr], j) => {
+      const hi = f === nominal, pts = ys.map((v, i) => [i, v]).filter(p => p[1] != null);
+      const path = anim(el('path', { d: pts.map(([i, v], n) => `${n ? 'L' : 'M'}${x(i)} ${y(Math.max(78, v))}`).join(''), pathLength: 1,
+        style: `fill:none;stroke:${hi ? 'var(--steel)' : 'var(--g-empty)'};stroke-width:${hi ? 2.6 : 1.3}` }, s), 'a-draw', .3 + k * .08 + (hi ? .4 : 0));
+      hover(path, () => `${famName(f)} · ${t(m)} · ${t(h + 'l')}<br>K* = ${K} · K<sub>rob</sub> = ${Kr}<br>${pts.map(([i, v]) => (i ? 'K*+' + i : 'K*') + ': ' + v.toFixed(1) + '%').join(' · ')}`);
+      if (hi) pts.forEach(([i, v]) => anim(el('circle', { cx: x(i), cy: y(Math.max(78, v)), r: 3.4, style: 'fill:var(--steel);stroke:var(--paper);stroke-width:1' }, s), 'a-pop', .8 + k * .08));
+    });
+    el('text', { x: R, y: Bm - 6, 'text-anchor': 'end', style: 'font-size:10.5px;fill:var(--steel)' }, s, fmt(t('robNom'), { f: famName(nominal) }));
+  });
+  swatches('robLegend', [['var(--steel)', t('robHi')], ['var(--g-empty)', t('robOther')], ['var(--oxide)', t('rob95')]]);
+}
+
+// Section 4: coupling budget h* = kappa / (1 + 2 delta / w), with prices on the alpha = 0.84 power law and shift labour
+function drawBud() {
+  const r = +$('rBud').value, dl = +$('dBud').value, w = 43, f = 1 + 2 * dl / w;
+  $('rBudV').value = r.toFixed(1); $('dBudV').value = dl.toFixed(1);
+  const c = q => r * Math.pow(q / 270, 0.84) + 64;
+  const W = 560, H = fitH('cBud', W, 230, 0.8, 1.4), L = 150, R = W - 70, x = lin(0, 25, L, R);
+  const s = frame('cBud', W, H, 'Coupling budget');
+  const g = el('g', { class: 'grid' }, s);
+  for (const v of [0, 5, 10, 15, 20, 25]) { el('line', { x1: x(v), x2: x(v), y1: 14, y2: H - 30 }, g); el('text', { x: x(v), y: H - 12, 'text-anchor': 'middle', style: 'font-size:11px' }, s, v + '%'); }
+  [[425, 270], [550, 300]].forEach(([hi, lo], i) => {
+    const k = 100 * (c(hi) / c(lo) - 1), h = k / f, y0 = 22 + i * (H - 52) / 2, bh = (H - 52) / 2 - 16;
+    el('text', { x: 0, y: y0 + bh * 0.42, class: 't-strong', style: 'font-size:13px' }, s, `${hi} t vs ${lo} t`);
+    el('text', { x: 0, y: y0 + bh * 0.42 + 17, style: 'font-size:11.5px' }, s, `κ = ${k.toFixed(1)}%`);
+    el('rect', { x: L, y: y0, width: x(Math.min(k, 25)) - L, height: bh * 0.4, rx: 2, style: 'fill:var(--g-empty)' }, s);
+    el('rect', { x: L, y: y0 + bh * 0.5, width: x(Math.min(h, 25)) - L, height: bh * 0.5, rx: 2, style: 'fill:var(--steel)' }, s);
+    el('text', { x: x(Math.min(h, 25)) + 6, y: y0 + bh * 0.78 + 4, class: 't-strong', style: 'fill:var(--steel)' }, s, `h* = ${h.toFixed(1)}%`);
+  });
+  $('budEq').innerHTML = fmt(t('budEq'), { f: f.toFixed(2), d: dl.toFixed(1) });
+  swatches('budLegend', [['var(--g-empty)', t('budK')], ['var(--steel)', t('budH')]]);
+}
+
 function safe(f) { try { f(); } catch (e) { if (window.console) console.error(f.name, e); } }
 function drawAll() {
-  [drawPrice, drawCap, drawHeat, drawScatter, drawCase, drawAgree, drawLoad, drawTeam, renderProg, drawDay, drawGantt, drawMasses, fillCalcSelects, drawCalc, drawLiu, drawPor, renderB4, drawLate, drawTmax, drawE7, drawE5].forEach(safe);
+  [drawPrice, drawCap, drawHeat, drawCase, drawTeam, renderProg, drawDay, drawGantt, drawMasses, fillCalcSelects, drawCalc, renderB4, drawLate, drawTmax, drawE7, drawE5, drawKt, drawOcc, drawSlack, drawBrk, drawRobust, drawBud].forEach(safe);
   $('heatTip').innerHTML = `<p class="small">${t('heatHint')}</p>`;
 }
 
 // ---------- deck ----------
-const SEC = { intro: ['导读', 'Overview', '개요'], bg: ['背景', 'Background', '배경'], method: ['方法', 'Method', '방법'], setup: ['实验设置', 'Setup', '실험 설정'],
-  res: ['结果', 'Results', '결과'], rel: ['可靠性', 'Reliability', '신뢰성'], status: ['进度', 'Status', '진행 상황'], end: ['总结', 'Summary', '요약'] };
+const SEC = { intro: ['导读', 'Overview', '개요'], bg: ['背景', 'Background', '배경'], method: ['方法', 'Method', '방법'], theory: ['机理', 'Mechanism', '메커니즘'], setup: ['实验设置', 'Setup', '실험 설정'],
+  res: ['结果', 'Results', '결과'], rel: ['可靠性', 'Reliability', '신뢰성'], disc: ['讨论', 'Discussion', '논의'], status: ['进度', 'Status', '진행 상황'], end: ['总结', 'Summary', '요약'] };
 const slides = [...document.querySelectorAll('.slide')];
 const stage = $('stage'), box = $('stagebox'), wrap = $('stagewrap');
 let cur = 0, notesOn = false;
@@ -969,7 +999,6 @@ $('tocClose').addEventListener('click', () => toggleToc(false));
 $('toc').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { go(+b.dataset.i); toggleToc(false); } });
 ['calcM', 'calcH', 'calcD'].forEach(id => $(id).addEventListener('change', drawCalc));
 $('rCalc').addEventListener('input', drawCalc);
-$('rLiu').addEventListener('input', drawLiu);
 $('calcLab').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { calcLabI = +b.dataset.i; drawCalc(); } });
 $('btnFull').addEventListener('click', toggleFull);
 $('btnTheme').addEventListener('click', () => {
@@ -978,6 +1007,8 @@ $('btnTheme').addEventListener('click', () => {
 });
 $('rCap').addEventListener('input', drawCap);
 $('rCase').addEventListener('input', drawCase);
+$('rBud').addEventListener('input', drawBud);
+$('dBud').addEventListener('input', drawBud);
 $('massR').addEventListener('input', drawTeam);
 $('tierSeg').innerHTML = [200, 250, 270, 300, 325, 380, 425, 500, 550].map(q => `<button type="button" data-q="${q}">${q} t</button>`).join('');
 $('tierSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { tier = +b.dataset.q; drawTeam(); } });
