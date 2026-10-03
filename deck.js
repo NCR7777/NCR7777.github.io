@@ -153,8 +153,8 @@ const T = {
   // manuscript of 2026-10-03: decomposition, exact benchmark, fresh days, outages, matched mixes, budget slider
   decX: ['比覆盖车队多出的车时（车·时/天）', 'Extra transporter-hours per day over the covering tier', '커버 등급 대비 추가 차량 시간 (차량·시/일)'],
   decY: ['其中的车时（车·时/天）', 'Part of the extra hours (h/day)', '그중 차량 시간 (h/일)'],
-  decCoup: ['拼载多占的车时 (|S|−1)·D + |S|·δ', 'Coupled occupancy (|S|−1)·D + |S|·δ', '결합 추가 점유 (|S|−1)·D + |S|·δ'],
-  decWait: ['等队友', 'Waiting for partners', '팀원 대기'], dec11: ['1:1', '1:1', '1:1'],
+  decCoup: ['拼载占用：重复搬运加对接', 'Coupled occupancy: repeated service plus alignment', '결합 점유: 반복 운반 + 정렬'],
+  decWait: ['等队友', 'Partner waiting', '팀원 대기'], dec11: ['1:1', '1:1', '1:1'],
   decTip: ['{f} · {c}<br>多出 {d} h/天：拼载占用 {o} h，等待 {w} h', '{f} · {c}<br>{d} h/day extra: coupled occupancy {o} h, waiting {w} h', '{f} · {c}<br>추가 {d} h/일: 결합 점유 {o} h, 대기 {w} h'],
   exFinal: ['本文流程', 'Proposed procedure', '제안 절차'], exSingle: ['单次搜索', 'One search run', '단일 탐색'],
   exCp0: ['仅构造', 'Constructions only', '구성만'], exGreedy: ['贪心派工', 'Greedy dispatcher', '탐욕 배차'],
@@ -163,10 +163,10 @@ const T = {
   exX: ['有证明最小台数的 56 个车队', 'The 56 fleets with a proven minimum count', '최소 대수가 증명된 차량군 56개'],
   frY: ['与原 30 天选出同一最省车队的决策（%）', 'Decisions with the same least-cost fleet as on the original days (%)', '원래 30일과 같은 최저비용 차량군인 결정 (%)'],
   frAll: ['全部 1,260 个决策', 'all 1,260 decisions', '전체 1,260개 결정'],
-  ouX: ['停掉最要紧的一台车时的准时比例（%，30 天）', 'On-time share with the worst single unit out (%, 30 days)', '가장 중요한 1대가 빠졌을 때 정시 비율 (%, 30일)'],
-  ouOne: ['只有 1 台重车的混编', 'mix with one heavy unit', '대형 1대 혼합'], ouCov: ['覆盖吨级的同质车队', 'covering homogeneous fleet', '커버 등급 단일 차량군'],
+  ouX: ['去掉一台车容量后的准时比例（%，30 天）', 'On-time share after removing one unit of capacity (%, 30 days)', '용량 1대를 뺀 뒤 정시 비율 (%, 30일)'],
+  ouOne: ['只有 1 台重车的混编（去掉重车容量）', 'mix with one heavy unit (heavy capacity removed)', '대형 1대 혼합 (대형 용량 제거)'], ouCov: ['覆盖吨级的同质车队', 'covering homogeneous fleet', '커버 등급 단일 차량군'],
   ouOther: ['其他车队', 'other fleets', '기타 차량군'], ou95: ['95% 目标', '95% target', '95% 목표'],
-  ouTip: ['{f}<br>停一台时准时 {v}%<br>若每天以 0.1 的概率停掉这台，满足服务要求的概率 {p}', '{f}<br>on time with one unit out: {v}%<br>meets the specification with probability {p} if each day loses it with probability 0.1', '{f}<br>1대 정지 시 정시 {v}%<br>매일 0.1 확률로 정지하면 서비스 기준 충족 확률 {p}'],
+  ouTip: ['{f}<br>减少后的组成准时 {v}%<br>若每天以 0.1 的概率换成减少后的组成，满足服务要求的概率 {p}', '{f}<br>on time in the reduced composition: {v}%<br>meets the specification with probability {p} if each day switches to it with probability 0.1', '{f}<br>축소 구성의 정시 {v}%<br>매일 0.1 확률로 축소 구성이 되면 서비스 기준 충족 확률 {p}'],
   mxX: ['每种工况 180 个决策中的占比（%）', 'Share of the 180 decisions per condition (%)', '조건별 결정 180개 중 비율 (%)'],
   mxRule: ['重车台数 = 规则值 K<sub>H</sub>*', 'heavy units = rule value K<sub>H</sub>*', '대형 대수 = 규칙값 K<sub>H</sub>*'],
   mxOff: ['比规则值 {o} 台', 'rule {o}', '규칙값 {o}대'],
@@ -924,7 +924,7 @@ function drawFresh() {
 const mixName = f => { const m = /^L(\d+)_H(\d+)x(\d)$/.exec(f); return m ? `${m[1]} t + ${m[3]} × ${m[2]} t` : famName(f); };
 function drawOutage() {
   const O = D.oe.outage, cells = [...new Set(O.map(o => o[0]))], W = 620, H = fitH('cOutage', W, 330, 0.8, 1.4), L = 200, R = W - 14, top = 8, bh = (H - top - 44) / cells.length;
-  const s = frame('cOutage', W, H, 'On-time share with one unit out'), x = lin(40, 100, L, R), g = el('g', { class: 'grid' }, s);
+  const s = frame('cOutage', W, H, 'On-time share after removing one unit of capacity'), x = lin(40, 100, L, R), g = el('g', { class: 'grid' }, s);
   for (let v = 40; v <= 100; v += 10) { el('line', { x1: x(v), x2: x(v), y1: top, y2: H - 38 }, g); el('text', { x: x(v), y: H - 22, 'text-anchor': 'middle', style: 'font-size:11px' }, s, v); }
   el('line', { x1: x(95), x2: x(95), y1: top, y2: H - 38, style: 'stroke:var(--ink2);stroke-dasharray:4 3' }, s);
   cells.forEach((c, i) => {
