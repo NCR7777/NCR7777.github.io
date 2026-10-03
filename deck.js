@@ -173,6 +173,7 @@ const T = {
   mxTip: ['{c}<br>规则值 K<sub>H</sub>* = {n}<br>{d}', '{c}<br>rule value K<sub>H</sub>* = {n}<br>{d}', '{c}<br>규칙값 K<sub>H</sub>* = {n}<br>{d}'],
   mxCnt: ['{k} 台重车：{v} 个决策', '{k} heavy units: {v} decisions', '대형 {k}대: 결정 {v}개'],
 };
+T.pdfLbl = ['下载当前语言的幻灯片 PDF（58 页，不含讲稿）', 'Download the slides as PDF in this language (58 pages, no notes)', '이 언어로 슬라이드 PDF 다운로드 (58쪽, 원고 제외)'];
 const t = k => T[k][LI[lang]];
 const fmt = (s, o) => s.replace(/\{(\w+)\}/g, (_, k) => o[k]);
 
@@ -1047,6 +1048,14 @@ function setLang(l) {
   root.lang = { zh: 'zh-CN', en: 'en', ko: 'ko' }[l];
   document.title = t('title');
   try { localStorage.setItem('deck-lang2', l); } catch (e) {}
+  const pdf = $('btnPdf');
+  if (pdf) {
+    const f = `Block_Transporter_Choice_${l}.pdf`;
+    pdf.href = `pdf/${f}` + (pdf.dataset.v ? `?v=${pdf.dataset.v}` : '');
+    pdf.setAttribute('download', f);
+    pdf.title = t('pdfLbl');
+    pdf.setAttribute('aria-label', t('pdfLbl'));
+  }
   document.querySelectorAll('[data-set-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.setLang === l));
   drawAll();
   fillNotes();
