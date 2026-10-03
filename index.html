@@ -209,7 +209,7 @@ ul.clean li b{color:var(--ink)}
 .quote.sm,.quote.sm [lang="en"]{font-size:21px}
 
 /* heatmap */
-.hm-tip{min-height:92px}
+.hm-tip{height:160px;overflow:hidden;box-sizing:border-box;padding:12px 16px}.hm-tip p.small{font-size:13.5px;line-height:1.42;margin:0 0 3px}
 .chips{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:14px;color:var(--ink2)}
 .chips span{display:inline-flex;align-items:center;gap:5px}
 .chips i{width:13px;height:13px;border-radius:2px;border:1px solid rgba(0,0,0,.18)}
@@ -479,6 +479,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
 .flow .agenda.a9{grid-template-columns:1fr}
 .figbox{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px;display:flex;align-items:center;justify-content:center;min-height:0;overflow:hidden}
 .figbox img{display:block;max-width:100%;max-height:100%;width:auto;height:auto}
+.flow .figbox{width:auto!important;max-width:100%}
 .hbars{display:flex;flex-direction:column;gap:7px}
 .hb{display:grid;grid-template-columns:150px 1fr 58px;align-items:center;gap:10px;font-size:14px;color:var(--ink2)}
 .hb i{display:block;height:14px;border-radius:3px;background:linear-gradient(90deg,var(--steel) var(--w),var(--panel) var(--w))}
@@ -787,7 +788,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
   <header class="eb"></header>
   <h2 class="ttl d"><span lang="zh">一张图看问题：分段物流、三种车队、同等服务下的比较</span><span lang="en">The problem in one figure: block logistics, three fleet options, one comparison</span><span lang="ko">한 장으로 보는 문제: 블록 물류, 세 가지 차량군, 같은 서비스에서의 비교</span></h2>
   <div class="content" style="grid-template-columns:auto 1fr;gap:22px;margin-top:6px;align-items:start">
-    <div class="figbox" style="padding:6px;width:650px"><img style="width:100%" src="assets/fig_intro2.svg?v=15d298c0b6" alt="Shipyard block logistics, three fleet options and the equal-service comparison" loading="lazy"></div>
+    <div class="figbox" style="padding:6px;width:650px"><img style="width:100%" src="assets/fig_intro2.svg?v=a7d84760d9" alt="Shipyard block logistics, three fleet options and the equal-service comparison" loading="lazy"></div>
     <div class="col compact" style="gap:12px;justify-content:center;height:100%">
       <ul class="clean">
         <li><span lang="zh"><b>① 分段物流</b>：每块分段要在车间、堆场和船坞之间搬运多次</span><span lang="en"><b>① Block logistics</b>: each block moves several times between shops, stockyard and building dock</span><span lang="ko"><b>① 블록 물류</b>: 블록마다 공장, 야드, 도크 사이를 여러 번 이동</span></li>
@@ -1333,7 +1334,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
   <header class="eb"></header>
   <h2 class="ttl d"><span lang="zh">评价流程：定服务 → 给每种车队排班 → 扫台数 → 按 K* 计价</span><span lang="en">Evaluation procedure: specify service, schedule each fleet, scan its count, price it at K*</span><span lang="ko">평가 절차: 서비스 지정 → 차량군별 배차 → 대수 탐색 → K*에서 비용 계산</span></h2>
   <div class="content" style="grid-template-columns:600px 1fr;gap:24px;margin-top:6px;align-items:start">
-    <div class="figbox" style="padding:6px"><img style="width:100%" src="assets/fig_framework.svg?v=15d298c0b6" alt="Evaluation procedure: inputs, service specification, scheduling, count scan, pricing and the analytical model, leading to the least-cost fleet" loading="lazy"></div>
+    <div class="figbox" style="padding:6px"><img style="width:100%" src="assets/fig_framework.svg?v=a7d84760d9" alt="Evaluation procedure: inputs, service specification, scheduling, count scan, pricing and the analytical model, leading to the least-cost fleet" loading="lazy"></div>
     <div class="col compact" style="gap:10px;justify-content:center">
       <ul class="clean">
         <li><span lang="zh"><b>① 服务规格</b>，所有车队相同：30 天合计 ≥ 95% 准时，且每块都不晚于 T<sub>max</sub></span><span lang="en"><b>① Service specification</b>, the same for every fleet: ≥ 95% on time pooled over 30 days, and every block within T<sub>max</sub></span><span lang="ko"><b>① 서비스 규격</b>, 모든 차량군 동일: 30일 합계 정시 ≥ 95%, 모든 블록 T<sub>max</sub> 이내</span></li>
@@ -1623,7 +1624,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
         </tbody>
       </table>
     </div>
-    <div class="content g2" style="margin-top:0;gap:24px;font-size:15px">
+    <div class="content g2 compact-enko" style="margin-top:0;gap:24px;font-size:15px">
       <ul class="clean" style="font-size:15px">
         <li><span lang="zh">有覆盖吨级的 5 种分布：99.4% 的胜者拼载 ≤ 1/10。Jiang 只有 1.3% 的块超过 425 t，所以 425 t 胜出</span><span lang="en">In the five profiles with a covering tier, 99.4% of winners couple ≤ 1/10. In the Jiang sample only 1.3% of blocks exceed 425 t, so 425 t wins</span><span lang="ko">커버 등급이 있는 5개 분포에서 승자의 99.4%가 결합 ≤ 10%. Jiang은 425 t 초과 블록이 1.3%뿐이라 425 t 승리</span></li>
         <li><span lang="zh"><b>重尾是预期中的例外</b>（菜单缺口）：9.1% 的块超过所有吨级，550、500 t 也要拼 9.1%、10.8%；拼载 &gt; 1/10 的 145 个班次人工决策中 126 个归 500 t，它只拼 500 t 以上的块</span><span lang="en"><b>The heavy tail is the expected exception</b> (a menu gap): 9.1% of blocks exceed every tier, so even 550 and 500 t couple 9.1% and 10.8%; of the 145 shift-labour decisions whose winner couples &gt; 1/10, 126 go to 500 t, which couples only the blocks above 500 t</span><span lang="ko"><b>중량 꼬리는 예상된 예외</b> (메뉴 공백): 블록 9.1%가 모든 등급 초과라 550·500 t도 9.1%·10.8% 결합, 결합 &gt; 10%인 교대 인건비 결정 145개 중 126개는 500 t 초과 블록만 결합하는 500 t</span></li>
@@ -1800,7 +1801,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
         <li><span lang="zh">300 vs 550 t 的 630 次比较中，简化公式排序正确 94.4%</span><span lang="en">The simple formula ranks 300 vs 550 t correctly in 94.4% of 630 comparisons</span><span lang="ko">300 대 550 t 비교 630회 중 단순 공식의 순위 정답률 94.4%</span></li>
       </ul>
       <div class="kn" id="e7Num"></div>
-      <p class="tiny"><span lang="zh">胜者的平均拼载在每个 p 都 ≤ 3.3%。</span><span lang="en">The winners&#39; mean coupled share is at most 3.3% at every p.</span><span lang="ko">모든 p에서 승자의 평균 결합 ≤ 3.3%.</span></p>
+      <p class="tiny"><span lang="zh">胜者的平均拼载在每个 φ 都 ≤ 3.3%。</span><span lang="en">The winners&#39; mean coupled share is at most 3.3% at every φ.</span><span lang="ko">모든 φ에서 승자의 평균 결합 ≤ 3.3%.</span></p>
     </div>
   </div>
   <p class="src"><span lang="zh">来源：本研究：重分段占比 φ 从 0 到 50% 的另 30 天（论文第 5.3 节、图 7）；重分段 350–540 t、其余 100–300 t 为设定范围。</span><span lang="en">Sources: this study: 30 further days with φ from 0 to 50% (paper §5.3, Fig. 7); heavy 350–540 t and the rest 100–300 t are assumed ranges.</span><span lang="ko">출처: 본 연구: φ 0–50%의 추가 30일 (논문 §5.3, 그림 7), 무거운 350–540 t와 나머지 100–300 t는 설정 범위.</span></p>
@@ -2039,7 +2040,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
 <section class="slide" data-sec="rel">
   <header class="eb"></header>
   <h2 class="ttl d"><span lang="zh">研究问题 4：各种检验改变的是“哪一个”最省，而不是它是否单运</span><span lang="en">Question 4: the checks change which fleet is cheapest, not whether it carries alone</span><span lang="ko">연구 질문 4: 검증은 어느 차량군이 최저인지는 바꾸지만 단독 운반 여부는 바꾸지 않는다</span></h2>
-  <div class="content" style="grid-template-rows:1fr auto;gap:8px;margin-top:4px">
+  <div class="content" style="grid-template-rows:1fr auto;gap:5px;margin-top:2px">
     <div class="tblwrap">
       <table class="tbl dense" style="font-size:12px">
         <thead><tr><th><span lang="zh">检验</span><span lang="en">Check</span><span lang="ko">검증</span></th><th><span lang="zh">改变了什么</span><span lang="en">What changes</span><span lang="ko">바뀐 것</span></th><th><span lang="zh">拼载 ≤ 1/10（重尾以外）</span><span lang="en">Single-carry share (outside the heavy tail)</span><span lang="ko">단독 비율 (중량 꼬리 밖)</span></th><th><span lang="zh">其他结果</span><span lang="en">Other outcome</span><span lang="ko">기타 결과</span></th></tr></thead>
@@ -2458,5 +2459,5 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
 </div>
 <div class="tip" id="tip" hidden></div>
 
-<script src="data.js?v=15d298c0b6"></script>
-<script src="deck.js?v=15d298c0b6"></script>
+<script src="data.js?v=a7d84760d9"></script>
+<script src="deck.js?v=a7d84760d9"></script>

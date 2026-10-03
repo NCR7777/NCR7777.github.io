@@ -104,7 +104,7 @@ const T = {
   porTip: ['{cell}<br>r = {r} · 贵 {v}%<br>灵活：{a} → 超重才拼：{b}', '{cell}<br>r = {r} · {v}% dearer<br>flexible: {a} → overweight-only: {b}', '{cell}<br>r = {r} · {v}% 상승<br>유연: {a} → 초과 중량: {b}'],
   porZero: ['0：没有变化', '0: no change', '0: 변화 없음'], porPos: ['变贵（越深越贵，最深 {max}%）', 'dearer (darker = more, up to {max}%)', '비싸짐 (진할수록, 최대 {max}%)'],
   porNeg: ['更便宜：搜索差异', 'cheaper: search difference', '더 쌈: 탐색 차이'],
-  b4Cell: ['工况', 'Condition', '조건'],
+  b4Cell: ['工况（基准交期）', 'Condition (empirical due dates)', '조건 (기준 납기)'],
   doneP: ['已完成', 'done', '완료'],
   lateLbl: ['无上限 {k} 台（有上限要 {k1} 台）· 晚 4 h 以上 {n} 块', '{k} vehicles uncapped ({k1} with the cap) · {n} blocks > 4 h late', '상한 없음 {k}대 (상한 시 {k1}대) · 4시간 초과 {n}개'],
   lateAx: ['30 天里最晚一块的延误（h）', 'Largest delay over 30 days (h)', '30일 중 최대 지연 (h)'],
@@ -133,7 +133,7 @@ const T = {
   brkX: ['一台 270 t 车每天的资本成本 θ（人时，对数轴）', 'Daily capital cost of a 270 t transporter, θ (labour-hours, log scale)', '270 t 차량의 일일 자본 비용 θ (인시, 로그 축)'],
   brkY: ['拼载 ≤ 1/10 的车队胜出（%）', 'Won by fleets coupling ≤ 1/10 (%)', '결합 ≤ 10% 차량군 승리 (%)'],
   brkEx: ['四种口径，不含重尾', 'four measures, outside heavy tail', '4개 기준, 중량 꼬리 제외'], brkTeam: ['按队计作业，不含重尾', 'crew-team hours, outside heavy tail', '팀별 작업, 중량 꼬리 제외'], brkAll: ['四种口径，全部 36 种工况', 'four measures, all 36 conditions', '4개 기준, 36개 조건 전체'],
-  robNom: ['蓝：名义最省 {f}', 'blue: nominal cheapest, {f}', '파랑: 명목 최저 {f}'], robHi: ['名义最省车队', 'nominal cheapest fleet', '명목 최저비용 차량군'],
+  robNom: ['{f}', '{f}', '{f}'], robHi: ['名义最省车队', 'nominal cheapest fleet', '명목 최저비용 차량군'],
   robOther: ['其他车队', 'other fleets', '기타 차량군'], rob95: ['95% 目标', '95% target', '95% 목표'],
   budEq: ['h* = κ ÷ (1 + 2δ / w̄) = κ ÷ {f}；δ = {d} min，w̄ = {w} min（覆盖车队每块的平均占用：短装卸约 43，随重量装卸 63–85，长装载约 80）；价格按 α = 0.84 幂律，班次人工', 'h* = κ ÷ (1 + 2δ / w̄) = κ ÷ {f}; δ = {d} min, w̄ = {w} min (covering fleet’s mean occupancy per block: about 43 with short, 63–85 with mass-dependent handling, about 80 with long loading); α = 0.84 power law, shift labour', 'h* = κ ÷ (1 + 2δ / w̄) = κ ÷ {f}, δ = {d}분, w̄ = {w}분 (커버 차량군의 블록당 평균 점유: 짧은 적재·하역 약 43, 중량 비례 63–85, 긴 적재 약 80), 가격 α = 0.84 거듭제곱, 교대 인건비'],
   budK: ['κ：大车每天比小车贵多少', 'κ: how much dearer the larger unit is per day', 'κ: 큰 차가 하루에 얼마나 더 비싼가'],
@@ -284,9 +284,11 @@ function drawCap() {
 let heatLab = 'shift_h';
 function heatInfo(i, j) {
   const [f, share, hatch, weak] = D.heat[heatLab][i][j];
+  // always three short lines in a card of fixed height, so hovering never reflows the slide or rescales the map
+  const flags = [hatch ? `▨ ${t('hatchLg')}` : '', weak ? `<span style="color:var(--oxide)">● ${t('weakLg')}</span>` : ''].filter(Boolean).join(' · ');
   $('heatTip').innerHTML = `<p class="small" style="color:var(--ink)"><b>${cellName(D.cells[i])}</b></p>
     <p class="small">θ = ${D.r[j].toFixed(1)} · ${t('winner')}: <b style="color:var(--ink)">${famName(f)}</b> · ${t('coupled')}: <b style="color:var(--ink)">${share}%</b></p>
-    ${hatch ? `<p class="small">▨ ${t('hatchTip')}</p>` : ''}${weak ? `<p class="small" style="color:var(--oxide)">● ${t('weakTip')}</p>` : ''}`;
+    <p class="small">${flags || '&nbsp;'}</p>`;
 }
 function drawHeat() {
   const rows = D.heat[heatLab];
@@ -578,8 +580,8 @@ function porColour(v) {
 function renderB4() {
   const fams = ['380', '425', '500', '550', 'MX1', 'MX2'], byCell = {};
   D.late.b4k.forEach(([c, f, a, b, flag]) => { (byCell[c] = byCell[c] || {})[f] = [a, b, flag]; });
-  $('b4Table').innerHTML = `<thead><tr><th style="text-transform:none">${t('b4Cell')}</th>${fams.map(f => `<th style="text-transform:none">${famName(f)}</th>`).join('')}</tr></thead><tbody>` +
-    Object.keys(byCell).map(c => `<tr><td style="font-family:var(--body);font-weight:400;white-space:nowrap">${cellShort(c)}</td>` + fams.map(f => {
+  $('b4Table').innerHTML = `<thead><tr><th style="text-transform:none;white-space:normal;max-width:150px">${t('b4Cell')}</th>${fams.map(f => `<th style="text-transform:none">${famName(f)}</th>`).join('')}</tr></thead><tbody>` +
+    Object.keys(byCell).map(c => `<tr><td style="font-family:var(--body);font-weight:400;white-space:nowrap">${t(c.split('_')[0])} · ${t(c.split('_')[1])}</td>` + fams.map(f => {
       const v = byCell[c][f];
       if (!v) return '<td class="mono" style="color:var(--ink3)">—</td>';
       if (v[2] === 'bound') return `<td class="mono" style="color:var(--ink3)" title="${t('b4NotRerun')}">${v[0]}*</td>`;
@@ -670,7 +672,12 @@ function drawE7() {
   ps.forEach((p, j) => el('text', { x: L + j * cw + cw / 2, y: 18, 'text-anchor': 'middle', class: 't-strong' }, s, Math.round(100 * p) + '%'));
   ['H1', 'H2'].forEach((hk, i) => {
     const y = top + i * rh;
-    el('text', { x: 0, y: y + rh / 2 + 4, class: 't-strong', style: 'font-size:13px' }, s, t(hk + 'l'));
+    // the row label wraps onto two lines when it is wider than its column
+    const rl = el('text', { x: 0, y: y + rh / 2 + 4, class: 't-strong', style: 'font-size:13px' }, s, t(hk + 'l')), words = t(hk + 'l');
+    if (rl.getComputedTextLength() > L - 10 && words.lastIndexOf(' ') > 0) {
+      rl.textContent = '';
+      [words.slice(0, words.lastIndexOf(' ')), words.slice(words.lastIndexOf(' ') + 1)].forEach((w, n) => el('tspan', { x: 0, dy: n ? 16 : -8 }, rl, w));
+    }
     E[hk].forEach(([p, f, c], j) => {
       const g = anim(el('g', {}, s), 'a-pop', .3 + j * .1 + i * .05), x0 = L + j * cw;
       el('rect', { x: x0 + 3, y: y + 6, width: cw - 6, height: rh - 12, rx: 6, fill: COL[f], style: 'stroke:var(--ink3);stroke-width:.6' }, g);
@@ -740,7 +747,7 @@ function drawKt() {
     const x0 = (k % 3) * pw, y0 = Math.floor(k / 3) * ph, L = x0 + 30, R = x0 + pw - 12, T0 = y0 + 26, B = y0 + ph - 30;
     const ks = ['H1', 'H2', 'H3'].flatMap(h => TQ.map(q => D.kstar[`${m}_${h}_D-emp`][q]).filter(v => v));
     const top = Math.ceil(Math.max(...ks) / 6) * 6, x = lin(200, 550, L, R), y = lin(0, top, B, T0), g = el('g', { class: 'grid' }, s);
-    for (const v of [0, top / 2, top]) { el('line', { x1: L, x2: R, y1: y(v), y2: y(v) }, g); el('text', { x: L - 6, y: y(v) + 4, 'text-anchor': 'end', style: 'font-size:11px' }, s, v); }
+    for (const v of [0, top / 2, top]) { el('line', { x1: L, x2: R, y1: y(v), y2: y(v) }, g); if (v) el('text', { x: L - 6, y: y(v) + 4, 'text-anchor': 'end', style: 'font-size:11px' }, s, v); }
     for (const q of [200, 300, 425, 550]) el('text', { x: x(q), y: B + 16, 'text-anchor': 'middle', style: 'font-size:11px' }, s, q);
     el('text', { x: x0 + 4, y: y0 + 14, class: 't-strong', style: 'font-size:12.5px' }, s, t(m));
     const sc = D.oe.sct[m];
@@ -820,7 +827,8 @@ function drawRobust() {
     for (const v of [80, 90, 100]) { el('line', { x1: L, x2: R, y1: y(v), y2: y(v) }, g); el('text', { x: L - 6, y: y(v) + 4, 'text-anchor': 'end', style: 'font-size:11px' }, s, v); }
     ['K*', '+1', '+2', '+3'].forEach((lab, i) => el('text', { x: x(i), y: Bm + 16, 'text-anchor': 'middle', style: 'font-size:11px' }, s, lab));
     el('line', { x1: L, x2: R, y1: y(95), y2: y(95), style: 'stroke:var(--oxide);stroke-dasharray:4 3' }, s);
-    el('text', { x: x0 + 4, y: y0 + 13, class: 't-strong', style: 'font-size:12.5px' }, s, `${t(m)} · ${t(h + 'l')}`);
+    const pt_ = el('text', { x: x0 + 4, y: y0 + 13, class: 't-strong', style: 'font-size:12.5px' }, s, `${t(m)} · ${t(h + 'l')}`);
+    if (pt_.getComputedTextLength() > pw - 14) pt_.textContent = `${t(m)} · ${t(h)}`;
     lines.slice().sort((p, q) => (p[0] === nominal) - (q[0] === nominal)).forEach(([f, ys, K, Kr], j) => {
       const hi = f === nominal, pts = ys.map((v, i) => [i, v]).filter(p => p[1] != null);
       const path = anim(el('path', { d: pts.map(([i, v], n) => `${n ? 'L' : 'M'}${x(i)} ${y(Math.max(78, v))}`).join(''), pathLength: 1,
