@@ -782,19 +782,26 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
   </aside>
 </section>
 
-<!-- the choice: three kinds of fleet -->
+<!-- the problem in one figure -->
 <section class="slide" data-sec="bg">
   <header class="eb"></header>
-  <h2 class="ttl d"><span lang="zh">三种车队：买容量、拼轻车，还是轻重混编</span><span lang="en">Three kinds of fleet: buy capacity, couple light units, or mix them</span><span lang="ko">세 가지 차량군: 용량을 살까, 경형을 결합할까, 섞을까</span></h2>
-  <div class="content" style="grid-template-rows:1fr auto;gap:10px;margin-top:8px">
-    <div class="figbox"><img src="assets/fig_intro.svg" alt="The choice between heavy units, coupled light units and light-heavy mixes, and the four steps of the comparison" loading="lazy"></div>
-    <p class="small" style="margin:0"><span lang="zh">比较的四步：同样的服务 → 按排班求每种车队的最少台数 → 每天成本（招标价格的资本 + 人工）→ 每个成本情景下最省的车队。</span><span lang="en">The comparison in four steps: the same service → the smallest count of each fleet, found by scheduling → daily cost (capital from tender prices plus crew labour) → the least-cost fleet in each cost scenario.</span><span lang="ko">비교 4단계: 같은 서비스 → 배차로 찾은 차량군별 최소 대수 → 하루 비용 (낙찰가 기반 자본 + 인건비) → 비용 시나리오별 최저비용 차량군.</span></p>
+  <h2 class="ttl d"><span lang="zh">一张图看问题：分段物流、三种车队、同等服务下的比较</span><span lang="en">The problem in one figure: block logistics, three fleet options, one comparison</span><span lang="ko">한 장으로 보는 문제: 블록 물류, 세 가지 차량군, 같은 서비스에서의 비교</span></h2>
+  <div class="content" style="grid-template-columns:auto 1fr;gap:22px;margin-top:6px;align-items:start">
+    <div class="figbox" style="padding:6px;width:650px"><img style="width:100%" src="assets/fig_intro2.svg?v=192482a75d" alt="Shipyard block logistics, three fleet options and the equal-service comparison" loading="lazy"></div>
+    <div class="col compact" style="gap:12px;justify-content:center;height:100%">
+      <ul class="clean">
+        <li><span lang="zh"><b>① 分段物流</b>：每块分段要在车间、堆场和船坞之间搬运多次</span><span lang="en"><b>① Block logistics</b>: each block moves several times between shops, stockyard and building dock</span><span lang="ko"><b>① 블록 물류</b>: 블록마다 공장, 야드, 도크 사이를 여러 번 이동</span></li>
+        <li><span lang="zh"><b>② 三种车队</b>：A 只买重车；B 只买轻车，重块拼载，每次拼载前要对接 δ；C 轻车加几台重车，问题是重车买几台</span><span lang="en"><b>② Three fleet options</b>: A heavy units only; B light units coupled for heavy blocks, with alignment δ before each coupled lift; C light units with a few heavy units, and the question of how many</span><span lang="ko"><b>② 세 가지 차량군</b>: A 대형만, B 경형만 두고 무거운 블록은 결합 (결합 전 정렬 δ), C 경형 + 대형 몇 대, 대형을 몇 대 살지가 문제</span></li>
+        <li><span lang="zh"><b>③ 同等服务下比较</b>：同样的服务 → 排班求最少台数 → 每天成本最低；流体占用模型解释成本差异</span><span lang="en"><b>③ The comparison</b>: the same service → the smallest count by scheduling → the least daily cost; a fluid occupancy model explains the cost differences</span><span lang="ko"><b>③ 같은 서비스에서 비교</b>: 같은 서비스 → 배차로 최소 대수 → 최저 일일 비용, 유체 점유 모형이 비용 차이를 설명</span></li>
+      </ul>
+      <p class="quote sm"><span lang="zh">先让所有车队达到同样的服务，再比成本。</span><span lang="en">Every fleet is held to the same service before costs are compared.</span><span lang="ko">모든 차량군을 같은 서비스에 맞춘 뒤 비용을 비교한다.</span></p>
+    </div>
   </div>
-  <p class="src"><span lang="zh">来源：本研究的概览图（与论文图同一配色）；“单价更高 / 更低”指拟合 33 份中标公告的价格曲线。</span><span lang="en">Sources: overview figure of this study, in the colours of the paper&#39;s figures; higher and lower price per vehicle refer to the price curve fitted to 33 tender awards.</span><span lang="ko">출처: 본 연구 개요도 (논문 그림과 같은 색), 차량당 가격 높음·낮음은 낙찰 공고 33건에 맞춘 가격 곡선 기준.</span></p>
+  <p class="src"><span lang="zh">来源：论文图 1（示意图；厂区为通用示意，不对应任何真实船厂的布局）。</span><span lang="en">Sources: paper Fig. 1 (schematic; the yard is generic, not the layout of any real yard).</span><span lang="ko">출처: 논문 그림 1 (개념도, 야드는 일반적인 예시로 실제 조선소 배치가 아님).</span></p>
   <aside class="notes">
-    <p lang="zh">这张图把问题说清楚。A：只买重车，每块都单独运，单价高。B：只买轻车，遇到重块就两三台拼起来，单价低但一次占好几台车。C：轻车加几台重车，各搬各的，问题是重车买几台。下面四步是比较方法：先定服务，再按排班求台数，再算每天成本，最后在每个成本情景下选最省的。</p>
-    <p lang="en">This figure states the problem. A: heavy units only, every block carried alone, higher price per vehicle. B: light units only, coupled for heavy blocks, cheaper per vehicle but several vehicles per move. C: light units plus some heavy units, each carrying its own blocks, and the question is how many heavy units. Below are the four steps of the comparison.</p>
-    <p lang="ko">문제를 정리한 그림입니다. A: 대형만, 모두 단독 운반, 대당 가격이 높음. B: 경형만, 무거운 블록은 2–3대 결합, 대당 싸지만 한 번에 여러 대 점유. C: 경형 + 대형 몇 대, 각자 운반하며 대형을 몇 대 살지가 문제. 아래는 비교 4단계입니다.</p>
+    <p lang="zh">这是论文的引言图，三栏讲清问题。左栏：分段在车间、堆场和船坞之间多次搬运。中栏：三种车队，A 只买重车，B 只买轻车、重块拼载，C 轻车加几台重车。右栏：比较方法，所有车队先达到同样的服务，再按排班求最少台数、按每天成本比较，流体占用模型解释为什么。</p>
+    <p lang="en">This is the introduction figure of the paper; its three panels state the problem. Left: blocks move several times between shops, stockyard and building dock. Middle: three kinds of fleet, A heavy units only, B light units coupled for heavy blocks, C light units with a few heavy units. Right: the comparison. Every fleet is held to the same service, sized by scheduling and compared by daily cost, and a fluid occupancy model explains why.</p>
+    <p lang="ko">논문의 서론 그림으로, 세 칸이 문제를 정리합니다. 왼쪽: 블록은 공장, 야드, 도크 사이를 여러 번 이동합니다. 가운데: 세 가지 차량군, A 대형만, B 경형만 두고 무거운 블록은 결합, C 경형 + 대형 몇 대. 오른쪽: 비교 방법으로, 모든 차량군을 같은 서비스에 맞추고 배차로 대수를 정해 하루 비용으로 비교하며, 유체 점유 모형이 이유를 설명합니다.</p>
   </aside>
 </section>
 
@@ -961,7 +968,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
       <div class="card" style="background:var(--steel-soft)"><p style="color:var(--ink)"><span lang="zh">所以每一天都要<b>真正排出时刻表</b>。只看工作量的估算 K<sub>ρ</sub> 在 384 个车队中有 319 个与排班台数相差不超过 1 台；但交期紧时，拼载超过 60% 的车队平均还要多 K* 的 10.2%。</span><span lang="en">So each day&#39;s <b>actual timetable</b> must be built. The workload-only count K<sub>ρ</sub> is within one transporter of the scheduled count for 319 of 384 sized fleets, but under tight due dates fleets that couple more than 60% of blocks need 10.2% of K* more.</span><span lang="ko">그래서 날마다 <b>실제 배차표</b>를 만들어야 한다. 작업량만 본 K<sub>ρ</sub>는 384개 차량군 중 319개에서 배차 대수와 1대 이내지만, 촉박한 납기에서 결합 60% 초과 차량군은 K*의 10.2%가 더 필요하다.</span></p></div>
     </div>
   </div>
-  <p class="src"><span lang="zh">来源：例子为示意。319 / 384 与 10.2% 为本研究结果（论文第 5.2 节、图 5c）。</span><span lang="en">Sources: the example is illustrative; 319 of 384 and 10.2% are results of this study (paper §5.2, Fig. 5c).</span><span lang="ko">출처: 예시는 개념도. 319 / 384와 10.2%는 본 연구 결과 (논문 §5.2, 그림 5c).</span></p>
+  <p class="src"><span lang="zh">来源：例子为示意。319 / 384 与 10.2% 为本研究结果（论文第 5.2 节、图 6c）。</span><span lang="en">Sources: the example is illustrative; 319 of 384 and 10.2% are results of this study (paper §5.2, Fig. 6c).</span><span lang="ko">출처: 예시는 개념도. 319 / 384와 10.2%는 본 연구 결과 (논문 §5.2, 그림 6c).</span></p>
   <aside class="notes">
     <p lang="zh">为什么不能简单用总工作量除以每台车的工时？小例子里 4 块都要 9 点前送到，只看总量 1 台就够，按交期却要 4 台。现实中还有分批到达、空驶和拼载的同时性。我们的数据也印证了：只看工作量的估算在 384 个车队中只有 214 个算对，交期紧、拼载多时少估约一成。</p>
     <p lang="en">Why not divide total work by one vehicle&#39;s hours? In the example four blocks are all due by 9:00: totals say one vehicle, due times say four. Real days add batches, empty travel and the simultaneity of coupled lifts. Our data agree: the workload-only estimate was right for only 214 of 384 sized fleets and fell about a tenth short under tight due dates for fleets that couple a lot.</p>
@@ -1069,11 +1076,11 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
       </ul>
     </div>
   </div>
-  <p class="src"><span lang="zh">来源：示意时间，与论文图 1 相同（单运 43 min = 空驶 10 + 装运卸 33；对位 10 min 为本研究设定）。</span><span lang="en">Sources: illustrative times as in Fig. 1 of the paper (43 min alone = 10 empty + 33 service; the 10-min alignment is our assumption).</span><span lang="ko">출처: 논문 그림 1과 같은 예시 시간 (단독 43분 = 공차 10 + 작업 33, 정렬 10분은 본 연구 설정).</span></p>
+  <p class="src"><span lang="zh">来源：示意时间，与论文图 2 相同（单运 43 min = 空驶 10 + 装运卸 33；对位 10 min 为本研究设定）。</span><span lang="en">Sources: illustrative times as in Fig. 2 of the paper (43 min alone = 10 empty + 33 service; the 10-min alignment is our assumption).</span><span lang="ko">출처: 논문 그림 2과 같은 예시 시간 (단독 43분 = 공차 10 + 작업 33, 정렬 10분은 본 연구 설정).</span></p>
   <aside class="notes">
-    <p lang="zh">放大看一次拼载。单运时车一到就装，卸完就走。拼载时先到的车要等后到的车，再一起对位，然后两台车一起装、一起走、一起卸。论文图 1 的例子里，一块 420 吨的分段，单运占 43 车分钟，拼载占 110 车分钟，而且另一块轻分段要等到第 98 分钟才能运完。</p>
-    <p lang="en">One coupled move up close. A single unit loads on arrival and leaves after unloading. In a coupled move the first unit waits for the second, both align, then load, drive and unload together. In the example of the paper&#39;s Fig. 1 a 420 t block takes 43 transporter-minutes alone but 110 when coupled, and a light block waiting for one of the units finishes only at minute 98.</p>
-    <p lang="ko">결합 운반 한 번을 확대해 봅니다. 단독이면 도착해서 싣고 하역 후 떠납니다. 결합이면 먼저 온 차가 다음 차를 기다리고, 함께 정렬한 뒤 함께 싣고 달리고 내립니다. 논문 그림 1의 예에서 420 t 블록은 단독 43 차량·분, 결합 110 차량·분이고, 기다리는 가벼운 블록은 98분에야 끝납니다.</p>
+    <p lang="zh">放大看一次拼载。单运时车一到就装，卸完就走。拼载时先到的车要等后到的车，再一起对位，然后两台车一起装、一起走、一起卸。论文图 2 的例子里，一块 420 吨的分段，单运占 43 车分钟，拼载占 110 车分钟，而且另一块轻分段要等到第 98 分钟才能运完。</p>
+    <p lang="en">One coupled move up close. A single unit loads on arrival and leaves after unloading. In a coupled move the first unit waits for the second, both align, then load, drive and unload together. In the example of the paper&#39;s Fig. 2 a 420 t block takes 43 transporter-minutes alone but 110 when coupled, and a light block waiting for one of the units finishes only at minute 98.</p>
+    <p lang="ko">결합 운반 한 번을 확대해 봅니다. 단독이면 도착해서 싣고 하역 후 떠납니다. 결합이면 먼저 온 차가 다음 차를 기다리고, 함께 정렬한 뒤 함께 싣고 달리고 내립니다. 논문 그림 2의 예에서 420 t 블록은 단독 43 차량·분, 결합 110 차량·분이고, 기다리는 가벼운 블록은 98분에야 끝납니다.</p>
   </aside>
 </section>
 
@@ -1326,7 +1333,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
   <header class="eb"></header>
   <h2 class="ttl d"><span lang="zh">评价流程：定服务 → 给每种车队排班 → 扫台数 → 按 K* 计价</span><span lang="en">Evaluation procedure: specify service, schedule each fleet, scan its count, price it at K*</span><span lang="ko">평가 절차: 서비스 지정 → 차량군별 배차 → 대수 탐색 → K*에서 비용 계산</span></h2>
   <div class="content" style="grid-template-columns:600px 1fr;gap:24px;margin-top:6px;align-items:start">
-    <div class="figbox" style="padding:6px"><img style="width:100%" src="assets/fig_framework.svg" alt="Evaluation procedure: inputs, service specification, scheduling, count scan, pricing and the analytical model, leading to the least-cost fleet" loading="lazy"></div>
+    <div class="figbox" style="padding:6px"><img style="width:100%" src="assets/fig_framework.svg?v=192482a75d" alt="Evaluation procedure: inputs, service specification, scheduling, count scan, pricing and the analytical model, leading to the least-cost fleet" loading="lazy"></div>
     <div class="col compact" style="gap:10px;justify-content:center">
       <ul class="clean">
         <li><span lang="zh"><b>① 服务规格</b>，所有车队相同：30 天合计 ≥ 95% 准时，且每块都不晚于 T<sub>max</sub></span><span lang="en"><b>① Service specification</b>, the same for every fleet: ≥ 95% on time pooled over 30 days, and every block within T<sub>max</sub></span><span lang="ko"><b>① 서비스 규격</b>, 모든 차량군 동일: 30일 합계 정시 ≥ 95%, 모든 블록 T<sub>max</sub> 이내</span></li>
@@ -1337,7 +1344,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
       <div class="card" style="background:var(--steel-soft)"><p class="small" style="color:var(--ink)"><span lang="zh">搜索误差在第 ③ 步进入（K* 是上界），可能在第 ④ 步改变决策；“验证”部分两者都检验。所有车队用同一批分段、地点和起点（共同随机数），K 台车用 40 个起点里的前 K 个。</span><span lang="en">Search error enters at step ③, where K* is an upper bound, and can change the decision at step ④; the validation part tests both. All fleets face the same blocks, locations and start points (common random numbers); a fleet of K uses the first K of 40 start points.</span><span lang="ko">탐색 오차는 ③단계에서 들어오고 (K*는 상한) ④단계에서 결정을 바꿀 수 있으며, 검증 부분에서 둘 다 확인한다. 모든 차량군은 같은 블록·위치·출발점을 쓰고 (공통 난수), K대는 출발점 40개 중 앞의 K개를 쓴다.</span></p></div>
     </div>
   </div>
-  <p class="src"><span lang="zh">来源：本研究的评价流程（论文第 3.4 节、图 2）；图为汇报用的同一配色版本，图内为英文。</span><span lang="en">Sources: evaluation procedure of this study (paper §3.4, Fig. 2), drawn in the colours of the paper&#39;s figures.</span><span lang="ko">출처: 본 연구의 평가 절차 (논문 §3.4, 그림 2), 논문 그림과 같은 색으로 그림.</span></p>
+  <p class="src"><span lang="zh">来源：本研究的评价流程（论文第 3.4 节、图 3）；图为汇报用的同一配色版本，图内为英文。</span><span lang="en">Sources: evaluation procedure of this study (paper §3.4, Fig. 3), drawn in the colours of the paper&#39;s figures.</span><span lang="ko">출처: 본 연구의 평가 절차 (논문 §3.4, 그림 3), 논문 그림과 같은 색으로 그림.</span></p>
   <aside class="notes">
     <p lang="zh">这是整个流程。输入是分段搬运任务、工况、厂区路网、候选车队和价格工资。中间四步：所有车队用同一服务规格；每种车队每天排班；扫出达标的最小台数；按这个台数计价。下面的流体模型解释成本差异。右边是三个问题：买什么、拼载贵在哪、服务和停车。搜索误差在扫台数这步进入，后面专门验证。</p>
     <p lang="en">The whole procedure. Inputs are the block moves, the conditions, the yard network, the candidate fleets and prices and wages. Four steps: one service specification for all fleets; schedule each fleet every day; scan for the smallest qualifying count; price at that count. The fluid model below explains the cost differences. On the right, the three questions. Search error enters at the count scan and is checked in the validation part.</p>
@@ -1526,7 +1533,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
       <p class="quote sm"><span lang="zh">轻车多出来的台数，就是拼载的代价。</span><span lang="en">A light fleet&#39;s extra units are the price of coupling.</span><span lang="ko">경형의 추가 대수가 결합의 대가다.</span></p>
     </div>
   </div>
-  <p class="src"><span lang="zh">来源：本研究：36 种工况 × 11 种车队的台数扫描（论文第 5.1 节、图 3）。</span><span lang="en">Sources: this study: count scans of 11 fleet types in 36 conditions (paper §5.1, Fig. 3).</span><span lang="ko">출처: 본 연구: 36개 조건 × 차량군 11종 대수 탐색 (논문 §5.1, 그림 3).</span></p>
+  <p class="src"><span lang="zh">来源：本研究：36 种工况 × 11 种车队的台数扫描（论文第 5.1 节、图 4）。</span><span lang="en">Sources: this study: count scans of 11 fleet types in 36 conditions (paper §5.1, Fig. 4).</span><span lang="ko">출처: 본 연구: 36개 조건 × 차량군 11종 대수 탐색 (논문 §5.1, 그림 4).</span></p>
   <aside class="notes">
     <p lang="zh">第一个问题：同样服务下，台数和吨级怎么此消彼长。吨级越大需要的车越少，但只到能单独运所有分段的那个吨级为止，再往上台数不变。比如 Liu 重量下，200 吨要 12 台，425 吨及以上都是 5 台。低于这个吨级时车队必须拼载，拼载多少由分段重量决定。轻车多出来的台数就是拼载的代价。</p>
     <p lang="en">Question 1: how does the count trade off against capacity at equal service? Larger tiers need fewer units, but only up to the tier that carries every block alone; beyond it the count is flat. Under Liu masses, 12 units of 200 t but 5 of 425 t or more. Below that tier a fleet must couple, and the masses decide how much. The light fleet&#39;s extra units are the price of coupling.</p>
@@ -1561,7 +1568,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
       <p class="quote sm"><span lang="zh">模型里拼载队都假设物理可行，这偏向拼载，所以解释不了这些份额。</span><span lang="en">Every minimal team is assumed physically feasible, which favours coupling, so that assumption does not explain these shares.</span><span lang="ko">모든 최소 팀을 물리적으로 가능하다고 가정해 결합에 유리하므로, 이 가정이 이 비율을 설명하지는 않는다.</span></p>
     </div>
   </div>
-  <p class="src"><span lang="zh">来源：本研究：6,480 个决策（论文第 5.1 节、图 4）；决策 = 工况 × 价格曲线 × θ × 人工口径（36 × 5 × 9 × 4）。</span><span lang="en">Sources: this study: 6,480 decisions (paper §5.1, Fig. 4); a decision = condition × price curve × θ × labour measure (36 × 5 × 9 × 4).</span><span lang="ko">출처: 본 연구: 결정 6,480개 (논문 §5.1, 그림 4), 결정 = 조건 × 가격 곡선 × θ × 인건비 기준 (36 × 5 × 9 × 4).</span></p>
+  <p class="src"><span lang="zh">来源：本研究：6,480 个决策（论文第 5.1 节、图 5）；决策 = 工况 × 价格曲线 × θ × 人工口径（36 × 5 × 9 × 4）。</span><span lang="en">Sources: this study: 6,480 decisions (paper §5.1, Fig. 5); a decision = condition × price curve × θ × labour measure (36 × 5 × 9 × 4).</span><span lang="ko">출처: 본 연구: 결정 6,480개 (논문 §5.1, 그림 5), 결정 = 조건 × 가격 곡선 × θ × 인건비 기준 (36 × 5 × 9 × 4).</span></p>
   <aside class="notes">
     <p lang="zh">第一个结果：班次人工下，91% 的决策最省车队拼载不超过十分之一；只要有吨级能单运全部分段，100% 如此。胜出的混编也不是靠拼载：轻车和重车各运各的。门槛取 2.5% 或 15% 结论都不变。唯一偏低的是按队计人工，它假设一组人能开一整套拼车。</p>
     <p lang="en">First result: under shift labour 91% of decisions have a winner coupling at most one block in ten, and 100% wherever a covering tier exists. The winning mixes do not rely on coupling either: their light and heavy units carry different blocks alone. A threshold of 2.5% or 15% leaves the picture unchanged. The lowest share is under crew-team hours, which assume one crew per coupled set.</p>
@@ -1682,7 +1689,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
       <p class="quote sm"><span lang="zh">队伍同步得很好；贵的是两三台车和车组整趟重载都被占住，退出了并行作业。</span><span lang="en">Teams synchronise well; what costs is holding two or three vehicles and crews for the whole loaded trip, out of parallel service.</span><span lang="ko">팀은 잘 동기화된다. 비싼 것은 차량 2–3대와 인원이 적재 운반 내내 묶여 병렬 작업에서 빠지는 것이다.</span></p>
     </div>
   </div>
-  <p class="src"><span lang="zh">来源：本研究：每个车队的工作与等待车时（论文第 5.2 节、图 5a）。</span><span lang="en">Sources: this study: working and waiting hours of each sized fleet (paper §5.2, Fig. 5a).</span><span lang="ko">출처: 본 연구: 차량군별 작업·대기 시간 (논문 §5.2, 그림 5a).</span></p>
+  <p class="src"><span lang="zh">来源：本研究：每个车队的工作与等待车时（论文第 5.2 节、图 6a）。</span><span lang="en">Sources: this study: working and waiting hours of each sized fleet (paper §5.2, Fig. 6a).</span><span lang="ko">출처: 본 연구: 차량군별 작업·대기 시간 (논문 §5.2, 그림 6a).</span></p>
   <aside class="notes">
     <p lang="zh">第二个问题：拼载贵在哪里。每多拼 1 个百分点的分段，车队每天车时多 1.6%；拼载六成以上的车队，车时是覆盖车队的 2.2 倍。等队友的时间中位只占 0.55%。所以不是同步做得不好，而是一块分段要占两三台车和两三组人。下一页逐块分解证实这一点。</p>
     <p lang="en">Question 2: what makes coupling expensive? Each percentage point of coupled blocks adds 1.6% transporter-hours a day; fleets that couple 60% or more work 2.2 times the covering fleet&#39;s hours. Waiting for partners is a median 0.55%. So synchronisation is not the problem; one block holds two or three vehicles and crews. The next slide confirms it block by block.</p>
@@ -1709,7 +1716,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
       </ul>
     </div>
   </div>
-  <p class="src"><span lang="zh">来源：本研究：计价时刻表的逐块分解，主实验 384 个车队中重尾以外、拼载超过 1% 的轻车队（论文第 5.2 节、图 5b）。</span><span lang="en">Sources: this study: block-by-block decomposition of the priced schedules, lighter fleets of the 384 sized fleets outside the heavy tail that couple more than 1% of blocks (paper §5.2, Fig. 5b).</span><span lang="ko">출처: 본 연구: 가격 계산 배차표의 블록별 분해, 384개 산정 차량군 중 중량 꼬리 밖에서 1% 넘게 결합하는 경형 (논문 §5.2, 그림 5b).</span></p>
+  <p class="src"><span lang="zh">来源：本研究：计价时刻表的逐块分解，主实验 384 个车队中重尾以外、拼载超过 1% 的轻车队（论文第 5.2 节、图 6b）。</span><span lang="en">Sources: this study: block-by-block decomposition of the priced schedules, lighter fleets of the 384 sized fleets outside the heavy tail that couple more than 1% of blocks (paper §5.2, Fig. 6b).</span><span lang="ko">출처: 본 연구: 가격 계산 배차표의 블록별 분해, 384개 산정 차량군 중 중량 꼬리 밖에서 1% 넘게 결합하는 경형 (논문 §5.2, 그림 6b).</span></p>
   <aside class="notes">
     <p lang="zh">上一页是车队之间的比较，这一页是逐块分解。轻车比覆盖吨级多干的车时，中位九成是拼载本身多占的车时，等队友只占 2%，其余是空驶差别。所以拼载贵，是因为一块分段把两三台车和车组整趟占住。</p>
     <p lang="en">The previous slide compared fleets; this one decomposes block by block. Of the extra transporter-time a light fleet works over the covering tier, a median 90% is the extra occupancy of coupled lifts and 2% is waiting; the rest is empty travel. Coupling is expensive because one block holds two or three vehicles and crews for the whole trip.</p>
@@ -1738,7 +1745,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
       <p class="quote sm"><span lang="zh">工作量规则用来筛；排班检查服务、决定接近的采购。</span><span lang="en">The workload rule screens; scheduling checks service and resolves close purchases.</span><span lang="ko">작업량 규칙은 선별하고, 배차는 서비스를 확인하고 근소한 구매를 결정한다.</span></p>
     </div>
   </div>
-  <p class="src"><span lang="zh">来源：本研究：有覆盖吨级的每种工况里每个较轻同质吨级对覆盖吨级 × 5 条价格曲线 × 9 个 θ（班次人工；论文第 5.2 节、图 5c；补充材料 S9）。</span><span lang="en">Sources: this study: every lighter homogeneous tier against the covering tier in each condition that has one, × 5 price curves × 9 values of θ (shift labour; paper §5.2, Fig. 5c; Supplementary S9).</span><span lang="ko">출처: 본 연구: 커버 등급이 있는 조건마다 더 가벼운 단일 등급 대 커버 등급 × 가격 곡선 5 × θ 9 (교대 인건비, 논문 §5.2, 그림 5c, 보충자료 S9).</span></p>
+  <p class="src"><span lang="zh">来源：本研究：有覆盖吨级的每种工况里每个较轻同质吨级对覆盖吨级 × 5 条价格曲线 × 9 个 θ（班次人工；论文第 5.2 节、图 6c；补充材料 S9）。</span><span lang="en">Sources: this study: every lighter homogeneous tier against the covering tier in each condition that has one, × 5 price curves × 9 values of θ (shift labour; paper §5.2, Fig. 6c; Supplementary S9).</span><span lang="ko">출처: 본 연구: 커버 등급이 있는 조건마다 더 가벼운 단일 등급 대 커버 등급 × 가격 곡선 5 × θ 9 (교대 인건비, 논문 §5.2, 그림 6c, 보충자료 S9).</span></p>
   <aside class="notes">
     <p lang="zh">流体模型能不能用？它的占用因子和仿真台数比的相关是 0.97。当筛子用：留 10% 余量，77% 的比较可以直接排除轻车，只错一次，差 0.1%。剩下的比较一台车就能决定输赢，必须排班。左图说明为什么：交期紧时，拼载多的车队比工作量估算还要多一成的车。</p>
     <p lang="en">Is the fluid model usable? Its occupancy factor tracks the simulated count ratio at r = 0.97. As a screen with a 10% margin it rules out the lighter tier in 77% of comparisons and is wrong once, by 0.1%. The remaining comparisons turn on one transporter and need scheduling. The chart shows why: under tight due dates heavily coupling fleets need a tenth more than the workload estimate.</p>
@@ -1767,7 +1774,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
       </ul>
     </div>
   </div>
-  <p class="src"><span lang="zh">来源：本研究（论文第 5.2 节、图 5d）；标定范围 5.1–30 来自中标价格、官方工资和设定的资本回收参数（见两页参数来源）。</span><span lang="en">Sources: this study (paper §5.2, Fig. 5d); the calibrated range 5.1–30 comes from tender prices, official wages and the assumed capital-recovery settings (the two parameter slides).</span><span lang="ko">출처: 본 연구 (논문 §5.2, 그림 5d), 보정 범위 5.1–30은 낙찰가·공식 임금·설정한 자본 회수 값에서 (매개변수 슬라이드 두 장).</span></p>
+  <p class="src"><span lang="zh">来源：本研究（论文第 5.2 节、图 6d）；标定范围 5.1–30 来自中标价格、官方工资和设定的资本回收参数（见两页参数来源）。</span><span lang="en">Sources: this study (paper §5.2, Fig. 6d); the calibrated range 5.1–30 comes from tender prices, official wages and the assumed capital-recovery settings (the two parameter slides).</span><span lang="ko">출처: 본 연구 (논문 §5.2, 그림 6d), 보정 범위 5.1–30은 낙찰가·공식 임금·설정한 자본 회수 값에서 (매개변수 슬라이드 두 장).</span></p>
   <aside class="notes">
     <p lang="zh">预算随 κ 变大，所以资本相对人工越贵，拼载越有机会。把 θ 推到标定范围之外：重尾以外，θ 到 8.7 以前单运车队赢全部决策；只有资本时还是赢 82%。切换点中位在 87 人时，约 1.4 个车组日。标定范围内的切换只出现在按队计人工下。这离现在的实际很远，更像是遥控或无人驾驶车辆的将来。</p>
     <p lang="en">The budget grows with κ, so coupling gains as capital becomes dearer relative to labour. Pushing θ far beyond its calibrated range: outside the heavy tail single-carry fleets win every decision up to θ ≈ 8.7, and 82% even with capital alone. The median switch is at 87 labour-hours, about 1.4 crew-days. Inside the calibrated range switches occur only under crew-team hours. That is far from current practice and closer to remotely operated or driverless transporters.</p>
@@ -1796,7 +1803,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
       <p class="tiny"><span lang="zh">胜者的平均拼载在每个 p 都 ≤ 3.3%。</span><span lang="en">The winners&#39; mean coupled share is at most 3.3% at every p.</span><span lang="ko">모든 p에서 승자의 평균 결합 ≤ 3.3%.</span></p>
     </div>
   </div>
-  <p class="src"><span lang="zh">来源：本研究：重分段占比 φ 从 0 到 50% 的另 30 天（论文第 5.3 节、图 6）；重分段 350–540 t、其余 100–300 t 为设定范围。</span><span lang="en">Sources: this study: 30 further days with φ from 0 to 50% (paper §5.3, Fig. 6); heavy 350–540 t and the rest 100–300 t are assumed ranges.</span><span lang="ko">출처: 본 연구: φ 0–50%의 추가 30일 (논문 §5.3, 그림 6), 무거운 350–540 t와 나머지 100–300 t는 설정 범위.</span></p>
+  <p class="src"><span lang="zh">来源：本研究：重分段占比 φ 从 0 到 50% 的另 30 天（论文第 5.3 节、图 7）；重分段 350–540 t、其余 100–300 t 为设定范围。</span><span lang="en">Sources: this study: 30 further days with φ from 0 to 50% (paper §5.3, Fig. 7); heavy 350–540 t and the rest 100–300 t are assumed ranges.</span><span lang="ko">출처: 본 연구: φ 0–50%의 추가 30일 (논문 §5.3, 그림 7), 무거운 350–540 t와 나머지 100–300 t는 설정 범위.</span></p>
   <aside class="notes">
     <p lang="zh">重分段越多，答案怎么变？另生成 30 个工作日，让重分段的比例从 0 增加到一半。重块很少时买 300 吨；多一些时买轻车再配一两台重车；重块足够多时才全部买 550 吨。两次切换都能用拼载预算解释。无论哪种情况，最省车队都很少拼载。</p>
     <p lang="en">How does the answer move as heavy blocks become common? On 30 further days the heavy share rises from zero to half. With few heavy blocks 300 t wins; with more, light units plus one or two heavy units; only when heavy blocks are common does an all-550 t fleet win. The coupling budget explains both switches, and in every case the cheapest fleet hardly couples.</p>
@@ -1875,7 +1882,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
       <p class="small"><span lang="zh">只看平均准时率，拼载块可以被无限期推后，这对生产计划没有意义；上限越紧，台数只增不减。</span><span lang="en">With an average target alone, coupled lifts can be pushed back indefinitely, which no production plan can absorb; tighter caps never lower a count.</span><span lang="ko">평균 정시율만 보면 결합 블록을 무한정 미룰 수 있어 생산 계획이 감당할 수 없다. 상한이 엄격할수록 대수는 줄지 않는다.</span></p>
     </div>
   </div>
-  <p class="src"><span lang="zh">来源：本研究：上限从 30 min 到不设，三种重量分布、短装卸（论文第 5.4 节、图 7a）。</span><span lang="en">Sources: this study: caps from 30 min to none, three mass profiles with short handling (paper §5.4, Fig. 7a).</span><span lang="ko">출처: 본 연구: 상한 30분부터 없음까지, 중량 분포 3개, 짧은 적재·하역 (논문 §5.4, 그림 7a).</span></p>
+  <p class="src"><span lang="zh">来源：本研究：上限从 30 min 到不设，三种重量分布、短装卸（论文第 5.4 节、图 8a）。</span><span lang="en">Sources: this study: caps from 30 min to none, three mass profiles with short handling (paper §5.4, Fig. 8a).</span><span lang="ko">출처: 본 연구: 상한 30분부터 없음까지, 중량 분포 3개, 짧은 적재·하역 (논문 §5.4, 그림 8a).</span></p>
   <aside class="notes">
     <p lang="zh">服务怎么定义也会改变答案。如果只要求 95% 准时、不限制最晚一块，有 6 种车队可以少买一台车，代价是把个别分段拖延十几个小时，被拖的大多是拼载块，或者在等那一两台重车的块。生产计划承受不了这种拖延，所以服务标准必须同时规定上限。</p>
     <p lang="en">How service is defined also changes the answer. With only a 95% on-time target and no limit on the latest block, six fleets need one unit fewer, at the price of deferring single blocks by more than half a day; the deferred blocks are mostly coupled ones or ones waiting for the scarce heavy units. No production plan can absorb that, so the service specification needs a cap.</p>
@@ -1902,7 +1909,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
       </ul>
     </div>
   </div>
-  <p class="src"><span lang="zh">来源：本研究（论文第 5.4 节、图 7b、7c）。</span><span lang="en">Sources: this study (paper §5.4, Fig. 7b, c).</span><span lang="ko">출처: 본 연구 (논문 §5.4, 그림 7b·7c).</span></p>
+  <p class="src"><span lang="zh">来源：本研究（论文第 5.4 节、图 8b、7c）。</span><span lang="en">Sources: this study (paper §5.4, Fig. 8b, c).</span><span lang="ko">출처: 본 연구 (논문 §5.4, 그림 8b·7c).</span></p>
   <aside class="notes">
     <p lang="zh">那么加上延误上限要花多少钱？按班次人工，加上 120 分钟上限后，最省成本只高 0 到 1.85%，收紧到 30 分钟也最多高 4.7%。不设上限时，胜者拼载不超过十分之一的只有 75%；有任何一个上限时都是 100%。规定最大延误几乎不花钱，却能把靠拖延达标的车队排除掉。</p>
     <p lang="en">What does the cap cost? Under shift labour a 120-minute cap raises least cost by only 0 to 1.85%, and even a 30-minute cap by at most 4.7%. Without a cap the winner couples at most one in ten in only 75% of decisions; with any cap, in all of them. Limiting the worst delay costs almost nothing and removes fleets that qualify by deferring.</p>
@@ -2451,5 +2458,5 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
 </div>
 <div class="tip" id="tip" hidden></div>
 
-<script src="data.js?v=69c53df55b"></script>
-<script src="deck.js?v=69c53df55b"></script>
+<script src="data.js?v=192482a75d"></script>
+<script src="deck.js?v=192482a75d"></script>
