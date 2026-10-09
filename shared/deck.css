@@ -483,3 +483,8 @@ html:not(.flow) .bar{flex-wrap:nowrap}
 .brand{overflow:hidden}
 .brand b,.brand>span{white-space:nowrap}
 .brand>span{overflow:hidden;text-overflow:ellipsis;min-width:0}
+/* reference lists that fill their slide: deck-core.js fit() sets --fs and --lh */
+[data-fit] .refs,[data-fit] .refs-data{font-size:var(--fs,12.5px);line-height:var(--lh,1.38)}
+[data-fit] .refs{padding-left:1.9em;column-gap:2.4em}
+[data-fit]{grid-template-rows:auto auto!important;align-content:start}   /* natural heights, so fit() can measure them */
+[data-fit] .refs-data p{margin:0 0 .25em}
