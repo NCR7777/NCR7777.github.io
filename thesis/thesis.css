@@ -1,0 +1,43 @@
+/* Thesis deck only. */
+.claim{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start;padding:7px 0;border-bottom:1px solid var(--line)}
+.claim:last-child{border-bottom:0}
+.claim>b{font-family:var(--d-en);font-size:27px;font-weight:700;color:var(--steel);line-height:1}
+.claim h4{margin:0;font-size:17px;color:var(--ink)}
+.claim p{margin:2px 0 0;font-size:14.5px;line-height:1.42;color:var(--ink2)}
+.tbl.hyp,.tbl.thm,.tbl.plan,.tbl.obj{font-size:13.6px}
+.tbl.hyp td,.tbl.thm td,.tbl.plan td,.tbl.obj td{padding:5px 8px;line-height:1.32}
+.tbl tr.first td{background:var(--amber-soft)}
+.tbl.thm td:first-child{white-space:normal;min-width:110px}
+.tbl.obj td:first-child{white-space:normal;font-family:var(--body);width:24%}
+.tbl.obj .tiny,.tbl.thm .tiny{display:block;margin-top:2px}
+.rules{display:flex;flex-direction:column;gap:7px}
+.rl{display:grid;grid-template-columns:170px 1fr;gap:10px;align-items:center;padding:8px 12px;background:var(--panel);border-left:5px solid var(--c);border-radius:4px;font-size:14.5px;line-height:1.4;color:var(--ink2)}
+.rl b{color:var(--ink);font-size:15.5px}
+.yards{display:flex;flex-direction:column;gap:8px}
+.yg{padding:10px 14px;background:var(--panel);border-radius:6px;border-left:5px solid var(--line)}
+.yg.done{border-left-color:var(--good);background:var(--good-soft)}
+.yg h4{margin:0 0 3px;font-size:16px;color:var(--ink)}
+.yg p{margin:0;font-size:14px;line-height:1.45;color:var(--ink2)}
+.ladder{display:grid;grid-template-columns:150px repeat(3,1fr);gap:8px}
+.ladder .lh{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);font-weight:600;padding:0 4px}
+.ladder .lc{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;color:var(--ink)}
+.ladder .lc b{font-family:var(--d-en);font-size:36px;color:var(--steel);line-height:1}
+.ladder .lf{background:var(--panel);border-radius:6px;padding:12px 14px;font-size:15.5px;line-height:1.45;color:var(--ink2);display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.ladder .lf.got{background:var(--good-soft);color:var(--ink)}
+.asks{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:12px}
+.asks li{font-size:18px;line-height:1.55;color:var(--ink2)}
+.asks b{color:var(--ink)}
+.golink{align-self:flex-start;font-size:15px;padding:8px 14px}
+#flagRead .stat .num{font-size:44px}
+#flagRead .stat p{font-size:15px}
+.flow .ladder,.flow .rl{grid-template-columns:minmax(0,1fr)}
+.flow .ladder .lh{display:none}
+.tbl.lab td:first-child{font-family:var(--body);white-space:normal}
+.tbl.lab td.mono{font-size:.95em}
+.tbl.thm td:last-child{white-space:nowrap}
+[data-lang="zh"] .tbl.thm,[data-lang="zh"] .tbl.hyp{font-size:16px}
+[data-lang="zh"] .tbl.thm td,[data-lang="zh"] .tbl.hyp td{padding:9px 8px}
+.tbl.hyp{font-size:14.5px}
+.tbl.plan td:nth-child(3),.tbl.plan td:last-child{white-space:nowrap}
+[data-lang="zh"] .tbl.plan{font-size:15.5px}
+[data-lang="zh"] .tbl.plan td{padding:8px}

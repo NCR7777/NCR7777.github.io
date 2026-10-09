@@ -1,0 +1,92 @@
+"""Write data.js for the thesis deck from the committed results of thesis-core (T17–T20).
+
+Everything is read with `git show <commit>:<path>`, so the deck shows reviewed results only, whatever is in the working
+tree. COMMIT is the T20 commit that passed review on 2026-10-09; move it when a later task passes review.
+THESIS_CORE overrides the repository path.
+
+  python thesis/make_data.py
+"""
+import csv
+import io
+import json
+import os
+import subprocess
+from pathlib import Path
+
+REPO = Path(os.environ.get('THESIS_CORE') or Path(__file__).resolve().parents[2] / '30_研究' / 'thesis-core')
+COMMIT = 'e7a2732'
+MODELS = ['free', 'reserve', 'segment']
+# final batch directories per the review records (00_总控/reviews/T18.md, T20.md)
+FLAG = {'yupu': ['a0ab16fceb94', '49d2383872e7'],   # Okpo, MY-B task mix: K 5–40 (regular, peak, saturated), K 45–150
+        'yantai': ['b82aa19b22af']}                 # Yantai map rev 395: K 1–150
+# tasks per 16-h day, regular and peak (occupancy/params.py: Okpo line 69, Yantai rev 395 lines 20-22); checked below
+DEMAND = {'yupu': {'regular': 97, 'peak': 194}, 'yantai': {'regular': 23, 'peak': 46}}
+T18 = 'results/t18_report_d10b9015cd4d/t18_summary.json'
+T19 = 'results/t19_compare_c963b53c1dde/t19_summary.json'
+T20 = 'results/t20_report_c12289dfda9d/t20_summary.json'
+
+
+def show(path):
+    return subprocess.run(['git', '-C', str(REPO), 'show', f'{COMMIT}:{path}'], capture_output=True, check=True).stdout.decode('utf-8-sig')
+
+
+def curves(yard):
+    rows = [r for d in FLAG[yard] for r in csv.DictReader(io.StringIO(show(f'results/{d}/curves.csv'))) if r['scen'] == 'main']
+    out = {}
+    for lev in ('regular', 'peak', 'saturated'):
+        sel = [r for r in rows if r['level'] == lev]
+        Ks = sorted({int(r['K']) for r in sel})
+        get = {(r['model'], int(r['K'])): r for r in sel}
+        assert all((m, k) in get for m in MODELS for k in Ks), (yard, lev)
+        out[lev] = {'K': Ks, **{m: [[round(float(get[m, k][f'throughput_{s}']), 1) for s in ('mean', 'lo', 'hi')] for k in Ks] for m in MODELS}}
+    sat = [r for r in rows if r['level'] == 'saturated' and r['model'] == 'reserve']
+    out['fleet'] = [[int(r['K']), round(float(r['fleet_bound']), 1)] for r in sorted(sat, key=lambda r: int(r['K']))]
+    return out
+
+
+def bounds(yard):
+    rows = [r for r in csv.DictReader(io.StringIO(show(f'results/{FLAG[yard][0]}/bounds.csv'))) if r['scen'] == 'main']
+    res = {}
+    for key, col in (('T1', 'T1_network_per_day'), ('T1t', 'T1_tight_per_day')):
+        v = [float(r[col]) for r in rows]
+        res[key] = [round(sum(v) / len(v), 1), round(min(v), 1), round(max(v), 1)]
+    return res
+
+
+t18, t19, t20 = (json.loads(show(p)) for p in (T18, T19, T20))
+h1 = {'yupu': t18['H1']['main|reserve'], 'yantai': t20['change']['r395']['H1']['main|reserve']}
+kreq = {'yupu': json.loads(show(f'results/{FLAG["yupu"][0]}/summary.json'))['findings']['K_required'],
+        'yantai': json.loads(show(f'results/{FLAG["yantai"][0]}/summary.json'))['findings']['K_required']}
+topo = {'yupu': t19['yards']['yupu']['topology'], 'yantai': t20['change']['r395']['topology']}
+flag = {}
+for y in FLAG:
+    c, b = curves(y), bounds(y)
+    for lev in ('regular', 'peak'):   # with enough vehicles, free flow serves exactly the demand
+        assert abs(c[lev]['free'][-1][0] - DEMAND[y][lev]) < 0.5, (y, lev, c[lev]['free'][-1])
+    flag[y] = {**c, **b, 'demand': DEMAND[y],
+               'Kreq': {lev: {m: kreq[y][f'main|{m}|{lev}'] for m in MODELS} for lev in ('regular', 'peak')},
+               'Kstar20': [h1[y]['K_star_20'], *h1[y]['K_star_20_ci']], 'Kstar10': [h1[y]['K_star_10'], *h1[y]['K_star_10_ci']],
+               'marg': [[x['K'], round(x['ratio'], 3)] for x in h1[y]['marginal']],
+               'plateau': {m: round(next(e for e in t20['cmp'][y] if e['scen'] == 'main')['sat'][m]['platform'], 1) for m in ('reserve', 'segment')},
+               'topo': {k: (round(v, 1) if isinstance(v, float) else v) for k, v in topo[y].items() if k in ('roads', 'km', 'junction_res', 'access', 'stops', 'cyclomatic')}}
+# Yupu's T1/T1' as reported in the T18 summary must match the bounds file
+assert abs(flag['yupu']['T1t'][0] - t18['T1']['main']['T1t']) < 0.1, (flag['yupu']['T1t'], t18['T1']['main']['T1t'])
+
+# crane utilisation rho against the saturated plateau, as a share of the yard's main (MY-B mix) plateau; r1* variants left out
+rho = {}
+for y in ('yupu', 'yantai'):
+    base = flag[y]['plateau']
+    rho[y] = sorted([[e['scen'], round(e['rho'], 3), e['n6'], *(round(100 * e['sat'][m]['platform'] / base[m], 1) for m in ('reserve', 'segment')),
+                      round(100 * e['sat']['segment']['by_K']['150']['dock0_busy'], 1), e['K_required']['reserve']]
+                     for e in t20['rho'][y] if not e['scen'].startswith('r1')], key=lambda r: r[1])
+
+DATA = {'source': {'repo': 'thesis-core', 'commit': COMMIT}, 'flag': flag, 'rho': rho}
+out = Path(__file__).parent / 'data.js'
+out.write_text('// Generated by make_data.py from thesis-core %s (results of T17–T20); do not edit by hand.\nwindow.DATA=%s;\n'
+               % (COMMIT, json.dumps(DATA, ensure_ascii=False, separators=(',', ':'))), encoding='utf-8')
+print('yupu sat K', flag['yupu']['saturated']['K'][0], '…', flag['yupu']['saturated']['K'][-1], 'T1', flag['yupu']['T1'], "T1'", flag['yupu']['T1t'],
+      'plateau', flag['yupu']['plateau'], 'K*20', flag['yupu']['Kstar20'], 'Kreq', flag['yupu']['Kreq'])
+print('yantai sat K', flag['yantai']['saturated']['K'][0], '…', flag['yantai']['saturated']['K'][-1], 'T1', flag['yantai']['T1'], "T1'", flag['yantai']['T1t'],
+      'plateau', flag['yantai']['plateau'], 'K*20', flag['yantai']['Kstar20'], 'Kreq', flag['yantai']['Kreq'])
+print('rho', rho)
+print(out, out.stat().st_size, 'bytes')
