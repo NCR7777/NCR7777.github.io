@@ -1,0 +1,7 @@
+/* Fleet deck only: rules that name this deck's chart ids. */
+#progRows td{padding-top:14px;padding-bottom:14px}
+#cHeat g:hover>rect:first-child,#cPor g:hover>rect:first-child{stroke:var(--ink);stroke-width:1.6}
+#cGantt rect:hover,#calcChart rect:hover,#cLiu rect:hover,#cCase rect:hover{filter:brightness(1.08)}
+.flow #cHeat,.flow #cPor,.flow #cGantt,.flow #calcChart,.flow #cLiu,.flow #cCase,.flow #cE7,.flow #cE5,.flow #cLate,.flow #cTmax{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.flow #cHeat>svg,.flow #cPor>svg,.flow #cGantt>svg,.flow #calcChart>svg,.flow #cLiu>svg,.flow #cCase>svg,.flow #cE7>svg,.flow #cE5>svg,.flow #cLate>svg,.flow #cTmax>svg{min-width:620px}
+.flow #cHeat,.flow #cPor,.flow #cGantt,.flow #calcChart,.flow #cLiu,.flow #cCase,.flow #cE7,.flow #cE5,.flow #cLate,.flow #cTmax{max-width:100%}

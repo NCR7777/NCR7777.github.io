@@ -1,12 +1,9 @@
+// Fleet deck ("Block Transporter Choice"): the strings and charts of this briefing.
+// Paging, language, notes, contents, glossary, layout and the PDF link come from ../shared/deck-core.js (README.md).
 (() => {
 'use strict';
 const D = window.DATA;
-const root = document.documentElement;
-const NS = 'http://www.w3.org/2000/svg';
-const LANGS = ['en', 'ko', 'zh'];
-const LI = { zh: 0, en: 1, ko: 2 };
-const $ = id => document.getElementById(id);
-let lang = LANGS.includes(root.dataset.lang) ? root.dataset.lang : 'en';
+const { LI, $, el, frame, fitH, anim, spread, lin, yTitle, swatches, hover, fmt } = Deck;
 
 // ---------- strings used inside charts: [zh, en, ko] ----------
 const T = {
@@ -173,9 +170,7 @@ const T = {
   mxTip: ['{c}<br>规则值 K<sub>H</sub>* = {n}<br>{d}', '{c}<br>rule value K<sub>H</sub>* = {n}<br>{d}', '{c}<br>규칙값 K<sub>H</sub>* = {n}<br>{d}'],
   mxCnt: ['{k} 台重车：{v} 个决策', '{k} heavy units: {v} decisions', '대형 {k}대: 결정 {v}개'],
 };
-T.pdfLbl = ['下载当前语言的幻灯片 PDF（58 页，不含讲稿）', 'Download the slides as PDF in this language (58 pages, no notes)', '이 언어로 슬라이드 PDF 다운로드 (58쪽, 원고 제외)'];
-const t = k => T[k][LI[lang]];
-const fmt = (s, o) => s.replace(/\{(\w+)\}/g, (_, k) => o[k]);
+const t = k => T[k][LI[Deck.lang]];
 
 // tier colours as in the manuscript figures (paper/figs/make_r25_figures.py)
 const COL = { 200: '#f0f0f0', 250: '#d9d9d9', 270: '#c6dbef', 300: '#a9c8e1', 325: '#56b4b8', 380: '#4388b5',
@@ -185,49 +180,6 @@ const FAMS = ['200', '250', '270', '300', '325', '380', '425', '500', '550', 'MX
 const famName = f => f === 'MX1' ? t('mx1') : f === 'MX2' ? t('mx2') : f + ' t';
 const cellName = c => { const [m, h, d] = c.split('_'); return `${t(m)} · ${t(h + 'l')} · ${t(d + 'l')}`; };
 const cellShort = c => { const [m, h, d] = c.split('_'); return `${t(m)} · ${t(h)} · ${t(d)}`; };
-
-// ---------- svg helpers ----------
-function el(tag, attrs, parent, text) {
-  const e = document.createElementNS(NS, tag);
-  for (const k in attrs) if (attrs[k] != null) e.setAttribute(k, attrs[k]);
-  if (text != null) e.textContent = text;
-  if (parent) parent.appendChild(e);
-  return e;
-}
-function frame(id, w, h, label) {
-  const host = $(id);
-  host.innerHTML = '';
-  return el('svg', { viewBox: `0 0 ${w} ${h}`, role: 'img', 'aria-label': label || '' }, host);
-}
-// chart height in design units that matches the box the slide gives the chart (between lo and hi times the default)
-function fitH(id, W, H0, lo = 0.8, hi = 1.8) {
-  const host = $(id);
-  if (root.classList.contains('flow') || !host.clientWidth || !host.clientHeight) return H0;
-  return Math.round(Math.min(H0 * hi, Math.max(H0 * lo, W * host.clientHeight / host.clientWidth)));
-}
-// entrance motion (the .a-* rules in index.html), played once when the slide opens; d is the delay in seconds
-function anim(e, cls, d) { e.classList.add(cls); e.style.setProperty('--d', d.toFixed(2) + 's'); return e; }
-const spread = k => (k * 0.618034) % 1;   // even but unordered spread in [0, 1), so points do not appear in a sweep
-const lin = (d0, d1, r0, r1) => v => r0 + (v - d0) * (r1 - r0) / (d1 - d0);
-function yTitle(s, x, y, text) { el('text', { x, y, transform: `rotate(-90 ${x} ${y})`, 'text-anchor': 'middle' }, s, text); }
-function swatches(id, items) {
-  $(id).innerHTML = items.map(([c, name, extra]) => `<span><i style="background:${c};${extra || ''}"></i>${name}</span>`).join('');
-}
-
-// ---------- tooltip ----------
-const tip = $('tip');
-function moveTip(e) {
-  const w = tip.offsetWidth, h = tip.offsetHeight;
-  let x = e.clientX + 14, y = e.clientY + 14;
-  if (x + w > innerWidth - 8) x = e.clientX - w - 14;
-  if (y + h > innerHeight - 8) y = e.clientY - h - 14;
-  tip.style.left = x + 'px'; tip.style.top = y + 'px';
-}
-function hover(node, html) {
-  node.addEventListener('mouseenter', e => { tip.innerHTML = html(); tip.hidden = false; moveTip(e); });
-  node.addEventListener('mousemove', moveTip);
-  node.addEventListener('mouseleave', () => { tip.hidden = true; });
-}
 
 // ---------- charts ----------
 const pQ = q => D.affine[0] + D.affine[1] * q;   // CNY million, ex VAT
@@ -716,7 +668,7 @@ function drawE5() {
   let y = top;
   groups.forEach(([f, rows], gi) => {
     if (gi) { el('line', { x1: 0, x2: W, y1: y + gap / 2, y2: y + gap / 2, style: 'stroke:var(--line)' }, s); y += gap; }
-    const name = E5F[f][0][LI[lang]];
+    const name = E5F[f][0][LI[Deck.lang]];
     el('text', { x: 0, y: y + rh / 2 + 5, class: 't-strong', style: 'font-size:13px' }, s, name);
     rows.forEach(([, v, chg, mx, has, le, tot], j) => {
       const yc = y + rh / 2, nw = (tot - has) / 4, at = .3 + gi * .12 + j * .06, hi = mx > 10;   // a level without a cheapest fleet lacks it under every labour measure
@@ -968,234 +920,30 @@ function drawMix13() {
   swatches('mxLegend', offs.map(o => [cols[o], o ? fmt(t('mxOff'), { o: (o > 0 ? '+' : '−') + Math.abs(o) }) : t('mxRule')]));
 }
 
-function safe(f) { try { f(); } catch (e) { if (window.console) console.error(f.name, e); } }
-function drawAll() {
-  [drawPrice, drawCap, drawHeat, drawCase, drawTeam, drawDay, drawGantt, drawMasses, fillCalcSelects, drawCalc, renderB4, drawLate, drawTmax, drawE7, drawE5, drawKt, drawOcc, drawSlack, drawBrk, drawRobust, drawBud, drawDecomp, drawExact, drawFresh, drawOutage, drawMix13].forEach(safe);
-  $('heatTip').innerHTML = `<p class="small">${t('heatHint')}</p>`;
+const heatTip = () => { $('heatTip').innerHTML = `<p class="small">${t('heatHint')}</p>`; };
+
+// controls of this deck, wired once after the shared shell is built
+function init() {
+  ['calcM', 'calcH', 'calcD'].forEach(id => $(id).addEventListener('change', drawCalc));
+  $('rCalc').addEventListener('input', drawCalc);
+  $('calcLab').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { calcLabI = +b.dataset.i; drawCalc(); } });
+  $('rCap').addEventListener('input', drawCap);
+  $('rCase').addEventListener('input', drawCase);
+  $('rBud').addEventListener('input', drawBud);
+  $('dBud').addEventListener('input', drawBud);
+  $('wBud').addEventListener('input', drawBud);
+  $('massR').addEventListener('input', drawTeam);
+  $('tierSeg').innerHTML = [200, 250, 270, 300, 325, 380, 425, 500, 550].map(q => `<button type="button" data-q="${q}">${q} t</button>`).join('');
+  $('tierSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { tier = +b.dataset.q; drawTeam(); } });
+  $('heatSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { heatLab = b.dataset.lab; drawHeat(); } });
+  drawSpmt(); drawBoot();
 }
 
-// ---------- deck ----------
-const SEC = { intro: ['导读', 'Overview', '개요'], bg: ['背景', 'Background', '배경'], method: ['方法', 'Method', '방법'], theory: ['解析模型', 'Analytical model', '해석 모형'], why: ['拼载为何贵', 'Why coupling costs', '결합 비용의 원인'], bound: ['构成与服务', 'Composition and service', '구성과 서비스'], setup: ['案例与实验', 'Case and experiments', '사례와 실험'],
-  res: ['结果', 'Results', '결과'], rel: ['验证', 'Validation', '검증'], disc: ['讨论', 'Discussion', '논의'], ref: ['参考文献', 'References', '참고문헌'], status: ['进度', 'Status', '진행 상황'], end: ['总结', 'Summary', '요약'] };
-const slides = [...document.querySelectorAll('.slide')];
-const stage = $('stage'), box = $('stagebox'), wrap = $('stagewrap');
-let cur = 0, notesOn = false;
-slides.forEach((s, i) => {
-  s.id = 's' + (i + 1);
-  const eb = s.querySelector('.eb'), L = SEC[s.dataset.sec];
-  if (eb && L) eb.innerHTML = `<span class="sec">${LANGS.map(l => `<span lang="${l}">${L[LI[l]]}</span>`).join('')}</span><span class="no">${String(i + 1).padStart(2, '0')} / ${slides.length}</span>`;
+Deck.start({
+  strings: T,
+  sections: { intro: ['导读', 'Overview', '개요'], bg: ['背景', 'Background', '배경'], method: ['方法', 'Method', '방법'], theory: ['解析模型', 'Analytical model', '해석 모형'], why: ['拼载为何贵', 'Why coupling costs', '결합 비용의 원인'], bound: ['构成与服务', 'Composition and service', '구성과 서비스'], setup: ['案例与实验', 'Case and experiments', '사례와 실험'],
+    res: ['结果', 'Results', '결과'], rel: ['验证', 'Validation', '검증'], disc: ['讨论', 'Discussion', '논의'], ref: ['参考文献', 'References', '참고문헌'], status: ['进度', 'Status', '진행 상황'], end: ['总结', 'Summary', '요약'] },
+  draw: [drawPrice, drawCap, drawHeat, drawCase, drawTeam, drawDay, drawGantt, drawMasses, fillCalcSelects, drawCalc, renderB4, drawLate, drawTmax, drawE7, drawE5, drawKt, drawOcc, drawSlack, drawBrk, drawRobust, drawBud, drawDecomp, drawExact, drawFresh, drawOutage, drawMix13, heatTip],
+  init,
 });
-
-function fillNotes() {
-  const a = slides[cur].querySelector('aside.notes');
-  $('notesBody').innerHTML = a ? a.innerHTML : '';
-}
-// table of contents, built from each slide's title in all three languages
-const secOf = i => slides[i].dataset.sec;
-$('toc').innerHTML = slides.map((s, i) => {
-  const head = i === 0 || secOf(i) !== secOf(i - 1)
-    ? `<li class="sh">${SEC[secOf(i)] ? LANGS.map(l => `<span lang="${l}">${SEC[secOf(i)][LI[l]]}</span>`).join('') : ''}</li>` : '';
-  const ttl = s.querySelector('.ttl, h1');
-  const names = LANGS.map(l => { const e = ttl && ttl.querySelector(`[lang="${l}"]`); return `<span lang="${l}">${e ? e.textContent.trim() : ''}</span>`; }).join('');
-  return `${head}<li><button type="button" data-i="${i}"><span class="mono">${i + 1}</span><span>${names}</span></button></li>`;
-}).join('');
-function markToc() { document.querySelectorAll('#toc button').forEach(b => b.setAttribute('aria-current', +b.dataset.i === cur)); }
-document.querySelectorAll('#agenda [data-go]').forEach(li => {
-  const i = slides.findIndex(s => s.dataset.sec === li.dataset.go);
-  li.querySelector('.pg').textContent = 'p. ' + (i + 1);
-  li.addEventListener('click', () => go(i));
-  li.addEventListener('keydown', e => { if (e.key === 'Enter') go(i); });
-});
-let playTimer = null;
-function go(i, keepHash) {
-  i = Math.max(0, Math.min(slides.length - 1, i));
-  root.dataset.dir = i < cur ? -1 : 1;
-  slides[cur].classList.remove('on', 'play');
-  slides[cur].setAttribute('aria-hidden', 'true');
-  cur = i;
-  slides[cur].classList.add('on');
-  slides[cur].removeAttribute('aria-hidden');
-  $('count').textContent = `${cur + 1} / ${slides.length}`;
-  const sl = slides[cur];
-  sl.classList.add('play');
-  clearTimeout(playTimer);
-  playTimer = setTimeout(() => sl.classList.remove('play'), 3000);
-  paintProg();
-  $('prev').setAttribute('aria-disabled', cur === 0);
-  $('next').setAttribute('aria-disabled', cur === slides.length - 1);
-  tip.hidden = true;
-  fillNotes();
-  markToc();
-  if (!keepHash) try { history.replaceState(null, '', '#s' + (cur + 1)); } catch (e) {}
-}
-let wasFlow = null;
-function layout() {
-  // reading mode on phones and on screens too short for a legible slide (e.g. a phone held sideways)
-  const flow = innerWidth < 760 || Math.min((innerWidth - 32) / 1280, (innerHeight - 120) / 720) < 0.42;
-  root.classList.toggle('flow', flow);
-  if (wasFlow !== null && wasFlow !== flow) drawAll();
-  wasFlow = flow;
-  if (flow) { stage.style.transform = ''; return; }
-  const r = wrap.getBoundingClientRect();
-  const k = Math.max(0.2, Math.min((r.width - 32) / 1280, (r.height - 28) / 720));
-  stage.style.transform = `scale(${k})`;
-  box.style.width = 1280 * k + 'px';
-  box.style.height = 720 * k + 'px';
-}
-function setLang(l) {
-  lang = l;
-  root.dataset.lang = l;
-  root.lang = { zh: 'zh-CN', en: 'en', ko: 'ko' }[l];
-  document.title = t('title');
-  try { localStorage.setItem('deck-lang2', l); } catch (e) {}
-  const pdf = $('btnPdf');
-  if (pdf) {
-    const f = `Block_Transporter_Choice_${l}.pdf`;
-    pdf.href = `pdf/${f}` + (pdf.dataset.v ? `?v=${pdf.dataset.v}` : '');
-    pdf.setAttribute('download', f);
-    pdf.title = t('pdfLbl');
-    pdf.setAttribute('aria-label', t('pdfLbl'));
-  }
-  document.querySelectorAll('[data-set-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.setLang === l));
-  drawAll();
-  fillNotes();
-  buildProg();
-}
-// chapter progress: one segment per section, filled up to the current slide; click a segment to jump to its first slide
-function buildProg() {
-  const host = $('prog'), groups = [];
-  slides.forEach((s, i) => { const k = s.dataset.sec; if (!groups.length || groups[groups.length - 1].k !== k) groups.push({ k, first: i, n: 0 }); groups[groups.length - 1].n++; });
-  host.innerHTML = groups.map(g => {
-    const name = (SEC[g.k] || ['', '', ''])[LI[lang]] || (g.k === 'cover' ? { zh: '封面', en: 'Cover', ko: '표지' }[lang] : '');
-    return `<span class="ch" data-first="${g.first}" data-n="${g.n}" data-name="${name}" style="flex-grow:${g.n}" title="${name}"><i></i></span>`;
-  }).join('');
-  paintProg();
-}
-function paintProg() {
-  document.querySelectorAll('#prog .ch').forEach(c => {
-    const a = +c.dataset.first, n = +c.dataset.n, done = Math.max(0, Math.min(n, cur - a + 1));
-    c.firstChild.style.width = (100 * done / n) + '%';
-    c.classList.toggle('cur', cur >= a && cur < a + n);
-  });
-}
-// sliders show their value as a filled track
-function paintRange(el) { el.style.setProperty('--p', (100 * (el.value - el.min) / (el.max - el.min)) + '%'); }
-document.querySelectorAll('input[type="range"]').forEach(el => { paintRange(el); el.addEventListener('input', () => paintRange(el)); });
-function toggleNotes(on) {
-  notesOn = on ?? !notesOn;
-  $('notesp').hidden = !notesOn;
-  root.classList.toggle('show-notes', notesOn);
-  $('btnNotes').setAttribute('aria-pressed', notesOn);
-  layout();
-}
-function toggleGloss(on) {
-  const d = $('drawer'), show = on ?? d.hidden;
-  d.hidden = !show;
-  $('btnGloss').setAttribute('aria-pressed', show);
-  if (show) toggleToc(false);
-}
-function toggleToc(on) {
-  const d = $('tocDrawer'), show = on ?? d.hidden;
-  d.hidden = !show;
-  $('btnToc').setAttribute('aria-pressed', show);
-  if (show) { toggleGloss(false); const b = d.querySelector('[aria-current="true"]'); if (b) b.focus(); }
-}
-function toggleFull() {
-  try {
-    if (!document.fullscreenElement) { const p = root.requestFullscreen && root.requestFullscreen(); if (p) p.catch(() => {}); }
-    else if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
-  } catch (e) {}
-}
-
-// controls
-document.querySelectorAll('[data-set-lang]').forEach(b => b.addEventListener('click', () => setLang(b.dataset.setLang)));
-$('prev').addEventListener('click', () => go(cur - 1));
-$('prog').addEventListener('click', e => { const c = e.target.closest('.ch'); if (c) go(+c.dataset.first); });
-$('next').addEventListener('click', () => go(cur + 1));
-$('btnNotes').addEventListener('click', () => toggleNotes());
-$('btnGloss').addEventListener('click', () => toggleGloss());
-$('gClose').addEventListener('click', () => toggleGloss(false));
-$('btnToc').addEventListener('click', () => toggleToc());
-$('tocClose').addEventListener('click', () => toggleToc(false));
-$('toc').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { go(+b.dataset.i); toggleToc(false); } });
-['calcM', 'calcH', 'calcD'].forEach(id => $(id).addEventListener('change', drawCalc));
-$('rCalc').addEventListener('input', drawCalc);
-$('calcLab').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { calcLabI = +b.dataset.i; drawCalc(); } });
-$('btnFull').addEventListener('click', toggleFull);
-$('btnTheme').addEventListener('click', () => {
-  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-  root.dataset.theme = dark ? 'light' : 'dark';
-});
-$('rCap').addEventListener('input', drawCap);
-$('rCase').addEventListener('input', drawCase);
-$('rBud').addEventListener('input', drawBud);
-$('dBud').addEventListener('input', drawBud);
-$('wBud').addEventListener('input', drawBud);
-$('massR').addEventListener('input', drawTeam);
-$('tierSeg').innerHTML = [200, 250, 270, 300, 325, 380, 425, 500, 550].map(q => `<button type="button" data-q="${q}">${q} t</button>`).join('');
-$('tierSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { tier = +b.dataset.q; drawTeam(); } });
-$('heatSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { heatLab = b.dataset.lab; drawHeat(); } });
-
-document.addEventListener('keydown', e => {
-  if (e.target.matches('input,select,textarea') || e.altKey || e.ctrlKey || e.metaKey) return;
-  if (e.target.closest('#toc') && (e.key === 'Enter' || e.key === ' ')) return;
-  const k = e.key;
-  if (k === 'ArrowRight' || k === 'PageDown' || k === ' ') { e.preventDefault(); go(cur + 1); }
-  else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); go(cur - 1); }
-  else if (k === 'Home') go(0);
-  else if (k === 'End') go(slides.length - 1);
-  else if (k === 'n' || k === 'N') toggleNotes();
-  else if (k === 'g' || k === 'G') toggleGloss();
-  else if (k === 'f' || k === 'F') toggleFull();
-  else if (k === 't' || k === 'T') toggleToc();
-  else if (k === 'Escape') { toggleGloss(false); toggleToc(false); }
-});
-// touch paging: one finger, mostly horizontal, at normal zoom. A gesture that starts on a control belongs to the control;
-// a second finger (pinch) or a zoomed-in view cancels paging, so zooming and panning a zoomed slide never turn the page.
-let ts = null;
-const zoomed = () => !!(window.visualViewport && visualViewport.scale > 1.05);
-wrap.addEventListener('touchstart', e => {
-  ts = root.classList.contains('flow') || e.touches.length > 1 || zoomed() || e.target.closest('input,select,textarea,button,label')
-    ? null : { x: e.touches[0].clientX, y: e.touches[0].clientY };
-}, { passive: true });
-wrap.addEventListener('touchmove', e => {
-  if (!ts) return;
-  if (e.touches.length > 1 || zoomed()) { ts = null; return; }
-  if (e.cancelable) e.preventDefault();          // the slide does not scroll at normal zoom: keep the page from drifting
-}, { passive: false });
-wrap.addEventListener('touchcancel', () => { ts = null; });
-// after a slider is dragged or a select is chosen with the mouse, hand the keyboard back to paging
-addEventListener('pointerup', () => {
-  const a = document.activeElement;
-  if (a && a.matches('input[type="range"]')) a.blur();
-});
-document.addEventListener('change', e => { if (e.target.matches('select')) e.target.blur(); });
-wrap.addEventListener('touchend', e => {
-  if (!ts || e.touches.length) { ts = null; return; }
-  const dx = e.changedTouches[0].clientX - ts.x, dy = e.changedTouches[0].clientY - ts.y;
-  if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));   // more sideways than up/down
-  ts = null;
-});
-// mouse wheel / trackpad: one slide per gesture; momentum keeps the lock until the wheel goes quiet
-let wheelAcc = 0, wheelLock = 0;
-wrap.addEventListener('wheel', e => {
-  if (root.classList.contains('flow') || e.ctrlKey) return;
-  e.preventDefault();
-  const now = Date.now();
-  if (now < wheelLock) { wheelLock = Math.max(wheelLock, now + 180); return; }
-  const k = e.deltaMode === 1 ? 33 : e.deltaMode === 2 ? 800 : 1;
-  wheelAcc += (Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX) * k;
-  if (Math.abs(wheelAcc) >= 50) { go(cur + (wheelAcc > 0 ? 1 : -1)); wheelAcc = 0; wheelLock = now + 450; }
-}, { passive: false });
-addEventListener('resize', layout);
-addEventListener('hashchange', () => { const m = /^#s(\d+)$/.exec(location.hash); if (m) go(+m[1] - 1, true); });
-
-safe(drawSpmt); safe(drawBoot);
-slides.forEach(s => s.setAttribute('aria-hidden', 'true'));
-layout();
-setLang(lang);
-if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawAll);
-const m0 = /^#s(\d+)$/.exec(location.hash);
-go(m0 ? +m0[1] - 1 : 0, true);
-layout();
 })();
