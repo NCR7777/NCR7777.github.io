@@ -240,7 +240,7 @@ Deck.start({
   strings: T,
   sections: { intro: ['导读', 'Overview', '개요'], bg: ['背景与前提', 'Background', '배경과 전제'], q: ['问题与论断', 'Question and claims', '질문과 논제'],
     model: ['模型与理论', 'Model and theory', '모형과 이론'], plan: ['架构与方法', 'Plan and methods', '구성과 방법'], res: ['立旗实验', 'Flag experiment', '깃발 실험'],
-    data: ['数据', 'Data', '데이터'], status: ['进度与计划', 'Progress and plan', '진행과 계획'], end: ['讨论', 'Discussion', '논의'], ref: ['参考文献', 'References', '참고문헌'] },
+    data: ['数据', 'Data', '데이터'], status: ['进度与计划', 'Progress and plan', '진행과 계획'], end: ['已有工作', 'Earlier work', '기존 연구'], ref: ['参考文献', 'References', '참고문헌'] },
   draw: [drawConcept, drawFlag, drawMarg, drawRho, fillTables],
   init,
 });

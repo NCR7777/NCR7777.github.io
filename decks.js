@@ -21,7 +21,7 @@ window.DECKS = [
     sub: ['几百吨的分段，用一台大车运，还是几台小车拼着运？同等服务水平下配车，并用招标价格计价。',
       'Carry a heavy hull block on one big transporter, or on several small ones coupled together? Fleets sized at equal service and priced from tender awards.',
       '수백 톤의 블록을 대형 한 대로 옮길까, 소형 여러 대를 결합해 옮길까? 같은 서비스 수준에서 차량군을 산정하고 낙찰가로 비용 계산.'],
-    note: ['已投 Ocean Engineering', 'Submitted to Ocean Engineering', 'Ocean Engineering 투고'],
+    note: ['目标期刊：Ocean Engineering', 'Target journal: Ocean Engineering', '목표 학술지: Ocean Engineering'],
   },
   {
     id: 'ch3', status: 'planned',

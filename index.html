@@ -10,7 +10,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="shared/deck.css">
 <style>
-html,body{height:auto;overflow:auto!important}
+/* the portal scrolls like a normal page: undo the deck shell's fixed, non-scrolling viewport (overscroll-behavior:none on a
+   body that is its own scroll container swallowed the mouse wheel) */
+html,body{height:auto;overflow:visible!important;overscroll-behavior:auto!important}
 .portal{max-width:1180px;margin:0 auto;padding:44px 16px 56px}
 .hero{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;padding-bottom:28px;border-bottom:1px solid var(--line)}
 .hero .kick{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);font-weight:600}

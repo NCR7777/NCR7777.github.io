@@ -24,9 +24,6 @@
 .ladder .lc b{font-family:var(--d-en);font-size:36px;color:var(--steel);line-height:1}
 .ladder .lf{background:var(--panel);border-radius:6px;padding:12px 14px;font-size:15.5px;line-height:1.45;color:var(--ink2);display:flex;flex-direction:column;gap:6px;align-items:flex-start}
 .ladder .lf.got{background:var(--good-soft);color:var(--ink)}
-.asks{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:12px}
-.asks li{font-size:18px;line-height:1.55;color:var(--ink2)}
-.asks b{color:var(--ink)}
 .golink{align-self:flex-start;font-size:15px;padding:8px 14px}
 #flagRead .stat .num{font-size:44px}
 #flagRead .stat p{font-size:15px}
