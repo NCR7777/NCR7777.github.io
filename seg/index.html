@@ -1,0 +1,556 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Cross-Site Segmentation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="../shared/lang.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../shared/deck.css">
+<link rel="stylesheet" href="seg.css">
+
+<main id="deck" data-pdf="Cross_Site_Segmentation" data-home="../">
+<div class="brand-src" hidden><b>CROSS-SITE SEGMENTATION</b><span lang="zh">船厂遥感语义分割 · 论文汇报</span><span lang="en">Shipyard remote-sensing segmentation · paper briefing</span><span lang="ko">조선소 원격 탐사 의미 분할 · 논문 보고</span></div>
+
+<!-- 01 cover -->
+<section class="slide cover" data-sec="cover">
+  <div class="left">
+    <div class="kick"><span lang="zh">已发表论文汇报 · Ocean Engineering 2026</span><span lang="en">Published paper · Ocean Engineering 2026</span><span lang="ko">게재 논문 보고 · Ocean Engineering 2026</span></div>
+    <h1 class="d">
+      <span lang="zh">没见过的船厂，<br>也要分得清道路、<br>堆场和厂房</span>
+      <span lang="en">Mapping roads, yards and buildings in shipyards the model has never seen</span>
+      <span lang="ko">처음 보는 조선소에서도<br>도로, 야드, 공장을<br>구분한다</span>
+    </h1>
+    <p class="sub"><span lang="zh">结构引导的跨船厂遥感影像语义分割：边界约束与区域一致性约束只在训练时使用，部署模型不变</span><span lang="en">Structure-guided cross-site segmentation: boundary and region constraints used in training only, deployment model unchanged</span><span lang="ko">구조 유도 조선소 간 의미 분할: 경계·영역 제약은 학습에만 쓰고 배포 모형은 그대로</span></p>
+    <p class="paper">Structure-guided cross-site semantic segmentation of shipyard remote-sensing imagery</p>
+    <div class="meta">
+      <div><b>Chunrui Na</b>, Qing Wang, Jingzheng Yao*, Youngrong Kim*</div>
+      <div><span lang="zh">哈尔滨工程大学 · 南洋理工大学 · 哈尔滨工程大学烟台研究院</span><span lang="en">Harbin Engineering University · Nanyang Technological University · HEU Yantai Research Institute</span><span lang="ko">하얼빈공정대학 · 난양이공대학 · 하얼빈공정대학 옌타이연구원</span></div>
+      <div><i>Ocean Engineering</i> 368 (2026) 128269 · doi:10.1016/j.oceaneng.2026.128269</div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="fill"><img src="assets/fig01.jpg" alt="Shipyard semantic mapping: remote-sensing data, structure-guided SegFormer, improved semantic map, downstream uses"></div>
+    <div class="coverstats">
+      <div><b class="num">0.6793 → 0.6907</b><span lang="zh">mIoU，5 座留出船厂</span><span lang="en">mIoU, five held-out yards</span><span lang="ko">mIoU, 미학습 조선소 5곳</span></div>
+      <div><b class="num">10 / 10</b><span lang="zh">船厂 × 验证分配全部提升</span><span lang="en">site–assignment pairs improve</span><span lang="ko">조선소 × 검증 배정 모두 향상</span></div>
+      <div><b class="num">27.35 M</b><span lang="zh">部署参数不变</span><span lang="en">deployment parameters, unchanged</span><span lang="ko">배포 매개변수 불변</span></div>
+    </div>
+    <div class="stripe"></div>
+  </div>
+  <p class="src" style="position:absolute;left:64px;bottom:14px;margin:0;border:0;padding:0"><span lang="zh">图：论文图 1（影像来源 Google、Airbus）。* 通讯作者。</span><span lang="en">Figure: paper Fig. 1 (imagery Google, Airbus). * Corresponding authors.</span><span lang="ko">그림: 논문 그림 1 (영상 Google, Airbus). * 교신저자.</span></p>
+  <aside class="notes">
+    <p lang="zh">这篇论文已发表在 Ocean Engineering。它回答的是：把船厂遥感影像分成道路、堆场、厂房和背景四类，换到一座训练时没见过的船厂，还能不能分得准、分得干净。我们在 SegFormer-B2 上加了两路只在训练时使用的约束，在五座留出船厂上 mIoU 从 0.6793 提高到 0.6907，而部署的模型和基线完全一样。</p>
+    <p lang="en">This paper is published in Ocean Engineering. It asks whether a model that splits shipyard imagery into roads, yards, buildings and background can still do so accurately and cleanly in a shipyard it never saw in training. We add two training-only constraints to SegFormer-B2; on five held-out yards mIoU rises from 0.6793 to 0.6907, and the deployed model is identical to the baseline.</p>
+    <p lang="ko">이 논문은 Ocean Engineering에 게재되었습니다. 조선소 영상을 도로, 야드, 공장, 배경으로 나누는 모형이 학습 때 보지 못한 조선소에서도 정확하고 깔끔하게 나눌 수 있는지 묻습니다. SegFormer-B2에 학습 때만 쓰는 제약 두 가지를 더해, 미학습 조선소 5곳에서 mIoU가 0.6793에서 0.6907로 올랐고 배포 모형은 기준 모형과 같습니다.</p>
+  </aside>
+</section>
+
+<!-- one minute -->
+<section class="slide" data-sec="intro">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">一分钟看完这篇论文</span><span lang="en">The paper in one minute</span><span lang="ko">1분 요약</span></h2>
+  <div class="content" style="grid-template-rows:auto auto;align-content:center;gap:14px">
+    <div class="cols4">
+      <div class="card sumc"><span class="k">1</span><h3><span lang="zh">问题</span><span lang="en">The task</span><span lang="ko">과제</span></h3>
+        <p><span lang="zh">把船厂影像分成背景、道路、堆场开阔区、生产厂房四类。换一座船厂，布局和外观都变，类别交界变模糊、大区域内部变破碎。</span><span lang="en">Split shipyard imagery into background, road, yard open area and production building. In another yard, layout and appearance change: class transitions blur and large regions fragment.</span><span lang="ko">조선소 영상을 배경, 도로, 야드 개방 구역, 생산 건물로 나눈다. 다른 조선소에서는 배치와 외관이 달라 경계가 흐려지고 큰 영역 내부가 조각난다.</span></p></div>
+      <div class="card sumc"><span class="k">2</span><h3><span lang="zh">做法</span><span lang="en">The method</span><span lang="ko">방법</span></h3>
+        <p><span lang="zh">在 SegFormer-B2 上加两路训练约束：从标签形态学导出的边界约束，和 8 个可学习原型的区域一致性约束。推理时两路都去掉。</span><span lang="en">Two training constraints on SegFormer-B2: a boundary constraint derived from the label morphology, and region consistency through eight learnable prototypes. Both are removed at inference.</span><span lang="ko">SegFormer-B2에 학습 제약 두 가지: 레이블 형태학에서 만든 경계 제약, 학습 가능한 원형 8개의 영역 일관성 제약. 추론 때는 둘 다 제거.</span></p></div>
+      <div class="card sumc"><span class="k">3</span><h3><span lang="zh">结果</span><span lang="en">The results</span><span lang="ko">결과</span></h3>
+        <p><span lang="zh">5 座留出船厂 × 3 个种子：mIoU 0.6793 → <b>0.6907</b>，边界 F1 0.7190 → 0.7393，碎片率 0.0775 → 0.0631。两种验证分配下 10 组比较全部提升。</span><span lang="en">Five held-out yards × three seeds: mIoU 0.6793 → <b>0.6907</b>, boundary F1 0.7190 → 0.7393, fragmentation 0.0775 → 0.0631. All 10 site–assignment comparisons improve.</span><span lang="ko">미학습 조선소 5곳 × 시드 3개: mIoU 0.6793 → <b>0.6907</b>, 경계 F1 0.7190 → 0.7393, 조각 비율 0.0775 → 0.0631. 10개 비교 모두 향상.</span></p></div>
+      <div class="card sumc"><span class="k">4</span><h3><span lang="zh">代价</span><span lang="en">The cost</span><span lang="ko">비용</span></h3>
+        <p><span lang="zh">部署模型与基线完全相同：27.35 M 参数、92.1 GFLOPs。只多一点训练时间：每轮 32.20 → 34.18 s。</span><span lang="en">The deployed model is the baseline: 27.35 M parameters, 92.1 GFLOPs. Only training takes slightly longer: 32.20 → 34.18 s per epoch.</span><span lang="ko">배포 모형은 기준 모형과 동일: 매개변수 27.35 M, 92.1 GFLOPs. 학습만 조금 늘어남: 에폭당 32.20 → 34.18초.</span></p></div>
+    </div>
+    <p class="quote"><span lang="zh">边界管交界，区域管内部：两者互补，部署零代价。</span><span lang="en">Boundaries fix the transitions, regions fix the interiors: complementary, and free at deployment.</span><span lang="ko">경계는 전이를, 영역은 내부를: 서로 보완하며 배포 비용은 없다.</span></p>
+  </div>
+  <p class="src"><span lang="zh">来源：论文摘要、表 5、表 8、表 10、表 19、表 20。</span><span lang="en">Sources: abstract and Tables 5, 8, 10, 19, 20 of the paper.</span><span lang="ko">출처: 논문 초록, 표 5·8·10·19·20.</span></p>
+  <aside class="notes">
+    <p lang="zh">一分钟版本。任务是把船厂影像分成四类功能区；难点在换一座船厂之后，类别交界变模糊、大区域内部变破碎。做法是在 SegFormer-B2 上加两路只在训练时用的约束，边界约束管交界，区域一致性约束管内部。结果是五座留出船厂上三项重叠指标、边界指标和碎片率都改善，十组比较全部为正；推理时两路都去掉，部署模型零代价。</p>
+    <p lang="en">The one-minute version. The task splits shipyard imagery into four functional classes; the difficulty is that in a new yard class transitions blur and large regions fragment. We add two training-only constraints to SegFormer-B2: a boundary constraint for transitions and a region-consistency constraint for interiors. On five held-out yards, overlap, boundary and fragmentation all improve, with all ten comparisons positive; both branches are removed at inference, so deployment costs nothing.</p>
+    <p lang="ko">1분 요약입니다. 과제는 조선소 영상을 네 가지 기능 구역으로 나누는 것이고, 어려움은 새 조선소에서 경계가 흐려지고 큰 영역이 조각나는 것입니다. SegFormer-B2에 학습 때만 쓰는 제약 두 가지, 전이를 위한 경계 제약과 내부를 위한 영역 일관성 제약을 더했습니다. 미학습 조선소 5곳에서 중첩, 경계, 조각 지표가 모두 개선되었고 10개 비교가 모두 양수입니다. 추론 때는 두 분기를 제거하므로 배포 비용이 없습니다.</p>
+  </aside>
+</section>
+
+<!-- agenda -->
+<section class="slide" data-sec="intro">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">汇报顺序（点击跳转）</span><span lang="en">The order of this briefing (click to jump)</span><span lang="ko">보고 순서 (클릭하면 이동)</span></h2>
+  <div class="content" style="align-content:center">
+    <ol class="agenda a7 a9">
+      <li data-go="bg" tabindex="0"><span class="an">1</span><div><h3><span lang="zh">背景与难点</span><span lang="en">Background and difficulty</span><span lang="ko">배경과 어려움</span></h3><p><span lang="zh">船厂语义地图有什么用；换一座船厂难在哪里</span><span lang="en">What a shipyard semantic map is for; why a new yard is hard</span><span lang="ko">조선소 의미 지도의 쓰임, 새 조선소가 어려운 이유</span></p></div><span class="pg"></span></li>
+      <li data-go="data" tabindex="0"><span class="an">2</span><div><h3><span lang="zh">数据与评测协议</span><span lang="en">Data and protocol</span><span lang="ko">데이터와 평가 절차</span></h3><p><span lang="zh">8 座船厂、988 个影像块；五座轮流留出</span><span lang="en">Eight yards, 988 patches; five held out in turn</span><span lang="ko">조선소 8곳, 패치 988개, 5곳을 차례로 제외</span></p></div><span class="pg"></span></li>
+      <li data-go="method" tabindex="0"><span class="an">3</span><div><h3><span lang="zh">方法</span><span lang="en">Method</span><span lang="ko">방법</span></h3><p><span lang="zh">边界约束与区域一致性约束</span><span lang="en">Boundary and region-consistency constraints</span><span lang="ko">경계 제약과 영역 일관성 제약</span></p></div><span class="pg"></span></li>
+      <li data-go="res" tabindex="0"><span class="an">4</span><div><h3><span lang="zh">主要结果</span><span lang="en">Main results</span><span lang="ko">주요 결과</span></h3><p><span lang="zh">重叠、类别、边界与碎片、逐厂、长训练</span><span lang="en">Overlap, classes, boundaries and fragments, per site, longer training</span><span lang="ko">중첩, 클래스, 경계·조각, 조선소별, 긴 학습</span></p></div><span class="pg"></span></li>
+      <li data-go="eng" tabindex="0"><span class="an">5</span><div><h3><span lang="zh">机理与工程价值</span><span lang="en">Mechanism and engineering value</span><span lang="ko">메커니즘과 공학적 가치</span></h3><p><span lang="zh">原型在学；部署零代价；路网连通</span><span lang="en">Prototypes learn; free deployment; road connectivity</span><span lang="ko">원형 학습, 배포 비용 없음, 도로 연결성</span></p></div><span class="pg"></span></li>
+      <li data-go="qual" tabindex="0"><span class="an">6</span><div><h3><span lang="zh">定性结果</span><span lang="en">Qualitative results</span><span lang="ko">정성 결과</span></h3><p><span lang="zh">五座船厂的对比；局部改进与剩余错误</span><span lang="en">Five yards compared; local gains and residual errors</span><span lang="ko">5개 조선소 비교, 국소 개선과 남은 오류</span></p></div><span class="pg"></span></li>
+      <li data-go="end" tabindex="0"><span class="an">7</span><div><h3><span lang="zh">结论</span><span lang="en">Conclusions</span><span lang="ko">결론</span></h3><p><span lang="zh">贡献与在博士论文中的位置</span><span lang="en">Contributions and place in the thesis</span><span lang="ko">기여와 박사 논문에서의 위치</span></p></div><span class="pg"></span></li>
+    </ol>
+  </div>
+  <aside class="notes">
+    <p lang="zh">汇报分七部分：背景与难点，数据与评测协议，方法，主要结果，机理与工程价值，定性结果，最后是结论。点击任一项可以跳过去。</p>
+    <p lang="en">Seven parts: background and difficulty, data and protocol, method, main results, mechanism and engineering value, qualitative results, and conclusions. Click any item to jump.</p>
+    <p lang="ko">일곱 부분입니다: 배경과 어려움, 데이터와 평가 절차, 방법, 주요 결과, 메커니즘과 공학적 가치, 정성 결과, 결론. 항목을 누르면 이동합니다.</p>
+  </aside>
+</section>
+
+<!-- why a semantic map -->
+<section class="slide" data-sec="bg">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">船厂语义地图：把影像变成数字孪生和运输规划能用的空间底图</span><span lang="en">A shipyard semantic map turns imagery into a spatial layer for digital twins and transport planning</span><span lang="ko">조선소 의미 지도: 영상을 디지털 트윈과 운송 계획의 공간 기반으로</span></h2>
+  <div class="content" style="grid-template-rows:1fr auto;gap:16px;margin-top:16px">
+    <div class="fill"><img src="assets/fig01.jpg" alt="From remote-sensing data through structure-guided SegFormer to an improved semantic map and downstream applications"></div>
+    <div class="cols4 classes">
+      <div class="card" style="--c:var(--good)"><h3><i></i><span lang="zh">道路</span><span lang="en">Road</span><span lang="ko">도로</span></h3><p><span lang="zh">道路、车道、运输通道、车辆可达的码头面</span><span lang="en">Roads, lanes, transport corridors, vehicle-accessible quay surfaces</span><span lang="ko">도로, 차로, 운송 통로, 차량 접근 가능한 안벽</span></p></div>
+      <div class="card" style="--c:var(--oxide)"><h3><i></i><span lang="zh">堆场开阔区</span><span lang="en">Yard open area</span><span lang="ko">야드 개방 구역</span></h3><p><span lang="zh">临时物料区、分段堆场、吊车作业区、船坞陆域作业区</span><span lang="en">Temporary material zones, block storage, crane operating zones, land areas of docks</span><span lang="ko">임시 자재 구역, 블록 적치장, 크레인 작업 구역, 도크 육상 작업 구역</span></p></div>
+      <div class="card" style="--c:var(--steel)"><h3><i></i><span lang="zh">生产厂房</span><span lang="en">Production building</span><span lang="ko">생산 건물</span></h3><p><span lang="zh">车间与仓库等有顶设施</span><span lang="en">Workshops, warehouses and other roofed facilities</span><span lang="ko">공장, 창고 등 지붕이 있는 시설</span></p></div>
+      <div class="card" style="--c:var(--g-empty)"><h3><i></i><span lang="zh">背景</span><span lang="en">Background</span><span lang="ko">배경</span></h3><p><span lang="zh">水面、船舶和目标功能区以外的其余部分</span><span lang="en">Water, vessels and everything outside the target functional zones</span><span lang="ko">수면, 선박, 대상 기능 구역 밖의 나머지</span></p></div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文图 1（影像来源 Google、Airbus）与第 3.2 节类别定义。语义地图可作为路网提取、功能分区、设施定位与空间索引的输入；这些下游模块不在本文范围内。</span><span lang="en">Sources: paper Fig. 1 (imagery Google, Airbus) and the class definitions of §3.2. The map can feed route-network extraction, zoning, facility localisation and spatial indexing; those downstream modules are outside this paper.</span><span lang="ko">출처: 논문 그림 1 (영상 Google, Airbus)과 §3.2 클래스 정의. 의미 지도는 도로망 추출, 구역 구분, 시설 위치 파악, 공간 색인의 입력이 될 수 있으며 이 하위 모듈은 본 논문의 범위 밖이다.</span></p>
+  <aside class="notes">
+    <p lang="zh">为什么要做船厂语义地图？分段运输的路径规划需要路网，数字孪生需要功能分区。我们把影像分成四类：道路、堆场开阔区、生产厂房和背景。这张地图可以作为路网提取、分区、设施定位的输入；本文做的是这一层语义底图本身。</p>
+    <p lang="en">Why a shipyard semantic map? Block-transport routing needs a road network and digital twins need functional zones. We split imagery into four classes: road, yard open area, production building and background. The map can feed route-network extraction, zoning and facility localisation; this paper builds the semantic layer itself.</p>
+    <p lang="ko">왜 조선소 의미 지도가 필요할까요? 블록 운송 경로 계획에는 도로망이, 디지털 트윈에는 기능 구역이 필요합니다. 영상을 도로, 야드 개방 구역, 생산 건물, 배경의 네 클래스로 나눕니다. 이 지도는 도로망 추출, 구역 구분, 시설 위치 파악의 입력이 될 수 있으며, 본 논문은 그 의미 계층 자체를 만듭니다.</p>
+  </aside>
+</section>
+
+<!-- why a new yard is hard -->
+<section class="slide" data-sec="bg">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">难点：换一座船厂，布局、设施、道路和外观都变了</span><span lang="en">The difficulty: in another yard, layout, facilities, roads and appearance all change</span><span lang="ko">어려움: 다른 조선소에서는 배치, 시설, 도로, 외관이 모두 바뀐다</span></h2>
+  <div class="content g-r" style="gap:26px;margin-top:14px">
+    <div class="col" style="justify-content:center;gap:14px">
+      <div class="card prob"><b>1</b><div><h3><span lang="zh">场景级分布偏移</span><span lang="en">Scene-level distribution shift</span><span lang="ko">장면 수준 분포 이동</span></h3><p><span lang="zh">建筑密度、道路几何、堆场纹理和整体组织因厂而异</span><span lang="en">Building density, road geometry, yard texture and organisation differ from yard to yard</span><span lang="ko">건물 밀도, 도로 기하, 야드 질감, 전체 구성이 조선소마다 다르다</span></p></div></div>
+      <div class="card prob"><b>2</b><div><h3><span lang="zh">相邻功能区的交界模糊</span><span lang="en">Weak boundaries between functional regions</span><span lang="ko">인접 기능 구역의 약한 경계</span></h3><p><span lang="zh">道路与堆场、厂房边缘最容易错</span><span lang="en">Road–yard and building edges are where errors concentrate</span><span lang="ko">도로–야드, 건물 가장자리에서 오류가 몰린다</span></p></div></div>
+      <div class="card prob"><b>3</b><div><h3><span lang="zh">大区域内部破碎</span><span lang="en">Fragmented interiors</span><span lang="ko">큰 영역 내부의 조각남</span></h3><p><span lang="zh">均匀的堆场或屋顶被预测成零碎的小块</span><span lang="en">Uniform yards and roofs are predicted as scattered small pieces</span><span lang="ko">균일한 야드나 지붕이 작은 조각들로 예측된다</span></p></div></div>
+      <p class="quote sm"><span lang="zh">目标船厂的影像不参与任何训练或适应：这是域泛化，不是域适应。</span><span lang="en">No image of the target yard is used for training or adaptation: this is domain generalisation, not adaptation.</span><span lang="ko">대상 조선소 영상은 학습이나 적응에 전혀 쓰지 않는다: 도메인 적응이 아닌 도메인 일반화.</span></p>
+    </div>
+    <div class="fill"><img src="assets/fig02.jpg" alt="Five held-out test shipyards and image patches with semantic annotations"></div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文图 2（(a) 五座留出测试船厂；(b) Google Earth Pro 影像块与作者标注；影像来源 Google、Airbus）、图 4 与第 2.3 节。</span><span lang="en">Sources: paper Fig. 2 ((a) the five held-out test yards; (b) Google Earth Pro patches with the authors' labels; imagery Google, Airbus), Fig. 4 and §2.3.</span><span lang="ko">출처: 논문 그림 2 ((a) 미학습 시험 조선소 5곳, (b) Google Earth Pro 패치와 저자 레이블, 영상 Google, Airbus), 그림 4, §2.3.</span></p>
+  <aside class="notes">
+    <p lang="zh">难点在跨厂。右图上面一行是五座测试船厂的原图，下面是带标注的影像块：厂房密度、道路形态、堆场纹理差别很大。换厂之后有三类结构性问题：分布偏移，相邻功能区交界模糊，大区域内部预测破碎。我们不用目标船厂的任何影像训练，这是域泛化。</p>
+    <p lang="en">The difficulty is crossing yards. On the right, the top row shows the five test yards and below are labelled patches: building density, road shapes and yard textures differ widely. A new yard brings three structural problems: distribution shift, blurred transitions between functional regions, and fragmented interiors. No target-yard image is used for training: this is domain generalisation.</p>
+    <p lang="ko">어려움은 조선소 간 전이입니다. 오른쪽 위는 시험 조선소 5곳, 아래는 레이블이 있는 패치로, 건물 밀도, 도로 형태, 야드 질감이 크게 다릅니다. 새 조선소에서는 분포 이동, 기능 구역 간 경계 흐림, 내부 조각남의 세 가지 구조적 문제가 생깁니다. 대상 조선소 영상은 학습에 쓰지 않으며, 이는 도메인 일반화입니다.</p>
+  </aside>
+</section>
+
+<!-- dataset -->
+<section class="slide" data-sec="data">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">数据集：8 座船厂、988 个影像块、约 23.3 km²，四类像素大致均衡</span><span lang="en">Dataset: eight yards, 988 patches, about 23.3 km², four roughly balanced classes</span><span lang="ko">데이터셋: 조선소 8곳, 패치 988개, 약 23.3 km², 대체로 균형 잡힌 네 클래스</span></h2>
+  <div class="content g-l" style="gap:26px;margin-top:14px">
+    <div class="col" style="gap:8px">
+      <div class="fill chart" id="cYards"></div>
+      <div class="legend" id="lgYards"></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:12px">
+      <div class="chart" id="cClass"></div>
+      <div class="stat"><span class="num">247 → 988</span><p><span lang="zh">1024 × 1024 原图切成四块 512 × 512；约 0.30 m/像素；2025 年由 Google Earth Pro 导出</span><span lang="en">1024 × 1024 source images cut into four 512 × 512 quadrants; about 0.30 m/pixel; exported from Google Earth Pro in 2025</span><span lang="ko">1024 × 1024 원본을 512 × 512 네 조각으로, 약 0.30 m/픽셀, 2025년 Google Earth Pro에서 추출</span></p></div>
+      <div class="stat"><span class="num">0.921 <small>mIoU</small> · 0.887 <small>BF1</small></span><p><span lang="zh">三人独立标注、复核与仲裁；质控子集 99 块（10.02%）上标注者两两一致性</span><span lang="en">Three independent annotators with review and adjudication; pairwise agreement on a 99-patch QC subset (10.02%)</span><span lang="ko">세 명이 독립 표시 후 검토·판정, 99개 품질 관리 부분집합 (10.02%)의 표시자 간 일치도</span></p></div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文表 1、表 2 与第 3.2 节；面积为采样影像面积之和，不是船厂边界内的地理面积。</span><span lang="en">Sources: paper Tables 1 and 2 and §3.2; areas are summed sampled-image areas, not the geographic area inside yard boundaries.</span><span lang="ko">출처: 논문 표 1·2, §3.2. 면적은 표본 영상 면적의 합이며 조선소 경계 내 지리 면적이 아니다.</span></p>
+  <aside class="notes">
+    <p lang="zh">数据集覆盖中韩两国 8 座船厂，247 张 1024 像素的原图切成 988 个影像块，分辨率约 0.30 米，合计约 23 平方公里。其中五座船厂样本足够，作为轮流留出的测试厂，另外三座只参与训练。四类像素比例大致均衡。标注由三人独立完成后复核仲裁，质控子集上两两一致性 mIoU 0.921。</p>
+    <p lang="en">The dataset covers eight yards in China and Korea: 247 source images of 1024 pixels cut into 988 patches at about 0.30 m, about 23 km² in all. Five yards have enough samples to serve as held-out test sites in turn; the other three contribute training images only. The four classes are roughly balanced. Three annotators labelled independently before review and adjudication, with pairwise mIoU of 0.921 on the QC subset.</p>
+    <p lang="ko">데이터셋은 한중 조선소 8곳으로, 1024픽셀 원본 247장을 패치 988개로 나눴고 해상도 약 0.30 m, 합계 약 23 km²입니다. 표본이 충분한 5곳은 차례로 시험 조선소가 되고 나머지 3곳은 학습에만 쓰입니다. 네 클래스의 픽셀 비율은 대체로 균형입니다. 세 명이 독립 표시 후 검토·판정했고 품질 관리 부분집합의 표시자 간 mIoU는 0.921입니다.</p>
+  </aside>
+</section>
+
+<!-- protocol -->
+<section class="slide" data-sec="data">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">评测协议：五座船厂轮流留出测试，验证厂也换两种分配</span><span lang="en">Protocol: five yards held out in turn, with two validation-yard assignments</span><span lang="ko">평가 절차: 5개 조선소를 차례로 제외하고, 검증 조선소도 두 가지로 배정</span></h2>
+  <div class="content g2" style="gap:26px;margin-top:14px">
+    <div class="col" style="justify-content:center">
+      <div class="tblwrap"><table class="tbl" id="splitTbl"></table></div>
+      <p class="small"><span lang="zh">上表为主比较所用的分配 B。每折一座测试厂、一座验证厂，其余六座训练。</span><span lang="en">The table shows assignment B, used for the main comparison: one test yard, one validation yard and six training yards per fold.</span><span lang="ko">표는 주 비교에 쓰는 배정 B: 폴드마다 시험 1곳, 검증 1곳, 학습 6곳.</span></p>
+    </div>
+    <div class="col compact" style="justify-content:center">
+      <ul class="clean">
+        <li><span lang="zh"><b>留一船厂（LOSO）</b>：五座样本充足的船厂轮流作测试厂；目标船厂的影像不参与训练或适应</span><span lang="en"><b>Leave one shipyard out</b>: each of five well-sampled yards is the test yard in turn; no target-yard image is used for training or adaptation</span><span lang="ko"><b>조선소 하나 제외 (LOSO)</b>: 표본이 충분한 5곳이 차례로 시험 조선소, 대상 조선소 영상은 학습·적응에 쓰지 않음</span></li>
+        <li><span lang="zh"><b>两种验证分配 A、B</b>：训练前写定，各成一个五元循环；每座测试厂在 A、B 中的验证伙伴不同</span><span lang="en"><b>Two validation assignments, A and B</b>: fixed before training, each a five-cycle; every test yard has a different validation partner in A and B</span><span lang="ko"><b>두 가지 검증 배정 A, B</b>: 학습 전에 고정, 각각 5주기, 시험 조선소마다 A와 B의 검증 짝이 다르다</span></li>
+        <li><span lang="zh"><b>3 个随机种子</b>（3407、5519、7823）→ 每种方法、每种分配 15 次运行；按验证集 mIoU 选模型</span><span lang="en"><b>Three seeds</b> (3407, 5519, 7823) → 15 runs per method and assignment; checkpoints chosen by validation mIoU</span><span lang="ko"><b>시드 3개</b> (3407, 5519, 7823) → 방법·배정마다 15회 실행, 검증 mIoU로 체크포인트 선택</span></li>
+        <li><span lang="zh"><b>两个训练预算</b>：30 轮的受控比较（同骨干的消融），120 轮的外部方法比较</span><span lang="en"><b>Two budgets</b>: a controlled 30-epoch comparison (same-backbone ablation) and a 120-epoch external comparison</span><span lang="ko"><b>두 가지 학습 예산</b>: 30에폭 통제 비교 (같은 백본의 절제), 120에폭 외부 방법 비교</span></li>
+      </ul>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文表 3、表 4 与第 3.3、5.1 节。</span><span lang="en">Sources: paper Tables 3 and 4, §3.3 and §5.1.</span><span lang="ko">출처: 논문 표 3·4, §3.3·§5.1.</span></p>
+  <aside class="notes">
+    <p lang="zh">评测采用留一船厂：五座样本充足的船厂轮流作测试厂，每折一座测试厂、一座验证厂、其余训练。为了看验证厂的选择有没有影响，事先写定了两种验证分配。每种设置跑三个种子，所以每种方法每种分配有 15 次运行。受控比较用 30 轮，外部方法另做 120 轮比较。</p>
+    <p lang="en">Evaluation leaves one shipyard out: each of five well-sampled yards is the test yard in turn, with one validation yard and the rest for training. Two validation assignments were fixed in advance to see whether the choice of validation yard matters. Each setting runs three seeds, giving 15 runs per method and assignment. The controlled comparison uses 30 epochs; external methods are also compared at 120.</p>
+    <p lang="ko">평가는 조선소 하나 제외 방식입니다. 표본이 충분한 5곳이 차례로 시험 조선소가 되고, 검증 1곳, 나머지는 학습입니다. 검증 조선소 선택의 영향을 보려고 두 가지 배정을 미리 정했습니다. 설정마다 시드 3개로, 방법·배정마다 15회 실행입니다. 통제 비교는 30에폭, 외부 방법은 120에폭으로도 비교했습니다.</p>
+  </aside>
+</section>
+
+<!-- concept -->
+<section class="slide" data-sec="method">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">思路：边界约束管类别交界，区域一致性约束管大区域内部</span><span lang="en">The idea: a boundary constraint for transitions, a region-consistency constraint for interiors</span><span lang="ko">아이디어: 경계 제약은 전이를, 영역 일관성 제약은 내부를</span></h2>
+  <div class="content" style="margin-top:12px">
+    <div class="fill"><img src="assets/fig04.jpg" alt="Structural problems in unseen shipyards, complementary structural mechanisms, intended map improvements"></div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文图 4。左：未见船厂的结构性问题；中：互补的两路结构监督（边界：边缘检测头 + BCE；区域：原型头 + KL 一致性）；右：期望的地图改进。</span><span lang="en">Source: paper Fig. 4. Left: structural problems in unseen yards; centre: two complementary supervisions (boundary: edge head + BCE; region: prototype head + KL consistency); right: intended map improvements.</span><span lang="ko">출처: 논문 그림 4. 왼쪽: 미학습 조선소의 구조적 문제, 가운데: 상보적 구조 감독 두 가지 (경계: 에지 헤드 + BCE, 영역: 원형 헤드 + KL 일관성), 오른쪽: 기대하는 지도 개선.</span></p>
+  <aside class="notes">
+    <p lang="zh">思路一张图。左边是未见船厂里的三类结构问题；中间是两路互补的监督：边界约束针对交界，区域一致性约束针对大区域内部，都接在 SegFormer 的解码特征上；右边是期望的改进：厂房与道路分得更清，道路更连续，堆场内部更平滑。</p>
+    <p lang="en">The idea in one figure. On the left, the three structural problems in unseen yards; in the centre, two complementary supervisions on SegFormer's decoder features, the boundary constraint for transitions and region consistency for interiors; on the right, the intended improvements: cleaner building–road separation, more continuous roads, smoother yard interiors.</p>
+    <p lang="ko">아이디어를 한 그림으로. 왼쪽은 미학습 조선소의 세 가지 구조 문제, 가운데는 SegFormer 디코더 특징 위의 상보적 감독 두 가지로 경계 제약은 전이를, 영역 일관성은 내부를 맡습니다. 오른쪽은 기대 개선: 건물–도로 분리, 더 연속된 도로, 더 매끄러운 야드 내부.</p>
+  </aside>
+</section>
+
+<!-- architecture -->
+<section class="slide" data-sec="method">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">结构：两路辅助分支只在训练时存在，推理时整体移除</span><span lang="en">Architecture: both auxiliary branches exist only in training and are removed for inference</span><span lang="ko">구조: 보조 분기 두 개는 학습에만 있고 추론 때 모두 제거</span></h2>
+  <div class="content" style="grid-template-rows:1fr auto;gap:12px;margin-top:12px">
+    <div class="fill"><img src="assets/fig06.jpg" alt="SegFormer-B2 encoder, fusion decoder, segmentation head, boundary constraint and region consistency branches"></div>
+    <div class="g2" style="display:grid;gap:14px;align-items:center">
+      <div class="eq">ℒ = ℒ<sub>ce</sub> + λ<sub>dice</sub> ℒ<sub>dice</sub> + λ<sub>b</sub> ℒ<sub>boundary</sub> + λ<sub>r</sub> ℒ<sub>region</sub> &nbsp;·&nbsp; λ<sub>dice</sub> = 1.0, λ<sub>b</sub> = 0.5, λ<sub>r</sub> = 0.1</div>
+      <p class="small" style="margin:0"><span lang="zh">三路共享融合解码特征 F<sub>fuse</sub>：分割头（CE + Dice）、边界头（BCE）、区域一致性分支（KL）。部署图仍是 SegFormer-B2。</span><span lang="en">Three branches share the fused decoder features F<sub>fuse</sub>: segmentation head (CE + Dice), boundary head (BCE), region-consistency branch (KL). The deployment graph remains SegFormer-B2.</span><span lang="ko">세 분기가 융합 디코더 특징 F<sub>fuse</sub>를 공유: 분할 헤드 (CE + Dice), 경계 헤드 (BCE), 영역 일관성 분기 (KL). 배포 그래프는 SegFormer-B2 그대로.</span></p>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文图 6（输入影像来源 Google、Airbus）、式 (18) 与表 4。</span><span lang="en">Sources: paper Fig. 6 (input imagery Google, Airbus), Eq. (18) and Table 4.</span><span lang="ko">출처: 논문 그림 6 (입력 영상 Google, Airbus), 식 (18), 표 4.</span></p>
+  <aside class="notes">
+    <p lang="zh">结构上，SegFormer-B2 编码器的四级特征经投影、对齐后融合；融合特征同时送进三路：分割头用交叉熵加 Dice 监督，边界头用二值交叉熵，区域一致性分支用 KL 散度。总目标是四项加权和。关键是右边两路只在训练时存在，推理时去掉，所以部署的就是原来的 SegFormer-B2。</p>
+    <p lang="en">The SegFormer-B2 encoder's four stages are projected, aligned and fused; the fused features feed three branches: the segmentation head under cross-entropy and Dice, the boundary head under binary cross-entropy, and the region-consistency branch under KL divergence. The objective is a weighted sum of the four terms. The two right-hand branches exist only in training, so the deployed model is plain SegFormer-B2.</p>
+    <p lang="ko">SegFormer-B2 인코더의 네 단계 특징을 투영·정렬해 융합하고, 융합 특징이 세 분기로 갑니다: 교차 엔트로피와 Dice의 분할 헤드, 이진 교차 엔트로피의 경계 헤드, KL 발산의 영역 일관성 분기. 목적함수는 네 항의 가중합입니다. 오른쪽 두 분기는 학습에만 있으므로 배포 모형은 원래 SegFormer-B2입니다.</p>
+  </aside>
+</section>
+
+<!-- the two constraints -->
+<section class="slide" data-sec="method">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">两个约束怎样构造：不需要额外标注，也不改变推理</span><span lang="en">How the two constraints are built: no extra labels, no change at inference</span><span lang="ko">두 제약의 구성: 추가 레이블 없이, 추론 변경 없이</span></h2>
+  <div class="content g2" style="gap:24px;margin-top:12px">
+    <div class="col compact" style="gap:10px">
+      <div class="card" style="border-top:4px solid var(--amber-hi)"><h3><span lang="zh">边界约束：管交界</span><span lang="en">Boundary constraint: transitions</span><span lang="ko">경계 제약: 전이</span></h3>
+        <div class="eq" style="font-size:14px">B = max<sub>c</sub> clip(Dilate(M<sub>c</sub>) − Erode(M<sub>c</sub>), 0, 1) &nbsp; (3 × 3)</div>
+        <ul class="clean">
+          <li><span lang="zh">由语义标签的形态学梯度直接得到边界目标，不需要专门的边界标注；理想直线交界形成约 2 像素（0.6 m）的带</span><span lang="en">Boundary targets come straight from the label's morphological gradient, with no dedicated boundary labels; an ideal straight transition gives a band of about two pixels (0.6 m)</span><span lang="ko">경계 목표는 레이블의 형태학적 기울기에서 바로 얻어 별도 경계 레이블이 없고, 이상적인 직선 전이는 약 2픽셀 (0.6 m) 띠가 된다</span></li>
+          <li><span lang="zh">轻量边界头（3 × 3 卷积 256→128、BN、ReLU、1 × 1 卷积），BCE 监督</span><span lang="en">A light boundary head (3 × 3 conv 256→128, BN, ReLU, 1 × 1 conv) under BCE</span><span lang="ko">가벼운 경계 헤드 (3 × 3 합성곱 256→128, BN, ReLU, 1 × 1 합성곱), BCE 감독</span></li>
+        </ul>
+        <div class="figstrip"><img src="assets/fig05.jpg" alt="Examples of morphology-derived boundary targets"></div>
+      </div>
+    </div>
+    <div class="col compact" style="gap:10px">
+      <div class="card" style="border-top:4px solid var(--steel)"><h3><span lang="zh">区域一致性约束：管内部</span><span lang="en">Region consistency: interiors</span><span lang="ko">영역 일관성 제약: 내부</span></h3>
+        <div class="eq" style="font-size:14px">q̃<sub>i</sub> = Σ<sub>r</sub> a<sub>i,r</sub> softmax(z<sub>r</sub>) &nbsp;·&nbsp; ℒ<sub>region</sub> = KL(p<sub>i</sub> ‖ q̃<sub>i</sub>)</div>
+        <ul class="clean">
+          <li><span lang="zh"><b>8 个可学习区域原型</b>（8 × 256）；像素特征与原型的余弦相似度（温度 τ = 0.07）给出软分配 a</span><span lang="en"><b>Eight learnable region prototypes</b> (8 × 256); cosine similarity of pixel features to prototypes (temperature τ = 0.07) gives soft assignments a</span><span lang="ko"><b>학습 가능한 영역 원형 8개</b> (8 × 256), 픽셀 특징과 원형의 코사인 유사도 (온도 τ = 0.07)로 소프트 배정 a</span></li>
+          <li><span lang="zh">按分配聚合区域特征 → 区域分类 → 投回每个像素，得到区域级语义分布 q̃</span><span lang="en">Region features aggregated by assignment → region classifier → projected back to each pixel as the region-level distribution q̃</span><span lang="ko">배정에 따라 영역 특징 집계 → 영역 분류 → 각 픽셀로 투영해 영역 수준 분포 q̃</span></li>
+          <li><span lang="zh">让像素预测 p 与区域分布 q̃ 一致（KL），两边都更新：同一区域内的预测不再零碎</span><span lang="en">Pixel predictions p are pulled towards q̃ (KL), updating both sides, so predictions within a region stop fragmenting</span><span lang="ko">픽셀 예측 p를 q̃에 맞추고 (KL) 양쪽을 갱신해 한 영역 안의 예측이 조각나지 않게</span></li>
+          <li><span lang="zh"><b>对照</b>：原型随机初始化后冻结（固定随机），只检验“原型可学习”这一项</span><span lang="en"><b>Control</b>: prototypes sampled and then frozen (fixed-random), isolating prototype trainability</span><span lang="ko"><b>대조</b>: 원형을 무작위로 뽑아 고정 (fixed-random)해 원형 학습 가능성만 검증</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文第 4.2–4.3 节、式 (8)–(17)、图 5（影像来源 Google、Airbus）。</span><span lang="en">Sources: paper §4.2–4.3, Eqs. (8)–(17), Fig. 5 (imagery Google, Airbus).</span><span lang="ko">출처: 논문 §4.2–4.3, 식 (8)–(17), 그림 5 (영상 Google, Airbus).</span></p>
+  <aside class="notes">
+    <p lang="zh">边界约束：对每一类的二值掩膜做一次膨胀和一次腐蚀，差值就是这一类的边缘，所有类取并集就是边界目标，不需要额外标注；再用一个轻量边界头以二值交叉熵监督。区域一致性：8 个可学习原型，像素按余弦相似度软分配到原型，聚合出区域特征后分类，再投回像素得到区域级分布，用 KL 让像素预测与区域分布一致。另设一个固定随机原型的对照，专门检验原型可学习的作用。</p>
+    <p lang="en">The boundary constraint dilates and erodes each class mask once; the difference is that class's edge, and the union over classes is the target, so no extra labels are needed; a light head learns it under binary cross-entropy. Region consistency uses eight learnable prototypes: pixels are soft-assigned by cosine similarity, region features are aggregated and classified, then projected back as a region-level distribution, and KL pulls pixel predictions towards it. A fixed-random control isolates the effect of learning the prototypes.</p>
+    <p lang="ko">경계 제약은 클래스 마스크마다 한 번 팽창·침식하고 그 차이를 에지로, 모든 클래스의 합집합을 목표로 삼아 추가 레이블이 필요 없으며, 가벼운 헤드가 이진 교차 엔트로피로 학습합니다. 영역 일관성은 학습 가능한 원형 8개를 쓰며, 픽셀을 코사인 유사도로 소프트 배정하고 영역 특징을 집계·분류한 뒤 픽셀로 투영해 영역 분포를 만들고 KL로 픽셀 예측을 맞춥니다. 고정 무작위 대조로 원형 학습의 효과만 따로 봅니다.</p>
+  </aside>
+</section>
+
+<!-- main comparison -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">主比较：联合模型三项重叠指标都最高，两路单独也各有提升</span><span lang="en">Main comparison: the joint model leads on all three overlap metrics; each branch alone also helps</span><span lang="ko">주 비교: 결합 모형이 세 중첩 지표 모두 최고, 각 분기 단독도 향상</span></h2>
+  <div class="content g-l" style="gap:24px;margin-top:12px">
+    <div class="col" style="gap:8px">
+      <div class="ctlrow"><div class="seg" id="mainMet" role="group" aria-label="Metric"><button type="button" data-v="0">mIoU</button><button type="button" data-v="1">fg_mIoU</button><button type="button" data-v="2">mDice</button></div></div>
+      <div class="fill chart" id="cMain"></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:4px" id="mainRead"></div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文表 5（分配 B，30 轮，每种方法 15 次运行，均值 ± 样本标准差；标准差含船厂与种子两种变异）与表 6（分配 A）。外部方法与受控变体共用折、种子、增强与选模规则。</span><span lang="en">Sources: paper Table 5 (assignment B, 30 epochs, 15 runs per method, mean ± sample SD; the SD mixes site and seed variation) and Table 6 (assignment A). External methods and controlled variants share folds, seeds, augmentation and checkpoint selection.</span><span lang="ko">출처: 논문 표 5 (배정 B, 30에폭, 방법당 15회, 평균 ± 표본 표준편차, 표준편차에는 조선소·시드 변동이 섞임)와 표 6 (배정 A). 외부 방법과 통제 변형은 폴드, 시드, 증강, 선택 규칙을 공유.</span></p>
+  <aside class="notes">
+    <p lang="zh">主比较。九种方法：四种外部方法、SegFormer-B2 基线、只加边界、只加区域、固定随机原型的联合模型，以及我们的联合模型。联合模型三项指标都最高：mIoU 0.6907，比基线高 0.0114。只加边界、只加区域也各自提高，联合最大；在分配 A 下同样排第一。固定随机原型的联合模型反而略低于基线，说明原型要能学才有用。</p>
+    <p lang="en">The main comparison has nine methods: four external ones, the SegFormer-B2 baseline, boundary-only, region-only, a joint model with fixed random prototypes, and our joint model. The joint model leads on all three metrics, with mIoU 0.6907, 0.0114 above the baseline. Boundary-only and region-only each help, the joint model most, and it also ranks first under assignment A. The fixed-random joint model falls slightly below the baseline: the prototypes help only when they can learn.</p>
+    <p lang="ko">주 비교는 9개 방법입니다: 외부 방법 4개, SegFormer-B2 기준, 경계만, 영역만, 고정 무작위 원형 결합 모형, 그리고 제안 결합 모형. 결합 모형이 세 지표 모두 최고로 mIoU 0.6907, 기준보다 0.0114 높습니다. 경계만, 영역만도 각각 향상하고 결합이 가장 크며, 배정 A에서도 1위입니다. 고정 무작위 결합은 기준보다 약간 낮아, 원형은 학습할 수 있어야 도움이 됩니다.</p>
+  </aside>
+</section>
+
+<!-- class-wise -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">四个类别都最高，提升最大的是厂房和道路</span><span lang="en">Highest IoU in all four classes, with the largest margins for buildings and roads</span><span lang="ko">네 클래스 모두 최고, 차이가 가장 큰 것은 건물과 도로</span></h2>
+  <div class="content" style="grid-template-rows:1fr auto;gap:12px;margin-top:14px">
+    <div class="tblwrap"><table class="tbl heat" id="classTbl"></table></div>
+    <p class="small"><span lang="zh">相对第二名的领先：厂房 +0.0096、道路 +0.0075、堆场 +0.0008、背景 +0.0005。颜色越深表示该列中越高。</span><span lang="en">Margins over the next-best method: building +0.0096, road +0.0075, yard +0.0008, background +0.0005. Darker cells are higher within their column.</span><span lang="ko">2위 대비 차이: 건물 +0.0096, 도로 +0.0075, 야드 +0.0008, 배경 +0.0005. 색이 진할수록 열 안에서 높다.</span></p>
+  </div>
+  <p class="src"><span lang="zh">来源：论文表 7（分配 B 的 15 次运行，九种方法的类别 IoU 与汇总 IoU）。</span><span lang="en">Source: paper Table 7 (class-wise and aggregate IoU over the 15 assignment-B runs, nine methods).</span><span lang="ko">출처: 논문 표 7 (배정 B 15회 실행, 9개 방법의 클래스별·전체 IoU).</span></p>
+  <aside class="notes">
+    <p lang="zh">按类别看，联合模型在背景、厂房、道路、堆场四类上都最高。领先最多的是厂房和道路，这正是交界最多、对运输最关键的两类。</p>
+    <p lang="en">By class, the joint model is highest for background, building, road and yard. The largest margins are for buildings and roads, the two classes with the most transitions and the most relevance to transport.</p>
+    <p lang="ko">클래스별로 결합 모형이 배경, 건물, 도로, 야드 모두 최고입니다. 차이가 가장 큰 것은 건물과 도로로, 전이가 가장 많고 운송에 가장 중요한 두 클래스입니다.</p>
+  </aside>
+</section>
+
+<!-- structural quality -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">结构质量：边界更准、碎片更少、区域内部错误更少，两路互补</span><span lang="en">Structural quality: sharper boundaries, fewer fragments, fewer interior errors; the two branches complement each other</span><span lang="ko">구조 품질: 더 정확한 경계, 더 적은 조각, 더 적은 내부 오류, 두 분기의 상보성</span></h2>
+  <div class="content g-l" style="gap:24px;margin-top:12px">
+    <div class="col" style="gap:8px">
+      <div class="fill chart" id="cStruct"></div>
+      <div class="legend" id="lgStruct"></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:4px">
+      <div class="stat"><span class="num">0.7190 → 0.7393</span><p><span lang="zh">边界 F1（1 像素容差）；2、3 像素容差下同样最高</span><span lang="en">Boundary F1 at 1-pixel tolerance; also highest at 2 and 3 pixels</span><span lang="ko">경계 F1 (1픽셀 허용), 2·3픽셀에서도 최고</span></p></div>
+      <div class="stat"><span class="num">−18.6%</span><p><span lang="zh">小连通块占比（碎片率）0.0775 → 0.0631</span><span lang="en">Small-component ratio (fragmentation) 0.0775 → 0.0631</span><span lang="ko">소형 연결 요소 비율 (조각 비율) 0.0775 → 0.0631</span></p></div>
+      <div class="stat"><span class="num">−20.3%</span><p><span lang="zh">区域内部错误率 0.1480 → 0.1180；堆场 0.158 → 0.116</span><span lang="en">Interior error rate 0.1480 → 0.1180; yard 0.158 → 0.116</span><span lang="ko">내부 오류율 0.1480 → 0.1180, 야드 0.158 → 0.116</span></p></div>
+      <p class="small"><span lang="zh">只加边界对边界 F1 帮助更大，只加区域对碎片与内部错误帮助更大：联合模型两者兼得。</span><span lang="en">Boundary-only helps boundary F1 more; region-only helps fragmentation and interior errors more; the joint model gets both.</span><span lang="ko">경계만은 경계 F1에, 영역만은 조각과 내부 오류에 더 도움이 되고, 결합 모형은 둘 다 얻는다.</span></p>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文表 8、表 9（分配 B）。BF1 只比较交界位置；碎片率 = 面积小于 32 像素（2.88 m²）的前景连通块像素占比；内部错误率在 5 × 5 腐蚀后的类别内部计算。</span><span lang="en">Sources: paper Tables 8 and 9 (assignment B). BF1 tests interface position only; fragmentation = share of foreground pixels in components under 32 pixels (2.88 m²); interior error is measured inside classes eroded by 5 × 5.</span><span lang="ko">출처: 논문 표 8·9 (배정 B). BF1은 경계 위치만 비교, 조각 비율 = 32픽셀 (2.88 m²) 미만 전경 연결 요소의 픽셀 비율, 내부 오류율은 5 × 5 침식 후 클래스 내부에서 계산.</span></p>
+  <aside class="notes">
+    <p lang="zh">重叠指标之外，我们直接衡量结构质量。边界 F1 在三种容差下都最高；碎片率降低 18.6%；区域内部错误率降低 20.3%，堆场内部从 15.8% 降到 11.6%。两路分工很清楚：边界分支对边界帮助更大，区域分支对碎片和内部错误帮助更大，联合起来两者兼得。</p>
+    <p lang="en">Beyond overlap, we measure structure directly. Boundary F1 is highest at all three tolerances; fragmentation falls by 18.6%; interior errors fall by 20.3%, from 15.8% to 11.6% inside yards. The division of labour is clear: the boundary branch helps boundaries more, the region branch helps fragments and interiors more, and together they get both.</p>
+    <p lang="ko">중첩 외에 구조 품질을 직접 측정했습니다. 경계 F1은 세 허용치 모두 최고이고, 조각 비율은 18.6%, 내부 오류율은 20.3% 줄었으며 야드 내부는 15.8%에서 11.6%로 내려갔습니다. 역할 분담이 분명합니다: 경계 분기는 경계에, 영역 분기는 조각과 내부에 더 도움이 되며, 함께 쓰면 둘 다 얻습니다.</p>
+  </aside>
+</section>
+
+<!-- per-site robustness -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">逐厂看：每座留出船厂、两种验证分配，提升全部为正</span><span lang="en">Site by site: gains are positive for every held-out yard under both validation assignments</span><span lang="ko">조선소별: 모든 미학습 조선소, 두 검증 배정에서 향상이 모두 양수</span></h2>
+  <div class="content g-l" style="gap:24px;margin-top:12px">
+    <div class="col" style="gap:8px">
+      <div class="ctlrow"><div class="seg" id="gainCmp" role="group" aria-label="Comparator"><button type="button" data-v="base"><span lang="zh">对 SegFormer-B2</span><span lang="en">vs SegFormer-B2</span><span lang="ko">SegFormer-B2 대비</span></button><button type="button" data-v="fixed"><span lang="zh">对固定随机原型</span><span lang="en">vs fixed-random</span><span lang="ko">고정 무작위 대비</span></button></div></div>
+      <div class="fill chart" id="cGain"></div>
+      <div class="legend" id="lgGain"></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:4px" id="gainRead"></div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文表 10–12。每个点是一座测试船厂在一种分配下三个种子的均值增益。船厂级配对：每厂先平均两种分配与三个种子，得 5 个配对差；95% 区间为枚举全部 3125 次有放回重抽样的百分位区间。n = 5 时，全部为正的双侧精确 Wilcoxon 检验 p = 0.0625，这也是 5 对所能取到的最小值。</span><span lang="en">Sources: paper Tables 10–12. Each point is one test yard's three-seed mean gain under one assignment. Site-level pairing averages both assignments and three seeds per yard, giving five paired differences; the 95% interval is a percentile interval over all 3,125 resamples. With n = 5 all positive, the exact two-sided Wilcoxon p = 0.0625, the smallest value five pairs can reach.</span><span lang="ko">출처: 논문 표 10–12. 점마다 한 시험 조선소의 한 배정에서 시드 3개 평균 향상. 조선소 수준 대응은 조선소마다 두 배정·세 시드를 평균해 5개 차이, 95% 구간은 3,125개 재표본 전부의 백분위 구간. n = 5가 모두 양수일 때 양측 정확 Wilcoxon p = 0.0625로, 5쌍이 가질 수 있는 최솟값이다.</span></p>
+  <aside class="notes">
+    <p lang="zh">提升是否只来自某一座船厂？逐厂看，五座测试厂在两种验证分配下的十组比较，三项指标全部为正；对固定随机原型的对照也一样。按船厂做配对，mIoU 平均提升 0.0118，区间不含零，效应量约 2。精确检验 p 等于 0.0625，这是只有 5 座船厂时能取到的最小值。</p>
+    <p lang="en">Does the gain come from one yard? Site by site, all ten site–assignment comparisons are positive on all three metrics, against both the baseline and the fixed-random control. Pairing by site, mIoU rises by 0.0118 on average, with an interval excluding zero and an effect size near 2. The exact test gives p = 0.0625, the smallest value attainable with five yards.</p>
+    <p lang="ko">향상이 한 조선소에서만 오는 걸까요? 조선소별로 보면 5개 시험 조선소 × 두 배정의 10개 비교에서 세 지표 모두 양수이고, 고정 무작위 대조와 비교해도 같습니다. 조선소 단위 대응으로 mIoU는 평균 0.0118 오르며 구간이 0을 포함하지 않고 효과 크기는 약 2입니다. 정확 검정 p = 0.0625는 조선소 5곳으로 얻을 수 있는 최솟값입니다.</p>
+  </aside>
+</section>
+
+<!-- 120 epochs -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">更长训练：120 轮下优势保持，五座船厂都高于基线</span><span lang="en">Longer training: at 120 epochs the advantage holds, above the baseline on all five yards</span><span lang="ko">긴 학습: 120에폭에서도 우위 유지, 다섯 조선소 모두 기준보다 높다</span></h2>
+  <div class="content g-l" style="gap:24px;margin-top:12px">
+    <div class="col" style="gap:8px">
+      <div class="ctlrow"><div class="seg" id="siteEp" role="group" aria-label="Epochs"><button type="button" data-v="120"><span lang="zh">120 轮</span><span lang="en">120 epochs</span><span lang="ko">120에폭</span></button><button type="button" data-v="30"><span lang="zh">30 轮</span><span lang="en">30 epochs</span><span lang="ko">30에폭</span></button></div></div>
+      <div class="fill chart" id="cSite"></div>
+      <div class="legend" id="lgSite"></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:4px" id="siteRead"></div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文表 15、17、18 与第 5.7 节。120 轮各方法采用各自的参考学习率与余弦调度；学习率在 0.5×、1×、2× 三档下，联合模型在每一档三项指标都排第一，且它在全网格中的最低均值高于任一对手的最高均值。</span><span lang="en">Sources: paper Tables 15, 17, 18 and §5.7. At 120 epochs each method uses its own reference learning rate and a cosine schedule; across 0.5×, 1× and 2× learning rates the joint model ranks first in all three metrics at each multiplier, and its lowest mean over the grid exceeds every comparator's highest.</span><span lang="ko">출처: 논문 표 15·17·18, §5.7. 120에폭에서는 방법마다 자체 기준 학습률과 코사인 스케줄, 학습률 0.5×·1×·2× 각각에서 결합 모형이 세 지표 모두 1위이고, 격자 전체 최저 평균이 모든 비교 대상의 최고 평균보다 높다.</span></p>
+  <aside class="notes">
+    <p lang="zh">有人会问：基线是不是训练不够？我们另做了 120 轮的比较，每种方法用各自的参考学习率。联合模型三项指标仍然最高，fg_mIoU 从 0.6655 到 0.7018；逐厂看，五座船厂全部高于基线，增益 0.016 到 0.054。学习率放大缩小一倍，它在每一档都排第一。</p>
+    <p lang="en">One may ask whether the baseline was undertrained. We ran a separate 120-epoch comparison with each method's reference learning rate. The joint model still leads on all three metrics, fg_mIoU 0.6655 → 0.7018; site by site it beats the baseline on all five yards by 0.016 to 0.054. Halving or doubling the learning rate, it ranks first at every setting.</p>
+    <p lang="ko">기준 모형의 학습이 부족했던 건 아닐까요? 방법마다 기준 학습률로 120에폭 비교를 따로 했습니다. 결합 모형이 여전히 세 지표 모두 최고로 fg_mIoU 0.6655 → 0.7018이고, 조선소별로 5곳 모두 기준보다 0.016–0.054 높습니다. 학습률을 절반 또는 두 배로 해도 모든 설정에서 1위입니다.</p>
+  </aside>
+</section>
+
+<!-- prototypes and sensitivity -->
+<section class="slide" data-sec="eng">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">原型确实在学：可学习原型胜过固定随机原型，参数在附近都稳健</span><span lang="en">The prototypes do learn: learnable beats fixed-random, and nearby settings stay robust</span><span lang="ko">원형은 실제로 학습한다: 학습 가능한 원형이 고정 무작위를 앞서고 주변 설정도 견고</span></h2>
+  <div class="content g-l" style="gap:24px;margin-top:12px">
+    <div class="col" style="gap:8px">
+      <div class="fill chart" id="cSens"></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:4px">
+      <div class="stat"><span class="num">+0.0091 <small>mIoU</small></span><p><span lang="zh">对固定随机原型的船厂级平均增益，95% 区间 [0.0062, 0.0113]，5/5 座船厂为正</span><span lang="en">Site-level mean gain over fixed-random prototypes, 95% interval [0.0062, 0.0113], positive on 5/5 yards</span><span lang="ko">고정 무작위 원형 대비 조선소 수준 평균 향상, 95% 구간 [0.0062, 0.0113], 5/5곳 양수</span></p></div>
+      <div class="stat"><span class="num">0.512 → 0.802</span><p><span lang="zh">每个位置最大分配概率：学到的原型分配更集中（归一化熵 0.641 → 0.312）</span><span lang="en">Per-position maximum assignment: learned prototypes assign more decisively (normalised entropy 0.641 → 0.312)</span><span lang="ko">위치별 최대 배정 확률: 학습한 원형은 더 집중적으로 배정 (정규화 엔트로피 0.641 → 0.312)</span></p></div>
+      <div class="stat"><span class="num">7.56–7.95 <small>/ 8</small></span><p><span lang="zh">有效原型数：总体上 8 个原型都被使用，没有坍缩</span><span lang="en">Effective number of prototypes: all eight are used overall, no collapse</span><span lang="ko">유효 원형 수: 전체적으로 8개 모두 사용, 붕괴 없음</span></p></div>
+      <p class="small" style="color:var(--good);font-weight:600"><span lang="zh">左图 11 种单因素配置全部高于 SegFormer-B2 与固定随机原型。</span><span lang="en">All 11 one-factor settings on the left beat both SegFormer-B2 and the fixed-random control.</span><span lang="ko">왼쪽의 단일 요인 설정 11개 모두 SegFormer-B2와 고정 무작위 대조보다 높다.</span></p>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文表 11–14 与第 5.6 节。左图：分配 A 下 11 种单因素配置（每种 15 次运行，共 165 次），参考配置 R = 8、τ = 0.07、λ<sub>b</sub> = 0.5、λ<sub>r</sub> = 0.1 的均值最高。</span><span lang="en">Sources: paper Tables 11–14 and §5.6. Left: 11 one-factor configurations under assignment A (15 runs each, 165 in all); the reference R = 8, τ = 0.07, λ<sub>b</sub> = 0.5, λ<sub>r</sub> = 0.1 has the highest means.</span><span lang="ko">출처: 논문 표 11–14, §5.6. 왼쪽: 배정 A의 단일 요인 설정 11개 (각 15회, 총 165회), 기준 R = 8, τ = 0.07, λ<sub>b</sub> = 0.5, λ<sub>r</sub> = 0.1의 평균이 가장 높다.</span></p>
+  <aside class="notes">
+    <p lang="zh">区域分支的作用来自原型能学。和固定随机原型比，船厂级平均提高 0.0091，五座船厂都为正。诊断显示学到的原型在每个位置的分配更集中，最大分配概率从 0.51 升到 0.80；而总体上 8 个原型都在用，没有坍缩。左图是参数敏感性：原型数、温度、两项损失权重在参考值附近变化，mIoU 的变化都很小。</p>
+    <p lang="en">The region branch works because the prototypes learn. Against fixed random prototypes, the site-level mean gain is 0.0091, positive on all five yards. Diagnostics show learned prototypes assign more decisively at each position, the maximum assignment rising from 0.51 to 0.80, while all eight are used overall with no collapse. On the left, sensitivity: varying the number of prototypes, the temperature and both loss weights around the reference changes mIoU only slightly.</p>
+    <p lang="ko">영역 분기의 효과는 원형이 학습한다는 데서 나옵니다. 고정 무작위 원형과 비교해 조선소 수준 평균 0.0091 향상, 5곳 모두 양수입니다. 진단 결과 학습한 원형은 위치마다 더 집중적으로 배정해 최대 배정 확률이 0.51에서 0.80으로 오르고, 전체적으로 8개 원형을 모두 써 붕괴가 없습니다. 왼쪽은 민감도로, 원형 수, 온도, 두 손실 가중치를 기준 주변에서 바꿔도 mIoU 변화는 작습니다.</p>
+  </aside>
+</section>
+
+<!-- deployment -->
+<section class="slide" data-sec="eng">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">部署零代价：推理时的模型与 SegFormer-B2 完全相同</span><span lang="en">Free at deployment: the inference model is exactly SegFormer-B2</span><span lang="ko">배포 비용 없음: 추론 모형은 SegFormer-B2와 동일</span></h2>
+  <div class="content" style="grid-template-rows:auto 1fr;gap:18px;margin-top:20px">
+    <div class="cols4 kpis">
+      <div class="card"><span class="num">27.35 M</span><p><span lang="zh">部署参数（与基线相同）</span><span lang="en">deployment parameters (same as baseline)</span><span lang="ko">배포 매개변수 (기준과 동일)</span></p></div>
+      <div class="card"><span class="num">92.1 G</span><p><span lang="zh">FLOPs（与基线相同）</span><span lang="en">FLOPs (same as baseline)</span><span lang="ko">FLOPs (기준과 동일)</span></p></div>
+      <div class="card"><span class="num">31.10 ms</span><p><span lang="zh">单张推理延迟；基线 31.14 ms</span><span lang="en">latency per image; baseline 31.14 ms</span><span lang="ko">영상당 추론 지연, 기준 31.14 ms</span></p></div>
+      <div class="card warm"><span class="num">+6.1%</span><p><span lang="zh">训练每轮 32.20 → 34.18 s；辅助参数 364,165 个只在训练中</span><span lang="en">training per epoch 32.20 → 34.18 s; 364,165 auxiliary parameters exist only in training</span><span lang="ko">에폭당 학습 32.20 → 34.18초, 보조 매개변수 364,165개는 학습에만</span></p></div>
+    </div>
+    <div class="chart" id="cCost"></div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文表 19、表 20。延迟测于 NVIDIA GeForce RTX 5070 Ti Laptop GPU、FP16、批大小 1、512 × 512 输入，50 次预热后 300 次计时。</span><span lang="en">Sources: paper Tables 19 and 20. Latency on an NVIDIA GeForce RTX 5070 Ti Laptop GPU, FP16, batch 1, 512 × 512 input, 300 timed iterations after 50 warm-ups.</span><span lang="ko">출처: 논문 표 19·20. 지연은 NVIDIA GeForce RTX 5070 Ti Laptop GPU, FP16, 배치 1, 512 × 512 입력, 50회 예열 후 300회 측정.</span></p>
+  <aside class="notes">
+    <p lang="zh">工程上最实用的一点：两路辅助分支在推理时都去掉，部署的就是 SegFormer-B2，参数 27.35 M、92.1 GFLOPs、延迟约 31 毫秒，和基线一样。代价只在训练：每轮多约 2 秒，增加 6%。</p>
+    <p lang="en">The most practical point: both auxiliary branches are removed at inference, so the deployed model is SegFormer-B2 with 27.35 M parameters, 92.1 GFLOPs and about 31 ms latency, the same as the baseline. The cost is training only: about 2 s more per epoch, or 6%.</p>
+    <p lang="ko">공학적으로 가장 실용적인 점: 두 보조 분기를 추론 때 제거하므로 배포 모형은 SegFormer-B2로 매개변수 27.35 M, 92.1 GFLOPs, 지연 약 31 ms로 기준과 같습니다. 비용은 학습뿐으로 에폭당 약 2초, 6% 늘어납니다.</p>
+  </aside>
+</section>
+
+<!-- road connectivity -->
+<section class="slide" data-sec="eng">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">面向路网提取：局部连通更好，长距离可达仍需拓扑修复</span><span lang="en">Towards road networks: better local connectivity, while long-range reachability still needs topology repair</span><span lang="ko">도로망 추출로: 국소 연결성 개선, 장거리 도달은 여전히 위상 보정 필요</span></h2>
+  <div class="content g-l" style="gap:24px;margin-top:12px">
+    <div class="col" style="gap:8px">
+      <div class="fill chart" id="cGraph"></div>
+      <div class="legend" id="lgGraph"></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:4px">
+      <div class="stat"><span class="num">6.57% → 4.88%</span><p><span lang="zh">局部路径断开的比例（同一连通块内 4.8–19.2 m 的起讫对）</span><span lang="en">Local path failures (origin–destination pairs 4.8–19.2 m apart within one connected road)</span><span lang="ko">국소 경로 단절 비율 (한 연결 도로 안 4.8–19.2 m 떨어진 기종점 쌍)</span></p></div>
+      <div class="stat"><span class="num">0.0733 → 0.0586</span><p><span lang="zh">错误连通：本不相连的道路被连起来的比例</span><span lang="en">False connectivity: separate roads wrongly joined</span><span lang="ko">잘못된 연결: 떨어진 도로가 잘못 이어진 비율</span></p></div>
+      <div class="stat"><span class="num">0.2704</span><p><span lang="zh">长距离端点可达率（≥ 38.4 m）：仍然偏低，用于运输规划前需要拓扑修复与 GIS 矢量化</span><span lang="en">Long-range endpoint reachability (≥ 38.4 m): still low, so transport planning needs topology repair and GIS vectorisation first</span><span lang="ko">장거리 끝점 도달률 (≥ 38.4 m): 여전히 낮아 운송 계획 전에 위상 보정과 GIS 벡터화가 필요</span></p></div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文表 21、22 与第 5.9 节（探索性分析）。道路掩膜经 Zhang–Suen 细化成骨架图，节点间按 0.30 m 与 0.30√2 m 计长；每次运行 200 个连通对、120 个非连通对；端点吸附半径 3 像素（0.9 m）。</span><span lang="en">Sources: paper Tables 21–22 and §5.9 (exploratory). Road masks are thinned (Zhang–Suen) into skeleton graphs with edges of 0.30 m and 0.30√2 m; 200 connected and 120 disconnected pairs per run; endpoints snap within 3 pixels (0.9 m).</span><span lang="ko">출처: 논문 표 21·22, §5.9 (탐색적 분석). 도로 마스크를 Zhang–Suen 세선화로 골격 그래프로 만들고 간선 길이 0.30 m·0.30√2 m, 실행마다 연결 쌍 200개·비연결 쌍 120개, 끝점은 3픽셀 (0.9 m) 안에서 맞춤.</span></p>
+  <aside class="notes">
+    <p lang="zh">这和我的博士论文直接相关：语义图能不能变成路网？我们把道路掩膜细化成骨架图，测起讫点之间能不能走通。局部路径断开的比例从 6.57% 降到 4.88%，错误连通也减少；但 38 米以上的长距离端点可达率只有 0.27，所以直接用于运输规划之前，还需要拓扑修复和矢量化。这也是博士论文里路网仍按中心线描图、分割只作为加速工具的原因。</p>
+    <p lang="en">This links directly to my thesis: can the semantic map become a road network? We thin road masks into skeleton graphs and test whether origin–destination pairs connect. Local path failures fall from 6.57% to 4.88% and false connections fall too; but long-range endpoint reachability beyond 38 m is only 0.27, so transport planning still needs topology repair and vectorisation. That is why the thesis traces centrelines and uses segmentation only to speed up layout extraction.</p>
+    <p lang="ko">이것은 제 박사 논문과 바로 연결됩니다: 의미 지도가 도로망이 될 수 있을까요? 도로 마스크를 골격 그래프로 세선화해 기종점이 이어지는지 시험했습니다. 국소 경로 단절은 6.57%에서 4.88%로, 잘못된 연결도 줄었지만 38 m 이상 장거리 끝점 도달률은 0.27뿐이어서, 운송 계획에 쓰려면 위상 보정과 벡터화가 더 필요합니다. 그래서 박사 논문에서는 중심선을 직접 추적하고 분할은 배치 추출을 빠르게 하는 데만 씁니다.</p>
+  </aside>
+</section>
+
+<!-- qualitative -->
+<section class="slide" data-sec="qual">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">五座留出船厂上的定性对比：交界更清楚，内部碎片更少</span><span lang="en">Qualitative comparison on the five held-out yards: clearer transitions, fewer interior fragments</span><span lang="ko">미학습 조선소 5곳의 정성 비교: 더 뚜렷한 전이, 더 적은 내부 조각</span></h2>
+  <div class="content" style="grid-template-rows:1fr auto;gap:10px;margin-top:10px">
+    <div class="fill"><img src="assets/fig10.jpg" alt="Image, ground truth and predictions of D2LS, UrbanSSF-L, SegFormer-B2, +Boundary, +Region and +Boundary+Region on five held-out shipyards"></div>
+    <div class="legend" style="justify-content:center"><span><i style="background:#e05a4f"></i><span lang="zh">堆场开阔区</span><span lang="en">yard open area</span><span lang="ko">야드 개방 구역</span></span><span><i style="background:#4f6fb6"></i><span lang="zh">生产厂房</span><span lang="en">production building</span><span lang="ko">생산 건물</span></span><span><i style="background:#5fbf62"></i><span lang="zh">道路</span><span lang="en">road</span><span lang="ko">도로</span></span></div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文图 10（30 轮模型；影像来源 Google、Airbus）。列：影像、真值、D2LS、UrbanSSF-L、SegFormer-B2、+边界、+区域、+边界+区域（本文）。</span><span lang="en">Source: paper Fig. 10 (30-epoch models; imagery Google, Airbus). Columns: image, ground truth, D2LS, UrbanSSF-L, SegFormer-B2, +Boundary, +Region, +Boundary+Region (ours).</span><span lang="ko">출처: 논문 그림 10 (30에폭 모형, 영상 Google, Airbus). 열: 영상, 정답, D2LS, UrbanSSF-L, SegFormer-B2, +경계, +영역, +경계+영역 (제안).</span></p>
+  <aside class="notes">
+    <p lang="zh">五座留出船厂的定性对比。最右一列是联合模型：道路与堆场的交界更干净，厂房边缘不外溢，堆场内部的零碎误判更少。中间几列能看到只加边界或只加区域各自改善了一部分。</p>
+    <p lang="en">A qualitative comparison on the five held-out yards. The rightmost column is the joint model: cleaner road–yard transitions, building edges that do not leak, and fewer scattered errors inside yards. The middle columns show boundary-only and region-only each fixing part of it.</p>
+    <p lang="ko">미학습 조선소 5곳의 정성 비교입니다. 맨 오른쪽 열이 결합 모형으로, 도로–야드 전이가 깔끔하고 건물 가장자리가 번지지 않으며 야드 내부의 흩어진 오류가 적습니다. 가운데 열에서 경계만, 영역만이 각각 일부를 고치는 것을 볼 수 있습니다.</p>
+  </aside>
+</section>
+
+<!-- local gains and residual failures -->
+<section class="slide" data-sec="qual">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">局部改进与仍然存在的错误</span><span lang="en">Local improvements and the errors that remain</span><span lang="ko">국소 개선과 남은 오류</span></h2>
+  <div class="content g2" style="gap:20px;margin-top:10px">
+    <div class="col" style="gap:8px">
+      <h3 class="figh"><span lang="zh">改进：(a) 道路–堆场交界 (b) 厂房边界 (c) 堆场内部</span><span lang="en">Gains: (a) road–yard interface (b) building boundary (c) yard interior</span><span lang="ko">개선: (a) 도로–야드 경계 (b) 건물 경계 (c) 야드 내부</span></h3>
+      <div class="fill"><img src="assets/fig11.jpg" alt="Local comparisons at a road-yard interface, a production-building boundary and a yard interior"></div>
+    </div>
+    <div class="col" style="gap:8px">
+      <h3 class="figh"><span lang="zh">剩余错误：(a) 道路与堆场混淆 (b) 阴影或遮挡 (c) 细长连接断开</span><span lang="en">Residual errors: (a) road–yard confusion (b) shadow or occlusion (c) thin connection broken</span><span lang="ko">남은 오류: (a) 도로–야드 혼동 (b) 그림자·가림 (c) 가는 연결 끊김</span></h3>
+      <div class="fill"><img src="assets/fig12.jpg" alt="Residual failures: road-yard confusion, shadow or occlusion, thin foreground connection"></div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文图 11、图 12（影像来源 Google、Airbus）。每行第一列为 512 × 512 全图并框出 128 × 128 区域，其余为影像、真值、SegFormer-B2 与本文的局部放大。</span><span lang="en">Sources: paper Figs. 11 and 12 (imagery Google, Airbus). The first column shows the full 512 × 512 image with a 128 × 128 region marked; the others are crops of image, ground truth, SegFormer-B2 and ours.</span><span lang="ko">출처: 논문 그림 11·12 (영상 Google, Airbus). 첫 열은 512 × 512 전체 영상과 128 × 128 관심 영역, 나머지는 영상, 정답, SegFormer-B2, 제안 모형의 확대.</span></p>
+  <aside class="notes">
+    <p lang="zh">左边是三处局部改进：道路与堆场交界、厂房边界、堆场内部。右边是仍然存在的三类错误：表面相似的道路和堆场仍会混淆；阴影和遮挡会造成错误延伸或断开；细长的连接可能被缩短或断开。这些也指明了下一步：拓扑修复和时序验证。</p>
+    <p lang="en">On the left, three local gains: a road–yard interface, a building boundary and a yard interior. On the right, three remaining error types: similar road and yard surfaces still get confused; shadows and occlusion cause false extensions or breaks; thin connections can be shortened or broken. They point to the next steps: topology repair and temporal validation.</p>
+    <p lang="ko">왼쪽은 세 가지 국소 개선: 도로–야드 경계, 건물 경계, 야드 내부. 오른쪽은 남은 세 가지 오류: 비슷한 도로와 야드 표면의 혼동, 그림자와 가림으로 인한 잘못된 연장이나 끊김, 가는 연결의 단축·단절. 다음 단계인 위상 보정과 시계열 검증을 가리킵니다.</p>
+  </aside>
+</section>
+
+<!-- conclusions -->
+<section class="slide" data-sec="end">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">结论：两路训练约束互补，跨船厂更准、更干净，部署不加成本</span><span lang="en">Conclusions: complementary training constraints make cross-yard maps more accurate and cleaner at no deployment cost</span><span lang="ko">결론: 상보적 학습 제약으로 조선소 간 지도가 더 정확하고 깔끔해지며 배포 비용은 없다</span></h2>
+  <div class="content g2" style="grid-template-rows:1fr auto;gap:16px 26px;margin-top:14px">
+    <div class="col compact" style="gap:10px">
+      <div class="recs" style="grid-template-columns:1fr 1fr;gap:12px">
+        <div class="card"><span class="n">1</span><h3 style="font-size:18px"><span lang="zh">跨船厂评测协议</span><span lang="en">A cross-yard protocol</span><span lang="ko">조선소 간 평가 절차</span></h3><p class="small"><span lang="zh">五座留出测试厂、两种验证分配、三个种子</span><span lang="en">Five held-out yards, two validation assignments, three seeds</span><span lang="ko">미학습 조선소 5곳, 검증 배정 2가지, 시드 3개</span></p></div>
+        <div class="card"><span class="n">2</span><h3 style="font-size:18px"><span lang="zh">两路训练约束</span><span lang="en">Two training constraints</span><span lang="ko">학습 제약 두 가지</span></h3><p class="small"><span lang="zh">形态学边界 + 原型区域一致性，推理时移除</span><span lang="en">Morphological boundaries + prototype region consistency, removed at inference</span><span lang="ko">형태학 경계 + 원형 영역 일관성, 추론 때 제거</span></p></div>
+        <div class="card"><span class="n">3</span><h3 style="font-size:18px"><span lang="zh">受控消融</span><span lang="en">Controlled ablations</span><span lang="ko">통제 절제</span></h3><p class="small"><span lang="zh">分清边界、区域与原型可学习各自的贡献</span><span lang="en">Separating boundary, region and prototype trainability</span><span lang="ko">경계, 영역, 원형 학습의 기여를 분리</span></p></div>
+        <div class="card"><span class="n">4</span><h3 style="font-size:18px"><span lang="zh">互补的结构改进</span><span lang="en">Complementary structural gains</span><span lang="ko">상보적 구조 개선</span></h3><p class="small"><span lang="zh">交界与内部错误同时减少，部署图不变</span><span lang="en">Interface and interior errors both fall; deployment graph unchanged</span><span lang="ko">경계·내부 오류 모두 감소, 배포 그래프 불변</span></p></div>
+      </div>
+    </div>
+    <div class="col compact" style="gap:10px">
+      <div class="card" style="background:var(--amber-soft)"><h3><span lang="zh">在博士论文中的位置</span><span lang="en">Its place in the thesis</span><span lang="ko">박사 논문에서의 위치</span></h3>
+        <p style="color:var(--ink)"><span lang="zh">为多船厂布局提供语义底图，可加快第 6 章多船厂布局的提取；路网拓扑仍按中心线描图，分割结果作为辅助与引用。</span><span lang="en">It supplies semantic base maps that can speed up layout extraction for chapter 6's many yards; road topology is still traced as centrelines, with segmentation as support and citation.</span><span lang="ko">다수 조선소 배치의 의미 기반 지도를 제공해 6장의 배치 추출을 빠르게 할 수 있으며, 도로 위상은 여전히 중심선으로 추적하고 분할 결과는 보조와 인용으로 쓴다.</span></p></div>
+      <div class="card"><h3><span lang="zh">下一步</span><span lang="en">Next</span><span lang="ko">다음 단계</span></h3>
+        <p><span lang="zh">跨地区、跨传感器、跨季节的外部检验；拓扑修复后的语义图能否改进路径规划。</span><span lang="en">External tests across regions, sensors and seasons; whether topology-corrected maps improve route planning.</span><span lang="ko">지역·센서·계절을 넘는 외부 검증, 위상 보정한 지도가 경로 계획을 개선하는지.</span></p></div>
+      <div class="golinks"><a class="tbtn golink" href="../thesis/"><span lang="zh">博士论文汇报 →</span><span lang="en">Thesis briefing →</span><span lang="ko">박사 논문 보고 →</span></a><a class="tbtn golink" href="https://github.com/NCR7777/shipyard-structure-segmentation"><span lang="zh">代码 →</span><span lang="en">Code →</span><span lang="ko">코드 →</span></a></div>
+    </div>
+    <div style="grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:20px">
+      <p class="quote sm" style="flex:1"><span lang="zh">边界管交界，区域管内部：两者互补，部署零代价。</span><span lang="en">Boundaries fix the transitions, regions fix the interiors: complementary, and free at deployment.</span><span lang="ko">경계는 전이를, 영역은 내부를: 서로 보완하며 배포 비용은 없다.</span></p>
+      <div class="d" style="font-size:26px;font-weight:700;color:var(--ink3);white-space:nowrap"><span lang="zh">谢谢，请老师指正。</span><span lang="en">Thank you.</span><span lang="ko">감사합니다.</span></div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：论文第 1 节（贡献）、第 5.11 节与第 6 节。结论限于所评测的船厂与静态影像。</span><span lang="en">Sources: paper §1 (contributions), §5.11 and §6. Conclusions hold for the evaluated yards and static imagery.</span><span lang="ko">출처: 논문 §1 (기여), §5.11, §6. 결론은 평가한 조선소와 정적 영상에 한한다.</span></p>
+  <aside class="notes">
+    <p lang="zh">总结四点贡献：建立了五座留出船厂的跨厂评测；提出两路只在训练时使用的结构约束；用受控消融分清了各自的贡献；交界与内部错误同时减少而部署图不变。在博士论文里，它为多船厂布局提供语义底图、可以加快第 6 章的布局提取。下一步是更大范围的外部检验，以及拓扑修复后的语义图能否改进路径规划。谢谢。</p>
+    <p lang="en">Four contributions: a five-yard held-out evaluation; two training-only structural constraints; controlled ablations that separate their contributions; and lower interface and interior errors with an unchanged deployment graph. In the thesis, it supplies semantic base maps that can speed up chapter 6's layout extraction. Next come wider external tests and whether topology-corrected maps improve route planning. Thank you.</p>
+    <p lang="ko">네 가지 기여: 미학습 조선소 5곳의 조선소 간 평가, 학습 때만 쓰는 구조 제약 두 가지, 각 기여를 분리한 통제 절제, 배포 그래프는 그대로 두고 경계·내부 오류를 함께 줄인 것. 박사 논문에서는 다수 조선소 배치의 의미 기반 지도를 제공해 6장의 배치 추출을 빠르게 할 수 있습니다. 다음은 더 넓은 외부 검증과 위상 보정 지도가 경로 계획을 개선하는지입니다. 감사합니다.</p>
+  </aside>
+</section>
+
+<!-- references -->
+<section class="slide" data-sec="ref">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">参考文献</span><span lang="en">References</span><span lang="ko">참고문헌</span></h2>
+  <div class="content" style="margin-top:10px">
+    <ol class="refs" style="font-size:11.2px;line-height:1.32">
+      <li>Na, C., Wang, Q., Yao, J., Kim, Y. (2026). Structure-guided cross-site semantic segmentation of shipyard remote-sensing imagery. <i>Ocean Engineering</i> 368, 128269. doi:10.1016/j.oceaneng.2026.128269</li>
+      <li>Bertasius, G., Shi, J., Torresani, L. (2016). Semantic segmentation with boundary neural fields. <i>Proc. CVPR</i>, 3602–3610.</li>
+      <li>Borse, S., Wang, Y., Zhang, Y., Porikli, F. (2021). InverseForm: a loss function for structured boundary-aware segmentation. <i>Proc. CVPR</i>, 5901–5911.</li>
+      <li>Chen, L.C., Zhu, Y., Papandreou, G., Schroff, F., Adam, H. (2018). Encoder-decoder with atrous separable convolution for semantic image segmentation. <i>Proc. ECCV</i>, 833–851. doi:10.1007/978-3-030-01234-2_49</li>
+      <li>Efron, B., Tibshirani, R. (1986). Bootstrap methods for standard errors, confidence intervals, and other measures of statistical accuracy. <i>Statistical Science</i> 1(1), 54–75. doi:10.1214/ss/1177013815</li>
+      <li>Han, Y.S., Lee, K., Nam, B., Kim, Y.O., Kim, Y., Yeo, H.B. (2024). Assessment of ship-block stacking status based on images obtained from drone and GIS data. <i>Int. J. Naval Architecture and Ocean Engineering</i> 16, 100583. doi:10.1016/j.ijnaoe.2024.100583</li>
+      <li>Hill, M.O. (1973). Diversity and evenness: a unifying notation and its consequences. <i>Ecology</i> 54(2), 427–432. doi:10.2307/1934352</li>
+      <li>Holm, S. (1979). A simple sequentially rejective multiple test procedure. <i>Scandinavian J. Statistics</i> 6(2), 65–70.</li>
+      <li>Milletari, F., Navab, N., Ahmadi, S.-A. (2016). V-Net: fully convolutional neural networks for volumetric medical image segmentation. <i>Proc. 3DV</i>, 565–571. doi:10.1109/3dv.2016.79</li>
+      <li>Qin, W., Song, Y., Zhu, H., Yu, X., Tu, Y. (2023). A novel shipyard production state monitoring method based on satellite remote sensing images. <i>Remote Sensing</i> 15(20), 4958. doi:10.3390/rs15204958</li>
+      <li>Ronneberger, O., Fischer, P., Brox, T. (2015). U-Net: convolutional networks for biomedical image segmentation. <i>Proc. MICCAI</i>, 234–241. doi:10.1007/978-3-319-24574-4_28</li>
+      <li>Wang, C., Wang, K., Tao, J., Zhou, Y. (2020). Research on real-time optimal path planning model and algorithm for ship block transportation in shipyard. <i>J. Marine Science and Engineering</i> 8(12), 991. doi:10.3390/jmse8120991</li>
+      <li>Wang, J., Zheng, Z., Ma, A., Lu, X., Zhong, Y. (2021). LoveDA: a remote sensing land-cover dataset for domain adaptive semantic segmentation. <i>NeurIPS Datasets and Benchmarks</i>.</li>
+      <li>Wang, N., Yin, J., Khan, R.U. (2024). Risk coupling assessment of vehicle scheduling for shipyard in a complicated road environment. <i>J. Marine Science and Engineering</i> 12(4), 685. doi:10.3390/jmse12040685</li>
+      <li>Wang, Z., Yi, J., Chen, A., Chen, L., Lin, H., Xu, K. (2025). Accurate semantic segmentation of very high-resolution remote sensing images considering feature state sequences (UrbanSSF). <i>ISPRS J. Photogrammetry and Remote Sensing</i> 220, 824–840. doi:10.1016/j.isprsjprs.2025.01.017</li>
+      <li>Wilcoxon, F. (1945). Individual comparisons by ranking methods. <i>Biometrics Bulletin</i> 1(6), 80–83. doi:10.2307/3001968</li>
+      <li>Xie, E., Wang, W., Yu, Z., Anandkumar, A., Alvarez, J.M., Luo, P. (2021). SegFormer: simple and efficient design for semantic segmentation with transformers. <i>NeurIPS</i> 34, 12077–12090.</li>
+      <li>Yuan, Y., Chen, X., Wang, J. (2020). Object-contextual representations for semantic segmentation. <i>Proc. ECCV</i>, 173–190. doi:10.1007/978-3-030-58539-6_11</li>
+      <li>Zhang, T.Y., Suen, C.Y. (1984). A fast parallel algorithm for thinning digital patterns. <i>Communications of the ACM</i> 27(3), 236–239. doi:10.1145/357994.358023</li>
+      <li>Zou, X., Li, Y., Zhang, S., Li, K., Wang, S., Tao, P., Xing, J., Lang, C. (2025). Dynamic dictionary learning for remote sensing image segmentation (D2LS). <i>Proc. ICCV</i>, 22457–22466.</li>
+    </ol>
+  </div>
+  <p class="src"><span lang="zh">来源：条目取自论文参考文献表；卫星影像版权归 Google、Airbus，仅作学术示意。</span><span lang="en">Sources: entries from the paper's reference list; satellite imagery © Google, Airbus, shown for scholarly illustration.</span><span lang="ko">출처: 논문 참고문헌 목록, 위성 영상 저작권 Google·Airbus, 학술적 예시로만 사용.</span></p>
+  <aside class="notes">
+    <p lang="zh">参考文献，条目取自论文本身的参考文献表。</p>
+    <p lang="en">References, taken from the paper's own reference list.</p>
+    <p lang="ko">참고문헌으로, 논문 자체의 참고문헌 목록에서 가져왔습니다.</p>
+  </aside>
+</section>
+
+</main>
+
+<dl id="glossary" hidden>
+  <dt>mIoU / fg_mIoU</dt>
+  <dd><span lang="zh">各类交并比的平均；fg_mIoU 只平均道路、堆场、厂房三个前景类。</span><span lang="en">Mean intersection over union across classes; fg_mIoU averages only road, yard and building.</span><span lang="ko">클래스별 교집합/합집합 평균, fg_mIoU는 도로·야드·건물 세 전경 클래스만 평균.</span></dd>
+  <dt>mDice</dt>
+  <dd><span lang="zh">各类 Dice 系数的平均，与 IoU 同类的重叠指标。</span><span lang="en">Mean Dice coefficient across classes, an overlap measure like IoU.</span><span lang="ko">클래스별 Dice 계수 평균, IoU와 같은 계열의 중첩 지표.</span></dd>
+  <dt>BF1@t</dt>
+  <dd><span lang="zh">边界 F1：预测与真值交界在 t 像素容差内的匹配程度，只看交界位置。</span><span lang="en">Boundary F1: agreement of predicted and true transitions within t pixels; position only.</span><span lang="ko">경계 F1: t픽셀 허용 내 예측·정답 경계의 일치도, 위치만 본다.</span></dd>
+  <dt><span lang="zh">碎片率（SCR）</span><span lang="en">Small-component ratio (SCR)</span><span lang="ko">조각 비율 (SCR)</span></dt>
+  <dd><span lang="zh">前景像素落在小于 32 像素（2.88 m²）连通块中的比例，越低越好。</span><span lang="en">Share of foreground pixels in connected components under 32 pixels (2.88 m²); lower is better.</span><span lang="ko">32픽셀 (2.88 m²) 미만 연결 요소에 속한 전경 픽셀 비율, 낮을수록 좋다.</span></dd>
+  <dt><span lang="zh">内部错误率（IER）</span><span lang="en">Interior error rate (IER)</span><span lang="ko">내부 오류율 (IER)</span></dt>
+  <dd><span lang="zh">在 5 × 5 腐蚀后的类别内部被错分的比例，远离交界的错误。</span><span lang="en">Share of misclassified pixels inside classes eroded by 5 × 5: errors away from transitions.</span><span lang="ko">5 × 5 침식 후 클래스 내부에서 잘못 분류된 비율, 경계에서 먼 오류.</span></dd>
+  <dt><span lang="zh">留一船厂（LOSO）</span><span lang="en">Leave one shipyard out (LOSO)</span><span lang="ko">조선소 하나 제외 (LOSO)</span></dt>
+  <dd><span lang="zh">每次留出一座船厂作测试，其影像不参与训练与选模。</span><span lang="en">One shipyard is held out for testing at a time; its images never enter training or model selection.</span><span lang="ko">매번 한 조선소를 시험용으로 빼며, 그 영상은 학습과 모형 선택에 쓰지 않는다.</span></dd>
+  <dt><span lang="zh">验证分配 A / B</span><span lang="en">Validation assignment A / B</span><span lang="ko">검증 배정 A / B</span></dt>
+  <dd><span lang="zh">两套事先写定的“测试厂—验证厂”配对，用来检验验证厂的选择是否影响结论。</span><span lang="en">Two prespecified test–validation yard pairings used to check whether the choice of validation yard matters.</span><span lang="ko">미리 정한 시험–검증 조선소 짝 두 세트로, 검증 조선소 선택의 영향을 확인한다.</span></dd>
+  <dt><span lang="zh">区域原型</span><span lang="en">Region prototype</span><span lang="ko">영역 원형</span></dt>
+  <dd><span lang="zh">可学习的特征向量（8 个），像素按相似度软分配给原型，形成区域级语义分布。</span><span lang="en">Learnable feature vectors (eight); pixels are soft-assigned to them by similarity to form region-level distributions.</span><span lang="ko">학습 가능한 특징 벡터 (8개), 픽셀을 유사도로 소프트 배정해 영역 수준 분포를 만든다.</span></dd>
+  <dt><span lang="zh">固定随机对照</span><span lang="en">Fixed-random control</span><span lang="ko">고정 무작위 대조</span></dt>
+  <dd><span lang="zh">原型随机初始化后冻结，其余设置不变，只检验原型可学习的作用。</span><span lang="en">Prototypes sampled and frozen, everything else unchanged, isolating the effect of learning them.</span><span lang="ko">원형을 무작위로 뽑아 고정하고 나머지는 같게 해 원형 학습의 효과만 본다.</span></dd>
+  <dt><span lang="zh">起讫连通与端点可达</span><span lang="en">OD connectivity and endpoint reachability</span><span lang="ko">기종점 연결과 끝점 도달</span></dt>
+  <dd><span lang="zh">在道路骨架图上检验起讫点能否走通：局部为 4.8–19.2 m 的对，长距离为 ≥ 38.4 m 的端点对。</span><span lang="en">Whether origin–destination pairs connect on the road skeleton graph: local pairs 4.8–19.2 m apart, long-range endpoint pairs ≥ 38.4 m.</span><span lang="ko">도로 골격 그래프에서 기종점이 이어지는지: 국소 쌍은 4.8–19.2 m, 장거리 끝점 쌍은 38.4 m 이상.</span></dd>
+</dl>
+
+<script src="data.js"></script>
+<script src="../shared/deck-core.js"></script>
+<script src="deck.js"></script>

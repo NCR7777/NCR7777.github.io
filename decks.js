@@ -24,6 +24,15 @@ window.DECKS = [
     note: ['目标期刊：Ocean Engineering', 'Target journal: Ocean Engineering', '목표 학술지: Ocean Engineering'],
   },
   {
+    id: 'seg', href: 'seg/', status: 'live',
+    kind: ['期刊论文 · 遥感分割', 'Journal paper · remote sensing', '학술지 논문 · 원격 탐사'],
+    title: ['结构引导的跨船厂遥感影像语义分割', 'Structure-guided cross-site semantic segmentation of shipyard imagery', '구조 유도 조선소 간 원격 탐사 영상 의미 분할'],
+    sub: ['在没见过的船厂上分出道路、堆场、厂房与背景；边界与区域两路约束只在训练时使用，部署模型不变。',
+      'Roads, yards, buildings and background in shipyards the model never saw; boundary and region constraints are used in training only, so the deployed model is unchanged.',
+      '처음 보는 조선소에서 도로, 야드, 건물, 배경을 구분하고, 경계·영역 제약은 학습에만 써서 배포 모형은 그대로다.'],
+    note: ['Ocean Engineering 368 (2026) 128269', 'Ocean Engineering 368 (2026) 128269', 'Ocean Engineering 368 (2026) 128269'],
+  },
+  {
     id: 'ch3', status: 'planned',
     kind: ['第 3 章 · 运力机理', 'Chapter 3 · capacity', '3장 · 운송 능력'],
     title: ['当平板车占住道路：路网约束运力与拥塞', 'When transporters own the road: network-bound capacity and jamming', '트랜스포터가 도로를 점유할 때: 도로망 제약 운송 능력과 정체'],

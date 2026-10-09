@@ -38,3 +38,4 @@
 .tbl.plan td:nth-child(3),.tbl.plan td:last-child{white-space:nowrap}
 [data-lang="zh"] .tbl.plan{font-size:15.5px}
 [data-lang="zh"] .tbl.plan td{padding:8px}
+.golinks{display:flex;gap:10px;flex-wrap:wrap}
