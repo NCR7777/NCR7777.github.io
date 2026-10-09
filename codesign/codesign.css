@@ -1,0 +1,53 @@
+/* Fleet–network co-design deck only. */
+.golink{align-self:flex-start;font-size:15px;padding:8px 14px}
+.golinks{display:flex;gap:10px;flex-wrap:wrap}
+.tbl.mf{font-size:14.5px}
+.tbl.mf td{padding:6px 8px;line-height:1.36;vertical-align:top}
+.tbl.mf td:first-child{white-space:nowrap;font-family:var(--d-en);font-size:22px;font-weight:700;color:var(--steel);width:44px}
+.tbl.mf td:last-child{width:27%}
+.tbl.mf .cap{display:block;margin-top:3px;color:var(--ink3);font-size:13.5px}
+[data-lang="zh"] .tbl.mf{font-size:15.5px}
+.tbl.lab td:first-child{font-family:var(--body);white-space:normal}
+.tbl.lab td.mono{font-size:.95em}
+.tbl tr.hi td{background:var(--good-soft)}
+.tbl tr.lo td{background:var(--oxide-soft)}
+.tbl td.c,.tbl th.c{text-align:center}
+.rulec{border-left:5px solid var(--c);gap:6px}
+.rulec h3{display:flex;align-items:baseline;gap:10px}
+.rulec h3 .num{font-size:30px;color:var(--c)}
+.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.menu .card{padding:10px 14px 12px;gap:5px}
+.menu .card svg{width:100%;height:52px;display:block}
+.menu h4{margin:0;font-size:17px;color:var(--ink)}
+.menu p{margin:0;font-size:14.5px;line-height:1.42;color:var(--ink2)}
+.menu .card.key{background:var(--amber-soft);outline:2px solid var(--amber-hi);outline-offset:-2px}
+.menu .tagk{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--amber);text-transform:uppercase}
+.strip2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.strip2 .card{padding:10px 14px}
+.strip2 p{font-size:15px;line-height:1.45}
+.ladder{display:grid;grid-template-columns:110px 1fr;gap:6px 10px;align-items:stretch}
+.ladder .lh{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);font-weight:600;align-self:center}
+.ladder .lf{background:var(--panel);border-radius:6px;padding:8px 12px;font-size:15.5px;line-height:1.4;color:var(--ink2)}
+.ladder .lf.top{background:var(--amber-soft);color:var(--ink)}
+.plist{display:flex;flex-direction:column;gap:7px}
+.plist .pi{display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:start;padding:7px 10px;background:var(--panel);border-radius:6px}
+.plist .pi b{font-family:var(--d-en);font-size:21px;color:var(--steel);line-height:1.1}
+.plist .pi p{margin:0;font-size:15px;line-height:1.45;color:var(--ink2)}
+[data-lang="zh"] .plist .pi p{font-size:16px}
+[data-lang="zh"] .plist .pi{padding:10px 12px}
+.plist .pi p .pill{margin-right:6px;vertical-align:1px}
+.plist .pi p i{font-style:normal;color:var(--ink)}
+.venues{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.venues .card{border-top:4px solid var(--c)}
+.venues ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.venues li{font-size:17px;line-height:1.4;color:var(--ink)}
+.venues .k{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--c);font-weight:700}
+.flow .menu,.flow .venues,.flow .strip2{grid-template-columns:minmax(0,1fr)!important}
+.flow .ladder{grid-template-columns:minmax(0,1fr)}
+#t6Tbl th{text-transform:none;letter-spacing:.02em}
+.tbl.risk td{padding:11px 8px;line-height:1.42}
+.tbl.risk td:first-child{color:var(--ink);font-weight:600}
+[data-lang="en"] .strip2 p{font-size:14.5px}
+[data-lang="ko"] .slide{word-break:keep-all}
+.refs.cd,.refs-data.cd{font-size:17px;line-height:1.6}
+[data-lang="en"] .refs.cd,[data-lang="en"] .refs-data.cd{font-size:16.5px;line-height:1.6}

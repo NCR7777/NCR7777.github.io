@@ -40,6 +40,10 @@ a.dk:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 .dk .go{font-weight:600;color:var(--steel);white-space:nowrap}
 .dk .go::after{content:" →";display:inline-block;transition:transform .2s var(--ease)}
 a.dk:hover .go::after{transform:translate3d(4px,0,0)}
+.dk.wide{grid-column:1/-1;min-height:0}
+.dk.wide h3{font-size:26px}
+.dk.wide h3 [lang="en"]{font-size:31px}
+.dk.wide p{max-width:96ch}
 .dk.planned{background:transparent;border-style:dashed;border-top-style:solid;border-top-color:var(--line);min-height:190px}
 .dk.planned h3{font-size:19px;color:var(--ink2)}
 .dk.planned h3 [lang="en"]{font-size:22px}
@@ -70,8 +74,7 @@ a.dk:hover .go::after{transform:translate3d(4px,0,0)}
     <div class="who"><b>Chunrui Na</b><br><span lang="zh">哈尔滨工程大学 · 南洋理工大学</span><span lang="en">Harbin Engineering University · Nanyang Technological University</span><span lang="ko">하얼빈공정대학 · 난양이공대학</span></div>
   </header>
 
-  <section class="shelf"><h2><span lang="zh">汇报</span><span lang="en">Briefings</span><span lang="ko">보고</span></h2><div class="grid" id="live"></div></section>
-  <section class="shelf"><h2><span lang="zh">规划中</span><span lang="en">Planned</span><span lang="ko">계획 중</span></h2><div class="grid" id="planned"></div></section>
+  <div id="shelves"></div>
 
   <p class="endnote"><span lang="zh">各汇报内容以对应论文与研究记录为准。</span><span lang="en">Each briefing defers to its paper and research records.</span><span lang="ko">각 보고의 내용은 해당 논문과 연구 기록을 따릅니다.</span></p>
 </main>
@@ -84,12 +87,15 @@ const root = document.documentElement, LI = { zh: 0, en: 1, ko: 2 };
 const tri = a => a ? ['en', 'ko', 'zh'].map(l => `<span lang="${l}">${a[LI[l]]}</span>`).join('') : '';
 const OPEN = ['打开汇报', 'Open briefing', '보고 열기'], SOON = ['规划中', 'Planned', '계획 중'];
 const card = (d, i) => d.status === 'live'
-  ? `<a class="dk${i === 0 ? ' first' : ''}" href="${d.href}"><span class="kind">${tri(d.kind)}</span><h3>${tri(d.title)}</h3><p>${tri(d.sub)}</p>
+  ? `<a class="dk${i === 0 ? ' first' : ''}${d.lead ? ' wide' : ''}" href="${d.href}"><span class="kind">${tri(d.kind)}</span><h3>${tri(d.title)}</h3><p>${tri(d.sub)}</p>
      <span class="row"><span>${tri(d.note)}</span><span class="go">${tri(OPEN)}</span></span></a>`
   : `<div class="dk planned"><span class="kind">${tri(d.kind)}</span><h3>${tri(d.title)}</h3><p>${tri(d.sub)}</p>
      <span class="row"><span class="pill pend">${tri(SOON)}</span></span></div>`;
-document.getElementById('live').innerHTML = DECKS.filter(d => d.status === 'live').map(card).join('');
-document.getElementById('planned').innerHTML = DECKS.filter(d => d.status !== 'live').map(card).join('');
+const shelf = (title, decks) => decks.length ? `<section class="shelf"><h2>${tri(title)}</h2><div class="grid">${decks.map(card).join('')}</div></section>` : '';
+const live = DECKS.filter(d => d.status === 'live');
+document.getElementById('shelves').innerHTML = GROUPS.map(g => shelf(g.title, live.filter(d => d.group === g.id))).join('')
+  + shelf(['其他汇报', 'Other briefings', '기타 보고'], live.filter(d => !GROUPS.some(g => g.id === d.group)))
+  + shelf(SOON, DECKS.filter(d => d.status !== 'live'));
 function setLang(l) {
   root.dataset.lang = l;
   root.lang = { zh: 'zh-CN', en: 'en', ko: 'ko' }[l];

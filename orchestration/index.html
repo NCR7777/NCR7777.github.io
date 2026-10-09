@@ -1,0 +1,569 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Traffic Orchestration</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="../shared/favicon.svg" type="image/svg+xml">
+<script src="../shared/lang.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../shared/deck.css">
+<link rel="stylesheet" href="orchestration.css">
+
+<main id="deck" data-pdf="Traffic_Orchestration" data-home="../">
+<div class="brand-src" hidden><b>TRAFFIC ORCHESTRATION</b><span lang="zh">交通编排 · 分项研究</span><span lang="en">Traffic orchestration · sub-study</span><span lang="ko">교통 편성 · 세부 연구</span></div>
+
+<!-- cover -->
+<section class="slide cover" data-sec="cover">
+  <div class="left">
+    <div class="kick"><span lang="zh">博士论文分项研究 · 第 4 章 · 2026 年 10 月</span><span lang="en">PhD thesis sub-study · chapter 4 · October 2026</span><span lang="ko">박사 논문 세부 연구 · 4장 · 2026년 10월</span></div>
+    <h1 class="d">
+      <span lang="zh">路网约束区里，<br>派车变成排路</span>
+      <span lang="en">Where the network binds, dispatching becomes road scheduling</span>
+      <span lang="ko">도로망 제약 구간에서는<br>배차가 도로 편성이 된다</span>
+    </h1>
+    <p class="sub"><span lang="zh">无死锁的任务分派与通行编排：把运力区间的下沿往上推（研究计划）</span><span lang="en">Deadlock-free task assignment and passage sequencing: pushing up the lower edge of the capacity interval (research plan)</span><span lang="ko">교착 없는 작업 배정과 통행 순서: 운송 능력 구간의 하한 끌어올리기 (연구 계획)</span></p>
+    <p class="paper">Deadlock-free task assignment and traffic orchestration for agents whose footprint grows when loaded (working title)</p>
+    <div class="meta">
+      <div><b>Chunrui Na</b></div>
+      <div><span lang="zh">哈尔滨工程大学 · 南洋理工大学</span><span lang="en">Harbin Engineering University · Nanyang Technological University</span><span lang="ko">하얼빈공정대학 · 난양이공대학</span></div>
+      <div><span lang="zh">依据：第 3 章立旗实验（thesis-core 83c16bf，经复核）与研究宣言 v1</span><span lang="en">Grounded in the chapter 3 flag experiment (thesis-core 83c16bf, reviewed) and research manifesto v1</span><span lang="ko">근거: 3장 깃발 실험 (thesis-core 83c16bf, 검토 완료)과 연구 선언 v1</span></div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="fill"><svg viewBox="0 0 520 470" role="img" aria-label="A head-on deadlock in a single lane, and reservation to the next safe holding point">
+      <text x="14" y="34" style="fill:var(--ink);font:600 15px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">朴素逐段申请：对向驶入单车道</tspan><tspan lang="en">Naive segment request: head-on in one lane</tspan><tspan lang="ko" style="font-family:var(--f-ko)">단순 구간별 요청: 단일 차로에 마주 진입</tspan></text>
+      <rect x="14" y="70" width="74" height="86" rx="4" style="fill:var(--line)"/><rect x="432" y="70" width="74" height="86" rx="4" style="fill:var(--line)"/>
+      <rect x="88" y="96" width="344" height="34" style="fill:var(--line)"/>
+      <path d="M260 96V130" style="stroke:var(--paper);stroke-width:2;stroke-dasharray:5 4"/>
+      <g class="a-drive" style="--d:.3s"><rect x="140" y="86" width="84" height="54" rx="4" style="fill:var(--steel);fill-opacity:.92"/><rect x="150" y="122" width="64" height="12" rx="2" style="fill:var(--amber-hi);stroke:var(--ink);stroke-width:1"/><text x="182" y="117" text-anchor="middle" style="fill:var(--paper);font:700 16px var(--f-latin)">A</text></g>
+      <g class="a-fade" style="--d:.5s"><rect x="296" y="86" width="84" height="54" rx="4" style="fill:var(--steel);fill-opacity:.92"/><rect x="306" y="122" width="64" height="12" rx="2" style="fill:var(--amber-hi);stroke:var(--ink);stroke-width:1"/><text x="338" y="117" text-anchor="middle" style="fill:var(--paper);font:700 16px var(--f-latin)">B</text></g>
+      <g class="a-fade" style="--d:1s">
+        <path d="M192 66H238M328 66H282" style="stroke:var(--oxide);stroke-width:2.2;fill:none"/>
+        <path d="M232 61L240 66L232 71M288 61L280 66L288 71" style="stroke:var(--oxide);stroke-width:2.2;fill:none"/>
+        <circle cx="260" cy="66" r="11" style="fill:var(--oxide-soft);stroke:var(--oxide);stroke-width:2"/>
+        <path d="M254 60L266 72M266 60L254 72" style="stroke:var(--oxide);stroke-width:2.4"/>
+      </g>
+      <g style="font:12.5px var(--f-latin);fill:var(--ink3)" text-anchor="middle">
+        <text x="114" y="118"><tspan lang="zh" style="font-family:var(--f-zh)">段 1</tspan><tspan lang="en">seg. 1</tspan><tspan lang="ko" style="font-family:var(--f-ko)">구간 1</tspan></text>
+        <text x="406" y="118"><tspan lang="zh" style="font-family:var(--f-zh)">段 2</tspan><tspan lang="en">seg. 2</tspan><tspan lang="ko" style="font-family:var(--f-ko)">구간 2</tspan></text>
+        <text x="51" y="172"><tspan lang="zh" style="font-family:var(--f-zh)">待命点</tspan><tspan lang="en">holding pt.</tspan><tspan lang="ko" style="font-family:var(--f-ko)">대기 지점</tspan></text>
+        <text x="469" y="172"><tspan lang="zh" style="font-family:var(--f-zh)">待命点</tspan><tspan lang="en">holding pt.</tspan><tspan lang="ko" style="font-family:var(--f-ko)">대기 지점</tspan></text>
+      </g>
+      <text class="a-fade" x="260" y="198" text-anchor="middle" style="--d:1.2s;fill:var(--oxide);font:600 13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">A 占段 1 等段 2，B 占段 2 等段 1：互相等待</tspan><tspan lang="en">A holds 1, waits for 2; B holds 2, waits for 1</tspan><tspan lang="ko" style="font-family:var(--f-ko)">A는 1을 쥐고 2를, B는 2를 쥐고 1을 기다림</tspan></text>
+      <path d="M14 226H506" style="stroke:var(--line);stroke-width:1.5"/>
+      <text x="14" y="262" style="fill:var(--ink);font:600 15px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">T5：出发前预约到下一个安全待命点</tspan><tspan lang="en">T5: reserve up to the next safe holding point</tspan><tspan lang="ko" style="font-family:var(--f-ko)">T5: 다음 안전 대기 지점까지 예약</tspan></text>
+      <rect x="14" y="320" width="74" height="86" rx="4" style="fill:var(--line)"/><rect x="432" y="296" width="74" height="110" rx="4" style="fill:var(--line)"/>
+      <rect x="88" y="346" width="344" height="34" style="fill:var(--line)"/>
+      <rect class="a-x" x="88" y="342" width="414" height="42" rx="3" style="--d:.6s;fill:var(--oxide-soft);fill-opacity:.85;stroke:var(--oxide);stroke-width:1.5;stroke-dasharray:6 4"/>
+      <g class="a-drive" style="--d:.9s"><rect x="150" y="336" width="84" height="54" rx="4" style="fill:var(--steel);fill-opacity:.92"/><rect x="160" y="372" width="64" height="12" rx="2" style="fill:var(--amber-hi);stroke:var(--ink);stroke-width:1"/><text x="192" y="367" text-anchor="middle" style="fill:var(--paper);font:700 16px var(--f-latin)">A</text></g>
+      <path class="a-fade" d="M246 363H300M294 358L302 363L294 368" style="--d:1.3s;stroke:var(--oxide);stroke-width:2.2;fill:none"/>
+      <g class="a-fade" style="--d:.4s"><rect x="440" y="300" width="58" height="34" rx="4" style="fill:var(--steel);fill-opacity:.92"/><text x="469" y="322" text-anchor="middle" style="fill:var(--paper);font:700 15px var(--f-latin)">B</text></g>
+      <g style="font:12.5px var(--f-latin);fill:var(--ink3)" text-anchor="middle">
+        <text x="51" y="422"><tspan lang="zh" style="font-family:var(--f-zh)">待命点</tspan><tspan lang="en">holding pt.</tspan><tspan lang="ko" style="font-family:var(--f-ko)">대기 지점</tspan></text>
+        <text x="469" y="422"><tspan lang="zh" style="font-family:var(--f-zh)">待命点：B 在等</tspan><tspan lang="en">B waits here</tspan><tspan lang="ko" style="font-family:var(--f-ko)">B 대기 중</tspan></text>
+        <text x="260" y="334" style="fill:var(--oxide)"><tspan lang="zh" style="font-family:var(--f-zh)">A 的预约：走廊 + 终点待命位</tspan><tspan lang="en">A's booking: corridor + slot</tspan><tspan lang="ko" style="font-family:var(--f-ko)">A의 예약: 통로 + 대기 자리</tspan></text>
+      </g>
+      <text class="a-fade" x="260" y="452" text-anchor="middle" style="--d:1.5s;fill:var(--good);font:600 13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">放行前已留好待命位：不会出现占用—等待的环</tspan><tspan lang="en">The slot is booked before release: no hold-and-wait cycle</tspan><tspan lang="ko" style="font-family:var(--f-ko)">출발 전에 대기 자리 확보: 점유–대기 순환 없음</tspan></text>
+    </svg></div>
+    <div class="stripe"></div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">这是博士论文第 4 章的分项汇报：交通编排。第 3 章的立旗实验表明，在路网约束区，运力是一个区间，下沿由交通规则决定。第 4 章要做的，是设计无死锁的任务分派与通行编排，把这个下沿往上推。右上是朴素逐段申请的典型死锁：两辆载货车对向驶入单车道，各占一段、各等对方；右下是定理 T5 的思路：载货出发前，把通往下一个安全待命点的路段连同待命位一起预约好。</p>
+    <p lang="en">This briefing covers chapter 4 of the thesis: traffic orchestration. The chapter 3 flag experiment shows that, where the network binds, capacity is an interval whose lower edge is set by the traffic rule. Chapter 4 designs deadlock-free task assignment and passage sequencing to push that edge up. Top right is the typical deadlock of naive segment request: two loaded vehicles enter a single lane head-on, each holding one segment and waiting for the other's. Bottom right is the idea of theorem T5: before a loaded departure, book the road up to the next safe holding point together with a slot there.</p>
+    <p lang="ko">박사 논문 4장, 교통 편성의 세부 보고입니다. 3장의 깃발 실험은 도로망 제약 구간에서 운송 능력이 구간이며 그 하한을 통행 규칙이 정함을 보였습니다. 4장은 교착 없는 작업 배정과 통행 순서를 설계해 이 하한을 끌어올립니다. 오른쪽 위는 단순 구간별 요청의 전형적 교착입니다: 적재 차량 두 대가 단일 차로에 마주 들어와 각자 한 구간을 쥐고 상대를 기다립니다. 오른쪽 아래는 정리 T5의 생각입니다: 적재 출발 전에 다음 안전 대기 지점까지의 구간과 그곳의 자리를 함께 예약합니다.</p>
+  </aside>
+</section>
+
+<!-- one minute -->
+<section class="slide" data-sec="intro">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">一分钟看完这项研究</span><span lang="en">This study in one minute</span><span lang="ko">1분 요약</span></h2>
+  <div class="content" style="grid-template-rows:auto auto;align-content:center;gap:16px">
+    <div class="cols4">
+      <div class="card sumc"><span class="k">1</span><h3><span lang="zh">问题</span><span lang="en">The question</span><span lang="ko">질문</span></h3>
+        <p><span lang="zh">第 3 章表明运力是一个区间：[最好的无死锁规则，T1′]。下沿由交通规则决定，玉浦整条路径预约的平台只到 T1′ 的 36%。</span><span lang="en">Chapter 3 shows that capacity is an interval, [best deadlock-free rule, T1′]. The traffic rule sets the lower edge: on Okpo, whole-route reservation plateaus at 36% of T1′.</span><span lang="ko">3장은 운송 능력이 구간 [가장 좋은 무교착 규칙, T1′]임을 보였다. 하한은 통행 규칙이 정하며, 옥포의 전체 경로 예약 평탄 구간은 T1′의 36%다.</span></p></div>
+      <div class="card sumc"><span class="k">2</span><h3><span lang="zh">为什么要新规则</span><span lang="en">Why new rules</span><span lang="ko">왜 새 규칙인가</span></h3>
+        <p><span lang="zh">朴素的逐段申请会死锁：玉浦饱和档 K = 100 时每天 1,911 次，靠“瞬移”疏解，约 30% 的车·时被移出路网，只能作参照规则。</span><span lang="en">Naive segment request deadlocks 1,911 times a day on Okpo at K = 100. “Teleport” clearing takes about 30% of vehicle-hours off the network, so it is only a reference rule.</span><span lang="ko">단순 구간별 요청은 옥포 K = 100에서 하루 1,911회 교착한다. “순간이동” 해소로 차량·시간의 약 30%가 도로망 밖으로 빠져 참조 규칙일 뿐이다.</span></p></div>
+      <div class="card sumc"><span class="k">3</span><h3><span lang="zh">做法</span><span lang="en">The approach</span><span lang="ko">접근</span></h3>
+        <p><span lang="zh">安全壳（T5、安全放行）保证不死锁；壳内把任务分派与通行顺序一起搜索，小实例用 CP-SAT 求真值，大实例用大邻域搜索。</span><span lang="en">A safety shell (T5, safe release) rules out deadlock; inside it, task assignment and passage order are searched together, with CP-SAT ground truth on small instances and neighbourhood search at scale.</span><span lang="ko">안전 외피 (T5, 안전 출발)가 교착을 막고, 그 안에서 작업 배정과 통행 순서를 함께 탐색한다. 소규모는 CP-SAT 기준해, 대규모는 이웃 탐색.</span></p></div>
+      <div class="card sumc"><span class="k">4</span><h3><span lang="zh">产出</span><span lang="en">Outputs</span><span lang="ko">산출물</span></h3>
+        <p><span lang="zh">把下沿推向现场的单车效率；回答 H5：安全要付出多少；证明 T5；一篇第 4 章期刊论文。</span><span lang="en">A lower edge pushed towards field per-vehicle productivity; an answer to H5, what safety costs; a proof of T5; a chapter 4 journal paper.</span><span lang="ko">하한을 현장 차량당 생산성 쪽으로 올리고, H5 (안전의 비용)에 답하며, T5를 증명하고, 4장 학술지 논문 한 편.</span></p></div>
+    </div>
+    <p class="quote"><span lang="zh">在路网约束区，可达运力占上界多少，由交通编排决定。（C3）</span><span lang="en">Where the network binds, how much of the bound is achieved is decided by traffic orchestration. (C3)</span><span lang="ko">도로망 제약 구간에서 달성 운송 능력이 상한의 몇 %인지는 교통 편성이 정한다. (C3)</span></p>
+  </div>
+  <p class="src"><span lang="zh">来源：研究宣言 v1（C1、C3、H5、T5）；数字为 thesis-core 83c16bf 的玉浦主情景（整段资源、饱和档，条件见第 4、6 页）；目标见作者 2026-10-09 指导第 4.3 节。</span><span lang="en">Sources: research manifesto v1 (C1, C3, H5, T5); numbers from Okpo's main scenario in thesis-core 83c16bf (whole-segment resources, saturated; conditions on pages 4 and 6); the goal follows the author's guidance of 9 Oct 2026, §4.3.</span><span lang="ko">출처: 연구 선언 v1 (C1, C3, H5, T5), 수치는 thesis-core 83c16bf의 옥포 주 시나리오 (구간 전체 자원, 포화, 조건은 4·6쪽), 목표는 저자의 2026-10-09 지침 §4.3.</span></p>
+  <aside class="notes">
+    <p lang="zh">一分钟版本。问题：第 3 章说明运力是一个区间，上沿是路网上界 T1′，下沿是最好的无死锁规则；现在的下沿是整条路径预约，只到上界的 36%。为什么要新规则：朴素的逐段申请虽然更高，但会大量死锁，靠让车瞬移离开路网来化解，不能当真。做法：用可证明安全的规则做安全壳，壳内把分派和通行顺序一起优化。产出：把下沿推向现场的单车效率，并回答安全要付出多少。</p>
+    <p lang="en">The one-minute version. The question: chapter 3 shows capacity is an interval, with the network bound T1′ on top and the best deadlock-free rule at the bottom; today's bottom is whole-route reservation at 36% of the bound. Why new rules: naive segment request reaches higher, but it deadlocks constantly and survives only by teleporting vehicles off the network, so it cannot be taken at face value. The approach: a provably safe shell with assignment and passage order optimised together inside it. The outputs: a lower edge pushed towards field per-vehicle productivity, and an answer to what safety costs.</p>
+    <p lang="ko">1분 요약입니다. 질문: 3장은 운송 능력이 구간이며 위는 도로망 상한 T1′, 아래는 가장 좋은 무교착 규칙임을 보였습니다. 지금의 하한인 전체 경로 예약은 상한의 36%입니다. 새 규칙이 필요한 이유: 단순 구간별 요청은 더 높지만 교착이 잦고 차량을 도로망 밖으로 순간이동시켜야 버티므로 그대로 믿을 수 없습니다. 접근: 안전이 증명된 외피 안에서 배정과 통행 순서를 함께 최적화합니다. 산출물: 하한을 현장 차량당 생산성 쪽으로 올리고 안전의 비용에 답합니다.</p>
+  </aside>
+</section>
+
+<!-- position in the thesis -->
+<section class="slide" data-sec="pos">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">在论文中的位置：第 3 章给出运力区间，第 4 章把下沿往上推</span><span lang="en">Its place in the thesis: chapter 3 gives the capacity interval, chapter 4 pushes its lower edge up</span><span lang="ko">논문에서의 위치: 3장이 운송 능력 구간을 주고, 4장이 그 하한을 끌어올린다</span></h2>
+  <div class="content" style="grid-template-rows:auto auto;align-content:center;gap:20px;margin-top:10px">
+    <div class="chain">
+      <div class="st" style="--c:var(--g-empty)"><span lang="zh">第 2 章 占路模型</span><span lang="en">Ch. 2 occupancy model</span><span lang="ko">2장 점유 모형</span></div><span class="ar">→</span>
+      <div class="st" style="--c:var(--steel)"><span lang="zh">第 3 章 运力区间与上界</span><span lang="en">Ch. 3 interval and bounds</span><span lang="ko">3장 구간과 상한</span></div><span class="ar">→</span>
+      <div class="st me" style="--c:var(--amber-hi)"><span lang="zh">第 4 章 交通编排（本研究）</span><span lang="en">Ch. 4 orchestration (this study)</span><span lang="ko">4장 교통 편성 (본 연구)</span></div><span class="ar">→</span>
+      <div class="st" style="--c:var(--steel)"><span lang="zh">第 5 章 买车还是改路</span><span lang="en">Ch. 5 vehicles or roads</span><span lang="ko">5장 차량이냐 도로냐</span></div><span class="ar">→</span>
+      <div class="st" style="--c:var(--steel)"><span lang="zh">第 6 章 多船厂检验</span><span lang="en">Ch. 6 many yards</span><span lang="ko">6장 다수 조선소 검증</span></div>
+    </div>
+    <div class="tblwrap"><table class="tbl dense mf">
+      <thead><tr><th><span lang="zh">宣言条目</span><span lang="en">Item</span><span lang="ko">선언 항목</span></th><th><span lang="zh">研究宣言 v1 原文</span><span lang="en">Manifesto v1 wording</span><span lang="ko">연구 선언 v1 원문</span></th><th><span lang="zh">第 4 章怎样回应</span><span lang="en">How chapter 4 answers</span><span lang="ko">4장의 응답</span></th></tr></thead>
+      <tbody>
+        <tr><td><span lang="zh">C1 运力区间</span><span lang="en">C1 interval</span><span lang="ko">C1 구간</span></td><td><span lang="zh">可达运力落在区间 [最好的无死锁规则，路网上界] 之内</span><span lang="en">Achievable capacity lies in the interval [best deadlock-free rule, network bound]</span><span lang="ko">달성 가능한 운송 능력은 구간 [가장 좋은 무교착 규칙, 도로망 상한] 안에 있다</span></td><td><span lang="zh">下沿就是第 4 章交出的规则：先换成安全放行，再换成优化编排</span><span lang="en">The lower edge is the rule chapter 4 delivers: first safe release, then optimised orchestration</span><span lang="ko">하한은 4장이 내놓는 규칙: 먼저 안전 출발, 다음은 최적화된 편성</span></td></tr>
+        <tr class="me"><td><span lang="zh">C3 派车变成排路</span><span lang="en">C3 dispatching becomes road scheduling</span><span lang="ko">C3 배차가 도로 편성이 된다</span></td><td><span lang="zh">在路网约束区，可达运力占上界多少，由交通编排决定：放行顺序、等待点、预约方式、闭塞粒度。朴素派工会死锁</span><span lang="en">Where the network binds, how much of the bound is achieved is decided by traffic orchestration: release order, waiting points, reservation mode, block granularity. Naive dispatching deadlocks</span><span lang="ko">도로망 제약 구간에서 달성 운송 능력이 상한의 몇 %인지는 교통 편성이 정한다: 출발 순서, 대기 지점, 예약 방식, 폐색 단위. 단순 배차는 교착에 빠진다</span></td><td><span lang="zh">四个杠杆都作为决策变量；死锁按无瞬移规则计</span><span lang="en">All four levers become decision variables; deadlocks are counted under no-teleport rules</span><span lang="ko">네 지렛대를 모두 결정 변수로, 교착은 순간이동 없는 규칙으로 센다</span></td></tr>
+        <tr><td><span lang="zh">C4 分界</span><span lang="en">C4 boundary</span><span lang="ko">C4 경계</span></td><td><span lang="zh">平台远低于上界时，先改编排。这是 C3 与 C4 的分界</span><span lang="en">When the plateau lies far below the bound, change the orchestration first. This is the boundary between C3 and C4</span><span lang="ko">평탄 구간이 상한보다 훨씬 낮으면 먼저 편성을 바꾼다. 이것이 C3와 C4의 경계다</span></td><td><span lang="zh">玉浦主情景平台 / T1′ ≈ 36%，落在“先改编排”一侧</span><span lang="en">Okpo's main scenario has plateau / T1′ ≈ 36%: orchestration comes first</span><span lang="ko">옥포 주 시나리오의 평탄 / T1′ ≈ 36%: 편성이 먼저</span></td></tr>
+        <tr class="me"><td><span lang="zh">H5 安全编排</span><span lang="en">H5 safe orchestration</span><span lang="ko">H5 안전 편성</span></td><td><span lang="zh">朴素派工在高峰会出现死锁或近死锁；可证明安全的策略只损失很小的吞吐</span><span lang="en">Naive dispatching deadlocks or nearly deadlocks at peaks; a provably safe policy loses only a little throughput</span><span lang="ko">단순 배차는 피크에 교착 또는 준교착에 빠지고, 안전이 증명된 정책은 처리량을 조금만 잃는다</span></td><td><span lang="zh">两条判据与读法见第 9 页</span><span lang="en">Both criteria and the reading: page 9</span><span lang="ko">두 판단 기준과 읽는 법: 9쪽</span></td></tr>
+        <tr><td><span lang="zh">T5 定理</span><span lang="en">T5 theorem</span><span lang="ko">T5 정리</span></td><td><span lang="zh">安全编排：预约到下一个安全待命点不会死锁，并给出相对上界的损失界</span><span lang="en">Safe orchestration: reserving to the next safe holding point never deadlocks, with a loss bound relative to the upper bound</span><span lang="ko">안전 편성: 다음 안전 대기 지점까지 예약하면 교착이 없으며, 상한 대비 손실 한계를 준다</span></td><td><span lang="zh">宣言状态“待做（第 4 章）”；证明路线见第 8 页</span><span lang="en">Manifesto status “to do (chapter 4)”; proof route on page 8</span><span lang="ko">선언 상태 “할 일 (4장)”, 증명 경로는 8쪽</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <p class="src"><span lang="zh">来源：研究宣言 v1（thesis-core 标签 manifesto-v1，docs/研究宣言.md 第 2–4 节），中文原文照录，英文、韩文为译文；章节衔接见《博士论文方向进攻指导（第二版）》第 4 节。</span><span lang="en">Sources: research manifesto v1 (thesis-core tag manifesto-v1, docs/研究宣言.md §§2–4), Chinese wording quoted verbatim and translated here; chapter links from the thesis direction document (2nd ed.), §4.</span><span lang="ko">출처: 연구 선언 v1 (thesis-core 태그 manifesto-v1, docs/研究宣言.md §2–4), 중국어 원문을 그대로 옮기고 번역함, 장 연결은 박사 논문 방향 지침 (제2판) §4.</span></p>
+  <aside class="notes">
+    <p lang="zh">第 4 章在论文中的位置：第 3 章说明运力从哪来、给出区间，第 4 章把区间的下沿往上推，第 5 章再讨论花钱扩大上沿。它直接回应研究宣言里的五个条目。C1 把运力写成区间，下沿就是第 4 章交出的规则。C3 说可达运力占上界多少由编排决定，四个杠杆是放行顺序、等待点、预约方式和闭塞粒度。C4 给出分界：平台远低于上界时先改编排，玉浦主情景正是这种情况。H5 和定理 T5 是本章的理论核心。</p>
+    <p lang="en">Where chapter 4 sits: chapter 3 explains where capacity comes from and gives the interval; chapter 4 pushes its lower edge up; chapter 5 then spends money to raise the upper edge. The chapter answers five items of the research manifesto. C1 writes capacity as an interval whose lower edge is the rule chapter 4 delivers. C3 says that orchestration decides how much of the bound is achieved, through four levers: release order, waiting points, reservation mode and block granularity. C4 draws the boundary: when the plateau lies far below the bound, change the orchestration first, which is Okpo's main scenario. H5 and theorem T5 are the chapter's theoretical core.</p>
+    <p lang="ko">4장의 위치입니다. 3장은 운송 능력의 원천과 구간을 주고, 4장은 그 하한을 끌어올리며, 5장은 비용을 들여 상한을 올리는 문제를 다룹니다. 이 장은 연구 선언의 다섯 항목에 답합니다. C1은 운송 능력을 구간으로 쓰고 그 하한이 4장이 내놓는 규칙입니다. C3는 달성 비율을 편성이 정하며 지렛대는 출발 순서, 대기 지점, 예약 방식, 폐색 단위라고 합니다. C4는 경계를 줍니다: 평탄 구간이 상한보다 훨씬 낮으면 먼저 편성을 바꾸며, 옥포 주 시나리오가 바로 그렇습니다. H5와 정리 T5가 이 장의 이론적 핵심입니다.</p>
+  </aside>
+</section>
+
+<!-- the interval -->
+<section class="slide" data-sec="why">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">运力区间的下沿由规则决定：两厂的预约平台都只到 T1′ 的约 36%</span><span lang="en">The traffic rule sets the lower edge of the capacity interval: on both yards the reservation plateau is only about 36% of T1′</span><span lang="ko">운송 능력 구간의 하한은 통행 규칙이 정한다: 두 조선소 모두 예약 평탄 구간이 T1′의 약 36%뿐이다</span></h2>
+  <div class="content g-l" style="gap:24px;margin-top:14px">
+    <div class="col" style="gap:8px">
+      <div class="fill chart" id="cInt"></div>
+      <div class="legend" id="lgInt"></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:4px" id="intRead"></div>
+  </div>
+  <p class="src"><span lang="zh">来源：thesis-core 83c16bf。玉浦 results/a0ab16fceb94 与 49d2383872e7（MY-B 流向组合，地图 rev 1824，路网与 rev 1825 逐项相同）；烟台 results/b82aa19b22af（主情景，地图 r395，路网与 r396 相同）。条件：饱和档（任务不断），16 h 工作日，每条路段一个资源（整段）。平台 = K = 100–150 的平均吞吐（10 个种子）；T1′ = 10 个种子上界的均值。自由流不检查占用、会越过 T1′，图中不画。</span><span lang="en">Sources: thesis-core 83c16bf. Okpo results/a0ab16fceb94 and 49d2383872e7 (MY-B task mix, map rev 1824, network identical to rev 1825); Yantai results/b82aa19b22af (main scenario, map rev 395, network identical to rev 396). Conditions: saturated demand, 16-h day, one resource per road (whole segment). Plateau = mean throughput over K = 100–150 (10 seeds); T1′ = mean bound over 10 seeds. Free flow ignores occupancy, exceeds T1′ and is not drawn.</span><span lang="ko">출처: thesis-core 83c16bf. 옥포 results/a0ab16fceb94·49d2383872e7 (MY-B 작업 구성, 지도 rev 1824, 도로망은 rev 1825와 동일), 옌타이 results/b82aa19b22af (주 시나리오, 지도 r395, 도로망은 r396과 동일). 조건: 포화 수요, 하루 16시간, 도로당 자원 하나 (구간 전체). 평탄 = K = 100–150 평균 처리량 (시드 10개), T1′ = 시드 10개 상한 평균. 자유류는 점유를 무시해 T1′을 넘으므로 그리지 않음.</span></p>
+  <aside class="notes">
+    <p lang="zh">先看为什么要做编排。横轴是吞吐占路网上界 T1′ 的比例。整条路径预约是现在唯一既无死锁、又在定理范围内的规则，两座船厂的平台都只到 T1′ 的 36% 左右；逐段申请到 57% 和 50%，但它靠瞬移疏解，只能作参照，不能当下沿。从下沿到 100% 之间这一大段，就是第 4 章要挣回来的部分。同时第 3 章在加强上界，把上沿往下压，两头夹住真实运力。</p>
+    <p lang="en">Why orchestration. The axis is throughput as a share of the network bound T1′. Whole-route reservation is today's only rule that is both deadlock-free and inside the theorem; on both yards its plateau reaches only about 36% of T1′. Segment request reaches 57% and 50%, but it relies on teleport clearing, so it is a reference and cannot be the lower edge. The long stretch from the lower edge to 100% is what chapter 4 aims to win back, while chapter 3 tightens the bound from above, so the true capacity is squeezed from both sides.</p>
+    <p lang="ko">왜 편성인가부터 봅니다. 가로축은 도로망 상한 T1′ 대비 처리량 비율입니다. 전체 경로 예약은 지금 교착이 없고 정리 범위 안에 있는 유일한 규칙인데, 두 조선소 모두 평탄 구간이 T1′의 약 36%뿐입니다. 구간별 요청은 57%와 50%에 이르지만 순간이동 해소에 기대므로 참조일 뿐 하한이 될 수 없습니다. 하한에서 100%까지의 긴 구간이 4장이 되찾을 몫이고, 3장은 위에서 상한을 강화해 실제 능력을 양쪽에서 좁힙니다.</p>
+  </aside>
+</section>
+
+<!-- rule, not road -->
+<section class="slide" data-sec="why">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">主情景里限制吞吐的是规则，不是那条路：改路抬高 T1′，预约几乎不动</span><span lang="en">In the main scenario the rule, not the road, limits throughput: road changes raise T1′ while reservation barely moves</span><span lang="ko">주 시나리오에서 처리량을 막는 것은 도로가 아니라 규칙이다: 도로를 고치면 T1′은 오르지만 예약은 거의 그대로다</span></h2>
+  <div class="content g-l" style="gap:24px;margin-top:14px">
+    <div class="col" style="gap:8px">
+      <div class="fill chart" id="cProbe"></div>
+      <div class="legend" id="lgProbe"></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:10px">
+      <div class="card tight"><h3><span lang="zh">三种道路改动（道路161）</span><span lang="en">Three changes to road 161</span><span lang="ko">도로161의 세 가지 개조</span></h3>
+        <p><span lang="zh">改宽到 12 m、按停靠点分段闭塞、分段后再加两处会车点：T1′ 升 5%–8%，整条路径预约的饱和吞吐只变 +0.2% 至 +2.4%。</span><span lang="en">Widening to 12 m, segmented blocking at the stops, and two passing bays on top: T1′ rises 5–8%, while saturated reservation throughput moves only +0.2% to +2.4%.</span><span lang="ko">12 m로 확폭, 정차 지점별 분할 폐색, 분할 후 대피 구간 두 곳 추가: T1′은 5–8% 오르지만 전체 경로 예약의 포화 처리량은 +0.2%~+2.4%만 변한다.</span></p></div>
+      <div class="card tight"><h3><span lang="zh">小实例（与手算一致）</span><span lang="en">Small instances (checked by hand)</span><span lang="ko">소규모 사례 (손 계산과 일치)</span></h3>
+        <p><span lang="zh">12 m 单车道走廊：预约 19 个/日，手算可行编排 31.6，T1′ 37.9。十字路口：预约 70，逐段申请（参照规则，瞬移疏解）105，T1′ 187。</span><span lang="en">A 12 m single-lane corridor: reservation 19 a day, a hand-built feasible schedule 31.6, T1′ 37.9. A crossroads: reservation 70, segment request (reference rule, teleport clearing) 105, T1′ 187.</span><span lang="ko">12 m 단일 차로 회랑: 예약 하루 19, 손으로 만든 가능한 편성 31.6, T1′ 37.9. 교차로: 예약 70, 구간별 요청 (참조 규칙, 순간이동 해소) 105, T1′ 187.</span></p></div>
+      <div class="card tight" style="background:var(--amber-soft)"><p style="color:var(--ink)"><span lang="zh">原因是刚性链条：预约把空驶、装货、载货、卸货订成一条链，车在装卸时，订下的路段也空着。平台远低于上界，所以先改编排。</span><span lang="en">The cause is a rigid chain: reservation books empty run, loading, loaded run and unloading as one chain, so the booked road sits idle while the vehicle loads or unloads. With the plateau far below the bound, orchestration comes first.</span><span lang="ko">원인은 경직된 사슬이다: 예약은 공차 주행, 적재, 적재 주행, 하역을 한 사슬로 묶어, 차량이 싣고 내리는 동안 예약된 구간도 빈다. 평탄 구간이 상한보다 훨씬 낮으므로 편성이 먼저다.</span></p></div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：作者 2026-10-09 指导附录 A（审核人探针：代码 83c16bf，玉浦派生图 rev 1825，主情景 MY-B 流向组合，饱和，4 天计第 2–4 天；T1′ 为 10 个种子，仿真为 3 个种子 101–103，正式数字待 10 个种子与完整 K 网格，T25）。小实例与“刚性链条”见 thesis-core 83c16bf docs/T18_report.md 第 2.3 节。</span><span lang="en">Sources: the author's guidance of 9 Oct 2026, appendix A (reviewer's probe: code 83c16bf, Okpo derived map rev 1825, main scenario with MY-B task mix, saturated, 4 days counting days 2–4; T1′ over 10 seeds, simulation over 3 seeds 101–103; final numbers await 10 seeds and the full K grid, T25). Small instances and the rigid chain: thesis-core 83c16bf docs/T18_report.md §2.3.</span><span lang="ko">출처: 저자의 2026-10-09 지침 부록 A (검토자 탐침: 코드 83c16bf, 옥포 파생 지도 rev 1825, MY-B 작업 구성 주 시나리오, 포화, 4일 중 2–4일 집계, T1′은 시드 10개, 시뮬레이션은 시드 3개 101–103, 확정 수치는 시드 10개와 전체 K 격자로 T25에서). 소규모 사례와 경직된 사슬: thesis-core 83c16bf docs/T18_report.md §2.3.</span></p>
+  <aside class="notes">
+    <p lang="zh">下沿为什么低？审核人做了一个探针：把玉浦取紧的坞前道路161 改宽、分段闭塞、再加会车点。路网上界 T1′ 升了 5% 到 8%，但整条路径预约的饱和吞吐只变了 0.2% 到 2.4%。也就是说，主情景里卡住吞吐的是规则，不是那条路。小实例说明了原因：预约把一次运输的四段订成刚性的一条链，车在装卸时，订好的路段也空着。所以按宣言 C3 与 C4 的分界，平台远低于上界，应当先改编排、再改路。</p>
+    <p lang="en">Why is the lower edge low? The reviewer ran a probe on road 161, the dock road where Okpo's bound binds: widen it, block it in sections, add passing bays. The network bound T1′ rose 5 to 8%, yet saturated reservation throughput moved only 0.2 to 2.4%. In the main scenario the rule, not the road, holds throughput back. The small instances show why: reservation books the four legs of a move as one rigid chain, so the booked road idles while the vehicle loads or unloads. By the C3–C4 boundary of the manifesto, with the plateau far below the bound, orchestration should change before the road.</p>
+    <p lang="ko">하한은 왜 낮을까요? 검토자가 옥포의 상한이 걸리는 도크 앞 도로161을 넓히고, 분할 폐색하고, 대피 구간을 더하는 탐침을 했습니다. 도로망 상한 T1′은 5–8% 올랐지만 전체 경로 예약의 포화 처리량은 0.2–2.4%만 변했습니다. 주 시나리오에서는 도로가 아니라 규칙이 처리량을 막습니다. 소규모 사례가 이유를 보여 줍니다: 예약은 한 운송의 네 구간을 경직된 사슬로 묶어, 싣고 내리는 동안 예약된 구간이 빕니다. 선언의 C3–C4 경계에 따라 평탄 구간이 상한보다 훨씬 낮으면 도로보다 편성을 먼저 바꿔야 합니다.</p>
+  </aside>
+</section>
+
+<!-- deadlocks -->
+<section class="slide" data-sec="why">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">朴素的逐段申请会死锁：它靠“瞬移”疏解，所以只能作参照规则</span><span lang="en">Naive segment request deadlocks; it survives only by “teleport” clearing, so it is a reference rule</span><span lang="ko">단순 구간별 요청은 교착에 빠지며 “순간이동” 해소로만 버티므로 참조 규칙일 뿐이다</span></h2>
+  <div class="content g-l" style="gap:24px;margin-top:14px">
+    <div class="col" style="gap:8px">
+      <div class="fill chart" id="cDead"></div>
+      <div class="legend" id="lgDead"></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:6px">
+      <div id="deadRead"></div>
+      <p class="small" style="margin:0;border-left:4px solid var(--amber-hi);padding-left:12px"><span lang="zh">T1′ 的证明不覆盖瞬移，宣言也规定瞬移规则不单独支撑任何论断。所以要换成物理规则：安全放行、不疏解、物理疏解（T22）。旁证：码头交通网络中，路口不设禁停网格线时，30 台起就出现死锁（Zhou et al. 2017）。</span><span lang="en">The proof of T1′ does not cover teleporting, and the manifesto bars the teleport rule from supporting any claim on its own. Hence physical rules: safe release, no clearing, physical clearing (T22). Support from ports: a terminal network deadlocks from 30 vehicles without keep-clear hatching at junctions (Zhou et al. 2017).</span><span lang="ko">T1′ 증명은 순간이동을 다루지 않고, 선언도 순간이동 규칙이 단독으로 어떤 논제도 뒷받침하지 못하게 한다. 그래서 물리 규칙으로 바꾼다: 안전 출발, 해소 없음, 물리적 해소 (T22). 방증: 교차로 정차 금지 표시가 없는 터미널 교통망은 30대부터 교착 (Zhou et al. 2017).</span></p>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：thesis-core 83c16bf，批次与条件同第 4 页；逐段申请（参照规则，瞬移疏解）：每次死锁选一辆车让出全部资源，在旁边空地待 900 s 后从原位置重新申请（900 s 无公开来源，T17）。死锁为 10 个种子均值，阴影为最小–最大；常规与高峰取 K 网格上的中位数。离网车·时 = 死锁数 × 900 s ÷（K × 16 h），是下界。作者 2026-10-09 指导第 2.2 节。</span><span lang="en">Sources: thesis-core 83c16bf, batches and conditions as on page 4. Segment request (reference rule, teleport clearing): at each deadlock one vehicle releases all its resources, waits 900 s on open ground and requests again from where it was (no published value for 900 s, T17). Deadlocks are means of 10 seeds, shading min–max; regular and peak are medians over the K grid. Vehicle-hours off the network = deadlocks × 900 s ÷ (K × 16 h), a lower bound. The author's guidance of 9 Oct 2026, §2.2.</span><span lang="ko">출처: thesis-core 83c16bf, 배치와 조건은 4쪽과 같음. 구간별 요청 (참조 규칙, 순간이동 해소): 교착마다 차량 한 대가 모든 자원을 내놓고 옆 공터에서 900초 기다린 뒤 원래 위치에서 다시 요청 (900초는 공개 근거 없음, T17). 교착은 시드 10개 평균, 음영은 최소–최대, 평상·피크는 K 격자 중앙값. 도로망 밖 차량·시간 = 교착 수 × 900초 ÷ (K × 16시간), 하한. 저자의 2026-10-09 지침 §2.2.</span></p>
+  <aside class="notes">
+    <p lang="zh">逐段申请为什么不能当下沿？因为它在大量死锁。按现在的 4 台车子集任务量，玉浦常规日每天死锁约 26 次、高峰日 83 次；饱和档 K = 100 时每天 1,911 次，K = 150 时 2,657 次。每次死锁让一辆车离开路网 900 秒，K = 100 时至少约 30% 的车·时不在路网上。T1′ 的证明不覆盖这种瞬移，宣言也规定它不能单独支撑任何结论。所以需要物理规则：安全放行、不疏解，以及物理疏解。码头 AGV 的文献也看到，路口规则不当时三十台车就会死锁。</p>
+    <p lang="en">Why can segment request not be the lower edge? Because it deadlocks constantly. At today's four-vehicle-subset task volumes, Okpo deadlocks about 26 times on a regular day and 83 times at peak; at saturation, 1,911 times a day with 100 vehicles and 2,657 with 150. Each deadlock sends one vehicle off the network for 900 seconds, so at K = 100 at least about 30% of vehicle-hours are not on the network. T1′'s proof does not cover this teleporting, and the manifesto bars it from supporting any conclusion on its own. Hence physical rules: safe release, no clearing, physical clearing. Port studies see the same: with poor junction rules, thirty AGVs already deadlock.</p>
+    <p lang="ko">구간별 요청이 왜 하한이 될 수 없을까요? 교착이 잦기 때문입니다. 지금의 4대 부분집합 작업량에서 옥포는 평상일 하루 약 26회, 피크일 83회 교착하고, 포화에서는 K = 100일 때 하루 1,911회, K = 150일 때 2,657회입니다. 교착마다 차량 한 대가 900초 동안 도로망을 떠나므로 K = 100에서 차량·시간의 적어도 약 30%가 도로망 밖에 있습니다. T1′ 증명은 이런 순간이동을 다루지 않고, 선언도 이것이 단독으로 결론을 뒷받침하지 못하게 합니다. 그래서 물리 규칙이 필요합니다: 안전 출발, 해소 없음, 물리적 해소. 항만 AGV 문헌에서도 교차로 규칙이 부실하면 30대에서 교착이 나타납니다.</p>
+  </aside>
+</section>
+
+<!-- the rules -->
+<section class="slide" data-sec="rules">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">在用的规则与要建的规则：从刚性预约、参照规则，到可证明安全的编排</span><span lang="en">Rules in use and rules to build: from rigid reservation and a reference rule to provably safe orchestration</span><span lang="ko">사용 중인 규칙과 만들 규칙: 경직된 예약과 참조 규칙에서 안전이 증명된 편성으로</span></h2>
+  <div class="content" style="align-content:center;margin-top:10px">
+    <div class="tblwrap"><table class="tbl dense rl">
+      <thead><tr><th><span lang="zh">规则</span><span lang="en">Rule</span><span lang="ko">규칙</span></th><th><span lang="zh">怎样放行</span><span lang="en">How it releases</span><span lang="ko">출발 방식</span></th><th><span lang="zh">死锁</span><span lang="en">Deadlock</span><span lang="ko">교착</span></th><th><span lang="zh">局限</span><span lang="en">Limitation</span><span lang="ko">한계</span></th><th><span lang="zh">在第 4 章的用处</span><span lang="en">Use in chapter 4</span><span lang="ko">4장에서의 쓰임</span></th><th><span lang="zh">状态</span><span lang="en">Status</span><span lang="ko">상태</span></th></tr></thead>
+      <tbody>
+        <tr><td><span lang="zh">整条路径预约</span><span lang="en">Whole-route reservation</span><span lang="ko">전체 경로 예약</span></td><td><span lang="zh">载货出发前预约整条路径，就时出发</span><span lang="en">Books the whole route before a loaded departure; leaves just in time</span><span lang="ko">적재 출발 전 전체 경로 예약, 제때 출발</span></td><td><span lang="zh">不会</span><span lang="en">none</span><span lang="ko">없음</span></td><td><span lang="zh">刚性链条；平台约为 T1′ 的 36%</span><span lang="en">Rigid chain; plateau about 36% of T1′</span><span lang="ko">경직된 사슬, 평탄 구간은 T1′의 약 36%</span></td><td><span lang="zh">现在的下沿；对照基线</span><span lang="en">Today's lower edge; baseline</span><span lang="ko">현재의 하한, 비교 기준</span></td><td><span class="pill done"><span lang="zh">已有 T18</span><span lang="en">done, T18</span><span lang="ko">완료 T18</span></span></td></tr>
+        <tr><td><span lang="zh">逐段申请（参照规则，瞬移疏解）</span><span lang="en">Segment request (reference rule, teleport clearing)</span><span lang="ko">구간별 요청 (참조 규칙, 순간이동 해소)</span></td><td><span lang="zh">走一段申请一段；死锁后一辆车离网 900&nbsp;s</span><span lang="en">Requests one segment at a time; at a deadlock one vehicle leaves for 900&nbsp;s</span><span lang="ko">구간마다 요청, 교착 시 차량 한 대가 900초 이탈</span></td><td><span lang="zh">会</span><span lang="en">yes</span><span lang="ko">있음</span></td><td><span lang="zh">不在 T1′ 的证明范围内</span><span lang="en">Outside the T1′ proof</span><span lang="ko">T1′ 증명 범위 밖</span></td><td><span lang="zh">只作参照</span><span lang="en">Reference only</span><span lang="ko">참조만</span></td><td><span class="pill done"><span lang="zh">已有 T17</span><span lang="en">done, T17</span><span lang="ko">완료 T17</span></span></td></tr>
+        <tr><td><span lang="zh">逐段申请，不疏解</span><span lang="en">Segment request, no clearing</span><span lang="ko">구간별 요청, 해소 없음</span></td><td><span lang="zh">同上，但死锁的车一直占着路</span><span lang="en">As above, but deadlocked vehicles keep the road</span><span lang="ko">같지만 교착 차량이 도로를 계속 점유</span></td><td><span lang="zh">会</span><span lang="en">yes</span><span lang="ko">있음</span></td><td><span lang="zh">卡住后吞吐塌陷</span><span lang="en">Throughput collapses once stuck</span><span lang="ko">막히면 처리량 붕괴</span></td><td><span lang="zh">量出朴素派工的死锁（H5 判据一）</span><span lang="en">Measures naive deadlocks (H5, first criterion)</span><span lang="ko">단순 배차의 교착 측정 (H5 첫 기준)</span></td><td><span class="pill run"><span lang="zh">T22 进行中</span><span lang="en">T22 running</span><span lang="ko">T22 진행 중</span></span></td></tr>
+        <tr class="me"><td><span lang="zh">安全放行 segment_safe</span><span lang="en">Safe release, segment_safe</span><span lang="ko">안전 출발 segment_safe</span></td><td><span lang="zh">只放行“放行后仍处于安全状态”的申请（Banker 型）</span><span lang="en">Grants a request only if the system stays in a safe state (Banker-type)</span><span lang="ko">허가 후에도 안전 상태인 요청만 허가 (Banker 형)</span></td><td><span lang="zh">不会</span><span lang="en">none</span><span lang="ko">없음</span></td><td><span lang="zh">每次申请都做安全检查，计算量大</span><span lang="en">A safety check per request; heavy computation</span><span lang="ko">요청마다 안전 검사, 계산량 큼</span></td><td><span lang="zh">“最好的无死锁规则”的候选：区间下沿，第 4 章的起点</span><span lang="en">Candidate “best deadlock-free rule”: the interval's lower edge and chapter 4's start</span><span lang="ko">“가장 좋은 무교착 규칙” 후보: 구간 하한이자 4장의 출발점</span></td><td><span class="pill run"><span lang="zh">T22 进行中</span><span lang="en">T22 running</span><span lang="ko">T22 진행 중</span></span></td></tr>
+        <tr><td><span lang="zh">分段闭塞 + 方向锁</span><span lang="en">Segmented blocking + direction locks</span><span lang="ko">분할 폐색 + 방향 잠금</span></td><td><span lang="zh">长路段按停靠点切块；单车道上同向跟驰、对向等待</span><span lang="en">Long roads cut into blocks at their stops; in one lane, follow in the same direction, wait for the other</span><span lang="ko">긴 도로를 정차 지점별로 분할, 단일 차로에서 같은 방향은 추종, 반대 방향은 대기</span></td><td><span lang="zh">排除对向</span><span lang="en">no head-on</span><span lang="ko">대향 없음</span></td><td><span lang="zh">块长待定（T25 扫描）</span><span lang="en">Block length open (T25 scan)</span><span lang="ko">블록 길이 미정 (T25 스캔)</span></td><td><span lang="zh">闭塞粒度这一杠杆；玉浦主情景改为分段</span><span lang="en">The block-granularity lever; Okpo's main scenario becomes segmented</span><span lang="ko">폐색 단위라는 지렛대, 옥포 주 시나리오는 분할로</span></td><td><span class="pill run"><span lang="zh">T22 进行中</span><span lang="en">T22 running</span><span lang="ko">T22 진행 중</span></span></td></tr>
+        <tr class="me"><td><span lang="zh">T5：预约到下一个安全待命点</span><span lang="en">T5: reserve to the next safe holding point</span><span lang="ko">T5: 다음 안전 대기 지점까지 예약</span></td><td><span lang="zh">载货出发前预约到下一个安全待命点（连同待命位）</span><span lang="en">Before a loaded departure, books the road up to the next safe holding point and a slot there</span><span lang="ko">적재 출발 전 다음 안전 대기 지점까지의 도로와 자리를 예약</span></td><td><span lang="zh">不会（待证）</span><span lang="en">none (to prove)</span><span lang="ko">없음 (증명 예정)</span></td><td><span lang="zh">待命点的位置与容量决定损失</span><span lang="en">Holding-point placement and capacity set the loss</span><span lang="ko">대기 지점의 위치와 용량이 손실을 정함</span></td><td><span lang="zh">包住任何启发式的安全壳；损失相对 T1′ 计</span><span lang="en">A safety shell around any heuristic; loss measured against T1′</span><span lang="ko">모든 휴리스틱을 감싸는 안전 외피, 손실은 T1′ 대비</span></td><td><span class="pill pend"><span lang="zh">计划</span><span lang="en">planned</span><span lang="ko">계획</span></span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <p class="src"><span lang="zh">来源：thesis-core 83c16bf（T17、T18 报告）；T22 任务说明（总控 runs/2026-10-09_T22_prompt.md 第 2 节；进行中，尚无结果）；作者 2026-10-09 指导第 2.2 节（分段闭塞与方向锁）与作者影像核对（道路161 坞边作业时相邻场地可进出，T22 起玉浦主情景按停靠点分段，整段作对照）；T5 措辞按研究宣言 v1。</span><span lang="en">Sources: thesis-core 83c16bf (T17, T18 reports); T22 task note (project control runs/2026-10-09_T22_prompt.md §2; running, no results yet); the author's guidance of 9 Oct 2026, §2.2 (segmented blocking, direction locks) and the author's imagery check (neighbouring sites stay reachable while a vehicle works at the dock edge of road 161, so from T22 on Okpo's main scenario is segmented at the stops, with the whole segment as comparison); T5 wording per manifesto v1.</span><span lang="ko">출처: thesis-core 83c16bf (T17·T18 보고서), T22 작업 설명 (총괄 runs/2026-10-09_T22_prompt.md §2, 진행 중이며 결과 없음), 저자의 2026-10-09 지침 §2.2 (분할 폐색과 방향 잠금)와 저자의 영상 확인 (도로161 도크 가장자리 작업 중에도 인접 장소 출입 가능, T22부터 옥포 주 시나리오는 정차 지점별 분할, 구간 전체는 비교용), T5 표현은 연구 선언 v1.</span></p>
+  <aside class="notes">
+    <p lang="zh">现在在用和要建的规则一览。整条路径预约不会死锁，但刚性，是现在的下沿。逐段申请靠瞬移，只作参照。T22 正在加三样东西：不疏解开关，用来量出朴素派工的死锁；安全放行 segment_safe，只放行之后仍处于安全状态的申请，是“最好的无死锁规则”的候选，也是第 4 章的起点；还有坞前长路段按停靠点分段闭塞并加方向锁，这是闭塞粒度这个杠杆。最后一行是 T5，预约到下一个安全待命点，作为任何启发式之外的安全壳，是本章要证明的定理。</p>
+    <p lang="en">The rules in use and to build. Whole-route reservation never deadlocks but is rigid; it is today's lower edge. Segment request relies on teleporting and is a reference only. T22 is adding three things: a no-clearing switch to measure naive deadlocks; safe release, segment_safe, which grants only requests that leave the system in a safe state, the candidate “best deadlock-free rule” and chapter 4's starting point; and segmented blocking with direction locks on long dock roads, the block-granularity lever. The last row is T5, reservation to the next safe holding point, the safety shell around any heuristic and the theorem this chapter proves.</p>
+    <p lang="ko">사용 중인 규칙과 만들 규칙입니다. 전체 경로 예약은 교착이 없지만 경직되어 있고 지금의 하한입니다. 구간별 요청은 순간이동에 기대므로 참조일 뿐입니다. T22는 세 가지를 더하고 있습니다: 단순 배차의 교착을 재는 해소 없음 스위치, 허가 후에도 안전 상태인 요청만 허가하는 안전 출발 segment_safe (“가장 좋은 무교착 규칙” 후보이자 4장의 출발점), 그리고 긴 도크 앞 도로의 정차 지점별 분할 폐색과 방향 잠금 (폐색 단위라는 지렛대). 마지막 줄은 T5, 다음 안전 대기 지점까지 예약으로, 모든 휴리스틱을 감싸는 안전 외피이자 이 장이 증명할 정리입니다.</p>
+  </aside>
+</section>
+
+<!-- safe release and T5 -->
+<section class="slide" data-sec="rules">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">两种可证明无死锁的放行：安全状态检查与 T5 的预约</span><span lang="en">Two provably deadlock-free ways to release: a safe-state check, and reservation to the next safe holding point (T5)</span><span lang="ko">교착이 없음을 증명할 수 있는 두 출발 방식: 안전 상태 검사와 “다음 안전 대기 지점까지 예약” (T5)</span></h2>
+  <div class="content g-l" style="gap:24px;margin-top:12px">
+    <div class="col">
+      <div class="fill"><svg viewBox="0 0 640 450" role="img" aria-label="Three panels on a single-lane corridor between two holding points: a head-on deadlock, a refused request under the safe-state check, and a booking to the next holding point">
+        <g style="font:600 14px var(--f-latin);fill:var(--ink)">
+          <text x="4" y="18"><tspan lang="zh" style="font-family:var(--f-zh)">(a) 朴素逐段申请</tspan><tspan lang="en">(a) Naive segment request</tspan><tspan lang="ko" style="font-family:var(--f-ko)">(a) 단순 구간별 요청</tspan></text>
+          <text x="4" y="168"><tspan lang="zh" style="font-family:var(--f-zh)">(b) 安全放行 segment_safe：放行前检查安全状态</tspan><tspan lang="en">(b) Safe release, segment_safe: check the state first</tspan><tspan lang="ko" style="font-family:var(--f-ko)">(b) 안전 출발 segment_safe: 허가 전에 상태 검사</tspan></text>
+          <text x="4" y="318"><tspan lang="zh" style="font-family:var(--f-zh)">(c) T5：出发前预约到下一个安全待命点</tspan><tspan lang="en">(c) T5: book up to the next safe holding point</tspan><tspan lang="ko" style="font-family:var(--f-ko)">(c) T5: 다음 안전 대기 지점까지 예약</tspan></text>
+        </g>
+        <!-- (a) -->
+        <rect x="4" y="30" width="76" height="84" rx="4" style="fill:var(--line)"/><rect x="560" y="30" width="76" height="84" rx="4" style="fill:var(--line)"/>
+        <rect x="80" y="55" width="480" height="34" style="fill:var(--line)"/><path d="M320 55V89" style="stroke:var(--paper);stroke-width:2;stroke-dasharray:5 4"/>
+        <rect x="190" y="45" width="84" height="54" rx="4" style="fill:var(--steel);fill-opacity:.92"/><text x="232" y="77" text-anchor="middle" style="fill:var(--paper);font:700 15px var(--f-latin)">A →</text>
+        <rect x="366" y="45" width="84" height="54" rx="4" style="fill:var(--steel);fill-opacity:.92"/><text x="408" y="77" text-anchor="middle" style="fill:var(--paper);font:700 15px var(--f-latin)">← B</text>
+        <circle cx="320" cy="72" r="11" style="fill:var(--oxide-soft);stroke:var(--oxide);stroke-width:2"/><path d="M314 66L326 78M326 66L314 78" style="stroke:var(--oxide);stroke-width:2.4"/>
+        <text x="320" y="132" text-anchor="middle" style="fill:var(--oxide);font:13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">A 占段 1 等段 2，B 占段 2 等段 1：环形等待，只能靠瞬移化解</tspan><tspan lang="en">A holds 1, waits for 2; B holds 2, waits for 1: a cycle only teleporting breaks</tspan><tspan lang="ko" style="font-family:var(--f-ko)">A는 1을 쥐고 2를, B는 2를 쥐고 1을 기다림: 순간이동으로만 깨지는 순환</tspan></text>
+        <!-- (b) -->
+        <rect x="4" y="180" width="76" height="84" rx="4" style="fill:var(--line)"/><rect x="560" y="180" width="76" height="84" rx="4" style="fill:var(--line)"/>
+        <rect x="80" y="205" width="480" height="34" style="fill:var(--line)"/><path d="M320 205V239" style="stroke:var(--paper);stroke-width:2;stroke-dasharray:5 4"/>
+        <rect x="190" y="195" width="84" height="54" rx="4" style="fill:var(--steel);fill-opacity:.92"/><text x="232" y="227" text-anchor="middle" style="fill:var(--paper);font:700 15px var(--f-latin)">A →</text>
+        <rect x="568" y="186" width="60" height="38" rx="4" style="fill:var(--steel);fill-opacity:.92"/><text x="598" y="210" text-anchor="middle" style="fill:var(--paper);font:700 15px var(--f-latin)">B</text>
+        <path d="M562 232H470" style="stroke:var(--oxide);stroke-width:2;stroke-dasharray:4 3;fill:none"/><path d="M478 227L470 232L478 237" style="stroke:var(--oxide);stroke-width:2;fill:none"/>
+        <circle cx="500" cy="232" r="10" style="fill:var(--paper);stroke:var(--oxide);stroke-width:2"/><path d="M495 227L505 237M505 227L495 237" style="stroke:var(--oxide);stroke-width:2.2"/>
+        <text x="320" y="282" text-anchor="middle" style="fill:var(--ink2);font:13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">B 申请段 2 被拒：若放行，就不存在让所有车依次走完的次序</tspan><tspan lang="en">B's request for segment 2 is refused: no order would then let every vehicle finish</tspan><tspan lang="ko" style="font-family:var(--f-ko)">B의 구간 2 요청 거부: 허가하면 모든 차량이 차례로 끝낼 순서가 없다</tspan></text>
+        <!-- (c) -->
+        <rect x="4" y="330" width="76" height="84" rx="4" style="fill:var(--line)"/><rect x="560" y="326" width="76" height="92" rx="4" style="fill:var(--line)"/>
+        <rect x="80" y="361" width="480" height="34" style="fill:var(--line)"/>
+        <rect x="80" y="357" width="552" height="42" rx="3" style="fill:var(--oxide-soft);fill-opacity:.85;stroke:var(--oxide);stroke-width:1.5;stroke-dasharray:6 4"/>
+        <rect x="190" y="351" width="84" height="54" rx="4" style="fill:var(--steel);fill-opacity:.92"/><text x="232" y="383" text-anchor="middle" style="fill:var(--paper);font:700 15px var(--f-latin)">A →</text>
+        <rect x="570" y="329" width="56" height="26" rx="4" style="fill:var(--steel);fill-opacity:.92"/><text x="598" y="347" text-anchor="middle" style="fill:var(--paper);font:700 14px var(--f-latin)">B</text>
+        <text x="320" y="432" text-anchor="middle" style="fill:var(--good);font:600 13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">A 出发前订好走廊和对面的待命位；B 在待命点等：不会出现占用—等待的环</tspan><tspan lang="en">A books the corridor and a slot at the far end; B waits there: no hold-and-wait cycle</tspan><tspan lang="ko" style="font-family:var(--f-ko)">A가 통로와 맞은편 자리를 예약하고 B는 대기 지점에서 기다림: 점유–대기 순환 없음</tspan></text>
+      </svg></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:10px">
+      <p class="quote sm t5q"><span lang="zh">T5 安全编排：预约到下一个安全待命点不会死锁，并给出相对上界的损失界。</span><span lang="en">T5, safe orchestration: reserving to the next safe holding point never deadlocks, with a loss bound relative to the upper bound.</span><span lang="ko">T5 안전 편성: 다음 안전 대기 지점까지 예약하면 교착이 없으며, 상한 대비 손실 한계를 준다.</span></p>
+      <h3 style="margin:0;font-size:17px"><span lang="zh">证明路线（计划）</span><span lang="en">Proof route (plan)</span><span lang="ko">증명 경로 (계획)</span></h3>
+      <ul class="clean l15">
+        <li><span lang="zh"><b>无死锁</b>：载货车要么停在待命点，要么走在已订好、通向下一个待命点（连同待命位）的路上，不会出现占用—等待的环。借鉴 Banker 算法（Habermann 1969）、资源分配系统的死锁避免（Reveliotis 2000、2005）与 AGV 预约（Kim et al. 2006）。</span><span lang="en"><b>No deadlock</b>: a loaded vehicle is always at a holding point or on road it has booked up to the next one, slot included, so no hold-and-wait cycle forms. Builds on the Banker's algorithm (Habermann 1969), resource allocation systems (Reveliotis 2000, 2005) and AGV reservation (Kim et al. 2006).</span><span lang="ko"><b>무교착</b>: 적재 차량은 대기 지점에 있거나, 다음 대기 지점 (자리 포함)까지 예약한 도로 위에 있으므로 점유–대기 순환이 생기지 않는다. Banker 알고리즘 (Habermann 1969), 자원 할당 시스템의 교착 회피 (Reveliotis 2000, 2005), AGV 예약 (Kim et al. 2006)을 바탕으로 한다.</span></li>
+        <li><span lang="zh"><b>损失界</b>：T5 满足 T1′ 的条件 (A1)–(A3)，T1′ 对它成立；损失来自提前占住的时段，给定顺序下用 max-plus 算可达吞吐，与 T1′ 比。</span><span lang="en"><b>Loss bound</b>: T5 meets the conditions (A1)–(A3) of T1′, so T1′ bounds it; the loss is road held in advance, and max-plus gives a given order's throughput to compare with T1′.</span><span lang="ko"><b>손실 한계</b>: T5는 T1′의 조건 (A1)–(A3)을 만족하므로 T1′이 성립한다. 손실은 미리 잡아 둔 시간에서 오며, 주어진 순서에서 max-plus로 달성 처리량을 구해 T1′과 비교한다.</span></li>
+        <li><span lang="zh"><b>船厂特有</b>：待命点取路外场地、坞前待命位或会车点；吊车按时放出，安全检查里按“迟早可用”处理。</span><span lang="en"><b>Shipyard specifics</b>: holding points are off-road sites, dock-front bays or passing bays; cranes are released on a timetable, so the check treats them as available sooner or later.</span><span lang="ko"><b>조선소 특유</b>: 대기 지점은 도로 밖 장소, 도크 앞 대기 자리, 대피 구간이며, 크레인은 시간표대로 풀리므로 안전 검사에서 “언젠가 사용 가능”으로 다룬다.</span></li>
+      </ul>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：T5 措辞按研究宣言 v1；segment_safe 的语义与吊车的处理见 T22 任务说明第 2.1 节（对应现场信号员放行：KED Global 2024 报道运输车前后各有信号员）；(A1)–(A3) 与“T1′ 对 T5 与第 4 章优化编排成立（载货路线固定）”见 thesis-core 83c16bf docs/T18_T1_tight_proof.md；max-plus 读法见 T18 报告第 7 节。所引死锁避免文献的阅读深度见第 11 页。示意图，不按比例。</span><span lang="en">Sources: T5 wording per manifesto v1; segment_safe semantics and crane handling from the T22 task note, §2.1 (it mirrors release by signallers: KED Global 2024 reports signallers ahead of and behind each transporter); (A1)–(A3) and “T1′ holds for T5 and chapter 4's optimised orchestration (loaded routes fixed)” from thesis-core 83c16bf docs/T18_T1_tight_proof.md; the max-plus reading from the T18 report, §7. Reading depth of the deadlock-avoidance works: page 11. Sketch not to scale.</span><span lang="ko">출처: T5 표현은 연구 선언 v1, segment_safe 의미와 크레인 처리는 T22 작업 설명 §2.1 (현장 신호수의 출발 허가에 해당: KED Global 2024는 트랜스포터 앞뒤에 신호수가 있다고 보도), (A1)–(A3)과 “T1′은 T5와 4장의 최적화 편성에 성립 (적재 경로 고정)”은 thesis-core 83c16bf docs/T18_T1_tight_proof.md, max-plus 해석은 T18 보고서 §7. 인용한 교착 회피 문헌의 열람 수준은 11쪽. 개념도, 축척 아님.</span></p>
+  <aside class="notes">
+    <p lang="zh">两种可证明无死锁的放行。(a) 是朴素逐段申请的环形等待。(b) 是 T22 正在实现的安全放行：放行一个申请之前，检查放行后是否仍存在一个次序，让路网上每辆车依次走完；不存在就拒绝，B 在待命点等。这对应现场信号员的放行。(c) 是 T5：载货出发前，把通往下一个安全待命点的路连同待命位一起订好，这样载货车要么在待命点、要么在自己订好的路上，环就不可能出现。证明上，无死锁部分借 Banker 算法和资源分配系统的死锁避免；损失界部分，T5 满足 T1′ 的条件，所以可以用 max-plus 算给定顺序下的可达吞吐，再和 T1′ 比。</p>
+    <p lang="en">Two provably deadlock-free ways to release. Panel (a) is the circular wait of naive segment request. Panel (b) is the safe release T22 is implementing: before granting a request, check that some order still lets every vehicle on the network finish in turn; if none exists, refuse, and B waits at its holding point. This mirrors release by signallers in the yard. Panel (c) is T5: before a loaded departure, book the road up to the next safe holding point together with a slot there, so a loaded vehicle is always either at a holding point or on road it has booked, and no cycle can form. For the proof, deadlock freedom builds on the Banker's algorithm and deadlock avoidance in resource allocation systems; for the loss bound, T5 meets the conditions of T1′, so max-plus gives the achievable throughput for a given order to compare with T1′.</p>
+    <p lang="ko">교착이 없음을 증명할 수 있는 두 출발 방식입니다. (a)는 단순 구간별 요청의 순환 대기입니다. (b)는 T22가 구현 중인 안전 출발입니다: 요청을 허가하기 전에 도로망의 모든 차량이 차례로 끝낼 수 있는 순서가 남는지 검사하고, 없으면 거부하며 B는 대기 지점에서 기다립니다. 현장 신호수의 출발 허가에 해당합니다. (c)는 T5입니다: 적재 출발 전에 다음 안전 대기 지점까지의 도로와 그곳의 자리를 함께 예약하므로, 적재 차량은 늘 대기 지점이나 자기가 예약한 도로 위에 있고 순환이 생길 수 없습니다. 증명에서 무교착 부분은 Banker 알고리즘과 자원 할당 시스템의 교착 회피를 빌리고, 손실 한계 부분은 T5가 T1′의 조건을 만족하므로 max-plus로 주어진 순서의 달성 처리량을 구해 T1′과 비교합니다.</p>
+  </aside>
+</section>
+
+<!-- goal and H5 -->
+<section class="slide" data-sec="goal">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">目标：把下沿推向现场的单车效率；H5 问安全要付出多少</span><span lang="en">The goal: push the lower edge towards field per-vehicle productivity; H5 asks what safety costs</span><span lang="ko">목표: 하한을 현장의 차량당 생산성 쪽으로 끌어올리고, H5는 안전의 비용을 묻는다</span></h2>
+  <div class="content g-l" style="gap:24px;margin-top:14px">
+    <div class="col" style="gap:8px">
+      <div class="fill chart" id="cProd"></div>
+      <div class="legend" id="lgProd"></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:10px">
+      <div id="prodRead"></div>
+      <p class="small" style="margin:0"><span lang="zh">比较前按周期时间（运距、装卸）归一。归一后仍有差距，两种解释都写：模型偏保守（整段占用、空车占路、班次、宽度分布），或现场编排更好（信号员、通行优先权、单向环线）。后者正是第 4 章要解释并达到的。</span><span lang="en">Compare after normalising by cycle time (distance, loading). If a gap remains, both readings go into the thesis: the model is conservative (whole-segment occupancy, empties occupying road, shifts, width mix), or the field orchestrates better (signallers, right of way, one-way loops). The latter is what chapter 4 aims to explain and reach.</span><span lang="ko">주기 시간 (거리, 적재·하역)으로 정규화한 뒤 비교한다. 차이가 남으면 두 해석을 모두 쓴다: 모형이 보수적이거나 (구간 전체 점유, 공차 점유, 교대, 폭 분포) 현장 편성이 더 낫다 (신호수, 통행 우선권, 일방 순환로). 뒤의 것이 바로 4장이 설명하고 도달할 목표다.</span></p>
+      <div class="card tight" style="border-left:5px solid var(--steel)"><h3><span lang="zh">H5 安全编排（宣言 v1）</span><span lang="en">H5 safe orchestration (manifesto v1)</span><span lang="ko">H5 안전 편성 (선언 v1)</span></h3>
+        <p><span lang="zh"><b>判据</b>：死锁按无瞬移规则计；安全代价按最好的安全规则相对路网上界的损失计。<b>成立</b>：安全编排便宜。<b>不成立</b>：给出安全代价的公式与适用条件。</span><span lang="en"><b>Criteria</b>: deadlocks are counted under no-teleport rules; the cost of safety is the best safe rule's loss relative to the network bound. <b>If it holds</b>: safe orchestration is cheap. <b>If not</b>: a formula for the cost of safety and its conditions.</span><span lang="ko"><b>판단 기준</b>: 교착은 순간이동 없는 규칙으로 세고, 안전 비용은 가장 좋은 안전 규칙의 도로망 상한 대비 손실로 센다. <b>성립</b>: 안전 편성은 저렴하다. <b>불성립</b>: 안전 비용의 공식과 적용 조건을 준다.</span></p></div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：thesis-core 83c16bf，玉浦主情景饱和档（条件同第 4 页）；单车上限 H/c̄ = 960 min ÷ 平均周期。锚点：Yim 2008 为 97 个 / 4 台（大型厂某一天的子集），Shen 2018 为约 600 个 / 约 30 台，Heo 2013 为苏比克 126 个 / 7 台（含 2 台辅车）；都不是玉浦本厂，T24 正在核对原文。“现实车队约 30–40 台”：Shen 2018；现代重工 33–40 台为新闻，待核。目标见作者 2026-10-09 指导第 4.3 节，两种解释见第 2.1 节；H5 按研究宣言 v1。</span><span lang="en">Sources: thesis-core 83c16bf, Okpo main scenario, saturated (conditions as on page 4); per-vehicle ceiling H/c̄ = 960 min ÷ mean cycle. Anchors: Yim 2008, 97 tasks / 4 vehicles (one day's subset at a large yard); Shen 2018, about 600 / about 30; Heo 2013, Subic 126 / 7 (2 auxiliary); none is Okpo itself, and T24 is checking the originals. “Real fleets of about 30–40”: Shen 2018; 33–40 at Hyundai Heavy is press, to be checked. Goal from the author's guidance of 9 Oct 2026, §4.3, the two readings from §2.1; H5 per manifesto v1.</span><span lang="ko">출처: thesis-core 83c16bf, 옥포 주 시나리오 포화 (조건은 4쪽과 같음), 차량당 상한 H/c̄ = 960분 ÷ 평균 주기. 기준점: Yim 2008은 97건 / 4대 (대형 조선소 어느 하루의 부분집합), Shen 2018은 약 600건 / 약 30대, Heo 2013은 수빅 126건 / 7대 (보조 2대 포함). 모두 옥포 자체가 아니며 T24가 원문을 확인 중. “실제 차량군 약 30–40대”: Shen 2018, 현대중공업 33–40대는 보도로 확인 예정. 목표는 저자의 2026-10-09 지침 §4.3, 두 해석은 §2.1, H5는 연구 선언 v1.</span></p>
+  <aside class="notes">
+    <p lang="zh">第 4 章的目标写成一句话：把区间的下沿推到现场的单车效率。图里是玉浦每台车每天完成的任务数。自由流一直在 20 左右；整条路径预约在 30 台时只剩 12 个，逐段申请这个参照规则 14 个。公开锚点是每台车每天 18 到 24 个。比较前要按周期时间归一；归一后如果还有差距，可能是模型偏保守，也可能是现场的编排更好，比如信号员、通行优先权、单向环线，而后者正是第 4 章要解释和达到的。H5 按宣言的两条判据来读：死锁只在无瞬移规则下计，安全代价按最好的安全规则相对上界的损失计。</p>
+    <p lang="en">Chapter 4's goal in one sentence: push the lower edge of the interval up to field per-vehicle productivity. The chart shows Okpo's tasks per vehicle per day. Free flow stays near 20; whole-route reservation falls to 12 at 30 vehicles, and the reference segment rule to 14. Public anchors are 18 to 24 per vehicle per day. The comparison must be normalised by cycle time; if a gap remains, either the model is conservative or the field orchestrates better, with signallers, right of way and one-way loops, and the latter is what chapter 4 aims to explain and reach. H5 is read by the manifesto's two criteria: deadlocks count only under no-teleport rules, and the cost of safety is the best safe rule's loss relative to the bound.</p>
+    <p lang="ko">4장의 목표를 한 문장으로: 구간의 하한을 현장의 차량당 생산성까지 끌어올린다. 그림은 옥포의 차량당 하루 완료 작업 수입니다. 자유류는 20 근처를 유지하고, 전체 경로 예약은 30대에서 12건, 참조 규칙인 구간별 요청은 14건으로 떨어집니다. 공개 기준점은 차량당 하루 18–24건입니다. 비교 전에 주기 시간으로 정규화해야 하고, 그래도 차이가 남으면 모형이 보수적이거나 현장 편성이 더 나은 것입니다 (신호수, 통행 우선권, 일방 순환로). 뒤의 것이 4장이 설명하고 도달할 목표입니다. H5는 선언의 두 기준으로 읽습니다: 교착은 순간이동 없는 규칙에서만 세고, 안전 비용은 가장 좋은 안전 규칙의 상한 대비 손실입니다.</p>
+  </aside>
+</section>
+
+<!-- methods -->
+<section class="slide" data-sec="method">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">方法路线：安全壳包住任务分派与通行顺序的一体化搜索</span><span lang="en">Methods: a safety shell around an integrated search over task assignment and passage order</span><span lang="ko">방법: 작업 배정과 통행 순서를 함께 탐색하고 안전 외피로 감싼다</span></h2>
+  <div class="content g-l" style="gap:24px;margin-top:14px">
+    <div class="col" style="justify-content:center;gap:0">
+      <div class="stack">
+        <div class="layer" style="--c:var(--g-empty)"><b><span lang="zh">输入</span><span lang="en">Inputs</span><span lang="ko">입력</span></b><p><span lang="zh">任务流（全厂口径 300–600 个/日，16 h 与 24 h）· 资源图（整段或分段闭塞）· T1′、T1″ 与对偶价格（T23）</span><span lang="en">Task streams (whole-yard 300–600 a day, 16 h and 24 h) · resource graph (whole or segmented blocks) · T1′, T1″ and dual prices (T23)</span><span lang="ko">작업 흐름 (조선소 전체 하루 300–600건, 16시간·24시간) · 자원 그래프 (구간 전체 또는 분할 폐색) · T1′, T1″과 쌍대 가격 (T23)</span></p></div>
+        <div class="down">↓</div>
+        <div class="layer" style="--c:var(--steel)"><b><span lang="zh">规划</span><span lang="en">Planning</span><span lang="ko">계획</span></b><p><span lang="zh">分派 + 通行顺序：时空预约表上的大邻域搜索（LNS）；冲突用优先级搜索（PBS）消解</span><span lang="en">Assignment + passage order: large-neighbourhood search (LNS) on a space–time reservation table; conflicts resolved by priority-based search (PBS)</span><span lang="ko">배정 + 통행 순서: 시공간 예약표 위의 대규모 이웃 탐색 (LNS), 충돌은 우선순위 탐색 (PBS)으로 해소</span></p></div>
+        <div class="down">↓</div>
+        <div class="layer shell" style="--c:var(--amber-hi)"><b><span lang="zh">安全壳</span><span lang="en">Safety shell</span><span lang="ko">안전 외피</span></b><p><span lang="zh">T5 预约到下一个安全待命点；segment_safe 安全放行：任何候选方案执行时都不死锁</span><span lang="en">T5 reservation to the next safe holding point; segment_safe release: no candidate plan can deadlock when executed</span><span lang="ko">T5 다음 안전 대기 지점까지 예약, segment_safe 안전 출발: 어떤 후보 계획도 실행 중 교착하지 않음</span></p></div>
+        <div class="down">↓</div>
+        <div class="layer" style="--c:var(--oxide)"><b><span lang="zh">执行</span><span lang="en">Execution</span><span lang="ko">실행</span></b><p><span lang="zh">占路仿真评估吞吐与所需车数；完工时刻不确定时滚动重排（带预测的放行）</span><span lang="en">The occupancy simulator scores throughput and fleet need; rolling re-planning when completion times are uncertain (release with forecasts)</span><span lang="ko">점유 시뮬레이터로 처리량과 필요 차량 평가, 완료 시각이 불확실하면 롤링 재계획 (예측 기반 출발)</span></p></div>
+        <div class="loop"><span lang="zh">↺ 结果回到规划层</span><span lang="en">↺ results feed back to planning</span><span lang="ko">↺ 결과를 계획으로 되돌림</span></div>
+      </div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:9px">
+      <div class="card tight"><h3><span lang="zh">真值：CP-SAT 精确模型</span><span lang="en">Ground truth: CP-SAT exact model</span><span lang="ko">기준해: CP-SAT 정확 모형</span></h3>
+        <p><span lang="zh">每次运输在每个资源上一个区间变量；每个路段、路口一个 no-overlap（可按宽度共享时用 cumulative）；小实例的最优值。</span><span lang="en">One interval variable per move and resource, one no-overlap per segment and junction (cumulative where width is shared); optima on small instances.</span><span lang="ko">운송·자원마다 구간 변수 하나, 구간·교차로마다 no-overlap (폭을 나눌 수 있으면 cumulative), 소규모 사례의 최적값.</span></p></div>
+      <div class="card tight"><h3><span lang="zh">对照基线</span><span lang="en">Baselines</span><span lang="ko">비교 기준</span></h3>
+        <p><span lang="zh">“先按自由流排程、再事后消解冲突”；整条路径预约；segment_safe。量出一体化与安全壳各值多少。</span><span lang="en">“Schedule in free flow, then repair conflicts”, whole-route reservation and segment_safe: they price integration and the shell separately.</span><span lang="ko">“자유류로 스케줄 후 충돌 수정”, 전체 경로 예약, segment_safe. 통합과 외피의 가치를 따로 잰다.</span></p></div>
+      <div class="card tight"><h3><span lang="zh">起点：MY-B 的代码</span><span lang="en">Starting point: MY-B code</span><span lang="ko">출발점: MY-B 코드</span></h3>
+        <p><span lang="zh">车队配置论文的 ALNS 与 CP-SAT；其 CP-SAT 已在 12–13 块的批次上求出证明最优的台数。</span><span lang="en">ALNS and CP-SAT from the fleet-sizing paper; its CP-SAT already proves minimum fleets on 12–13-block batches.</span><span lang="ko">차량군 산정 논문의 ALNS와 CP-SAT, 그 CP-SAT는 12–13블록 배치에서 최소 대수를 증명했다.</span></p>
+        <a class="tbtn golink" href="../fleet/"><span lang="zh">车队配置（MY-B）汇报 →</span><span lang="en">Fleet-sizing (MY-B) briefing →</span><span lang="ko">차량군 산정 (MY-B) 보고 →</span></a></div>
+      <div class="card tight dash"><h3><span lang="zh">可选：大语言模型进化规则</span><span lang="en">Optional: LLM-evolved rules</span><span lang="ko">선택: 언어 모형 진화 규칙</span></h3>
+        <p><span lang="zh">EoH、ReEvo、FunSearch（摘要级；检索未见船厂应用），与手写规则、优化算法直接比。</span><span lang="en">EoH, ReEvo, FunSearch (abstract level; no shipyard use found), compared with hand-written rules and optimisation.</span><span lang="ko">EoH, ReEvo, FunSearch (초록 수준, 조선소 적용 사례 없음), 수작업 규칙·최적화와 직접 비교.</span></p></div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：《博士论文方向进攻指导（第二版）》第 6 节（算法路线）与第 9 节（MY-B 代码作第 4 章起点）；作者 2026-10-09 指导第 4.3 节（时空预约表、PBS、LNS）；全厂口径任务量见指导第 2.1 节与 T22；MY-B 的 CP-SAT 规模见车队配置汇报（论文第 4.2 节）。</span><span lang="en">Sources: thesis direction document (2nd ed.), §6 (algorithms) and §9 (MY-B code as chapter 4's start); the author's guidance of 9 Oct 2026, §4.3 (space–time reservation table, PBS, LNS); whole-yard task volumes from guidance §2.1 and T22; MY-B's CP-SAT scale from the fleet-sizing briefing (paper §4.2).</span><span lang="ko">출처: 박사 논문 방향 지침 (제2판) §6 (알고리즘)과 §9 (MY-B 코드를 4장 출발점으로), 저자의 2026-10-09 지침 §4.3 (시공간 예약표, PBS, LNS), 조선소 전체 작업량은 지침 §2.1과 T22, MY-B의 CP-SAT 규모는 차량군 산정 보고 (논문 §4.2).</span></p>
+  <aside class="notes">
+    <p lang="zh">方法路线分四层。输入是全厂口径的任务流、资源图和第 3 章的上界与对偶价格。规划层把任务分派和通行顺序放在一张时空预约表上一起搜索，用大邻域搜索，冲突用多智能体路径规划里的优先级搜索消解。安全壳是 T5 和安全放行，保证任何候选方案执行时都不死锁。执行层用已有的占路仿真评估，并在完工时刻不确定时滚动重排。右边是三样配套：CP-SAT 精确模型在小实例上给真值；“先自由流排程再事后消解”等三条基线；起点是车队配置论文已有的 ALNS 和 CP-SAT 代码。大语言模型进化规则是可选的前沿小节。</p>
+    <p lang="en">The methods have four layers. Inputs are whole-yard task streams, the resource graph, and chapter 3's bounds and dual prices. The planning layer searches task assignment and passage order together on one space–time reservation table with large-neighbourhood search, resolving conflicts with priority-based search from multi-agent path finding. The safety shell is T5 and safe release, so no candidate plan can deadlock when executed. The execution layer scores plans in the existing occupancy simulator and re-plans on a rolling basis when completion times are uncertain. On the right: CP-SAT gives ground truth on small instances; three baselines, including “schedule in free flow, then repair”; and the starting point is the ALNS and CP-SAT code of the fleet-sizing paper. LLM-evolved rules are an optional frontier section.</p>
+    <p lang="ko">방법은 네 층입니다. 입력은 조선소 전체 기준 작업 흐름, 자원 그래프, 3장의 상한과 쌍대 가격입니다. 계획 층은 작업 배정과 통행 순서를 하나의 시공간 예약표 위에서 대규모 이웃 탐색으로 함께 찾고, 충돌은 다중 에이전트 경로 탐색의 우선순위 탐색으로 풉니다. 안전 외피는 T5와 안전 출발로, 어떤 후보 계획도 실행 중 교착하지 않습니다. 실행 층은 기존 점유 시뮬레이터로 평가하고 완료 시각이 불확실하면 롤링 재계획합니다. 오른쪽은 소규모 기준해를 주는 CP-SAT 정확 모형, “자유류 스케줄 후 충돌 수정” 등 세 비교 기준, 그리고 차량군 산정 논문의 ALNS·CP-SAT 코드라는 출발점입니다. 언어 모형 진화 규칙은 선택적인 최전선 절입니다.</p>
+  </aside>
+</section>
+
+<!-- components and sources -->
+<section class="slide" data-sec="method">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">每个组件都有成熟的来源；新的是载货变宽的智能体、长时升降与运力上界</span><span lang="en">Every component has a mature source; what is new is an agent that widens when loaded, long lifts and a capacity bound</span><span lang="ko">구성 요소마다 성숙한 출처가 있고, 새로운 것은 적재 시 넓어지는 에이전트, 긴 들어올림, 운송 능력 상한이다</span></h2>
+  <div class="content" style="grid-template-rows:auto auto;align-content:center;gap:16px;margin-top:10px">
+    <div class="tblwrap"><table class="tbl dense cmp">
+      <thead><tr><th><span lang="zh">组件</span><span lang="en">Component</span><span lang="ko">구성 요소</span></th><th><span lang="zh">迁移来源与理论支撑</span><span lang="en">Transfer source and theory</span><span lang="ko">이전 출처와 이론</span></th><th><span lang="zh">推广到船厂占路运输时的新东西</span><span lang="en">What is new in road-occupying shipyard transport</span><span lang="ko">조선소 점유 운송으로 확장할 때 새로운 것</span></th></tr></thead>
+      <tbody>
+        <tr><td><span lang="zh">精确模型</span><span lang="en">Exact model</span><span lang="ko">정확 모형</span></td><td><span lang="zh">带阻塞的作业车间（Mascis &amp; Pacciarelli 2002）；OR-Tools 的 CP-SAT</span><span lang="en">Job shop with blocking (Mascis &amp; Pacciarelli 2002); OR-Tools CP-SAT</span><span lang="ko">차단이 있는 잡숍 (Mascis &amp; Pacciarelli 2002), OR-Tools CP-SAT</span></td><td><span lang="zh">资源按宽度共享；载货与空驶占用不对称；装卸长时占点</span><span lang="en">Width-shared resources; asymmetric loaded and empty occupancy; long holds at loading points</span><span lang="ko">폭을 나누는 자원, 적재·공차 점유의 비대칭, 적재·하역 지점의 긴 점유</span></td></tr>
+        <tr><td><span lang="zh">一体化搜索</span><span lang="en">Integrated search</span><span lang="ko">통합 탐색</span></td><td><span lang="zh">MAPF-LNS（Li et al. 2021）；ALNS（Ropke &amp; Pisinger 2006）；MY-B 代码</span><span lang="en">MAPF-LNS (Li et al. 2021); ALNS (Ropke &amp; Pisinger 2006); MY-B code</span><span lang="ko">MAPF-LNS (Li et al. 2021), ALNS (Ropke &amp; Pisinger 2006), MY-B 코드</span></td><td><span lang="zh">任务分派与通行顺序一起搜；空驶也要排路；车队规模是决策的一部分</span><span lang="en">Assignment and passage order searched together; empty runs need road too; fleet size is part of the decision</span><span lang="ko">배정과 통행 순서를 함께 탐색, 공차 주행도 도로 편성 필요, 차량군 규모도 결정의 일부</span></td></tr>
+        <tr><td><span lang="zh">冲突消解</span><span lang="en">Conflict resolution</span><span lang="ko">충돌 해소</span></td><td><span lang="zh">一致优先级搜索 PBS（Ma et al. 2019）；滚动时域优先级规划（Zheng et al. 2026）</span><span lang="en">Priority-based search, PBS (Ma et al. 2019); rolling-horizon prioritised planning (Zheng et al. 2026)</span><span lang="ko">우선순위 탐색 PBS (Ma et al. 2019), 롤링 호라이즌 우선순위 계획 (Zheng et al. 2026)</span></td><td><span lang="zh">智能体载货后外廓成倍变大；优先级与预约方式（整条、到待命点）联动</span><span lang="en">Agents whose footprint multiplies when loaded; priorities tied to the reservation mode (whole route, to a holding point)</span><span lang="ko">적재 시 외곽이 몇 배로 커지는 에이전트, 우선순위와 예약 방식 (전체, 대기 지점까지)의 연동</span></td></tr>
+        <tr class="me"><td><span lang="zh">安全壳</span><span lang="en">Safety shell</span><span lang="ko">안전 외피</span></td><td><span lang="zh">Banker 算法（Habermann 1969）；资源分配系统（Reveliotis 2000、2005）；AGV 预约与优先级一致（Kim et al. 2006）</span><span lang="en">Banker's algorithm (Habermann 1969); resource allocation systems (Reveliotis 2000, 2005); AGV reservation with consistent priorities (Kim et al. 2006)</span><span lang="ko">Banker 알고리즘 (Habermann 1969), 자원 할당 시스템 (Reveliotis 2000, 2005), AGV 예약과 우선순위 일관성 (Kim et al. 2006)</span></td><td><span lang="zh">待命点由路网与车型给出；安全的代价相对路网上界 T1′ 计</span><span lang="en">Holding points come from the network and vehicle class; the cost of safety is measured against the network bound T1′</span><span lang="ko">대기 지점은 도로망과 차종에서 나오고, 안전 비용은 도로망 상한 T1′ 대비로 잰다</span></td></tr>
+        <tr><td><span lang="zh">会让与闭塞</span><span lang="en">Passing and blocking</span><span lang="ko">교행과 폐색</span></td><td><span lang="zh">基尔运河会让调度（Lübbecke et al. 2019，摘要级）；铁路闭塞区段（UIC 406）</span><span lang="en">Kiel Canal traffic with passing at sidings (Lübbecke et al. 2019, abstract level); railway block sections (UIC 406)</span><span lang="ko">킬 운하의 교행 운항 (Lübbecke et al. 2019, 초록 수준), 철도 폐색 구간 (UIC 406)</span></td><td><span lang="zh">闭塞粒度作为编排变量，接 T25 的块长扫描</span><span lang="en">Block granularity as an orchestration variable, linked to T25's block-length scan</span><span lang="ko">폐색 단위를 편성 변수로, T25의 블록 길이 스캔과 연결</span></td></tr>
+        <tr><td><span lang="zh">可选：规则进化</span><span lang="en">Optional: rule evolution</span><span lang="ko">선택: 규칙 진화</span></td><td><span lang="zh">EoH、ReEvo、FunSearch（摘要级）</span><span lang="en">EoH, ReEvo, FunSearch (abstract level)</span><span lang="ko">EoH, ReEvo, FunSearch (초록 수준)</span></td><td><span lang="zh">可解释的放行规则，检验跨船厂迁移（接第 6 章）</span><span lang="en">Readable release rules, tested for transfer across yards (links to chapter 6)</span><span lang="ko">읽을 수 있는 출발 규칙, 조선소 간 이전 검증 (6장과 연결)</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="small" style="margin:0;border-left:4px solid var(--amber-hi);padding-left:12px"><span lang="zh">最接近的工作在 AGV 领域：Li et al. 2025（预印本）用 Petri 网 + ALNS 做可拼接 AGV 的无死锁调度，并由敏感性分析给出车队规模的建议。我们借鉴它，把无死锁搜索推广到载货变宽、损失相对路网上界计的船厂占路运输。</span><span lang="en">The closest work is in AGVs: Li et al. 2025 (preprint) schedule attachable AGVs deadlock-free with Petri nets and ALNS and draw fleet-sizing insights. We build on it for shipyard transport, where loads widen the footprint and losses are measured against the network bound.</span><span lang="ko">가장 가까운 연구는 AGV 분야다: Li et al. 2025 (프리프린트)는 Petri 망과 ALNS로 결합형 AGV를 교착 없이 스케줄하고, 민감도 분석으로 차량군 규모에 대한 시사점을 제시했다. 우리는 이를 바탕으로 무교착 탐색을 적재 시 외곽이 넓어지고 손실을 도로망 상한 대비로 재는 조선소 점유 운송으로 확장한다.</span></p>
+  </div>
+  <p class="src"><span lang="zh">来源：《博士论文方向进攻指导（第二版）》第 6、8.5 节与附录；作者 2026-10-09 指导附录 B；文献库 04-023（Li 2025，全文）与 04-061（Zheng 2026，全文）。DOI 经 Crossref 核对（见参考文献）。阅读深度：Mascis 2002、Reveliotis 2000 与 2005、Kim 2006、Lübbecke 2019、EoH、ReEvo、FunSearch 为摘要级；Habermann 1969、Ma 2019、Li 2021 只核了题录，引用前待核原文。</span><span lang="en">Sources: direction document (2nd ed.), §6, §8.5, appendix; guidance of 9 Oct 2026, appendix B; library 04-023 (Li 2025) and 04-061 (Zheng 2026), full text. DOIs checked against Crossref. Abstract level: Mascis 2002, Reveliotis 2000 and 2005, Kim 2006, Lübbecke 2019, EoH, ReEvo, FunSearch; metadata only, to be read: Habermann 1969, Ma 2019, Li 2021.</span><span lang="ko">출처: 박사 논문 방향 지침 (제2판) §6·§8.5와 부록, 저자의 2026-10-09 지침 부록 B, 문헌 라이브러리 04-023 (Li 2025, 전문)·04-061 (Zheng 2026, 전문). DOI는 Crossref로 확인 (참고문헌 참조). 열람 수준: Mascis 2002, Reveliotis 2000·2005, Kim 2006, Lübbecke 2019, EoH, ReEvo, FunSearch는 초록 수준, Habermann 1969, Ma 2019, Li 2021은 서지 정보만 확인해 인용 전 원문 확인 예정.</span></p>
+  <aside class="notes">
+    <p lang="zh">每个组件都有成熟的来源，我们的写法是“把 X 推广到 Y”。精确模型来自带阻塞的作业车间；一体化搜索来自多智能体路径规划的大邻域搜索和车辆路径的 ALNS；冲突消解来自优先级搜索；安全壳来自 Banker 算法和资源分配系统的死锁避免；会让与闭塞借基尔运河和铁路闭塞区段。新的东西是：智能体载货后外廓成倍变大，装卸要长时间占点，车队规模本身是决策，而且安全的代价可以相对路网上界来计。最接近的是 AGV 领域 Li 等 2025 年的预印本，我们把它作为迁移来源。</p>
+    <p lang="en">Every component has a mature source, and our framing is “we extend X to Y”. The exact model comes from job shops with blocking; integrated search from large-neighbourhood search in multi-agent path finding and ALNS in vehicle routing; conflict resolution from priority-based search; the safety shell from the Banker's algorithm and deadlock avoidance in resource allocation systems; passing and blocking from the Kiel Canal and railway block sections. What is new: agents whose footprint multiplies when loaded, long holds at loading points, fleet size as part of the decision, and a cost of safety measured against the network bound. The closest work is the AGV preprint of Li et al. 2025, which we use as a transfer source.</p>
+    <p lang="ko">구성 요소마다 성숙한 출처가 있고, 우리의 서술은 “X를 Y로 확장한다”입니다. 정확 모형은 차단이 있는 잡숍, 통합 탐색은 다중 에이전트 경로 탐색의 대규모 이웃 탐색과 차량 경로의 ALNS, 충돌 해소는 우선순위 탐색, 안전 외피는 Banker 알고리즘과 자원 할당 시스템의 교착 회피, 교행과 폐색은 킬 운하와 철도 폐색 구간에서 옵니다. 새로운 것은 적재 시 외곽이 몇 배로 커지는 에이전트, 적재·하역 지점의 긴 점유, 결정의 일부인 차량군 규모, 그리고 도로망 상한 대비로 재는 안전 비용입니다. 가장 가까운 연구는 AGV 분야 Li 등의 2025년 프리프린트이며 이전 출처로 씁니다.</p>
+  </aside>
+</section>
+
+<!-- experiments -->
+<section class="slide" data-sec="plan">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">实验计划：每项实验都对应第 4 章的一张图或一张表</span><span lang="en">Experiments: each one feeds a figure or table of chapter 4</span><span lang="ko">실험 계획: 실험마다 4장의 그림이나 표 하나에 대응한다</span></h2>
+  <div class="content" style="grid-template-rows:auto auto;align-content:center;gap:16px;margin-top:10px">
+    <div class="tblwrap"><table class="tbl dense ex">
+      <thead><tr><th>#</th><th><span lang="zh">实验</span><span lang="en">Experiment</span><span lang="ko">실험</span></th><th><span lang="zh">产出（第 4 章）</span><span lang="en">Output (chapter 4)</span><span lang="ko">산출물 (4장)</span></th><th><span lang="zh">依赖</span><span lang="en">Needs</span><span lang="ko">선행</span></th><th><span lang="zh">状态</span><span lang="en">Status</span><span lang="ko">상태</span></th></tr></thead>
+      <tbody>
+        <tr><td>E1</td><td><span lang="zh">无死锁规则的下沿：segment_safe 与预约 × 整段 / 分段闭塞，两厂主情景饱和曲线；不疏解开关下的死锁计数</span><span lang="en">The deadlock-free lower edge: segment_safe and reservation × whole / segmented blocks, both yards' saturated curves; deadlock counts with the no-clearing switch</span><span lang="ko">무교착 하한: segment_safe와 예약 × 구간 전체 / 분할 폐색, 두 조선소 포화 곡선, 해소 없음 스위치의 교착 수</span></td><td><span lang="zh">图 4-1 运力区间；表 4-1 无瞬移规则下的死锁（H5 判据一）</span><span lang="en">Fig. 4-1 capacity interval; Table 4-1 deadlocks under no-teleport rules (H5, criterion 1)</span><span lang="ko">그림 4-1 운송 능력 구간, 표 4-1 순간이동 없는 규칙의 교착 (H5 기준 1)</span></td><td>T22</td><td><span class="pill run"><span lang="zh">进行中</span><span lang="en">running</span><span lang="ko">진행 중</span></span></td></tr>
+        <tr><td>E2</td><td><span lang="zh">编排可回收的运力：预约类规则的链式上界；T5 在给定顺序下的 max-plus 可达吞吐</span><span lang="en">Capacity orchestration can recover: a chain bound for reservation-type rules; max-plus throughput of T5 for a given order</span><span lang="ko">편성으로 되찾을 능력: 예약형 규칙의 사슬 상한, 주어진 순서에서 T5의 max-plus 처리량</span></td><td><span lang="zh">图 4-2 玉浦上规则损失与上界松弛各占多少</span><span lang="en">Fig. 4-2 Okpo's gap split into rule loss and bound slack</span><span lang="ko">그림 4-2 옥포 차이를 규칙 손실과 상한 여유로 분해</span></td><td>T18 §7; T23</td><td><span class="pill pend"><span lang="zh">计划</span><span lang="en">planned</span><span lang="ko">계획</span></span></td></tr>
+        <tr><td>E3</td><td><span lang="zh">小实例真值：CP-SAT 求走廊、十字路口、坞口三资源网络与小船厂切片的最优</span><span lang="en">Small-instance ground truth: CP-SAT optima for a corridor, a crossroads, the three-resource dock network and small yard slices</span><span lang="ko">소규모 기준해: 회랑, 교차로, 도크 3자원 망, 작은 조선소 조각의 CP-SAT 최적해</span></td><td><span lang="zh">表 4-2 最优、规则与启发式的差距</span><span lang="en">Table 4-2 gaps between optimum, rules and heuristics</span><span lang="ko">표 4-2 최적해, 규칙, 휴리스틱의 차이</span></td><td>T18; T25</td><td><span class="pill pend"><span lang="zh">计划</span><span lang="en">planned</span><span lang="ko">계획</span></span></td></tr>
+        <tr class="me"><td>E4</td><td><span lang="zh">一体化搜索（LNS + PBS + 安全壳）对三条基线；两厂全厂口径任务量 300 / 450 / 600 个/日，16 h 与 24 h</span><span lang="en">Integrated search (LNS + PBS + shell) against the three baselines; whole-yard volumes of 300 / 450 / 600 a day on both yards, 16 h and 24 h</span><span lang="ko">통합 탐색 (LNS + PBS + 외피) 대 세 비교 기준, 두 조선소 전체 작업량 하루 300 / 450 / 600건, 16시간·24시간</span></td><td><span lang="zh">图 4-3 日任务量—所需车数；表 4-3 安全代价（H5 判据二）</span><span lang="en">Fig. 4-3 daily volume against fleet need; Table 4-3 cost of safety (H5, criterion 2)</span><span lang="ko">그림 4-3 일 작업량–필요 차량, 표 4-3 안전 비용 (H5 기준 2)</span></td><td>T22; T23</td><td><span class="pill pend"><span lang="zh">计划</span><span lang="en">planned</span><span lang="ko">계획</span></span></td></tr>
+        <tr><td>E5</td><td><span lang="zh">待命点与闭塞粒度：待命点间距、待命区容量 S、块长</span><span lang="en">Holding points and block granularity: holding-point spacing, holding capacity S, block length</span><span lang="ko">대기 지점과 폐색 단위: 대기 지점 간격, 대기 구역 용량 S, 블록 길이</span></td><td><span lang="zh">图 4-4 安全代价随待命点间距与块长的变化</span><span lang="en">Fig. 4-4 cost of safety against holding-point spacing and block length</span><span lang="ko">그림 4-4 대기 지점 간격·블록 길이에 따른 안전 비용</span></td><td>T25; T26</td><td><span class="pill pend"><span lang="zh">计划</span><span lang="en">planned</span><span lang="ko">계획</span></span></td></tr>
+        <tr><td>E6</td><td><span lang="zh">滚动在线：完工时刻的预测误差下，带预测的放行</span><span lang="en">Rolling online: release with forecasts under completion-time forecast errors</span><span lang="ko">롤링 온라인: 완료 시각 예측 오차에서의 예측 기반 출발</span></td><td><span lang="zh">图 4-5 吞吐—预测误差</span><span lang="en">Fig. 4-5 throughput against forecast error</span><span lang="ko">그림 4-5 처리량–예측 오차</span></td><td>E4</td><td><span class="pill pend"><span lang="zh">计划</span><span lang="en">planned</span><span lang="ko">계획</span></span></td></tr>
+        <tr><td>E7</td><td><span lang="zh">外部对照：按周期时间归一的单车生产率，对比现场锚点</span><span lang="en">External check: per-vehicle productivity normalised by cycle time against field anchors</span><span lang="ko">외부 대조: 주기 시간으로 정규화한 차량당 생산성을 현장 기준점과 비교</span></td><td><span lang="zh">表 4-4 外部对照（与第 3 章同口径）</span><span lang="en">Table 4-4 external check (same basis as chapter 3)</span><span lang="ko">표 4-4 외부 대조 (3장과 같은 기준)</span></td><td>T24</td><td><span class="pill pend"><span lang="zh">计划</span><span lang="en">planned</span><span lang="ko">계획</span></span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="small" style="margin:0;border-left:4px solid var(--good);padding-left:12px"><span lang="zh">第一步是建设性试点：在 E3 的小实例上调通 CP-SAT 与 LNS、选参数、出第一张差距表。差距小就扩到两厂；差距大就改邻域与安全壳的写法后继续。</span><span lang="en">The first step is a constructive pilot: get CP-SAT and LNS running on E3's small instances, tune parameters and produce the first gap table. Small gaps: scale to both yards. Large gaps: revise the neighbourhoods and the shell, then continue.</span><span lang="ko">첫 단계는 건설적 시범이다: E3의 소규모 사례에서 CP-SAT와 LNS를 돌리고 매개변수를 정해 첫 차이 표를 만든다. 차이가 작으면 두 조선소로 넓히고, 크면 이웃과 외피를 고쳐 계속한다.</span></p>
+  </div>
+  <p class="src"><span lang="zh">来源：作者 2026-10-09 指导第 2.1–2.5、4.1、4.3 节；thesis-core 83c16bf docs/T18_report.md 第 2.3、7 节；任务板 tasks.md 的 T22–T26（2026-10-09）。图表编号是计划编号。</span><span lang="en">Sources: the author's guidance of 9 Oct 2026, §§2.1–2.5, 4.1, 4.3; thesis-core 83c16bf docs/T18_report.md §§2.3, 7; task board tasks.md, T22–T26 (9 Oct 2026). Figure and table numbers are planned numbers.</span><span lang="ko">출처: 저자의 2026-10-09 지침 §2.1–2.5, §4.1, §4.3, thesis-core 83c16bf docs/T18_report.md §2.3·§7, 작업판 tasks.md의 T22–T26 (2026-10-09). 그림·표 번호는 계획 번호.</span></p>
+  <aside class="notes">
+    <p lang="zh">实验计划，每一项都写明产出第 4 章的哪张图或哪张表。E1 用 T22 正在算的安全放行和不疏解开关，画出下沿换成无死锁规则后的运力区间，并给出 H5 的第一条判据。E2 把玉浦上的差距拆成规则损失和上界松弛。E3 在小实例上用 CP-SAT 求真值。E4 是主实验：一体化搜索对三条基线，任务量用全厂口径，得到所需车数曲线和安全代价表。E5 扫待命点间距和块长，E6 做滚动在线，E7 做外部对照。第一步是 E3 的建设性试点。</p>
+    <p lang="en">The experiment plan, each item tied to a figure or table of chapter 4. E1 uses T22's safe release and no-clearing switch to draw the capacity interval with a deadlock-free lower edge, and gives H5's first criterion. E2 splits Okpo's gap into rule loss and bound slack. E3 computes CP-SAT ground truth on small instances. E4 is the main experiment: integrated search against three baselines at whole-yard task volumes, giving the fleet-need curve and the cost-of-safety table. E5 scans holding-point spacing and block length, E6 runs rolling online re-planning, and E7 is the external check. The first step is E3 as a constructive pilot.</p>
+    <p lang="ko">실험 계획이며 항목마다 4장의 그림이나 표를 적었습니다. E1은 T22가 계산 중인 안전 출발과 해소 없음 스위치로 하한을 무교착 규칙으로 바꾼 운송 능력 구간을 그리고 H5의 첫 기준을 줍니다. E2는 옥포의 차이를 규칙 손실과 상한 여유로 나눕니다. E3는 소규모 사례에서 CP-SAT 기준해를 구합니다. E4가 주 실험입니다: 조선소 전체 작업량에서 통합 탐색을 세 비교 기준과 겨뤄 필요 차량 곡선과 안전 비용 표를 얻습니다. E5는 대기 지점 간격과 블록 길이를 스캔하고, E6는 롤링 온라인, E7은 외부 대조입니다. 첫 단계는 E3의 건설적 시범입니다.</p>
+  </aside>
+</section>
+
+<!-- status and risks -->
+<section class="slide" data-sec="status">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">已经成立的、正在做的，以及风险与缓解</span><span lang="en">What already holds, what is running, and risks with mitigations</span><span lang="ko">이미 성립한 것, 진행 중인 것, 위험과 완화</span></h2>
+  <div class="content g-r" style="gap:22px;margin-top:14px">
+    <div class="col compact" style="justify-content:center">
+      <div class="yards">
+        <div class="yg done"><h4><span lang="zh">已成立（第 3 章，83c16bf，经复核）</span><span lang="en">Holds (chapter 3, 83c16bf, reviewed)</span><span lang="ko">성립 (3장, 83c16bf, 검토 완료)</span></h4><p><span lang="zh">运力区间的读数；主情景由规则限流；参照规则依赖瞬移；小实例的刚性链条；T1′ 对任何满足 (A1)–(A3) 的规则成立，含 T5（载货路线固定）</span><span lang="en">Interval readings; the rule limits the main scenario; the reference rule depends on teleporting; the rigid chain on small instances; T1′ holds for any rule meeting (A1)–(A3), T5 included (loaded routes fixed)</span><span lang="ko">구간 판독, 주 시나리오는 규칙이 제한, 참조 규칙의 순간이동 의존, 소규모 사례의 경직된 사슬, (A1)–(A3)을 만족하는 모든 규칙에 T1′ 성립, T5 포함 (적재 경로 고정)</span></p></div>
+        <div class="yg run"><h4><span lang="zh">进行中（2026-10-09 派出）</span><span lang="en">Running (dispatched 9 Oct 2026)</span><span lang="ko">진행 중 (2026-10-09 착수)</span></h4><p><span lang="zh">T22：segment_safe、不疏解开关、分段闭塞与方向锁、全厂口径任务量。T23：系统 T1′、路线自由的 T1″、对偶价格前 10。T24：锚点与迁移来源核对</span><span lang="en">T22: segment_safe, the no-clearing switch, segmented blocking with direction locks, whole-yard volumes. T23: system T1′, route-free T1″, top-10 dual prices. T24: anchors and transfer sources checked</span><span lang="ko">T22: segment_safe, 해소 없음 스위치, 분할 폐색과 방향 잠금, 조선소 전체 작업량. T23: 시스템 T1′, 경로 자유 T1″, 쌍대 가격 상위 10. T24: 기준점과 이전 출처 확인</span></p></div>
+        <div class="yg"><h4><span lang="zh">计划</span><span lang="en">Planned</span><span lang="ko">계획</span></h4><p><span lang="zh">T25：块长扫描（运力—闭塞粒度）、坞口三资源小网络。T26：有限待命区 S 与 K₀(S)。第 4 章原型：CP-SAT、LNS、T5 证明</span><span lang="en">T25: block-length scan (capacity against granularity), the three-resource dock network. T26: finite holding area S and K₀(S). Chapter 4 prototype: CP-SAT, LNS, the T5 proof</span><span lang="ko">T25: 블록 길이 스캔 (능력–폐색 단위), 도크 3자원 소망. T26: 유한 대기 구역 S와 K₀(S). 4장 시제품: CP-SAT, LNS, T5 증명</span></p></div>
+      </div>
+    </div>
+    <div class="col compact" style="justify-content:center">
+      <div class="tblwrap"><table class="tbl dense rk">
+        <thead><tr><th><span lang="zh">风险</span><span lang="en">Risk</span><span lang="ko">위험</span></th><th><span lang="zh">缓解</span><span lang="en">Mitigation</span><span lang="ko">완화</span></th></tr></thead>
+        <tbody>
+          <tr><td><span lang="zh">T1′ 假定载货路线固定；第 4 章允许绕行时，它不再是上界</span><span lang="en">T1′ assumes fixed loaded routes; with detours in chapter 4 it is no longer a bound</span><span lang="ko">T1′은 적재 경로 고정을 가정하므로 4장에서 우회를 허용하면 상한이 아니다</span></td><td><span lang="zh">用路线自由的 T1″（T23）作上沿；T1′ − T1″ 量出路线选择的价值</span><span lang="en">Use route-free T1″ (T23) as the upper edge; T1′ − T1″ prices route choice</span><span lang="ko">경로 자유 T1″ (T23)을 상한으로, T1′ − T1″이 경로 선택의 가치</span></td></tr>
+          <tr><td><span lang="zh">segment_safe 每次申请都做安全检查，K = 150、8 天会慢</span><span lang="en">segment_safe checks safety on every request, slow at K = 150 over 8 days</span><span lang="ko">segment_safe는 요청마다 안전 검사를 해 K = 150, 8일에서 느리다</span></td><td><span lang="zh">增量检查，只在会占满资源时检查；必要时换更便宜的充分条件，并写明保守在哪里</span><span lang="en">Incremental checks, only when a resource would fill; if needed, a cheaper sufficient condition, stating where it is more conservative</span><span lang="ko">증분 검사, 자원이 찰 때만 검사, 필요하면 더 싼 충분조건으로 바꾸고 어디서 보수적인지 명시</span></td></tr>
+          <tr><td><span lang="zh">CP-SAT 只解得了小实例</span><span lang="en">CP-SAT solves only small instances</span><span lang="ko">CP-SAT는 소규모만 푼다</span></td><td><span lang="zh">小实例作真值；大实例用 LNS，报告与上界 T1′、T1″ 的差</span><span lang="en">Small instances give ground truth; at scale, LNS with its gap to T1′ and T1″ reported</span><span lang="ko">소규모는 기준해, 대규모는 LNS와 상한 T1′·T1″ 대비 차이 보고</span></td></tr>
+          <tr><td><span lang="zh">现场锚点不是玉浦本厂的数，口径与班次不明</span><span lang="en">Field anchors are not Okpo's own; basis and shifts unclear</span><span lang="ko">현장 기준점은 옥포 자체가 아니며 기준과 교대가 불명확</span></td><td><span lang="zh">T24 核对原文；按周期时间归一；归一后的差距两种解释都写</span><span lang="en">T24 checks the originals; normalise by cycle time; write both readings of any remaining gap</span><span lang="ko">T24가 원문 확인, 주기 시간으로 정규화, 남은 차이의 두 해석을 모두 쓴다</span></td></tr>
+          <tr><td><span lang="zh">AGV 领域已有无死锁调度（Li et al. 2025，预印本）</span><span lang="en">AGV deadlock-free scheduling exists (Li et al. 2025, preprint)</span><span lang="ko">AGV 분야에 무교착 스케줄링이 있다 (Li et al. 2025, 프리프린트)</span></td><td><span lang="zh">作迁移来源；新意在载货变宽的占路、相对路网上界的安全代价与跨船厂检验</span><span lang="en">Cite it as a transfer source; what is new is load-dependent occupancy, the cost of safety against the network bound and cross-yard tests</span><span lang="ko">이전 출처로 인용, 새로움은 적재에 따른 점유, 도로망 상한 대비 안전 비용, 조선소 간 검증</span></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：任务板 tasks.md（T22–T26，2026-10-09）；作者 2026-10-09 指导第 2.4 节（T1′ 的载货路线）与附录 B；T22 任务说明第 2.1 节（计算量与充分条件）；thesis-core 83c16bf docs/T18_T1_tight_proof.md；文献库 04-023。</span><span lang="en">Sources: task board tasks.md (T22–T26, 9 Oct 2026); the author's guidance of 9 Oct 2026, §2.4 (loaded routes in T1′) and appendix B; T22 task note §2.1 (computation and sufficient conditions); thesis-core 83c16bf docs/T18_T1_tight_proof.md; library entry 04-023.</span><span lang="ko">출처: 작업판 tasks.md (T22–T26, 2026-10-09), 저자의 2026-10-09 지침 §2.4 (T1′의 적재 경로)와 부록 B, T22 작업 설명 §2.1 (계산량과 충분조건), thesis-core 83c16bf docs/T18_T1_tight_proof.md, 문헌 라이브러리 04-023.</span></p>
+  <aside class="notes">
+    <p lang="zh">进度分三层。已经成立的，都来自第 3 章经过复核的结果：运力区间的读数，主情景由规则限流，参照规则依赖瞬移，以及 T1′ 对 T5 这类规则成立。正在做的是 T22、T23、T24：安全放行、不疏解开关、分段闭塞、全厂口径任务量，以及加强上界和路线自由的上界。计划中的是 T25、T26 和第 4 章原型。右边是五条风险，每条都有缓解办法，不改变路线。最需要注意的一条是：第 4 章若允许绕行，T1′ 不再是上界，所以要用路线自由的 T1″。</p>
+    <p lang="en">Status in three layers. What holds comes from chapter 3's reviewed results: the interval readings, the rule limiting the main scenario, the reference rule's dependence on teleporting, and T1′ holding for rules such as T5. Running are T22, T23 and T24: safe release, the no-clearing switch, segmented blocking, whole-yard volumes, a tighter bound and a route-free bound. Planned are T25, T26 and the chapter 4 prototype. On the right, five risks, each with a mitigation that leaves the plan unchanged. The one to watch: if chapter 4 allows detours, T1′ is no longer a bound, so the route-free T1″ takes its place.</p>
+    <p lang="ko">진행은 세 층입니다. 성립한 것은 모두 3장의 검토된 결과입니다: 구간 판독, 주 시나리오의 규칙 제한, 참조 규칙의 순간이동 의존, T5 같은 규칙에 대한 T1′ 성립. 진행 중인 것은 T22, T23, T24로, 안전 출발, 해소 없음 스위치, 분할 폐색, 조선소 전체 작업량, 강화한 상한과 경로 자유 상한입니다. 계획은 T25, T26, 4장 시제품입니다. 오른쪽은 다섯 위험이며 모두 계획을 바꾸지 않는 완화책이 있습니다. 주의할 것: 4장에서 우회를 허용하면 T1′은 상한이 아니므로 경로 자유 T1″이 대신합니다.</p>
+  </aside>
+</section>
+
+<!-- journals -->
+<section class="slide" data-sec="pub">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">候选期刊：先列几个选项，成文时再定</span><span lang="en">Candidate journals: a few options, to be chosen when the paper is written</span><span lang="ko">투고 후보: 몇 가지 선택지를 두고 원고를 쓸 때 정한다</span></h2>
+  <div class="content" style="grid-template-rows:auto auto;align-content:center;gap:18px">
+    <div class="cols3">
+      <div class="card jcol" style="--c:var(--steel)"><h3><span lang="zh">首选：理论与方法</span><span lang="en">Preferred: theory and methods</span><span lang="ko">우선: 이론과 방법</span></h3>
+        <ul class="clean">
+          <li><i>Transportation Science</i><span class="tiny"><span lang="zh">T5 定理与精确、启发式算法并重；ALNS 原文（Ropke &amp; Pisinger 2006）发表于此</span><span lang="en">T5 alongside exact and heuristic algorithms; the original ALNS paper (Ropke &amp; Pisinger 2006) appeared here</span><span lang="ko">T5와 정확·휴리스틱 알고리즘을 함께, ALNS 원 논문 (Ropke &amp; Pisinger 2006) 게재지</span></span></li>
+          <li><i>Transportation Research Part C</i><span class="tiny"><span lang="zh">交通运营与控制的新方法；铁路无时刻表容量（Jensen et al. 2020）发表于此</span><span lang="en">New methods for traffic operations and control; timetable-free railway capacity (Jensen et al. 2020) appeared here</span><span lang="ko">교통 운영·제어의 새 방법, 시간표 없는 철도 용량 (Jensen et al. 2020) 게재지</span></span></li>
+        </ul></div>
+      <div class="card jcol" style="--c:var(--oxide)"><h3><span lang="zh">备选：运筹与自动化</span><span lang="en">Alternatives: OR and automation</span><span lang="ko">대안: 운영과학과 자동화</span></h3>
+        <ul class="clean">
+          <li><i>IEEE Transactions on Automation Science and Engineering</i><span class="tiny"><span lang="zh">自动化物料搬运的死锁避免与调度</span><span lang="en">Deadlock avoidance and scheduling in automated material handling</span><span lang="ko">자동화 물류 운반의 교착 회피와 스케줄링</span></span></li>
+          <li><i>European Journal of Operational Research</i><span class="tiny"><span lang="zh">带阻塞的调度（Mascis &amp; Pacciarelli 2002）发表于此</span><span lang="en">Scheduling with blocking (Mascis &amp; Pacciarelli 2002) appeared here</span><span lang="ko">차단이 있는 스케줄링 (Mascis &amp; Pacciarelli 2002) 게재지</span></span></li>
+          <li><i>Computers &amp; Operations Research</i><span class="tiny"><span lang="zh">大邻域搜索与约束规划方法（Pisinger &amp; Ropke 2007 发表于此）</span><span lang="en">Neighbourhood search and constraint programming (Pisinger &amp; Ropke 2007 appeared here)</span><span lang="ko">이웃 탐색과 제약 프로그래밍 (Pisinger &amp; Ropke 2007 게재지)</span></span></li>
+        </ul></div>
+      <div class="card jcol" style="--c:var(--amber-hi)"><h3><span lang="zh">应用向</span><span lang="en">Application-oriented</span><span lang="ko">응용 지향</span></h3>
+        <ul class="clean">
+          <li><i>IEEE Transactions on Intelligent Transportation Systems</i><span class="tiny"><span lang="zh">在线编排与系统实现</span><span lang="en">Online orchestration and its implementation</span><span lang="ko">온라인 편성과 시스템 구현</span></span></li>
+          <li><i>International Journal of Production Research</i><span class="tiny"><span lang="zh">船厂生产物流；Roh &amp; Cha 2011 的分段运输调度发表于此</span><span lang="en">Shipyard production logistics; Roh &amp; Cha 2011 on block transport scheduling appeared here</span><span lang="ko">조선소 생산 물류, Roh &amp; Cha 2011의 블록 운송 스케줄링 게재지</span></span></li>
+        </ul></div>
+    </div>
+    <p class="small" style="margin:0;border-left:4px solid var(--amber-hi);padding-left:12px"><span lang="zh">怎样选：T5 证出并有损失界时投理论方法向；以算法与两厂实验为主时投运筹向；以在线系统与现场对照为主时投应用向。方向进攻指导原列 TR-C / T-ASE / EJOR，都在表中。</span><span lang="en">How to choose: theory and methods once T5 is proved with a loss bound; OR venues if algorithms and the two-yard experiments lead; application venues if the online system and field comparison lead. The direction document listed TR-C / T-ASE / EJOR, all included here.</span><span lang="ko">선택 기준: T5를 손실 한계와 함께 증명하면 이론·방법, 알고리즘과 두 조선소 실험이 중심이면 운영과학, 온라인 시스템과 현장 대조가 중심이면 응용. 방향 지침이 꼽은 TR-C / T-ASE / EJOR는 모두 포함했다.</span></p>
+  </div>
+  <p class="src"><span lang="zh">来源：《博士论文方向进攻指导（第二版）》第 4 节（第 4 章原列 TR-C / IEEE T-ASE / EJOR）；各刊的举例文章见参考文献。这些是供以后选择的选项，不预先定一家。</span><span lang="en">Sources: thesis direction document (2nd ed.), §4 (chapter 4 listed TR-C / IEEE T-ASE / EJOR); the example papers are in the references. These are options for a later choice, not a fixed target.</span><span lang="ko">출처: 박사 논문 방향 지침 (제2판) §4 (4장에 TR-C / IEEE T-ASE / EJOR 제시), 예시 논문은 참고문헌. 나중에 고를 선택지이며 한 곳으로 미리 정하지 않는다.</span></p>
+  <aside class="notes">
+    <p lang="zh">期刊先列选项，成文时再定。如果 T5 证出来、损失界也漂亮，首选 Transportation Science 或 TR-C；如果主要是算法和两座船厂的实验，可以投 EJOR、C&amp;OR 或 IEEE T-ASE；如果主要是在线系统和现场对照，可以投 IEEE T-ITS 或 IJPR。方向文件原来列的三家都在里面。</p>
+    <p lang="en">Journals are options for now, chosen when the paper is written. If T5 is proved with a clean loss bound, Transportation Science or TR-C first; if the algorithms and the two-yard experiments lead, EJOR, C&amp;OR or IEEE T-ASE; if the online system and field comparison lead, IEEE T-ITS or IJPR. The three journals of the direction document are all on the list.</p>
+    <p lang="ko">학술지는 지금은 선택지이며 원고를 쓸 때 정합니다. T5가 깔끔한 손실 한계와 함께 증명되면 Transportation Science나 TR-C가 우선이고, 알고리즘과 두 조선소 실험이 중심이면 EJOR, C&amp;OR, IEEE T-ASE, 온라인 시스템과 현장 대조가 중심이면 IEEE T-ITS나 IJPR입니다. 방향 문서가 꼽은 세 곳은 모두 들어 있습니다.</p>
+  </aside>
+</section>
+
+<!-- references -->
+<section class="slide" data-sec="ref">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">参考文献（1/2）</span><span lang="en">References (1/2)</span><span lang="ko">참고문헌 (1/2)</span></h2>
+  <div class="content" style="grid-template-rows:auto auto;align-content:start;gap:14px;margin-top:14px">
+    <ol class="refs" start="1" style="font-size:15.5px;line-height:1.5">
+      <li>Habermann, A.N. (1969). Prevention of system deadlocks. <i>Communications of the ACM</i> 12(7), 373–377. doi:10.1145/363156.363160</li>
+      <li>Heo, Y.-J., Cha, J.-H., Cho, D.-Y., Song, H.-C. (2013). Optimal block transportation path planning of transporters considering the damaged path. <i>J. Society of Naval Architects of Korea</i> 50(5), 298–306. doi:10.3744/SNAK.2013.50.5.298</li>
+      <li>Jensen, L.W., Schmidt, M., Nielsen, O.A. (2020). Determination of infrastructure capacity in railway networks without the need for a fixed timetable. <i>Transportation Research Part C</i> 119, 102751. doi:10.1016/j.trc.2020.102751</li>
+      <li>Kim, K.H., Jeon, S.M., Ryu, K.R. (2006). Deadlock prevention for automated guided vehicles in automated container terminals. <i>OR Spectrum</i> 28(4), 659–679. doi:10.1007/s00291-006-0055-2</li>
+      <li>Li, B., Li, Z., Wu, W., Zhou, M. (2025). Petri net modeling and deadlock-free scheduling of attachable heterogeneous AGV systems. arXiv:2508.00724 (preprint).</li>
+      <li>Li, J., Chen, Z., Harabor, D., Stuckey, P.J., Koenig, S. (2021). Anytime multi-agent path finding via large neighborhood search. <i>Proc. IJCAI 2021</i>, 4127–4135. doi:10.24963/ijcai.2021/568</li>
+      <li>Liu, F., Tong, X., Yuan, M., Lin, X., Luo, F., Wang, Z., Lu, Z., Zhang, Q. (2024). Evolution of heuristics: towards efficient automatic algorithm design using large language model. <i>Proc. ICML 2024</i>, PMLR 235.</li>
+      <li>Lübbecke, E., Lübbecke, M.E., Möhring, R.H. (2019). Ship traffic optimization for the Kiel Canal. <i>Operations Research</i> 67(3), 791–812. doi:10.1287/opre.2018.1814</li>
+      <li>Ma, H., Harabor, D., Stuckey, P.J., Li, J., Koenig, S. (2019). Searching with consistent prioritization for multi-agent path finding. <i>Proc. AAAI Conference on Artificial Intelligence</i> 33, 7643–7650. doi:10.1609/aaai.v33i01.33017643</li>
+      <li>Mascis, A., Pacciarelli, D. (2002). Job-shop scheduling with blocking and no-wait constraints. <i>European J. Operational Research</i> 143(3), 498–517. doi:10.1016/S0377-2217(01)00338-1</li>
+      <li>Pisinger, D., Ropke, S. (2007). A general heuristic for vehicle routing problems. <i>Computers &amp; Operations Research</i> 34(8), 2403–2435. doi:10.1016/j.cor.2005.09.012</li>
+    </ol>
+  </div>
+  <p class="src"><span lang="zh">来源：DOI 已用 Crossref 或文献库全文核对；Li 2025、Liu 2024（EoH）、Ye 2024（ReEvo）、Shen 2018、UIC 406 无 DOI。</span><span lang="en">Sources: DOIs checked against Crossref or the library's full texts; Li 2025, Liu 2024 (EoH), Ye 2024 (ReEvo), Shen 2018 and UIC 406 have none.</span><span lang="ko">출처: DOI는 Crossref 또는 라이브러리 전문으로 확인, Li 2025, Liu 2024 (EoH), Ye 2024 (ReEvo), Shen 2018, UIC 406은 DOI 없음.</span></p>
+  <aside class="notes">
+    <p lang="zh">参考文献。DOI 都用 Crossref 或文献库全文核对过；摘要级的条目在正文里已经标明。</p>
+    <p lang="en">References. DOIs were checked against Crossref or the library's full texts; abstract-level items are marked in the slides.</p>
+    <p lang="ko">참고문헌입니다. DOI는 Crossref나 라이브러리 전문으로 확인했고, 초록 수준 항목은 본문에 표시했습니다.</p>
+  </aside>
+</section>
+
+<section class="slide" data-sec="ref">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">参考文献（2/2）</span><span lang="en">References (2/2)</span><span lang="ko">참고문헌 (2/2)</span></h2>
+  <div class="content" style="grid-template-rows:auto auto;align-content:start;gap:14px;margin-top:14px">
+    <ol class="refs" start="12" style="font-size:15.5px;line-height:1.5">
+      <li>Reveliotis, S.A. (2000). Conflict resolution in AGV systems. <i>IIE Transactions</i> 32(7), 647–659. doi:10.1080/07408170008967423</li>
+      <li>Reveliotis, S.A. (2005). <i>Real-Time Management of Resource Allocation Systems: A Discrete Event Systems Approach</i>. Springer. doi:10.1007/b104057</li>
+      <li>Roh, M.-I., Cha, J.-H. (2011). A block transportation scheduling system considering a minimisation of travel distance without loading of and interference between multiple transporters. <i>Int. J. Production Research</i> 49(11), 3231–3250. doi:10.1080/00207543.2010.484427</li>
+      <li>Romera-Paredes, B., et al. (2024). Mathematical discoveries from program search with large language models. <i>Nature</i> 625, 468–475. doi:10.1038/s41586-023-06924-6</li>
+      <li>Ropke, S., Pisinger, D. (2006). An adaptive large neighborhood search heuristic for the pickup and delivery problem with time windows. <i>Transportation Science</i> 40(4), 455–472. doi:10.1287/trsc.1050.0135</li>
+      <li>Shen, H., Jeong, Y.-K., Shin, J.G., Lee, P., et al. (2018). Key performance indicators and analysis method for ship block logistics flow in shipyards. <i>Proc. 2018 Winter Simulation Conference</i>, 4125–4126.</li>
+      <li>Ye, H., Wang, J., Cao, Z., Berto, F., Hua, C., Kim, H., Park, J., Song, G. (2024). ReEvo: large language models as hyper-heuristics with reflective evolution. <i>Advances in Neural Information Processing Systems</i> 37.</li>
+      <li>Yim, S.-B., Roh, M.-I., Cha, J.-H., Lee, K.-Y. (2008). Optimal block transportation scheduling considering the minimization of the travel distance without overload of a transporter. <i>J. Society of Naval Architects of Korea</i> 45(6), 646–655. doi:10.3744/SNAK.2008.45.6.646 (in Korean)</li>
+      <li>Zheng, H., Ma, Y., Araki, B., Chen, J., Wu, C. (2026). Learning-guided prioritized planning for lifelong multi-agent path finding in warehouse automation. <i>J. Artificial Intelligence Research</i> 85. doi:10.1613/jair.1.20611</li>
+      <li>Zhou, C., Li, H., Lee, L.H., Chew, E.P. (2017). A modularized simulation for traffic network in container terminals via network of servers with dynamic rates. <i>Proc. 2017 Winter Simulation Conference</i>, 3150–3161. doi:10.1109/WSC.2017.8248034</li>
+    </ol>
+    <div class="refs-data" style="font-size:15px;line-height:1.5"><p><span lang="zh">其他：UIC (2013) <i>UIC Code 406: Capacity</i>，第 2 版；Google OR-Tools 的 CP-SAT 求解器；KED Global (2024) 关于韩华海洋运输车与信号员的报道。</span><span lang="en">Other: UIC (2013) <i>UIC Code 406: Capacity</i>, 2nd ed.; the CP-SAT solver of Google OR-Tools; KED Global (2024) report on a Hanwha Ocean transporter and its signallers.</span><span lang="ko">기타: UIC (2013) <i>UIC Code 406: Capacity</i> 제2판, Google OR-Tools의 CP-SAT 솔버, 한화오션 트랜스포터와 신호수에 관한 KED Global (2024) 보도.</span></p></div>
+  </div>
+  <p class="src"><span lang="zh">来源：DOI 已用 Crossref 或文献库全文核对；Li 2025、Liu 2024（EoH）、Ye 2024（ReEvo）、Shen 2018、UIC 406 无 DOI。</span><span lang="en">Sources: DOIs checked against Crossref or the library's full texts; Li 2025, Liu 2024 (EoH), Ye 2024 (ReEvo), Shen 2018 and UIC 406 have none.</span><span lang="ko">출처: DOI는 Crossref 또는 라이브러리 전문으로 확인, Li 2025, Liu 2024 (EoH), Ye 2024 (ReEvo), Shen 2018, UIC 406은 DOI 없음.</span></p>
+  <aside class="notes">
+    <p lang="zh">参考文献续。</p>
+    <p lang="en">References, continued.</p>
+    <p lang="ko">참고문헌 계속.</p>
+  </aside>
+</section>
+
+<!-- close -->
+<section class="slide" data-sec="end">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">小结：先让编排无死锁，再把下沿推上去</span><span lang="en">In short: make orchestration deadlock-free, then push the lower edge up</span><span lang="ko">요약: 편성을 무교착으로 만든 뒤 하한을 끌어올린다</span></h2>
+  <div class="content" style="grid-template-rows:auto auto auto;align-content:center;gap:20px">
+    <div class="cols3">
+      <div class="card" style="border-top:4px solid var(--steel)"><h3><span lang="zh">依据</span><span lang="en">Grounds</span><span lang="ko">근거</span></h3><p><span lang="zh">运力区间的下沿由规则决定；预约平台只到 T1′ 的约 36%；朴素逐段申请靠瞬移才不卡死。</span><span lang="en">The rule sets the interval's lower edge; the reservation plateau is about 36% of T1′; naive segment request avoids gridlock only by teleporting.</span><span lang="ko">구간의 하한은 규칙이 정하고, 예약 평탄 구간은 T1′의 약 36%이며, 단순 구간별 요청은 순간이동으로만 막힘을 피한다.</span></p></div>
+      <div class="card" style="border-top:4px solid var(--amber-hi);background:var(--amber-soft)"><h3><span lang="zh">做法</span><span lang="en">Approach</span><span lang="ko">접근</span></h3><p style="color:var(--ink)"><span lang="zh">T5 与安全放行作安全壳；壳内一体化搜索分派与通行顺序；CP-SAT 真值，滚动在线。</span><span lang="en">T5 and safe release as the shell; integrated search over assignment and passage order inside; CP-SAT ground truth; rolling online.</span><span lang="ko">T5와 안전 출발을 외피로, 그 안에서 배정·통행 순서 통합 탐색, CP-SAT 기준해, 롤링 온라인.</span></p></div>
+      <div class="card" style="border-top:4px solid var(--good)"><h3><span lang="zh">产出</span><span lang="en">Outputs</span><span lang="ko">산출물</span></h3><p><span lang="zh">无死锁规则的运力区间、H5 的安全代价、T5 的证明、一篇第 4 章论文。</span><span lang="en">The interval with a deadlock-free lower edge, H5's cost of safety, a proof of T5, a chapter 4 paper.</span><span lang="ko">무교착 하한의 운송 능력 구간, H5의 안전 비용, T5 증명, 4장 논문 한 편.</span></p></div>
+    </div>
+    <div class="golinks"><a class="tbtn golink" href="../thesis/"><span lang="zh">返回博士论文汇报 →</span><span lang="en">Back to the thesis briefing →</span><span lang="ko">박사 논문 보고로 돌아가기 →</span></a><a class="tbtn golink" href="../capacity/"><span lang="zh">运力区间 →</span><span lang="en">Capacity interval →</span><span lang="ko">운송 능력 구간 →</span></a><a class="tbtn golink" href="../dock/"><span lang="zh">坞口 →</span><span lang="en">Dock mouth →</span><span lang="ko">도크 입구 →</span></a><a class="tbtn golink" href="../codesign/"><span lang="zh">车队与路网协同设计 →</span><span lang="en">Fleet–network co-design →</span><span lang="ko">차량군·도로망 협동 설계 →</span></a><a class="tbtn golink" href="../fleet/"><span lang="zh">车队配置（MY-B）汇报 →</span><span lang="en">Fleet-sizing (MY-B) briefing →</span><span lang="ko">차량군 산정 (MY-B) 보고 →</span></a></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:20px">
+      <p class="quote sm" style="flex:1"><span lang="zh">在路网约束区，派车不如排路：可达运力占上界多少，由交通编排决定。</span><span lang="en">Where the network binds, schedule the road rather than the vehicles: orchestration decides how much of the bound is achieved.</span><span lang="ko">도로망 제약 구간에서는 배차보다 도로 편성: 달성 운송 능력이 상한의 몇 %인지는 교통 편성이 정한다.</span></p>
+      <div class="d" style="font-size:26px;font-weight:700;color:var(--ink3);white-space:nowrap"><span lang="zh">谢谢，请老师指正。</span><span lang="en">Thank you.</span><span lang="ko">감사합니다.</span></div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：本汇报第 4–13 页；论断与假设的措辞按研究宣言 v1。</span><span lang="en">Sources: pages 4–13 of this briefing; claims and hypotheses worded per research manifesto v1.</span><span lang="ko">출처: 이 보고의 4–13쪽, 논제와 가설 표현은 연구 선언 v1.</span></p>
+  <aside class="notes">
+    <p lang="zh">小结。依据：运力区间的下沿由规则决定，现在的无死锁下沿只到上界的三成多，而更高的参照规则要靠瞬移。做法：先用 T5 和安全放行保证不死锁，再在安全壳里一体化搜索分派和通行顺序。产出：下沿换成无死锁规则的运力区间、H5 的安全代价、T5 的证明，以及第 4 章的期刊论文。可以从这里回到博士论文的总汇报。谢谢。</p>
+    <p lang="en">To close. The grounds: the rule sets the interval's lower edge, today's deadlock-free edge is about a third of the bound, and the higher reference rule needs teleporting. The approach: first guarantee no deadlock with T5 and safe release, then search assignment and passage order together inside the shell. The outputs: the interval with a deadlock-free lower edge, H5's cost of safety, a proof of T5, and the chapter 4 journal paper. The thesis briefing opens from here. Thank you.</p>
+    <p lang="ko">요약입니다. 근거: 구간의 하한은 규칙이 정하며, 지금의 무교착 하한은 상한의 3분의 1 남짓이고, 더 높은 참조 규칙은 순간이동이 필요합니다. 접근: 먼저 T5와 안전 출발로 교착을 막고, 그 외피 안에서 배정과 통행 순서를 함께 탐색합니다. 산출물: 무교착 하한의 운송 능력 구간, H5의 안전 비용, T5 증명, 4장 학술지 논문입니다. 여기서 박사 논문 전체 보고로 돌아갈 수 있습니다. 감사합니다.</p>
+  </aside>
+</section>
+
+</main>
+
+<dl id="glossary" hidden>
+  <dt><span lang="zh">交通编排</span><span lang="en">Traffic orchestration</span><span lang="ko">교통 편성</span></dt>
+  <dd><span lang="zh">在占路条件下决定放行顺序、等待点、预约方式与闭塞粒度的调度层。</span><span lang="en">The scheduling layer that sets release order, waiting points, reservation mode and block granularity under occupancy.</span><span lang="ko">점유 조건에서 출발 순서, 대기 지점, 예약 방식, 폐색 단위를 정하는 스케줄링 계층.</span></dd>
+  <dt><span lang="zh">运力区间</span><span lang="en">Capacity interval</span><span lang="ko">운송 능력 구간</span></dt>
+  <dd><span lang="zh">[最好的无死锁规则的平台，路网上界 T1′]：可达运力所在的范围（宣言 C1）。</span><span lang="en">[plateau of the best deadlock-free rule, network bound T1′]: where achievable capacity lies (manifesto C1).</span><span lang="ko">[가장 좋은 무교착 규칙의 평탄 구간, 도로망 상한 T1′]: 달성 운송 능력이 있는 범위 (선언 C1).</span></dd>
+  <dt>T1′</dt>
+  <dd><span lang="zh">路网上界：占用率线性规划，加宽度装箱行、吊车行与窗口边界项；对满足 (A1)–(A3) 的规则成立，载货路线固定。</span><span lang="en">The network bound: an occupancy LP with width bin-packing rows, crane rows and window terms; valid for rules meeting (A1)–(A3), with fixed loaded routes.</span><span lang="ko">도로망 상한: 점유율 LP에 폭 빈 패킹 행, 크레인 행, 창 경계 항을 더한 것, (A1)–(A3)을 만족하는 규칙에 성립, 적재 경로 고정.</span></dd>
+  <dt>T1″</dt>
+  <dd><span lang="zh">路线自由的上界：载货也做成多商品流，对任何路由规则成立（T23 进行中）。</span><span lang="en">The route-free bound: loaded moves also become multicommodity flow, valid for any routing rule (T23, running).</span><span lang="ko">경로 자유 상한: 적재 운송도 다품종 흐름으로 두어 모든 경로 규칙에 성립 (T23 진행 중).</span></dd>
+  <dt><span lang="zh">整条路径预约</span><span lang="en">Whole-route reservation</span><span lang="ko">전체 경로 예약</span></dt>
+  <dd><span lang="zh">载货出发前预约整条路径、就时出发的规则；不会死锁，但把一次运输订成刚性链条。</span><span lang="en">Book the whole route before a loaded departure and leave just in time; deadlock-free, but it books a move as one rigid chain.</span><span lang="ko">적재 출발 전 전체 경로를 예약하고 제때 출발하는 규칙, 교착은 없지만 한 운송을 경직된 사슬로 묶는다.</span></dd>
+  <dt><span lang="zh">逐段申请（参照规则，瞬移疏解）</span><span lang="en">Segment request (reference rule, teleport clearing)</span><span lang="ko">구간별 요청 (참조 규칙, 순간이동 해소)</span></dt>
+  <dd><span lang="zh">走一段申请一段；死锁时选一辆车让出全部资源、离网 900 s。只作参照，不单独支撑任何论断。</span><span lang="en">Request one segment at a time; at a deadlock one vehicle releases everything and leaves the network for 900 s. A reference only; it supports no claim on its own.</span><span lang="ko">구간마다 요청하고, 교착 시 차량 한 대가 모든 자원을 내놓고 900초 이탈. 참조일 뿐 단독으로 어떤 논제도 뒷받침하지 않는다.</span></dd>
+  <dt><span lang="zh">安全放行</span><span lang="en">Safe release</span><span lang="ko">안전 출발</span> <span class="mono">segment_safe</span></dt>
+  <dd><span lang="zh">只放行“放行后仍存在让所有车依次走完的次序”的申请；Banker 型死锁避免（T22 实现中）。</span><span lang="en">Grant a request only if some order still lets every vehicle finish in turn; Banker-type deadlock avoidance (being built in T22).</span><span lang="ko">허가 후에도 모든 차량이 차례로 끝낼 순서가 남는 요청만 허가, Banker 형 교착 회피 (T22에서 구현 중).</span></dd>
+  <dt><span lang="zh">安全待命点</span><span lang="en">Safe holding point</span><span lang="ko">안전 대기 지점</span></dt>
+  <dd><span lang="zh">载货车可以停下而不挡住别人的位置：路外场地、坞前待命位、会车点。T5 要求出发前连同待命位一起预约。</span><span lang="en">A place where a loaded vehicle can stop without blocking others: off-road sites, dock-front waiting bays, passing bays. T5 books a slot there before departure.</span><span lang="ko">적재 차량이 남을 막지 않고 멈출 수 있는 곳: 도로 밖 장소, 도크 앞 대기 자리, 대피 구간. T5는 출발 전 그 자리를 함께 예약한다.</span></dd>
+  <dt><span lang="zh">分段闭塞与方向锁</span><span lang="en">Segmented blocking, direction lock</span><span lang="ko">분할 폐색과 방향 잠금</span></dt>
+  <dd><span lang="zh">把长路段按停靠点切成若干资源；单车道上同向可以跟驰，对向必须等反向车走完。</span><span lang="en">Cut a long road into several resources at its stops; in a single lane, vehicles follow in one direction while the other direction waits.</span><span lang="ko">긴 도로를 정차 지점별로 여러 자원으로 나누고, 단일 차로에서 같은 방향은 추종하되 반대 방향은 기다린다.</span></dd>
+  <dt><span lang="zh">安全代价</span><span lang="en">Cost of safety</span><span lang="ko">안전 비용</span></dt>
+  <dd><span lang="zh">最好的安全规则相对路网上界的吞吐损失（H5 判据）。</span><span lang="en">The best safe rule's throughput loss relative to the network bound (H5 criterion).</span><span lang="ko">가장 좋은 안전 규칙의 도로망 상한 대비 처리량 손실 (H5 기준).</span></dd>
+  <dt><span lang="zh">时空预约表</span><span lang="en">Space–time reservation table</span><span lang="ko">시공간 예약표</span></dt>
+  <dd><span lang="zh">记录每个路段、路口在每个时段被谁占用的表；规划层在上面同时安排分派与通行顺序。</span><span lang="en">A table of who holds each segment and junction in each time slot; the planner arranges assignment and passage order on it together.</span><span lang="ko">각 구간·교차로를 시간대마다 누가 점유하는지 적은 표, 계획 층이 그 위에서 배정과 통행 순서를 함께 정한다.</span></dd>
+  <dt>LNS · PBS · CP-SAT</dt>
+  <dd><span lang="zh">大邻域搜索（反复拆掉部分方案再修复）；优先级搜索（按优先级逐个规划、冲突时分支）；Google 的约束规划求解器。</span><span lang="en">Large-neighbourhood search (repeatedly destroy part of a plan and repair it); priority-based search (plan agents by priority, branching on conflicts); Google's constraint-programming solver.</span><span lang="ko">대규모 이웃 탐색 (계획 일부를 반복해서 허물고 고침), 우선순위 탐색 (우선순위대로 계획하고 충돌 시 분기), Google의 제약 프로그래밍 솔버.</span></dd>
+  <dt><span lang="zh">周期时间归一</span><span lang="en">Normalising by cycle time</span><span lang="ko">주기 시간 정규화</span></dt>
+  <dd><span lang="zh">单车生产率主要由运距与装卸决定；与现场比较前按平均周期时间折算，上限为 H/c̄。</span><span lang="en">Per-vehicle productivity is driven mainly by distance and handling, so it is scaled by the mean cycle time before comparing with the field; its ceiling is H/c̄.</span><span lang="ko">차량당 생산성은 주로 거리와 적재·하역이 정하므로 현장과 비교하기 전에 평균 주기 시간으로 환산하며, 상한은 H/c̄이다.</span></dd>
+</dl>
+
+<script src="data.js"></script>
+<script src="../shared/deck-core.js"></script>
+<script src="deck.js"></script>

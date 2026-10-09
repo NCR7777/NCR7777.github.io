@@ -1,0 +1,76 @@
+/* Multi-yard deck only. Patterns follow the thesis deck (claims, rule rows, link buttons). */
+.slide>.src{font-size:12px}
+.claim{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start;padding:7px 0;border-bottom:1px solid var(--line)}
+.claim:last-child{border-bottom:0}
+.claim>b{font-family:var(--d-en);font-size:27px;font-weight:700;color:var(--steel);line-height:1}
+.claim h4{margin:0;font-size:17px;color:var(--ink)}
+.claim p{margin:2px 0 0;font-size:15.5px;line-height:1.45;color:var(--ink2)}
+.rules{display:flex;flex-direction:column;gap:8px}
+.rl{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center;padding:9px 12px;background:var(--panel);border-left:5px solid var(--c);border-radius:4px;font-size:15px;line-height:1.42;color:var(--ink2)}
+.rl b{color:var(--ink);font-size:15.5px}
+.rl.hi{background:var(--amber-soft)}
+.golink{align-self:flex-start;font-size:15px;padding:8px 14px}
+.golinks{display:flex;gap:10px;flex-wrap:wrap}
+.tbl.lab td:first-child{font-family:var(--body);white-space:normal}
+.tbl.lab td.mono{font-size:.95em}
+.tbl.h6 td:first-child{width:62px;color:var(--steel);font-weight:600}
+.tbl.h6 td{font-size:15px;line-height:1.42;padding:7px 8px}
+.tbl.plan td:nth-child(2),.tbl.plan td:nth-child(3){white-space:nowrap}
+.tbl.risk td:first-child{font-family:var(--body);white-space:normal;width:44%;color:var(--ink)}
+.tbl.lic td:first-child{font-family:var(--body);white-space:normal}
+/* yard grid */
+.ygrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.yc{background:var(--panel);border-radius:6px;padding:8px 11px 9px;border-top:4px solid var(--c);display:flex;flex-direction:column;gap:3px;min-width:0}
+.yc h4{margin:0;font-size:17px;line-height:1.25;color:var(--ink)}
+.yc .cc{font-size:14px;line-height:1.3;color:var(--ink3)}
+.yc .cc b{font-family:var(--mono);font-weight:500;color:var(--ink2);margin-right:4px}
+.yc p{margin:0;font-size:15px;line-height:1.4;color:var(--ink2)}
+.yc.done{--c:var(--good);background:var(--good-soft)}
+.yc.ga{--c:var(--amber-hi)}
+.yc.gb{--c:var(--steel)}
+.ykey{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--ink2);align-items:center}
+.ykey span{display:inline-flex;align-items:center;gap:6px}
+.ykey i{width:18px;height:5px;border-radius:2px;display:inline-block}
+/* chips of yard names */
+.ychips{display:flex;flex-wrap:wrap;gap:6px}
+.ychips span{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:14px;color:var(--ink2);white-space:nowrap}
+.ychips span b{font-family:var(--mono);font-weight:500;color:var(--ink3);margin-left:4px;font-size:12px}
+/* vertical numbered steps */
+.vsteps{display:flex;flex-direction:column;gap:7px;margin:0;padding:0;list-style:none}
+.vsteps li{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;font-size:15.5px;line-height:1.42;color:var(--ink2)}
+.vsteps li>b{font-family:var(--d-en);font-size:24px;line-height:1;color:var(--steel);text-align:center}
+.vsteps li strong{color:var(--ink)}
+/* two case cards */
+.case{border-left:5px solid var(--c);padding:10px 14px;gap:5px}
+.case h3{font-size:16.5px}
+.case p{font-size:14.5px!important;line-height:1.45!important}
+/* pipeline chain */
+.pipe{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.pipe .pc{background:var(--panel);border-radius:6px;padding:8px 10px;border-top:4px solid var(--c,var(--steel));font-size:14px;line-height:1.35;color:var(--ink2);position:relative}
+.pipe .pc b{display:block;color:var(--ink);font-size:15px;margin-bottom:2px}
+.pipe .pc.au{--c:var(--amber-hi);background:var(--amber-soft)}
+.pipe .pc:not(:last-child)::after{content:"→";position:absolute;right:-8px;top:50%;transform:translate(50%,-50%);color:var(--ink3);font-size:14px}
+/* journals */
+.jcols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.jcols .card{border-top:4px solid var(--c);gap:8px}
+.jcols .jt{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.jcols h3 i{font-style:italic}
+.jcols p{font-size:15px!important;line-height:1.45!important}
+.card .wt{font-family:var(--d-en);font-size:27px;line-height:1.25;font-weight:600;color:var(--ink);margin:0}
+.flow .ygrid,.flow .pipe,.flow .jcols{grid-template-columns:minmax(0,1fr)!important}
+.flow .pipe .pc::after{display:none}
+.flow .rl{grid-template-columns:minmax(0,1fr)}
+.tbl tr.out td{background:var(--amber-soft)}
+[data-lang="zh"] .tbl.plan{font-size:16.5px!important}
+[data-lang="zh"] .tbl.plan td{padding:9px 8px}
+.tbl.risk{font-size:17px!important}
+.tbl.risk td{padding:11px 10px;line-height:1.45}
+[data-lang="zh"] .tbl.task{font-size:15.5px!important}
+[data-lang="zh"] .tbl.task td{padding:9px 8px}
+.qbig .claim p{font-size:17px}
+.qbig .tbl.h6 td{font-size:16.5px;padding:9px 8px}
+.qbig .rl{font-size:16px}
+[data-lang="en"] .yc p{font-size:14px;line-height:1.36}
+[data-lang="en"] .yc h4{font-size:16px}
+[data-lang="en"] .predc ul.clean{gap:5px}
+[data-lang="en"] .card .wt{font-size:25px}

@@ -1,5 +1,5 @@
 /* Thesis deck only. */
-.claim{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start;padding:7px 0;border-bottom:1px solid var(--line)}
+.claim{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start;padding:5px 0;border-bottom:1px solid var(--line)}
 .claim:last-child{border-bottom:0}
 .claim>b{font-family:var(--d-en);font-size:27px;font-weight:700;color:var(--steel);line-height:1}
 .claim h4{margin:0;font-size:17px;color:var(--ink)}
@@ -39,3 +39,53 @@
 [data-lang="zh"] .tbl.plan{font-size:15.5px}
 [data-lang="zh"] .tbl.plan td{padding:8px}
 .golinks{display:flex;gap:10px;flex-wrap:wrap}
+/* research map: one card per sub-study, each a link to its briefing */
+.studies{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;min-height:0}
+.study{display:flex;flex-direction:column;gap:5px;padding:12px 14px;background:var(--panel);border-radius:6px;border-top:4px solid var(--steel);color:inherit;text-decoration:none;transition:background .15s,transform .15s}
+.study:hover,.study:focus-visible{background:var(--amber-soft);transform:translateY(-2px)}
+.study .ch{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.study h3{margin:0;font-size:18px;line-height:1.3;color:var(--ink)}
+.study .serves{margin:0;font-family:var(--mono);font-size:13px;color:var(--steel)}
+.study p{margin:0;font-size:15px;line-height:1.45;color:var(--ink2)}
+.study .go{margin-top:auto;font-size:13px;font-weight:600;color:var(--amber)}
+/* results so far: six linked findings */
+.findings{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.fd{display:flex;flex-direction:column;gap:5px;padding:12px 14px;background:var(--panel);border-radius:6px;border-left:5px solid var(--steel);color:inherit;text-decoration:none;transition:background .15s}
+.fd:hover,.fd:focus-visible{background:var(--amber-soft)}
+.fd .num{font-family:var(--d-en);font-size:30px;font-weight:700;line-height:1.05;color:var(--steel)}
+.fd h3{margin:0;font-size:17px;color:var(--ink)}
+.fd p{margin:0;font-size:14px;line-height:1.45;color:var(--ink2)}
+/* tables of the plan and status slides */
+.tbl.arch,.tbl.venues,.tbl.prg,.tbl.wk,.tbl.risk{font-size:14.5px}
+.tbl.arch td,.tbl.venues td,.tbl.prg td,.tbl.wk td{padding:7px 8px;line-height:1.35}
+.tbl.arch td:nth-child(5),.tbl.arch td:last-child{font-family:var(--mono);font-size:.92em;white-space:nowrap}
+.tbl.arch td[rowspan]{vertical-align:middle}
+.tbl.venues td:first-child{font-family:var(--body);white-space:normal;width:22%}
+.tbl.venues td:nth-child(2),.tbl.venues td:nth-child(3),.tbl.venues td:nth-child(4){white-space:nowrap;color:var(--ink)}
+.tbl.venues .tiny{display:block;margin-top:2px}
+.tbl.prg td:last-child{white-space:nowrap}
+.tbl.wk td:first-child{font-family:var(--body);white-space:nowrap}
+.tbl.wk .ok,.ok{color:var(--good);font-weight:700}
+.tbl.risk td:first-child{width:30%}
+[data-lang="zh"] .tbl.arch,[data-lang="zh"] .tbl.venues,[data-lang="zh"] .tbl.prg,[data-lang="zh"] .tbl.wk,[data-lang="zh"] .tbl.risk,[data-lang="zh"] .tbl.obj{font-size:16px}
+.study .q{font-size:16.5px;line-height:1.45;color:var(--ink);font-weight:500}
+.chain .st b{font-weight:600;color:var(--ink)}
+.fd .num{font-size:34px}
+.fd h3{font-size:18px}
+.fd p{font-size:15.5px;line-height:1.5}
+.tbl.hyp4{font-size:16.5px}
+.tbl.hyp4 td{padding:9px 8px;line-height:1.4}
+[data-lang="zh"] .tbl.hyp4{font-size:18px}
+[data-lang="zh"] .tbl.hyp4 td{padding:12px 8px;line-height:1.5}
+[data-lang="zh"] .tbl.thm{font-size:17.5px}
+[data-lang="zh"] .tbl.thm td{padding:10px 8px}
+/* tables fill the slide: rows share the free height, so short (Chinese) text does not leave an empty lower half */
+.content>.tblwrap{height:100%}
+.content>.tblwrap>.tbl{height:100%}
+.content>.tblwrap>.tbl thead tr{height:1px}
+[data-lang="zh"] .tbl.arch,[data-lang="zh"] .tbl.venues,[data-lang="zh"] .tbl.prg{font-size:17.5px}
+.slide[data-sec="q"] .g2 .card li{font-size:18px;line-height:1.55;margin-bottom:6px}
+[data-lang="zh"] .slide[data-sec="q"] .g2 .card li{font-size:20.5px;margin-bottom:10px}
+.tbl.obj{font-size:15px}
+[data-lang="zh"] .claim p{font-size:16px;line-height:1.5}
+[data-lang="zh"] .claim h4{font-size:18.5px}

@@ -1,0 +1,64 @@
+/* Capacity-interval deck only (several rules follow thesis/thesis.css so the two decks look alike). */
+.rules{display:flex;flex-direction:column;gap:7px}
+.rl{display:grid;grid-template-columns:190px 1fr;gap:10px;align-items:center;padding:8px 12px;background:var(--panel);border-left:5px solid var(--c);border-radius:4px;font-size:15px;line-height:1.4;color:var(--ink2)}
+.rl b{color:var(--ink);font-size:16px}
+.rl .ref{display:block;font-size:12.5px;font-weight:600;color:var(--amber);margin-top:2px}
+.golink{align-self:flex-start;font-size:15px;padding:8px 14px}
+.golinks{display:flex;gap:10px;flex-wrap:wrap}
+.tbl.lab td:first-child{font-family:var(--body);white-space:normal}
+.tbl.lab td.mono{font-size:.95em}
+.tbl tr.hi td{background:var(--amber-soft)}
+.tbl tr.sub td{color:var(--ink3)}
+.tbl td.c,.tbl th.c{text-align:center}
+.tbl .refcol{color:var(--amber)}
+.mf{display:grid;grid-template-columns:58px 1fr 1fr;gap:0 14px;align-items:start;padding:8px 0;border-bottom:1px solid var(--line)}
+.mf:last-child{border-bottom:0}
+.mf>b{font-family:var(--d-en);font-size:28px;font-weight:700;color:var(--steel);line-height:1}
+.mf .q{font-size:15px;line-height:1.5;color:var(--ink);margin:0}
+.mf .q small{display:block;font-size:12.5px;color:var(--ink3);margin-bottom:2px;letter-spacing:.04em}
+.mf .o{font-size:14.5px;line-height:1.45;color:var(--ink2);margin:0;border-left:3px solid var(--amber-hi);padding-left:10px}
+.parts{display:flex;flex-direction:column;gap:9px}
+.part{display:grid;grid-template-columns:40px 1fr 230px;gap:12px;align-items:start;padding:10px 14px;background:var(--panel);border-radius:6px;border-left:5px solid var(--c,var(--line))}
+.part>b{font-family:var(--d-en);font-size:30px;font-weight:700;color:var(--steel);line-height:1}
+.part h4{margin:0 0 3px;font-size:16.5px;color:var(--ink)}
+.part p{margin:0;font-size:14.5px;line-height:1.45;color:var(--ink2)}
+.part .st{font-size:14px;line-height:1.45;color:var(--ink2);display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.crit{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.crit .card{padding:10px 14px;gap:4px;border-top:4px solid var(--steel)}
+.crit .card h3{font-size:16px}
+.crit .card p{font-size:14.5px;line-height:1.45}
+.yd{padding:12px 16px;background:var(--panel);border-radius:6px;border-left:5px solid var(--c);display:flex;flex-direction:column;gap:5px}
+.yd h4{margin:0;font-size:17px;color:var(--ink)}
+.yd p{margin:0;font-size:15px;line-height:1.5;color:var(--ink2)}
+.yd .num{font-size:34px;color:var(--c);line-height:1.05}
+.jr{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:start;padding:9px 12px;background:var(--panel);border-radius:6px;border-left:5px solid var(--c)}
+.jr>b{font-size:16px;color:var(--ink)}
+.jr .jn{font-size:16px;color:var(--ink);font-weight:600}
+.jr p{margin:2px 0 0;font-size:14.5px;line-height:1.45;color:var(--ink2)}
+.wt{font-family:var(--d-en);font-size:24px;font-weight:600;color:var(--ink);line-height:1.2;border-left:5px solid var(--amber-hi);padding:2px 0 2px 14px;margin:0}
+.wt small{display:block;font-family:var(--body);font-size:14px;font-weight:400;color:var(--ink3);margin-top:4px}
+
+.tbl.plan td{line-height:1.38}
+.tbl.plan td:first-child{white-space:nowrap}
+.tbl.risk td:first-child{font-family:var(--body);white-space:normal;width:38%;color:var(--ink)}
+.tbl.risk{font-size:16px}
+.tbl.risk td{padding:10px 8px;line-height:1.45}
+
+#flagRead .stat{padding:8px 0}
+#flagRead .stat .num{font-size:38px}
+#flagRead .stat p{font-size:15px;line-height:1.42}
+.note{font-size:14.5px;line-height:1.45;color:var(--ink2);border-left:4px solid var(--amber-hi);padding-left:12px;margin:0}
+.flow .part,.flow .crit,.flow .jr,.flow .mf,.flow .rl{grid-template-columns:minmax(0,1fr)}
+/* fill the slide per language (fixed sizes; Chinese and Korean run shorter than English) */
+.mf .q{font-size:16.5px}
+.mf .o{font-size:15.5px}
+[data-lang="zh"] .mf .q,[data-lang="ko"] .mf .q{font-size:18px}
+[data-lang="zh"] .mf .o,[data-lang="ko"] .mf .o{font-size:17px}
+[data-lang="zh"] .mf,[data-lang="ko"] .mf{padding:12px 0}
+.est li{font-size:16.5px!important}
+[data-lang="zh"] .est li,[data-lang="ko"] .est li{font-size:17.5px!important}
+.tbl.plan{font-size:15.5px}
+.tbl.plan td{padding:9px 8px}
+[data-lang="zh"] .tbl.plan{font-size:16.5px}
+[data-lang="zh"] .tbl.plan td,[data-lang="ko"] .tbl.plan td{padding:12px 8px}
+#prevTbl td.mono,#prevTbl th:nth-child(2){white-space:nowrap}

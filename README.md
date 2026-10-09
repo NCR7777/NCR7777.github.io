@@ -10,15 +10,23 @@
 
 ```
 index.html          入口：选择汇报（卡片来自 decks.js）
-decks.js            汇报登记表：live 的卡片可打开，planned 的显示为"规划中"
+decks.js            汇报登记表：GROUPS 定首页的分组（博士论文总览与分研究、期刊论文）；live 的卡片可打开，planned 的显示为"规划中"
 shared/
   lang.js           <head> 中加载，首帧前定语言（各页共用 localStorage 键 deck-lang2）
   deck.css          设计系统与幻灯片外壳（配色、排版、卡片、图表、动效、手机阅读模式）
   favicon.svg       网站图标（根目录另有 favicon.ico 供只认 ICO 的浏览器）
   deck-core.js      引擎：生成顶栏、舞台、讲稿、页脚、目录与术语抽屉；翻页、语言、主题、全屏、PDF、布局
-thesis/             博士论文汇报（占路运输）
-fleet/              船厂分段运输车选型（MY-B）
+thesis/             博士论文总览（占路运输），研究地图链接到下面六项分研究
+bound/              分研究：占路运输模型与路网上界（第 2–3 章）
+capacity/           分研究：运力区间与路网约束区（第 3 章）
+dock/               分研究：坞口与搭载高峰（第 3 章）
+orchestration/      分研究：交通编排（第 4 章）
+codesign/           分研究：车队与路网协同设计（第 5 章）
+multiyard/          分研究：多船厂检验（第 6 章）
+fleet/              期刊论文：船厂分段运输车选型（MY-B）
+seg/                期刊论文：结构引导的跨船厂遥感影像语义分割（MY-A）
 tools/make_pdf.py   把一份汇报打印成三种语言的 PDF
+tools/check_layout.py 发布前的版面检查（三种语言 × 加载与屏蔽网页字体）
 ```
 
 ## 本地查看
@@ -31,7 +39,7 @@ python -m http.server 8000      # 在本文件夹运行
 ## 新增一份汇报
 
 1. 新建文件夹，例如 `ch3/`，放 `index.html`、`deck.js`，需要时加 `data.js`、`make_data.py`、`assets/`、`<名>.css`。
-2. 在 `decks.js` 加一条（`status: 'live'`，`href: 'ch3/'`）。
+2. 在 `decks.js` 加一条（`status: 'live'`，`href: 'ch3/'`，`group` 取 `GROUPS` 中的一个）。
 3. 运行 `python tools/check_layout.py ch3`：逐页、三种语言、加载与屏蔽网页字体两种情况下检查有没有内容溢出，并报告参考文献页的填充比例（建议 0.8–0.93，留出余量给不同字体与最小字号设置）。有溢出时退出码为 1。
 4. 运行 `python tools/make_pdf.py ch3` 生成 `ch3/pdf/<data-pdf>_<lang>.pdf`。只重建改过的汇报的 PDF，以免仓库变大。
 

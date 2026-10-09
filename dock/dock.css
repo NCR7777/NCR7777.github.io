@@ -1,0 +1,51 @@
+/* Dock-mouth deck only (patterns follow thesis/thesis.css). */
+.rules{display:flex;flex-direction:column;gap:8px}
+.rl{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center;padding:9px 12px;background:var(--panel);border-left:5px solid var(--c);border-radius:4px;font-size:15px;line-height:1.42;color:var(--ink2)}
+.rl b{color:var(--ink);font-size:16px}
+.rl .tag{font-size:12.5px;color:var(--ink3);white-space:nowrap}
+.tbl.mf,.tbl.st{font-size:14.5px}
+.tbl.mf td,.tbl.st td{padding:7px 8px;line-height:1.38;vertical-align:top}
+.tbl.mf td:first-child,.tbl.st td:first-child{font-family:var(--body);white-space:normal}
+.tbl.mf td:first-child{width:14%;font-weight:600}
+.tbl.mf td:nth-child(2){color:var(--ink);width:56%}
+.tbl.st td:nth-child(2){white-space:nowrap}
+.tbl.st td:last-child{width:30%}
+.tbl.cr td:first-child{font-family:var(--body)}
+.tbl.cr td:last-child{text-align:center;font-family:var(--d-en);font-size:20px;font-weight:600;color:var(--steel)}
+[data-lang="zh"] .tbl.mf{font-size:16.5px}
+[data-lang="zh"] .tbl.mf td{padding:10px 8px}
+[data-lang="zh"] .tbl.st{font-size:16px}
+[data-lang="zh"] .tbl.st td{padding:9px 8px}
+.fx{display:grid;grid-template-columns:1fr 18px 1.15fr 18px 1fr;gap:6px;align-items:center}
+.fx .ar{color:var(--ink3);text-align:center;font-size:15px}
+.fx .bx{background:var(--panel);border-radius:6px;padding:9px 11px;font-size:14.5px;line-height:1.4;color:var(--ink2);border-top:4px solid var(--c,var(--steel))}
+.fx .bx b{color:var(--ink);display:block;font-size:15px}
+.fx .two{display:flex;flex-direction:column;gap:6px}
+.eqn{font-family:var(--mono);font-size:17px;color:var(--ink);background:var(--steel-soft);border-radius:6px;padding:10px 12px;line-height:1.5}
+.eqn small{display:block;font-family:var(--body);font-size:14px;color:var(--ink2);margin-top:3px}
+.bignums{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.bignums div{background:var(--paper);border-radius:6px;padding:8px 10px;display:flex;flex-direction:column;gap:2px}
+.bignums b{font-family:var(--d-en);font-size:34px;line-height:1;color:var(--oxide)}
+.bignums span{font-size:13.5px;line-height:1.35;color:var(--ink2)}
+.risk{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:14.5px;line-height:1.45;color:var(--ink2);background:var(--amber-soft);border-radius:6px;padding:9px 14px}
+.risk b{color:var(--ink)}
+.jr{border-top:4px solid var(--c);gap:10px}
+.jr{padding:20px 20px}
+.jr h3{font-size:20px}
+.jr .vn{font-family:var(--f-latin);font-size:19px;line-height:1.55;color:var(--ink);font-style:italic}
+.jr p:not(.vn){font-size:17.5px;line-height:1.55}
+.golink{align-self:flex-start;font-size:15px;padding:8px 14px}
+.golinks{display:flex;gap:10px;flex-wrap:wrap}
+.rdtbl{font-size:14.5px}
+.rdtbl td{padding:5px 8px}
+.rdtbl td:first-child{font-family:var(--body)}
+#rhoRead .stat .num,#kRead .stat .num{font-size:36px}
+#rhoRead .stat p{font-size:14.5px;line-height:1.42}
+#rhoRead .stat{padding:8px 0}
+.note{font-size:14px;line-height:1.45;color:var(--ink2);border-left:4px solid var(--amber-hi);padding:2px 0 2px 10px;margin:0}
+.flow .fx{grid-template-columns:minmax(0,1fr)}
+.flow .fx .ar{transform:rotate(90deg)}
+.flow .bignums{grid-template-columns:1fr 1fr}
+.flow .rl{grid-template-columns:minmax(0,1fr)}
+.cover h1{font-size:40px}
+[lang="ko"]{word-break:keep-all;overflow-wrap:break-word}

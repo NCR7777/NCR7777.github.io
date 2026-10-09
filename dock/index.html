@@ -1,0 +1,681 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Dock Mouth</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="../shared/favicon.svg" type="image/svg+xml">
+<script src="../shared/lang.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../shared/deck.css">
+<link rel="stylesheet" href="dock.css">
+
+<main id="deck" data-pdf="Dock_Mouth" data-home="../">
+<div class="brand-src" hidden><b>DOCK MOUTH</b><span lang="zh">坞口与搭载高峰 · 分项研究</span><span lang="en">The dock mouth at erection peaks · sub-study</span><span lang="ko">탑재 피크의 도크 입구 · 세부 연구</span></div>
+
+<!-- cover -->
+<section class="slide cover" data-sec="cover">
+  <div class="left">
+    <div class="kick"><span lang="zh">分项研究 · 第 3 章坞口节 · 2026 年 10 月</span><span lang="en">Sub-study · chapter 3, dock-mouth section · October 2026</span><span lang="ko">세부 연구 · 3장 도크 입구 절 · 2026년 10월</span></div>
+    <h1 class="d">
+      <span lang="zh">搭载高峰的坞口：<br>等吊车的车停在哪里，<br>决定吊车排队会不会<br>传到全厂</span>
+      <span lang="en">At erection peaks, where vehicles wait for the crane decides whether its queue reaches the whole yard</span>
+      <span lang="ko">탑재 피크의 도크 입구:<br>크레인을 기다리는 차가<br>어디에 서느냐가 대기열의<br>전체 확산을 정한다</span>
+    </h1>
+    <p class="sub"><span lang="zh">吊车作为坞的资源、ρ 曲线、“在哪里等”的机理、H2 的下降段与候选坞口命题</span><span lang="en">Cranes as dock resources, the ρ curve, the “where to wait” mechanism, the H2 decline and a candidate dock-mouth proposition</span><span lang="ko">도크 자원인 크레인, ρ 곡선, “어디서 기다리나”의 메커니즘, H2의 하락 구간과 도크 입구 명제 후보</span></p>
+    <p class="paper">Dock-mouth blocking at erection peaks: crane utilisation, waiting position and dock-road granularity</p>
+    <div class="meta">
+      <div><b>Chunrui Na</b></div>
+      <div><span lang="zh">哈尔滨工程大学 · 南洋理工大学</span><span lang="en">Harbin Engineering University · Nanyang Technological University</span><span lang="ko">하얼빈공정대학 · 난양이공대학</span></div>
+      <div><span lang="zh">依据：thesis-core 83c16bf（T20–T21，已复核）</span><span lang="en">Basis: thesis-core 83c16bf (T20–T21, reviewed)</span><span lang="ko">근거: thesis-core 83c16bf (T20–T21, 검토 완료)</span></div>
+      <div><span lang="zh">研究宣言 v1 · 作者审核意见（2026-10-09）</span><span lang="en">Research manifesto v1 · the author's review (9 Oct 2026)</span><span lang="ko">연구 선언 v1 · 저자 검토 의견 (2026-10-09)</span></div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="fill"><svg viewBox="0 0 520 470" role="img" aria-label="Schematic of a dock mouth: a crane over the dock, a loaded transporter waiting on the dock road, a blocked transporter, and an off-road holding area">
+      <text x="14" y="22" style="fill:var(--ink);font:600 14px var(--mono)"><tspan lang="zh" style="font-family:var(--f-zh)">坞口 = 吊车 + 坞前停靠路段（串联）</tspan><tspan lang="en">Dock mouth = crane + dock stopping road (in series)</tspan><tspan lang="ko" style="font-family:var(--f-ko)">도크 입구 = 크레인 + 도크 앞 정차 구간 (직렬)</tspan></text>
+      <rect x="24" y="44" width="472" height="150" rx="4" style="fill:var(--steel-soft);stroke:var(--steel);stroke-width:1.5"/>
+      <rect x="64" y="86" width="330" height="66" rx="33" style="fill:var(--steel);fill-opacity:.85"/>
+      <text x="230" y="124" text-anchor="middle" style="fill:var(--paper);font:600 13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">干坞内的船</tspan><tspan lang="en">ship in the dry dock</tspan><tspan lang="ko" style="font-family:var(--f-ko)">건조 중인 선박</tspan></text>
+      <g class="a-fade" style="--d:.3s">
+        <rect x="412" y="36" width="20" height="166" style="fill:var(--amber-hi);stroke:var(--ink);stroke-width:1.2"/>
+        <rect x="406" y="104" width="32" height="22" style="fill:var(--ink)"/>
+        <text x="402" y="70" text-anchor="end" style="fill:var(--ink);font:600 13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">吊车：每次 190 min</tspan><tspan lang="en">crane: 190 min a lift</tspan><tspan lang="ko" style="font-family:var(--f-ko)">크레인: 1회 190분</tspan></text>
+      </g>
+      <rect x="0" y="232" width="520" height="34" style="fill:var(--line)"/>
+      <path d="M0 249H520" style="stroke:var(--paper);stroke-width:2;stroke-dasharray:12 10"/>
+      <rect x="40" y="300" width="150" height="76" rx="4" style="fill:var(--paper);stroke:var(--ink3);stroke-dasharray:4 3"/>
+      <rect x="250" y="300" width="130" height="76" rx="4" style="fill:var(--paper);stroke:var(--ink3);stroke-dasharray:4 3"/>
+      <text x="115" y="343" text-anchor="middle" style="fill:var(--ink2);font:13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">总组场地</tspan><tspan lang="en">assembly site</tspan><tspan lang="ko" style="font-family:var(--f-ko)">총조립장</tspan></text>
+      <text x="315" y="343" text-anchor="middle" style="fill:var(--ink2);font:13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">总组场地</tspan><tspan lang="en">assembly site</tspan><tspan lang="ko" style="font-family:var(--f-ko)">총조립장</tspan></text>
+      <path d="M115 266V300M315 266V300" style="stroke:var(--line);stroke-width:14"/>
+      <rect class="a-fade" x="0" y="226" width="520" height="46" style="--d:1.2s;fill:var(--oxide-soft);fill-opacity:.55;stroke:var(--oxide);stroke-width:1.6;stroke-dasharray:7 5"/>
+      <g class="a-drive" style="--d:.5s">
+        <rect x="384" y="238" width="72" height="22" rx="3" style="fill:var(--amber-hi);stroke:var(--ink);stroke-width:1.2"/>
+        <rect x="378" y="218" width="84" height="62" rx="4" style="fill:var(--steel);fill-opacity:.92"/>
+      </g>
+      <text class="a-fade" x="420" y="298" text-anchor="middle" style="--d:1s;fill:var(--oxide);font:600 13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">在路上等吊车</tspan><tspan lang="en">waiting on the road</tspan><tspan lang="ko" style="font-family:var(--f-ko)">도로 위에서 대기</tspan></text>
+      <g class="a-drive" style="--d:.9s"><rect x="138" y="240" width="54" height="18" rx="3" style="fill:var(--amber-hi);stroke:var(--ink);stroke-width:1.2"/><rect x="138" y="240" width="10" height="18" style="fill:var(--ink)"/></g>
+      <g class="a-pop" style="--d:1.5s"><circle cx="122" cy="249" r="10" style="fill:var(--paper);stroke:var(--oxide);stroke-width:2"/><path d="M117 244l10 10M127 244l-10 10" style="stroke:var(--oxide);stroke-width:2"/></g>
+      <text class="a-fade" x="14" y="218" style="--d:1.6s;fill:var(--oxide);font:600 13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">整段被占：进不了相邻场地</tspan><tspan lang="en">whole road held: the site is cut off</tspan><tspan lang="ko" style="font-family:var(--f-ko)">전 구간 점유: 인접 작업장 진입 불가</tspan></text>
+      <g class="a-fade" style="--d:1.9s">
+        <rect x="300" y="398" width="200" height="56" rx="6" style="fill:var(--good-soft);stroke:var(--good);stroke-width:1.6;stroke-dasharray:6 4"/>
+        <rect x="318" y="418" width="56" height="18" rx="3" style="fill:var(--amber-hi);stroke:var(--ink);stroke-width:1.2"/>
+        <rect x="312" y="406" width="68" height="42" rx="4" style="fill:var(--steel);fill-opacity:.85"/>
+        <text x="390" y="423" style="fill:var(--good);font:600 13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">路外等待</tspan><tspan lang="en">off-road</tspan><tspan lang="ko" style="font-family:var(--f-ko)">도로 밖 대기</tspan></text>
+        <text x="390" y="441" style="fill:var(--good);font:13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">不占路</tspan><tspan lang="en">road stays free</tspan><tspan lang="ko" style="font-family:var(--f-ko)">도로 비움</tspan></text>
+      </g>
+      <text x="14" y="420" style="fill:var(--ink3);font:italic 12px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">示意，不按比例</tspan><tspan lang="en">schematic, not to scale</tspan><tspan lang="ko" style="font-family:var(--f-ko)">개념도, 축척 아님</tspan></text>
+    </svg></div>
+    <div class="stripe"></div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">这份分项汇报讲博士论文第 3 章的坞口一节：搭载高峰时，坞口，也就是吊车和坞前停靠路段串联起来的地方，什么时候会成为全厂的瓶颈。一句话：吊车排队本身不一定拖累全厂，关键是等吊车的车停在哪里。右图是示意：载着分段的车在坞前道路上等吊车，整条路都被占住，相邻的总组场地就进不去；如果车在路外等，路就是空的。</p>
+    <p lang="en">This sub-study covers the dock-mouth section of chapter 3: at erection peaks, when does the dock mouth, the crane and the dock stopping road in series, become the bottleneck of the whole yard? In one sentence: a crane queue need not hurt the yard; what matters is where the vehicles waiting for the crane stand. The sketch: a loaded transporter waits for the crane on the dock road, the whole road is held, and the neighbouring assembly site is cut off; if it waits off-road, the road stays free.</p>
+    <p lang="ko">이 세부 보고는 박사 논문 3장의 도크 입구 절입니다. 탑재 피크에 도크 입구, 즉 크레인과 도크 앞 정차 구간이 직렬로 이어진 곳이 언제 조선소 전체의 병목이 되는지를 다룹니다. 한 문장으로, 크레인 대기열 자체가 전체를 해치는 것은 아니며 크레인을 기다리는 차가 어디에 서 있느냐가 관건입니다. 오른쪽은 개념도입니다: 블록을 실은 차가 도크 앞 도로에서 크레인을 기다리면 도로 전체가 점유되어 인접 총조립장에 들어갈 수 없고, 도로 밖에서 기다리면 도로는 비어 있습니다.</p>
+  </aside>
+</section>
+
+<!-- one minute -->
+<section class="slide" data-sec="intro">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">一分钟看完这项分项研究</span><span lang="en">This sub-study in one minute</span><span lang="ko">1분 요약</span></h2>
+  <div class="content" style="grid-template-rows:auto auto;align-content:center;gap:14px">
+    <div class="cols4">
+      <div class="card sumc"><span class="k">1</span><h3><span lang="zh">问题</span><span lang="en">The question</span><span lang="ko">질문</span></h3>
+        <p style="font-size:16px;line-height:1.5"><span lang="zh">搭载高峰时，坞口（吊车与坞前停靠路段串联）什么时候成为全厂瓶颈？研究宣言把 H1 第 3 段写成条件：取决于等吊车的车是否堵住通往其他停靠点的通道。</span><span lang="en">At erection peaks, when does the dock mouth (crane and dock stopping road in series) become the yard's bottleneck? The manifesto makes H1 part 3 conditional: it depends on whether vehicles waiting for the crane block the way to other stops.</span><span lang="ko">탑재 피크에 도크 입구 (크레인과 도크 앞 정차 구간의 직렬)는 언제 조선소 전체의 병목이 되는가? 연구 선언은 H1 제3단을 조건으로 쓴다: 크레인을 기다리는 차가 다른 정차 지점으로 가는 길을 막는지에 달려 있다.</span></p></div>
+      <div class="card sumc"><span class="k">2</span><h3><span lang="zh">已有读数</span><span lang="en">Readings in hand</span><span lang="ko">확보한 판독</span></h3>
+        <p style="font-size:16px;line-height:1.5"><span lang="zh">吊车按清单计为坞的资源，搭载按吊车节拍放出。两厂 ρ 曲线上，整条路径预约（路外等待）的平台不随 ρ 变；逐段申请（参照规则：瞬移疏解）过了 ρ ≈ 0.85 下降，玉浦 ρ = 0.97 时 −28% 且没有平台。</span><span lang="en">Cranes from the dock lists are dock resources; erections are released at crane cadence. On both yards' ρ curves the plateau of whole-route reservation (waiting off-road) does not move with ρ; segment request (reference rule, teleport clearing) falls past ρ ≈ 0.85, by 28% with no plateau at Okpo's ρ = 0.97.</span><span lang="ko">크레인은 목록대로 도크 자원으로 두고 탑재는 크레인 주기로 내보낸다. 두 조선소 ρ 곡선에서 전체 경로 예약 (도로 밖 대기)의 평탄 구간은 ρ에 따라 변하지 않고, 구간별 요청 (참조 규칙: 순간이동 해소)은 ρ ≈ 0.85를 넘으면 떨어져 옥포 ρ = 0.97에서 −28%, 평탄 구간이 없다.</span></p></div>
+      <div class="card sumc"><span class="k">3</span><h3><span lang="zh">机理与建模选择</span><span lang="en">Mechanism and modelling</span><span lang="ko">메커니즘과 모형 선택</span></h3>
+        <p style="font-size:16px;line-height:1.5"><span lang="zh">差别在车在哪里等。下降目前只在“瞬移疏解 + 道路161 整段一个资源”下出现；作者探针按停靠点分段后，ρ = 0.97 的逐日下降由约 −20% 减到约 −5%。影像核对后，分段闭塞是 T22 起玉浦的主情景。</span><span lang="en">The difference is where vehicles wait. So far the decline appears only with teleport clearing and road 161 as one resource; in the author's probe, splitting the road at its stops cut the daily decline at ρ = 0.97 from about −20% to about −5%. After the imagery check, the segmented dock road is Okpo's main scenario from T22 on.</span><span lang="ko">차이는 어디서 기다리느냐에 있다. 하락은 지금까지 “순간이동 해소 + 도로161 전체를 자원 하나로”에서만 나타났고, 저자 탐침에서 정차 지점별로 나누자 ρ = 0.97의 일별 하락이 약 −20%에서 약 −5%로 줄었다. 영상 확인 후 구간 폐색이 T22부터 옥포의 주 시나리오다.</span></p></div>
+      <div class="card sumc"><span class="k">4</span><h3><span lang="zh">接下来</span><span lang="en">Next</span><span lang="ko">다음 단계</span></h3>
+        <p style="font-size:16px;line-height:1.5"><span lang="zh">T22：无瞬移的安全放行与“不疏解”开关、坞前道路分段、吊车饥饿率；T25：三资源小网络给出门槛 ρ*；T26：浮坞与有限待命区 K₀(S)。物理规则下对照仍在时，配上坞口命题。</span><span lang="en">T22: safe release without teleporting and a no-clearing switch, a segmented dock road, the crane starvation rate. T25: a three-resource network for the threshold ρ*. T26: floating docks and a finite holding area, K₀(S). If the contrast holds under physical rules, the dock-mouth proposition follows.</span><span lang="ko">T22: 순간이동 없는 안전 출발과 “해소 안 함” 스위치, 도크 앞 도로 구간 분할, 크레인 기아율. T25: 임계값 ρ*를 주는 세 자원 소형 망. T26: 플로팅 도크와 유한 대기 구역 K₀(S). 물리 규칙에서도 대비가 유지되면 도크 입구 명제를 붙인다.</span></p></div>
+    </div>
+    <p class="quote"><span lang="zh">要检验的一句话：吊车排队会不会传到全厂，看等吊车的车排在哪里。</span><span lang="en">The sentence to test: whether a crane queue reaches the whole yard depends on where the vehicles queue.</span><span lang="ko">검증할 한 문장: 크레인 대기열이 조선소 전체로 번지는지는 차가 어디에 줄 서느냐에 달려 있다.</span></p>
+  </div>
+  <p class="src"><span lang="zh">来源：研究宣言 v1（thesis-core 标签 manifesto-v1）第 3、4 节；thesis-core 83c16bf，T21 报告第 4 节；作者审核意见（2026-10-09）第 2.2 节与附录 A；00_总控/tasks.md（作者影像核对，2026-10-09）。</span><span lang="en">Sources: research manifesto v1 (thesis-core tag manifesto-v1) §3–4; thesis-core 83c16bf, T21 report §4; the author's review (9 Oct 2026) §2.2 and appendix A; 00_总控/tasks.md (the author's imagery check, 9 Oct 2026).</span><span lang="ko">출처: 연구 선언 v1 (thesis-core 태그 manifesto-v1) §3·§4, thesis-core 83c16bf T21 보고서 §4, 저자 검토 의견 (2026-10-09) §2.2와 부록 A, 00_总控/tasks.md (저자 영상 확인, 2026-10-09).</span></p>
+  <aside class="notes">
+    <p lang="zh">一分钟版本。问题：搭载高峰时坞口什么时候拖累全厂。我们已经把吊车当作坞的资源，搭载按吊车节拍放出，在玉浦和烟台画出了吊车利用率 ρ 的曲线：车在路外等的整条路径预约，平台不随 ρ 变；车在坞前路上等的逐段申请，过了 0.85 左右就掉。但这个下降目前依赖两个建模选择：死锁时让车瞬移，以及把 1.1 公里的道路161 整段当一个资源。作者的探针把道路按停靠点分段，下降大幅减弱；作者看了影像，确认分段更贴近玉浦，所以 T22 起分段是主情景。接下来用物理规则重画，做三资源小网络和浮坞情景。</p>
+    <p lang="en">The one-minute version. The question: when does the dock mouth hold back the whole yard at erection peaks? We now treat cranes as dock resources, release erections at crane cadence, and have crane-utilisation curves for Okpo and Yantai: with whole-route reservation, where vehicles wait off-road, the plateau does not move with ρ; with segment request, where they wait on the dock road, it falls past about 0.85. That decline rests on two modelling choices, teleporting deadlocked vehicles and treating the 1.1 km road 161 as one resource. The author's probe split the road at its stops and the decline largely faded; the author checked the imagery, so the segmented road is the main scenario from T22. Next: redraw under physical rules, build the three-resource network and the floating-dock scenario.</p>
+    <p lang="ko">1분 요약입니다. 질문은 탑재 피크에 도크 입구가 언제 조선소 전체를 붙잡느냐입니다. 크레인을 도크 자원으로 두고 탑재를 크레인 주기로 내보내, 옥포와 옌타이의 크레인 이용률 ρ 곡선을 그렸습니다. 차가 도로 밖에서 기다리는 전체 경로 예약은 평탄 구간이 ρ에 따라 변하지 않고, 도크 앞 도로에서 기다리는 구간별 요청은 약 0.85를 넘으면 떨어집니다. 다만 이 하락은 교착 차량을 순간이동시키는 것과 1.1 km 도로161을 자원 하나로 보는 두 모형 선택에 기대고 있습니다. 저자 탐침에서 도로를 정차 지점별로 나누자 하락이 크게 줄었고, 저자가 영상을 확인해 T22부터 구간 분할이 주 시나리오입니다. 다음은 물리 규칙으로 다시 그리고 세 자원 소형 망과 플로팅 도크 시나리오를 만드는 것입니다.</p>
+  </aside>
+</section>
+
+<!-- agenda -->
+<section class="slide" data-sec="intro">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">汇报顺序（点击跳转）</span><span lang="en">The order of this briefing (click to jump)</span><span lang="ko">보고 순서 (클릭하면 이동)</span></h2>
+  <div class="content" style="align-content:center">
+    <ol class="agenda">
+      <li data-go="q" tabindex="0"><span class="an">1</span><div><h3><span lang="zh">问题与定位</span><span lang="en">Question and position</span><span lang="ko">질문과 위치</span></h3><p><span lang="zh">服务的宣言条目：H1 第 3 段、H2、候选坞口命题、H7</span><span lang="en">Manifesto items served: H1 part 3, H2, the candidate proposition, H7</span><span lang="ko">기여하는 선언 항목: H1 제3단, H2, 도크 입구 명제 후보, H7</span></p></div><span class="pg"></span></li>
+      <li data-go="res" tabindex="0"><span class="an">2</span><div><h3><span lang="zh">吊车与 ρ 曲线</span><span lang="en">Cranes and the ρ curve</span><span lang="ko">크레인과 ρ 곡선</span></h3><p><span lang="zh">吊车清单、搭载节拍、工作点；两种规则的 ρ 曲线</span><span lang="en">Crane lists, erection cadence, working points; the ρ curve under two rules</span><span lang="ko">크레인 목록, 탑재 주기, 작업점, 두 규칙의 ρ 곡선</span></p></div><span class="pg"></span></li>
+      <li data-go="mech" tabindex="0"><span class="an">3</span><div><h3><span lang="zh">机理与建模选择</span><span lang="en">Mechanism and modelling choices</span><span lang="ko">메커니즘과 모형 선택</span></h3><p><span lang="zh">车在哪里等；瞬移疏解与整段道路；作者探针</span><span lang="en">Where vehicles wait; teleport clearing and the whole-road resource; the author's probe</span><span lang="ko">어디서 기다리나, 순간이동 해소와 전 구간 자원, 저자 탐침</span></p></div><span class="pg"></span></li>
+      <li data-go="h2" tabindex="0"><span class="an">4</span><div><h3><span lang="zh">下降何时出现（H2）</span><span lang="en">When the decline appears (H2)</span><span lang="ko">하락은 언제 나타나는가 (H2)</span></h3><p><span lang="zh">坞口的下降读数；三个开关；T4 小网络</span><span lang="en">Decline readings at the dock; three switches; the T4 small network</span><span lang="ko">도크의 하락 판독, 세 스위치, T4 소형 망</span></p></div><span class="pg"></span></li>
+      <li data-go="prop" tabindex="0"><span class="an">5</span><div><h3><span lang="zh">坞口命题与浮坞</span><span lang="en">The proposition and floating docks</span><span lang="ko">도크 입구 명제와 플로팅 도크</span></h3><p><span lang="zh">阻塞造成的饥饿；三资源小网络；浮坞与 H7</span><span lang="en">Starvation caused by blocking; the three-resource network; floating docks and H7</span><span lang="ko">차단이 일으킨 기아, 세 자원 소형 망, 플로팅 도크와 H7</span></p></div><span class="pg"></span></li>
+      <li data-go="status" tabindex="0"><span class="an">6</span><div><h3><span lang="zh">进度、计划与期刊</span><span lang="en">Progress, plan and journals</span><span lang="ko">진행, 계획, 학술지</span></h3><p><span lang="zh">已成立与进行中；任务与产出；候选期刊</span><span lang="en">Established and in progress; tasks and outputs; candidate journals</span><span lang="ko">확립된 것과 진행 중인 것, 작업과 산출물, 후보 학술지</span></p></div><span class="pg"></span></li>
+    </ol>
+  </div>
+  <aside class="notes">
+    <p lang="zh">六部分：问题与定位，吊车与 ρ 曲线，机理与建模选择，H2 的下降段，坞口命题与浮坞，最后是进度、计划与期刊。点击任一项可以跳过去。</p>
+    <p lang="en">Six parts: question and position; cranes and the ρ curve; mechanism and modelling choices; the H2 decline; the proposition and floating docks; and progress, plan and journals. Click any item to jump.</p>
+    <p lang="ko">여섯 부분입니다: 질문과 위치, 크레인과 ρ 곡선, 메커니즘과 모형 선택, H2 하락 구간, 도크 입구 명제와 플로팅 도크, 마지막으로 진행·계획·학술지입니다. 항목을 누르면 이동합니다.</p>
+  </aside>
+</section>
+
+<!-- question and position -->
+<section class="slide" data-sec="q">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">问题与定位：第 3 章坞口节，服务 H1 第 3 段、H2、候选坞口命题与 H7 的浮坞案例</span><span lang="en">Question and position: the dock-mouth section of chapter 3, serving H1 part 3, H2, the candidate proposition and H7's floating-dock case</span><span lang="ko">질문과 위치: 3장 도크 입구 절, H1 제3단·H2·도크 입구 명제 후보·H7 플로팅 도크 사례에 기여</span></h2>
+  <div class="content" style="grid-template-rows:auto 1fr auto;gap:12px;margin-top:14px">
+    <p class="quote sm"><span lang="zh">搭载高峰下，吊车的排队经由什么通道变成全厂的运力损失？车在哪里等、坞前道路怎样分段，能把它挡在坞口？</span><span lang="en">At erection peaks, through what channel does the crane queue become a capacity loss for the whole yard, and can the waiting position and the granularity of the dock road keep it at the dock mouth?</span><span lang="ko">탑재 피크에 크레인 대기열은 어떤 통로로 조선소 전체의 능력 손실이 되는가? 기다리는 위치와 도크 앞 도로의 구간 분할로 이를 도크 입구에 묶어 둘 수 있는가?</span></p>
+    <div class="tblwrap"><table class="tbl mf">
+      <thead><tr><th><span lang="zh">宣言条目</span><span lang="en">Manifesto item</span><span lang="ko">선언 항목</span></th><th><span lang="zh">原文（研究宣言 v1）</span><span lang="en">Text (research manifesto v1)</span><span lang="ko">원문 (연구 선언 v1)</span></th><th><span lang="zh">本研究给出</span><span lang="en">This study supplies</span><span lang="ko">이 연구가 제공하는 것</span></th></tr></thead>
+      <tbody>
+        <tr><td><span lang="zh">H1 第 3 段</span><span lang="en">H1, part 3</span><span lang="ko">H1 제3단</span></td><td><span lang="zh">坞口是否成为全厂瓶颈，取决于等吊车的车是否堵住通往其他停靠点的通道，即在哪里等、坞前道路是否分段使用。</span><span lang="en">Whether the dock mouth becomes the yard's bottleneck depends on whether vehicles waiting for the crane block the way to other stops, that is, where they wait and whether the dock road is used in sections.</span><span lang="ko">도크 입구가 조선소 전체의 병목이 되는지는 크레인을 기다리는 차가 다른 정차 지점으로 가는 통로를 막는지, 즉 어디서 기다리고 도크 앞 도로를 구간별로 쓰는지에 달려 있다.</span></td><td><span lang="zh">ρ 曲线 × 两种等待位置 × 两种道路粒度</span><span lang="en">ρ curves × two waiting positions × two road granularities</span><span lang="ko">ρ 곡선 × 두 대기 위치 × 두 도로 단위</span></td></tr>
+        <tr><td>H2</td><td><span lang="zh">只要多出来的车占用网络资源，越过 K₀ 后吞吐下降，K₀ 随待命区容量 S 右移。</span><span lang="en">As long as the extra vehicles occupy network resources, throughput falls beyond K₀, and K₀ moves right with the holding-area capacity S.</span><span lang="ko">늘어난 차가 네트워크 자원을 점유하기만 하면 K₀를 넘어 처리량이 떨어지고, K₀는 대기 구역 용량 S에 따라 오른쪽으로 이동한다.</span></td><td><span lang="zh">坞口的下降读数；三个开关的扫描；T4</span><span lang="en">Decline readings at the dock; a sweep of three switches; T4</span><span lang="ko">도크의 하락 판독, 세 스위치 스캔, T4</span></td></tr>
+        <tr><td><span lang="zh">候选命题</span><span lang="en">Candidate</span><span lang="ko">명제 후보</span></td><td><span lang="zh">坞口命题：名义负荷 ρ &lt; 1 时，阻塞造成的饥饿使系统失稳；路外等待或坞前道路分段使用时恢复稳定。</span><span lang="en">Dock-mouth proposition: with nominal load ρ &lt; 1, starvation caused by blocking destabilises the system; with off-road waiting or a dock road used in sections, stability is restored.</span><span lang="ko">도크 입구 명제: 명목 부하 ρ &lt; 1일 때 차단이 일으킨 기아가 시스템을 불안정하게 하고, 도로 밖 대기나 도크 앞 도로의 구간별 사용으로 안정이 회복된다.</span></td><td><span lang="zh">三资源小网络与吊车饥饿率</span><span lang="en">The three-resource network and the crane starvation rate</span><span lang="ko">세 자원 소형 망과 크레인 기아율</span></td></tr>
+        <tr><td><span lang="zh">H7 案例</span><span lang="en">H7 case</span><span lang="ko">H7 사례</span></td><td><span lang="zh">浮坞巨型分段的多车联运。</span><span lang="en">Multi-transporter carriage of giant blocks for floating docks.</span><span lang="ko">플로팅 도크 거대 블록의 다차량 연계 운송.</span></td><td><span lang="zh">浮坞情景（码头侧汇点 + 浮吊）</span><span lang="en">A floating-dock scenario (quay-side sink + floating crane)</span><span lang="ko">플로팅 도크 시나리오 (부두 측 도착점 + 해상 크레인)</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="small" style="margin:0"><span lang="zh">相关论断：C2 的下降段在“等待挤占道路时”出现；C3 的交通编排包括等待点与闭塞粒度。每个结论只写一次适用条件：交通规则、任务量口径、资源粒度、船厂与地图版本（宣言第 5 节）。</span><span lang="en">Related claims: C2's falling branch appears “when waiting crowds the road”; C3's orchestration includes waiting points and block granularity. Each conclusion states its conditions once: traffic rule, task-volume basis, resource granularity, yard and map version (manifesto §5).</span><span lang="ko">관련 논제: C2의 하락 구간은 “대기가 도로를 차지할 때” 나타나고, C3의 교통 편성에는 대기 지점과 폐색 단위가 포함된다. 결론마다 적용 조건을 한 번 쓴다: 통행 규칙, 작업량 기준, 자원 단위, 조선소와 지도 버전 (선언 §5).</span></p>
+  </div>
+  <p class="src"><span lang="zh">来源：研究宣言 v1 第 2 节（C2、C3）、第 3 节（H1、H2、H7）、第 4 节（T4 与候选坞口命题）、第 5 节（表述规则）。宣言条目的英文、韩文为忠实翻译，中文为准。</span><span lang="en">Sources: research manifesto v1 §2 (C2, C3), §3 (H1, H2, H7), §4 (T4 and the candidate proposition), §5 (wording rules). The English and Korean of manifesto items are faithful translations; the Chinese governs.</span><span lang="ko">출처: 연구 선언 v1 §2 (C2·C3), §3 (H1·H2·H7), §4 (T4와 명제 후보), §5 (표현 규칙). 선언 항목의 영어·한국어는 충실한 번역이며 중국어가 기준이다.</span></p>
+  <aside class="notes">
+    <p lang="zh">这项研究要回答的是：搭载高峰下，吊车的排队经由什么通道变成全厂的运力损失，以及能不能靠等待位置和坞前道路的分段把它挡在坞口。在论文里它是第 3 章的坞口一节，直接服务研究宣言里的四个条目：H1 的第 3 段，它本身就写成了条件；H2 的下降段；候选的坞口命题；以及 H7 里的浮坞案例。表里的原文都按宣言 v1 引用。</p>
+    <p lang="en">The question: at erection peaks, through what channel does the crane queue turn into a capacity loss for the whole yard, and can the waiting position and the sectioning of the dock road keep it at the dock mouth? In the thesis this is the dock-mouth section of chapter 3, serving four manifesto items directly: part 3 of H1, which the manifesto already states as a condition; the falling branch of H2; the candidate dock-mouth proposition; and the floating-dock case of H7. The table quotes manifesto v1.</p>
+    <p lang="ko">이 연구가 답하려는 것은, 탑재 피크에 크레인 대기열이 어떤 통로로 조선소 전체의 능력 손실이 되는지, 그리고 대기 위치와 도크 앞 도로의 구간 분할로 그것을 도크 입구에 묶어 둘 수 있는지입니다. 논문에서는 3장의 도크 입구 절이며, 연구 선언의 네 항목에 직접 기여합니다: 이미 조건으로 쓰인 H1 제3단, H2의 하락 구간, 도크 입구 명제 후보, H7의 플로팅 도크 사례입니다. 표의 원문은 선언 v1을 인용했습니다.</p>
+  </aside>
+</section>
+
+<!-- cranes as dock resources -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">吊车是坞的资源：搭载按吊车节拍放出，跨内吊运占吊车、不占路</span><span lang="en">Cranes are dock resources: erections are released at crane cadence, and in-span lifts take the crane but not the road</span><span lang="ko">크레인은 도크의 자원: 탑재는 크레인 주기로 내보내고, 스팬 내 인양은 크레인만 쓰고 도로는 쓰지 않는다</span></h2>
+  <div class="content g-l" style="gap:26px;margin-top:14px">
+    <div class="col" style="gap:12px;justify-content:center">
+      <div class="tblwrap"><table class="tbl dense cr" style="font-size:15px">
+        <thead><tr><th><span lang="zh">船厂 · 坞</span><span lang="en">Yard · dock</span><span lang="ko">조선소 · 도크</span></th><th><span lang="zh">计入的吊车（起重量 ≥ 100 t）</span><span lang="en">Cranes counted (capacity ≥ 100 t)</span><span lang="ko">포함한 크레인 (≥ 100 t)</span></th><th><span lang="zh">台数</span><span lang="en">No.</span><span lang="ko">대수</span></th></tr></thead>
+        <tbody>
+          <tr><td><span lang="zh">玉浦 · 1 号干坞</span><span lang="en">Okpo · dock 1</span><span lang="ko">옥포 · 1번 건식 도크</span></td><td><span lang="zh">900 t 龙门吊、200 t 悬臂吊</span><span lang="en">900 t gantry, 200 t jib crane</span><span lang="ko">900 t 갠트리, 200 t 지브 크레인</span></td><td>2</td></tr>
+          <tr><td><span lang="zh">玉浦 · 2 号干坞</span><span lang="en">Okpo · dock 2</span><span lang="ko">옥포 · 2번 건식 도크</span></td><td><span lang="zh">900 t 龙门吊</span><span lang="en">900 t gantry</span><span lang="ko">900 t 갠트리</span></td><td>1</td></tr>
+          <tr><td><span lang="zh">烟台 · 1 号干坞</span><span lang="en">Yantai · dock 1</span><span lang="ko">옌타이 · 1번 건식 도크</span></td><td><span lang="zh">2 万 t 桥吊（泰山吊）、370 t 龙门吊</span><span lang="en">20,000 t bridge crane (Taishan), 370 t gantry</span><span lang="ko">2만 t 교형 크레인 (타이산), 370 t 갠트리</span></td><td>2</td></tr>
+          <tr><td><span lang="zh">烟台 · 2 号干坞</span><span lang="en">Yantai · dock 2</span><span lang="ko">옌타이 · 2번 건식 도크</span></td><td><span lang="zh">370 t 龙门吊</span><span lang="en">370 t gantry</span><span lang="ko">370 t 갠트리</span></td><td>1</td></tr>
+        </tbody>
+      </table></div>
+      <p class="tiny" style="margin:0"><span lang="zh">低于 100 t（平均分段重）的悬臂吊、塔吊不计；烟台两台 370 t 龙门吊的逐坞分配为情景设定。玉浦龙门吊跨度：1 号干坞 206 m（Riviera 2014）、2 号干坞 148 m（The Motorship）。</span><span lang="en">Jib and tower cranes below 100 t (the mean block weight) are not counted; assigning Yantai's two 370 t gantries one per dock is a scenario choice. Okpo gantry spans: 206 m on dock 1 (Riviera 2014), 148 m on dock 2 (The Motorship).</span><span lang="ko">100 t (평균 블록 중량) 미만의 지브·타워 크레인은 제외, 옌타이 370 t 갠트리 두 대의 도크별 배정은 시나리오 설정. 옥포 갠트리 스팬: 1번 도크 206 m (Riviera 2014), 2번 도크 148 m (The Motorship).</span></p>
+      <div class="fx">
+        <div class="bx" style="--c:var(--steel)"><b><span lang="zh">按吊车节拍放出</span><span lang="en">Released at crane cadence</span><span lang="ko">크레인 주기로 출발</span></b><span lang="zh">每坞每天的搭载（P6）等间隔放出</span><span lang="en">each dock's erections (P6) evenly spaced over the day</span><span lang="ko">도크별 하루 탑재 (P6)를 등간격으로</span></div>
+        <div class="ar">→</div>
+        <div class="two">
+          <div class="bx" style="--c:var(--amber-hi)"><b><span lang="zh">跨外</span><span lang="en">Out of span</span><span lang="ko">스팬 밖</span></b><span lang="zh">平板车送到坞边停靠路段</span><span lang="en">a transporter brings it to the dock stopping road</span><span lang="ko">트랜스포터가 도크 정차 구간까지 운반</span></div>
+          <div class="bx" style="--c:var(--good)"><b><span lang="zh">跨内</span><span lang="en">In span</span><span lang="ko">스팬 안</span></b><span lang="zh">龙门吊从总组场地直接吊运，不派车</span><span lang="en">the gantry lifts it straight from the site; no transporter</span><span lang="ko">갠트리가 총조립장에서 바로 인양, 차량 없음</span></div>
+        </div>
+        <div class="ar">→</div>
+        <div class="bx" style="--c:var(--oxide)"><b><span lang="zh">占一台吊车 190 min</span><span lang="en">One crane for 190 min</span><span lang="ko">크레인 1대 190분</span></b><span lang="zh">挂钩起吊 10 + 定位松钩 180</span><span lang="en">hook and lift 10 + position and release 180</span><span lang="ko">걸기·들기 10 + 위치·해제 180</span></div>
+      </div>
+    </div>
+    <div class="col compact" style="gap:10px;justify-content:center">
+      <div class="eqn">ρ = P6/<span lang="zh">日</span><span lang="en">day</span><span lang="ko">일</span> × 190 min ÷ (n<sub>crane</sub> × 960 min)<small><span lang="zh">三台吊车每天至多搭载 3 × 960 ÷ 190 = 15.2 个</span><span lang="en">Three cranes erect at most 3 × 960 ÷ 190 = 15.2 a day</span><span lang="ko">크레인 3대는 하루 최대 3 × 960 ÷ 190 = 15.2개 탑재</span></small></div>
+      <div class="stat"><span class="num">0.88<small>(0.78–0.97)</small></span><p><span lang="zh">玉浦：P6 = 2 × 20 艘 × 100 个 ÷ 300 = 13.3 个/日（区间 11.9–14.7）。20 艘为 2025 年 LNG 船交付（IR 推算），100 为大宇专利“通常 90–110 个”的中值，2 倍为高峰日。<b>这是情景读数，不写进 H1</b>（作者 2026-10-09 定）。</span><span lang="en">Okpo: P6 = 2 × 20 ships × 100 ÷ 300 = 13.3 a day (range 11.9–14.7). 20 = LNG carriers delivered in 2025 (estimated from IR), 100 = midpoint of DSME's patent “usually 90–110”, 2 = peak day. <b>A scenario reading, not part of H1</b> (author, 9 Oct 2026).</span><span lang="ko">옥포: P6 = 2 × 20척 × 100개 ÷ 300 = 하루 13.3개 (구간 11.9–14.7). 20척은 2025년 LNG선 인도 (IR 추산), 100은 대우 특허 “통상 90–110개”의 중앙값, 2배는 피크일. <b>시나리오 판독이며 H1에는 넣지 않는다</b> (저자 2026-10-09 결정).</span></p></div>
+      <div class="stat"><span class="num">0.13</span><p><span lang="zh">烟台：按公开产量折算 P6 = 2 个/日，吊车远不紧。</span><span lang="en">Yantai: P6 = 2 a day from public output; the cranes are far from tight.</span><span lang="ko">옌타이: 공개 생산량 환산 P6 = 하루 2개, 크레인 여유가 크다.</span></p></div>
+      <div class="stat"><span class="num">12.5%</span><p><span lang="zh">玉浦跨内吊运的份额：区域018 → 1 号干坞、区域014 → 2 号干坞（地图跨区覆盖 ≥ 0.5）；烟台没有。</span><span lang="en">Okpo's in-span share: zone 018 → dock 1 and zone 014 → dock 2 (span cover ≥ 0.5 on the map); none at Yantai.</span><span lang="ko">옥포 스팬 내 인양 비율: 구역018 → 1번 도크, 구역014 → 2번 도크 (지도 스팬 피복 ≥ 0.5), 옌타이는 없음.</span></p></div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：thesis-core 83c16bf，T20 报告第 1 节（吊车清单：韩华海洋官网 Facilities；中集来福士 2012 年环评公告；Hoist Magazine 2008），T21 报告第 2–3 节，t21_span.csv、t21_p6.csv。吊车周期取自 ZhangSG2025 第 2525–2528 行（另一座船厂）；每艘搭载单元：大宇专利 KR20090050364A、Roh &amp; Lee 2006 第 116 页（89 个）；年产船数由韩华海洋 IR 推算。</span><span lang="en">Sources: thesis-core 83c16bf, T20 report §1 (crane lists: Hanwha Ocean Facilities page; CIMC Raffles 2012 EIA notice; Hoist Magazine 2008), T21 report §2–3, t21_span.csv, t21_p6.csv. Crane cycle from ZhangSG2025, lines 2525–2528 (another yard); units per ship from DSME patent KR20090050364A and Roh &amp; Lee 2006, p. 116 (89); ships a year estimated from Hanwha Ocean IR.</span><span lang="ko">출처: thesis-core 83c16bf, T20 보고서 §1 (크레인 목록: 한화오션 Facilities, CIMC 래플스 2012 환경영향평가 공고, Hoist Magazine 2008), T21 보고서 §2–3, t21_span.csv·t21_p6.csv. 크레인 주기는 ZhangSG2025 2525–2528행 (다른 조선소), 척당 탑재 단위는 대우 특허 KR20090050364A와 Roh &amp; Lee 2006 116쪽 (89개), 연간 건조 척수는 한화오션 IR로 추산.</span></p>
+  <aside class="notes">
+    <p lang="zh">第一步是把吊车当作坞的资源。每座坞起重量不低于平均分段重 100 吨的吊车都计入：玉浦 1 号干坞是 900 吨龙门吊和 200 吨悬臂吊，2 号干坞一台 900 吨龙门吊；烟台 1 号干坞有泰山吊和一台 370 吨龙门吊，2 号干坞一台 370 吨龙门吊。每次搭载占吊车 190 分钟，取自另一座船厂的调研。搭载按吊车节拍放出：跨外的由平板车送到坞边，跨内的由龙门吊直接吊运，只占吊车不占路。吊车利用率 ρ 就是搭载需求除以吊车能力。玉浦按 20 艘 LNG 船、每艘 100 个搭载单元、高峰日 2 倍，得到每天 13.3 个、ρ 约 0.88；按每艘 89 到 110 个，区间是 0.78 到 0.97。作者决定这只作情景读数，不写进 H1。</p>
+    <p lang="en">Step one treats cranes as dock resources. Every dock crane able to lift the mean block of 100 t counts: at Okpo, a 900 t gantry and a 200 t jib on dock 1 and a 900 t gantry on dock 2; at Yantai, the Taishan crane and a 370 t gantry on dock 1 and a 370 t gantry on dock 2. An erection holds a crane for 190 minutes, taken from a survey of another yard. Erections are released at crane cadence: out-of-span ones go by transporter to the dock edge, in-span ones are lifted straight by the gantry, taking the crane but not the road. Crane utilisation ρ is erection demand over crane capacity. For Okpo, 20 LNG carriers at 100 units each and a peak day of twice the regular one give 13.3 a day and ρ ≈ 0.88; with 89 to 110 units a ship the range is 0.78 to 0.97. The author decided this stays a scenario reading, outside H1.</p>
+    <p lang="ko">첫 단계는 크레인을 도크의 자원으로 두는 것입니다. 평균 블록 중량 100 t 이상을 들 수 있는 도크 크레인은 모두 포함했습니다: 옥포 1번 도크는 900 t 갠트리와 200 t 지브, 2번 도크는 900 t 갠트리 한 대, 옌타이 1번 도크는 타이산 크레인과 370 t 갠트리, 2번 도크는 370 t 갠트리 한 대입니다. 탑재 1회는 크레인을 190분 점유하며 다른 조선소 조사에서 가져왔습니다. 탑재는 크레인 주기로 내보내며, 스팬 밖은 트랜스포터가 도크 가장자리까지 옮기고 스팬 안은 갠트리가 바로 들어 크레인만 쓰고 도로는 쓰지 않습니다. 크레인 이용률 ρ는 탑재 수요를 크레인 능력으로 나눈 값입니다. 옥포는 LNG선 20척, 척당 100개, 피크일 2배로 하루 13.3개, ρ 약 0.88이며, 척당 89–110개면 0.78–0.97입니다. 저자는 이를 시나리오 판독으로만 두고 H1에는 넣지 않기로 했습니다.</p>
+  </aside>
+</section>
+
+<!-- rho curve -->
+<section class="slide" data-sec="res">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">ρ 曲线：整条路径预约的平台不随 ρ 变；逐段申请（参照规则：瞬移疏解）过了约 0.85 开始下降</span><span lang="en">The ρ curve: the reservation plateau does not move with ρ; segment request (reference rule, teleport clearing) starts to fall past about 0.85</span><span lang="ko">ρ 곡선: 예약의 평탄 구간은 ρ에 따라 변하지 않고, 구간별 요청 (참조 규칙: 순간이동 해소)은 약 0.85를 넘으면 떨어지기 시작한다</span></h2>
+  <div class="content g-l" style="gap:22px;margin-top:12px">
+    <div class="col" style="gap:8px">
+      <div class="ctlrow"><div class="seg" id="rhoYard" role="group" aria-label="Yard"><button type="button" data-v="yupu"><span lang="zh">玉浦</span><span lang="en">Okpo</span><span lang="ko">옥포</span></button><button type="button" data-v="yantai"><span lang="zh">烟台</span><span lang="en">Yantai</span><span lang="ko">옌타이</span></button></div></div>
+      <div class="fill chart" id="cRho"></div>
+      <div class="legend" id="lgRho"></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:0" id="rhoRead"></div>
+  </div>
+  <p class="src"><span lang="zh">来源：thesis-core 83c16bf，results/t21_report_9eb8bf099d3a/t21_rho.csv 与 ρ 批次 1b06c6d46f0d（玉浦）、87d02d32bc13（烟台）。条件：玉浦派生图 rev 1825、烟台 r396；MY-B 流向组合（Roh &amp; Cha 2011；日任务量为 4 台车子集，Yim 2008，全厂口径每天 300–600 个，Yim 2008、Shen et al. 2018，由 T22 重跑），P6 按吊车节拍，含跨内吊运；饱和档 8 天，平台 = K = 100–150 的均值，10 个种子；道路161 整段一个资源；逐段申请为参照规则（瞬移疏解 900 s）。空心点：K = 100–150 中至少一档不满足稳态判据（组合偏移 ≤ 2%，逐日趋势 ≤ 5%）。</span><span lang="en">Sources: thesis-core 83c16bf, results/t21_report_9eb8bf099d3a/t21_rho.csv and ρ batches 1b06c6d46f0d (Okpo), 87d02d32bc13 (Yantai). Conditions: Okpo derived map rev 1825, Yantai r396; MY-B flow mix (Roh &amp; Cha 2011; daily volume a 4-transporter subset, Yim 2008, against 300–600 a day yard-wide, Yim 2008 and Shen et al. 2018, rerun in T22), P6 at crane cadence with in-span lifts; saturated demand, 8 days, plateau = mean over K = 100–150, 10 seeds; road 161 as one resource; segment request is the reference rule (teleport clearing after 900 s). Hollow: at least one K in 100–150 fails the steady-state test (mix shift ≤ 2%, daily trend ≤ 5%).</span><span lang="ko">출처: thesis-core 83c16bf, results/t21_report_9eb8bf099d3a/t21_rho.csv와 ρ 배치 1b06c6d46f0d (옥포), 87d02d32bc13 (옌타이). 조건: 옥포 파생 지도 rev 1825, 옌타이 r396, MY-B 흐름 조합 (Roh &amp; Cha 2011, 일 작업량은 트랜스포터 4대 부분집합 Yim 2008, 조선소 전체 기준 하루 300–600개 Yim 2008·Shen et al. 2018, T22에서 재실행), P6는 크레인 주기 (스팬 내 인양 포함), 포화 8일, 평탄 = K = 100–150 평균, 시드 10개, 도로161 전체를 자원 하나로, 구간별 요청은 참조 규칙 (900초 후 순간이동 해소). 속이 빈 점: K = 100–150 중 하나 이상이 정상 상태 판정 (조합 편차 ≤ 2%, 일별 추세 ≤ 5%)을 통과하지 못함.</span></p>
+  <aside class="notes">
+    <p lang="zh">这是 T21 的 ρ 曲线。横轴是吊车利用率，纵轴是饱和平台。红线是整条路径预约：吊车时段和整条路径一起订好，车在上一个卸货点等，平台在所有 ρ 下都几乎不动，玉浦 608 到 615。橙线是逐段申请，这是参照规则，死锁时让车瞬移；它在 ρ 低于 0.79 时和不受吊车约束的 984 一样，0.88 掉 4.7%，0.97 掉 28% 而且 8 天里一直在降，没有平台。三个星标是玉浦的工作点区间。烟台的坞前道路本来就忙，掉得更早。另外，固定 P6 的线性规划坞口裕度在各 ρ 下都约 1.46，上界看不到这种排队造成的阻塞，只有仿真能看到。</p>
+    <p lang="en">This is T21's ρ curve. The x-axis is crane utilisation, the y-axis the saturated plateau. Red is whole-route reservation: the crane slot is booked with the route and the vehicle waits at its last unloading point, so the plateau barely moves at any ρ, 608 to 615 on Okpo. Orange is segment request, the reference rule that teleports deadlocked vehicles; it matches the crane-free 984 below ρ = 0.79, loses 4.7% at 0.88 and 28% at 0.97, where it keeps falling for 8 days with no plateau. The three markers are Okpo's working-point range. Yantai's dock roads are busy already, so it falls earlier. With P6 fixed, the LP's dock margin stays near 1.46 at every ρ: the bound cannot see queue-induced blocking; only the simulation does.</p>
+    <p lang="ko">T21의 ρ 곡선입니다. 가로축은 크레인 이용률, 세로축은 포화 평탄 구간입니다. 빨간 선은 전체 경로 예약으로, 크레인 시간대를 경로와 함께 예약하고 차는 직전 하역 지점에서 기다리므로 평탄 구간이 모든 ρ에서 거의 그대로이며 옥포는 608–615입니다. 주황 선은 교착 차량을 순간이동시키는 참조 규칙인 구간별 요청으로, ρ 0.79 이하에서는 크레인 제약이 없는 984와 같고, 0.88에서 4.7%, 0.97에서 28% 떨어지며 8일 내내 계속 내려가 평탄 구간이 없습니다. 별표 세 개는 옥포 작업점 구간입니다. 옌타이는 도크 앞 도로가 원래 바빠 더 일찍 떨어집니다. P6를 고정한 LP의 도크 여유는 모든 ρ에서 약 1.46으로, 상한은 대기열이 만든 차단을 보지 못하고 시뮬레이션만 봅니다.</p>
+  </aside>
+</section>
+
+<!-- mechanism -->
+<section class="slide" data-sec="mech">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">机理：差别在车在哪里等——在上一个卸货点（路外），还是在坞前道路上</span><span lang="en">The mechanism: the difference is where vehicles wait — at their last unloading point (off-road) or on the dock road</span><span lang="ko">메커니즘: 차이는 차가 어디서 기다리느냐 — 직전 하역 지점 (도로 밖)인가, 도크 앞 도로 위인가</span></h2>
+  <div class="content g2" style="gap:24px;margin-top:12px">
+    <div class="col" style="justify-content:center">
+      <div class="fill"><svg viewBox="0 0 560 420" role="img" aria-label="Two panels: under reservation the vehicle waits off-road and the dock road stays free; under segment request it waits on the dock road and the whole road is held">
+        <g>
+          <text x="0" y="18" style="fill:var(--oxide);font:600 15px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">整条路径预约：吊车时段与路径一起订好</tspan><tspan lang="en">Reservation: crane slot booked with the route</tspan><tspan lang="ko" style="font-family:var(--f-ko)">전체 경로 예약: 크레인 시간대를 경로와 함께 예약</tspan></text>
+          <rect x="420" y="34" width="140" height="70" rx="3" style="fill:var(--steel-soft);stroke:var(--steel)"/>
+          <rect x="482" y="28" width="14" height="82" style="fill:var(--amber-hi);stroke:var(--ink)"/>
+          <text x="490" y="128" text-anchor="middle" style="fill:var(--ink2);font:12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">坞与吊车</tspan><tspan lang="en">dock and crane</tspan><tspan lang="ko" style="font-family:var(--f-ko)">도크와 크레인</tspan></text>
+          <rect x="130" y="134" width="430" height="26" style="fill:var(--line)"/>
+          <rect x="250" y="168" width="70" height="30" rx="3" style="fill:var(--paper);stroke:var(--ink3);stroke-dasharray:4 3"/>
+          <path d="M285 160V168" style="stroke:var(--line);stroke-width:10"/>
+          <rect x="0" y="40" width="120" height="104" rx="4" style="fill:var(--good-soft);stroke:var(--good);stroke-dasharray:6 4"/>
+          <rect x="22" y="78" width="56" height="16" rx="3" style="fill:var(--amber-hi);stroke:var(--ink)"/>
+          <rect x="16" y="66" width="68" height="40" rx="4" style="fill:var(--steel);fill-opacity:.85"/>
+          <text x="60" y="126" text-anchor="middle" style="fill:var(--good);font:600 12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">上一个卸货点</tspan><tspan lang="en">last unload point</tspan><tspan lang="ko" style="font-family:var(--f-ko)">직전 하역 지점</tspan></text>
+          <g class="a-drive" style="--d:.6s"><rect x="200" y="140" width="40" height="14" rx="2" style="fill:var(--amber-hi);stroke:var(--ink)"/></g>
+          <text x="345" y="190" style="fill:var(--good);font:600 12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">路空着：相邻场地照常进出</tspan><tspan lang="en">road free: sites stay reachable</tspan><tspan lang="ko" style="font-family:var(--f-ko)">도로 비움: 인접 작업장 출입 가능</tspan></text>
+        </g>
+        <g transform="translate(0 214)">
+          <text x="0" y="18" style="fill:var(--amber);font:600 15px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">逐段申请（参照规则）：到坞边再申请吊车</tspan><tspan lang="en">Segment request (reference rule): ask at the dock</tspan><tspan lang="ko" style="font-family:var(--f-ko)">구간별 요청 (참조 규칙): 도크에서 크레인 요청</tspan></text>
+          <rect x="420" y="34" width="140" height="70" rx="3" style="fill:var(--steel-soft);stroke:var(--steel)"/>
+          <rect x="482" y="28" width="14" height="82" style="fill:var(--amber-hi);stroke:var(--ink)"/>
+          <rect x="130" y="134" width="430" height="26" style="fill:var(--line)"/>
+          <rect class="a-fade" x="130" y="128" width="430" height="38" style="--d:1.1s;fill:var(--oxide-soft);fill-opacity:.6;stroke:var(--oxide);stroke-width:1.5;stroke-dasharray:6 4"/>
+          <rect x="250" y="168" width="70" height="30" rx="3" style="fill:var(--paper);stroke:var(--ink3);stroke-dasharray:4 3"/>
+          <path d="M285 166V168" style="stroke:var(--line);stroke-width:10"/>
+          <g class="a-drive" style="--d:.5s"><rect x="462" y="140" width="56" height="14" rx="2" style="fill:var(--amber-hi);stroke:var(--ink)"/><rect x="456" y="124" width="68" height="46" rx="4" style="fill:var(--steel);fill-opacity:.9"/></g>
+          <g class="a-drive" style="--d:.8s"><rect x="186" y="140" width="40" height="14" rx="2" style="fill:var(--amber-hi);stroke:var(--ink)"/></g>
+          <g class="a-pop" style="--d:1.4s"><circle cx="240" cy="147" r="9" style="fill:var(--paper);stroke:var(--oxide);stroke-width:2"/><path d="M235.5 142.5l9 9M244.5 142.5l-9 9" style="stroke:var(--oxide);stroke-width:2"/></g>
+          <text x="0" y="146" style="fill:var(--oxide);font:600 12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">整段被占</tspan><tspan lang="en">road held</tspan><tspan lang="ko" style="font-family:var(--f-ko)">전 구간 점유</tspan></text>
+          <text x="345" y="190" style="fill:var(--oxide);font:600 12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">相邻场地进出被挡</tspan><tspan lang="en">the site is cut off</tspan><tspan lang="ko" style="font-family:var(--f-ko)">인접 작업장 출입 차단</tspan></text>
+        </g>
+      </svg></div>
+    </div>
+    <div class="col compact" style="gap:8px">
+      <div class="fill chart" id="cBusy"></div>
+      <div class="legend" id="lgBusy"></div>
+      <ul class="clean" style="margin:0">
+        <li><span lang="zh"><b>代价转到路外</b>：ρ = 0.88、K = 150 时，预约的车每天在路外等吊车 820 min（逐段 430 min），坞前停靠路段只被占约 23%</span><span lang="en"><b>The cost moves off-road</b>: at ρ = 0.88 and K = 150, reservation vehicles wait 820 min a day for the crane off-road (segment request 430 min), and the dock stopping road is held only about 23% of the time</span><span lang="ko"><b>비용은 도로 밖으로</b>: ρ = 0.88, K = 150에서 예약 차량은 도로 밖에서 하루 820분 크레인을 기다리고 (구간별 430분), 도크 정차 구간 점유는 약 23%뿐</span></li>
+        <li><span lang="zh"><b>跨内吊运</b>（同一 ρ = 0.86，12.5% 的 P6 不派车）：坞前等吊车 −29% / −25%，停靠路段被占约 −10%，平台不变（951 对 952）。强度由 ρ 决定，跨内比例只调节路上排队的车</span><span lang="en"><b>In-span lifts</b> (same ρ = 0.86, 12.5% of P6 without a transporter): waiting for the crane −29% / −25%, dock road held about −10%, plateau unchanged (951 vs 952). ρ sets the strength; the in-span share only changes how many vehicles queue on the road</span><span lang="ko"><b>스팬 내 인양</b> (같은 ρ = 0.86, P6의 12.5%는 차량 없음): 크레인 대기 −29% / −25%, 정차 구간 점유 약 −10%, 평탄 구간 불변 (951 대 952). 강도는 ρ가 정하고 스팬 내 비율은 도로 위 대기 차량 수만 조절</span></li>
+      </ul>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：thesis-core 83c16bf，t21_rho.csv（饱和 K = 150 的坞停靠路段被占、等吊车；高峰 K = 20 的跨内对照为 T20 同 ρ 的“全部走道路”行），T21 报告第 4.3 节。条件同上页；示意图不按比例。</span><span lang="en">Sources: thesis-core 83c16bf, t21_rho.csv (dock stopping road held and crane waiting at saturated K = 150; the in-span contrast at peak K = 20 against T20's all-by-road rows at the same ρ), T21 report §4.3. Conditions as on the previous slide; sketch not to scale.</span><span lang="ko">출처: thesis-core 83c16bf, t21_rho.csv (포화 K = 150의 도크 정차 구간 점유와 크레인 대기, 피크 K = 20의 스팬 내 대비는 같은 ρ의 T20 “전부 도로” 행), T21 보고서 §4.3. 조건은 앞 장과 같음, 개념도는 축척 아님.</span></p>
+  <aside class="notes">
+    <p lang="zh">机理在于车在哪里等。整条路径预约把吊车时段和整条路径一起订好，车在上一个卸货点等到时段再出发，坞前道路空着，相邻场地照常进出；代价是路外的等待和搭载流程时间变长。逐段申请让车开到坞边再申请吊车，申请不到就占着停靠路段等；在现模型里道路161 是整段一个资源，于是整条路都被占住。右图是 K = 150 时坞前停靠路段被占的时间比例：预约一直在 22% 到 24%，逐段从 32% 涨到 81%。跨内吊运把 12.5% 的搭载从道路上拿走，坞前等吊车少了四分之一，但平台不变，说明强度由 ρ 决定。</p>
+    <p lang="en">The mechanism is where vehicles wait. Whole-route reservation books the crane slot with the route; the vehicle waits at its last unloading point until its slot, the dock road stays free and the neighbouring sites stay reachable; the cost is longer waiting off-road and longer erection flow time. Segment request sends the vehicle to the dock edge to ask for the crane, and if it cannot get it the vehicle waits on the stopping road; in the current model road 161 is one resource, so the whole road is held. The chart is the share of time the dock stopping road is held at K = 150: 22 to 24% under reservation throughout, 32% rising to 81% under segment request. In-span lifts take 12.5% of erections off the road and cut waiting at the dock by a quarter, but the plateau does not change: ρ sets the strength.</p>
+    <p lang="ko">메커니즘은 차가 어디서 기다리느냐입니다. 전체 경로 예약은 크레인 시간대를 경로와 함께 예약하고 차는 직전 하역 지점에서 시간대까지 기다리므로 도크 앞 도로는 비고 인접 작업장도 드나들 수 있습니다. 대신 도로 밖 대기와 탑재 흐름 시간이 길어집니다. 구간별 요청은 차를 도크 가장자리까지 보내 크레인을 요청하고, 못 받으면 정차 구간을 점유한 채 기다립니다. 현 모형에서 도로161은 자원 하나이므로 도로 전체가 점유됩니다. 오른쪽 그림은 K = 150에서 도크 정차 구간이 점유된 시간 비율로, 예약은 22–24%로 일정하고 구간별은 32%에서 81%까지 오릅니다. 스팬 내 인양은 탑재의 12.5%를 도로에서 빼서 도크 대기를 4분의 1 줄이지만 평탄 구간은 그대로여서, 강도는 ρ가 정합니다.</p>
+  </aside>
+</section>
+
+<!-- two modelling choices -->
+<section class="slide" data-sec="mech">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">下降目前依赖两个建模选择：死锁时瞬移疏解，与 1.1 km 的道路161 整段算一个资源</span><span lang="en">The decline currently rests on two modelling choices: teleport clearing of deadlocks, and the 1.1 km road 161 as one resource</span><span lang="ko">하락은 지금 두 모형 선택에 기대고 있다: 교착의 순간이동 해소, 그리고 1.1 km 도로161을 자원 하나로 보기</span></h2>
+  <div class="content g2" style="gap:22px;margin-top:14px">
+    <div class="card" style="gap:10px;justify-content:center">
+      <h3><span lang="zh">① 瞬移疏解：逐段申请每天的死锁次数（玉浦主情景）</span><span lang="en">① Teleport clearing: deadlocks a day under segment request (Okpo main scenario)</span><span lang="ko">① 순간이동 해소: 구간별 요청의 하루 교착 횟수 (옥포 주 시나리오)</span></h3>
+      <div class="bignums" id="deadNums"></div>
+      <p><span lang="zh">每次死锁至少让一辆车让出全部资源、离开路网 900 s。</span><span lang="en">Each deadlock removes at least one vehicle from the network for 900 s, releasing all it holds.</span><span lang="ko">교착마다 최소 한 대가 모든 자원을 내놓고 900초 동안 도로망을 떠난다.</span> <span id="deadOff"></span></p>
+      <p class="note"><span lang="zh">逐段的平台 984，以及 ρ 曲线上的下降，都是在这一规则上读出的；它只作参照，不单独支撑 C 或 H 的结论（宣言第 5 节第 2 条）。</span><span lang="en">Segment request's plateau of 984 and the decline on the ρ curve are both read under this rule; it is a reference only and cannot support a C or H conclusion on its own (manifesto §5, rule 2).</span><span lang="ko">구간별 평탄 구간 984와 ρ 곡선의 하락은 모두 이 규칙에서 읽었다. 참조용이며 C나 H의 결론을 단독으로 뒷받침하지 않는다 (선언 §5 제2조).</span></p>
+    </div>
+    <div class="card compact" style="gap:8px;justify-content:center">
+      <h3><span lang="zh">② 道路161：长 1,095 m、宽 9 m，路边 3 个停靠点</span><span lang="en">② Road 161: 1,095 m long, 9 m wide, three stops along it</span><span lang="ko">② 도로161: 길이 1,095 m, 폭 9 m, 길가 정차 지점 3곳</span></h3>
+      <div><svg style="display:block;width:100%;height:auto" viewBox="0 0 520 186" role="img" aria-label="Road 161 as one bar with three stops: as one resource, and split at its stops into seven sections">
+        <text x="40" y="32" style="fill:var(--ink2);font:12px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">区域018 · 104.5 m</tspan><tspan lang="en">zone 018 · 104.5 m</tspan><tspan lang="ko" style="font-family:var(--f-ko)">구역018 · 104.5 m</tspan></text>
+        <text x="226" y="14" text-anchor="middle" style="fill:var(--ink);font:600 12px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">1 号干坞 · 470.5 m</tspan><tspan lang="en">dock 1 · 470.5 m</tspan><tspan lang="ko" style="font-family:var(--f-ko)">1번 도크 · 470.5 m</tspan></text>
+        <text x="266" y="32" style="fill:var(--ink2);font:12px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">区域009 · 547.6 m</tspan><tspan lang="en">zone 009 · 547.6 m</tspan><tspan lang="ko" style="font-family:var(--f-ko)">구역009 · 547.6 m</tspan></text>
+        <path d="M66 36V40M226 18V40M260 36V40" style="stroke:var(--ink3)"/>
+        <rect x="20" y="40" width="480" height="22" style="fill:var(--oxide-soft);stroke:var(--oxide);stroke-width:1.5"/>
+        <rect x="216" y="36" width="20" height="30" rx="3" style="fill:var(--steel)"/>
+        <text x="20" y="82" style="fill:var(--oxide);font:600 12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">整段（现模型）：坞边一辆车占住整条 1,095 m</tspan><tspan lang="en">One resource (current): one vehicle at the dock holds all 1,095 m</tspan><tspan lang="ko" style="font-family:var(--f-ko)">전 구간 (현 모형): 도크의 한 대가 1,095 m 전체 점유</tspan></text>
+        <rect x="21.0" y="106" width="32.8" height="22" style="fill:var(--good-soft);stroke:var(--good);stroke-width:1.2"/><rect x="55.8" y="106" width="19.9" height="22" style="fill:var(--good-soft);stroke:var(--good);stroke-width:1.2"/><rect x="77.8" y="106" width="136.5" height="22" style="fill:var(--good-soft);stroke:var(--good);stroke-width:1.2"/><rect x="216.3" y="106" width="19.9" height="22" style="fill:var(--oxide-soft);stroke:var(--oxide);stroke-width:1.5"/><rect x="238.2" y="106" width="9.9" height="22" style="fill:var(--good-soft);stroke:var(--good);stroke-width:1.2"/><rect x="250.1" y="106" width="19.9" height="22" style="fill:var(--good-soft);stroke:var(--good);stroke-width:1.2"/><rect x="272.0" y="106" width="227.0" height="22" style="fill:var(--good-soft);stroke:var(--good);stroke-width:1.2"/>
+        <rect x="216" y="102" width="20" height="30" rx="3" style="fill:var(--steel)"/>
+        <text x="20" y="152" style="fill:var(--good);font:600 12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">按停靠点分段：前后各 25 m 设边界，切成 7 段，只占坞前 50 m</tspan><tspan lang="en">Split at stops: bounds 25 m either side, 7 sections; only the 50 m at the dock is held</tspan><tspan lang="ko" style="font-family:var(--f-ko)">정차 지점별 분할: 앞뒤 25 m 경계, 7구간, 도크 앞 50 m만 점유</tspan></text>
+        <text x="20" y="176" style="fill:var(--ink3);font:12px var(--mono)">0 m</text>
+        <text x="500" y="176" text-anchor="end" style="fill:var(--ink3);font:12px var(--mono)">1,095 m</text>
+      </svg></div>
+      <p class="small" style="margin:0"><span lang="zh">分段借自铁路闭塞区段（UIC 2013）；地下矿山的单车道巷道也按闭塞区段管理（Eustace et al. 2021）。</span><span lang="en">Sectioning is borrowed from railway block sections (UIC 2013); single-lane mine roadways are run on block-section logic too (Eustace et al. 2021).</span><span lang="ko">구간 분할은 철도 폐색 구간에서 차용 (UIC 2013), 지하 광산의 단일 차로 갱도도 폐색 구간으로 운영 (Eustace et al. 2021).</span></p>
+      <p class="small" style="margin:0"><span lang="zh"><b>作者影像核对（2026-10-09）</b>：车在坞边卸货或等吊车时，相邻总组场地<b>可以进出</b>。T22 起，按停靠点分段（section = "stops"）是玉浦的主情景，整段作对照。</span><span lang="en"><b>The author's imagery check (9 Oct 2026)</b>: while a vehicle unloads or waits at the dock edge, the neighbouring assembly sites <b>stay reachable</b>. From T22 on, the road split at its stops (section = "stops") is Okpo's main scenario; the whole road is the comparison.</span><span lang="ko"><b>저자 영상 확인 (2026-10-09)</b>: 차가 도크 가장자리에서 하역하거나 크레인을 기다리는 동안 인접 총조립장은 <b>출입할 수 있다</b>. T22부터 정차 지점별 분할 (section = "stops")이 옥포의 주 시나리오이고 전 구간은 대조로 둔다.</span></p>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：作者审核意见（2026-10-09）第 2.2 节与附录 A；死锁次数由 make_data.py 从 thesis-core 83c16bf 主情景批次 a0ab16fceb94、49d2383872e7 重算（常规日取 K = 40，高峰日 K = 150），与审核意见一致。道路161 的长度、宽度与停靠点位置取自审核意见；示意图只画一维位置，不含路网几何。影像核对见 00_总控/tasks.md。</span><span lang="en">Sources: the author's review (9 Oct 2026) §2.2 and appendix A; deadlock counts recomputed by make_data.py from thesis-core 83c16bf main-scenario batches a0ab16fceb94 and 49d2383872e7 (regular day at K = 40, peak day at K = 150), matching the review. Length, width and stop positions of road 161 from the review; the sketch shows one-dimensional positions only, no network geometry. Imagery check in 00_总控/tasks.md.</span><span lang="ko">출처: 저자 검토 의견 (2026-10-09) §2.2와 부록 A, 교착 횟수는 make_data.py가 thesis-core 83c16bf 주 시나리오 배치 a0ab16fceb94·49d2383872e7에서 재계산 (평상일 K = 40, 피크일 K = 150)했으며 검토 의견과 일치. 도로161의 길이·폭·정차 위치는 검토 의견에서, 개념도는 1차원 위치만 그리고 도로망 형상은 없음. 영상 확인은 00_总控/tasks.md.</span></p>
+  <aside class="notes">
+    <p lang="zh">这个下降目前依赖两个还没有物理核实的建模选择。第一是瞬移：逐段申请每天死锁，常规日 26 次，高峰日 83 次，饱和档 100 台车时 1,911 次，150 台时 2,657 次；每次至少让一辆车离开路网 900 秒，100 台车时至少三成车时不在路网上。所以逐段的平台和下降都只作参照。第二是道路161：1,095 米长、9 米宽，路边有 1 号干坞和两块总组场地的停靠点，现在整段算一个资源，坞边一辆车就把整条路占住，连 77 米外总组场地的进出也挡住。作者看了影像：车在坞边时，相邻场地可以进出。所以从 T22 起，按停靠点分段是玉浦的主情景，整段作对照。</p>
+    <p lang="en">The decline currently rests on two modelling choices that have not yet been checked physically. First, teleporting: segment request deadlocks 26 times on a regular day, 83 on a peak day, 1,911 at saturation with 100 vehicles and 2,657 with 150; each removes at least one vehicle for 900 seconds, so with 100 vehicles at least 30% of vehicle-hours are spent off the network. Segment request's plateau and decline are therefore references only. Second, road 161: 1,095 m long and 9 m wide, with stops for dock 1 and two assembly sites, now one resource, so one vehicle at the dock edge holds the whole road and blocks a site 77 m away. The author checked the imagery: with a vehicle at the dock edge, the neighbouring sites remain reachable. From T22 on, the road split at its stops is Okpo's main scenario and the whole road the comparison.</p>
+    <p lang="ko">이 하락은 아직 물리적으로 확인하지 않은 두 모형 선택에 기대고 있습니다. 첫째는 순간이동입니다. 구간별 요청은 하루 교착이 평상일 26회, 피크일 83회, 포화 100대에서 1,911회, 150대에서 2,657회이며, 매번 최소 한 대가 900초 동안 도로망을 떠나 100대일 때 차량 시간의 최소 30%가 도로망 밖에 있습니다. 그래서 구간별 평탄 구간과 하락은 참조로만 씁니다. 둘째는 도로161입니다. 길이 1,095 m, 폭 9 m에 1번 도크와 총조립장 두 곳의 정차 지점이 있는데 지금은 자원 하나여서, 도크 가장자리의 차 한 대가 도로 전체를 점유하고 77 m 떨어진 총조립장 출입까지 막습니다. 저자가 영상을 확인한 결과 차가 도크 가장자리에 있어도 인접 작업장은 출입할 수 있었습니다. 그래서 T22부터 정차 지점별 분할이 옥포의 주 시나리오이고 전 구간은 대조입니다.</p>
+  </aside>
+</section>
+
+<!-- the author's probe -->
+<section class="slide" data-sec="mech">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">作者探针：坞口主导时，按停靠点分段的作用大于改宽（3 个种子，雏形）</span><span lang="en">The author's probe: when the dock mouth dominates, splitting the dock road at its stops does more than widening it (3 seeds, a prototype)</span><span lang="ko">저자 탐침: 도크 입구가 지배할 때 정차 지점별 분할이 확폭보다 크게 작용한다 (시드 3개, 시제)</span></h2>
+  <div class="content g-l" style="gap:22px;margin-top:12px">
+    <div class="col" style="gap:8px">
+      <div class="fill chart" id="cProbe"></div>
+      <div class="legend" id="lgProbe"></div>
+    </div>
+    <div class="col compact" style="gap:9px;justify-content:center">
+      <ul class="clean" style="margin:0">
+        <li><span lang="zh"><b>分段闭塞</b>：T1′ 703 → 1,241（+77%）；K = 100 时预约 +10%，逐段（参照规则）+47%</span><span lang="en"><b>Split at stops</b>: T1′ 703 → 1,241 (+77%); at K = 100, reservation +10%, segment request (reference rule) +47%</span><span lang="ko"><b>정차 지점별 분할</b>: T1′ 703 → 1,241 (+77%), K = 100에서 예약 +10%, 구간별 (참조 규칙) +47%</span></li>
+        <li><span lang="zh"><b>改宽到 12 m</b>：T1′ +12%，预约 +4%，逐段 0；分段后再加会车点：没有再增加</span><span lang="en"><b>Widened to 12 m</b>: T1′ +12%, reservation +4%, segment request 0; passing bays on top of the split add nothing</span><span lang="ko"><b>12 m로 확폭</b>: T1′ +12%, 예약 +4%, 구간별 0, 분할 후 대피 구간 추가: 더 늘지 않음</span></li>
+        <li><span lang="zh"><b>ρ = 0.97、K = 120</b>：逐段的逐日趋势 −21%、−44%、−1% → −7%、−2%、−7%，即约 −20% → 约 −5%，落在 ±5% 稳态容差的边界上；预约在所有变体下都不下降</span><span lang="en"><b>ρ = 0.97, K = 120</b>: segment request's daily trend −21%, −44%, −1% → −7%, −2%, −7% (about −20% → −5%, at the edge of the ±5% tolerance); reservation falls under no variant</span><span lang="ko"><b>ρ = 0.97, K = 120</b>: 구간별 일별 추세 −21%, −44%, −1% → −7%, −2%, −7%, 즉 약 −20% → 약 −5%로 ±5% 정상 상태 허용치의 경계, 예약은 어떤 변형에서도 떨어지지 않음</span></li>
+      </ul>
+      <div class="card" style="padding:10px 14px;gap:5px;background:var(--amber-soft)">
+        <h3 style="font-size:16px"><span lang="zh">两个干扰（审核意见原文要点）</span><span lang="en">Two confounders (from the review)</span><span lang="ko">두 가지 교란 요인 (검토 의견 요지)</span></h3>
+        <p style="font-size:14.5px;line-height:1.45"><span lang="zh">① 分段没有加方向锁，死锁增多（ρ = 0.97 时 1,752 → 2,329 次/日），逐段的增幅里有瞬移的贡献，只有预约的变化可以直接当数用；② 吊车空闲的原因未核：可能正是坞边那辆车被瞬移走了。</span><span lang="en">① The split had no direction locks, so deadlocks rose (1,752 → 2,329 a day at ρ = 0.97) and teleporting feeds segment request's gain; only reservation's change counts at face value. ② Why the crane idles is unverified: the vehicle at the dock edge may have been teleported away.</span><span lang="ko">① 분할에 방향 잠금이 없어 교착이 늘었고 (ρ = 0.97에서 하루 1,752 → 2,329회) 구간별 증가에는 순간이동의 기여가 섞여 있어 예약의 변화만 그대로 쓸 수 있다. ② 크레인 유휴의 원인은 미확인: 도크 가장자리의 차가 순간이동으로 빠졌기 때문일 수 있다.</span></p>
+      </div>
+      <p class="small" style="margin:0"><span lang="zh">加强：T22 在分段上加方向锁并换无瞬移规则重跑，并诊断被瞬移的车是否正停在坞边；T25 用 10 个种子与完整 K 网格做成第一张改造表。</span><span lang="en">Next: T22 reruns the split with direction locks and without teleporting, and checks whether teleported vehicles stood at the dock edge; T25 makes the first upgrade table (10 seeds, full K grid).</span><span lang="ko">보강: T22는 분할에 방향 잠금을 넣고 순간이동 없는 규칙으로 다시 돌리며 순간이동된 차가 도크 가장자리에 있었는지 진단하고, T25는 시드 10개와 전체 K 격자로 첫 개조 표를 만든다.</span></p>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：作者审核意见（2026-10-09）附录 A，数字由 make_data.py 从其表格读出：thesis-core 83c16bf 的代码不改一行，玉浦派生图 rev 1825；上界 10 个种子，仿真 3 个种子（101–103）。搭载组合：P6 15%、饱和、K = 100、4 天；吊车节拍：ρ = 0.97、K = 120、8 天。变体：改宽 = 道路161 由 9 m 改 12 m；分段 = 3 个停靠点前后各 25 m 设边界、无方向锁；会车点 = 分段后两段长间隔中部各加 60 m 不限宽段。</span><span lang="en">Source: the author's review (9 Oct 2026), appendix A; numbers read from its tables by make_data.py. Code of thesis-core 83c16bf unchanged, Okpo derived map rev 1825; bounds over 10 seeds, simulation over 3 seeds (101–103). Erection mix: P6 15%, saturated, K = 100, 4 days; crane cadence: ρ = 0.97, K = 120, 8 days. Variants: widened = road 161 from 9 m to 12 m; split = bounds 25 m either side of the 3 stops, no direction locks; passing bays = a 60 m unrestricted section in the middle of each of the two long gaps after the split.</span><span lang="ko">출처: 저자 검토 의견 (2026-10-09) 부록 A, 수치는 make_data.py가 그 표에서 읽음. thesis-core 83c16bf 코드는 그대로, 옥포 파생 지도 rev 1825, 상한 시드 10개, 시뮬레이션 시드 3개 (101–103). 탑재 조합: P6 15%, 포화, K = 100, 4일, 크레인 주기: ρ = 0.97, K = 120, 8일. 변형: 확폭 = 도로161을 9 m에서 12 m로, 분할 = 정차 지점 3곳 앞뒤 25 m 경계 (방향 잠금 없음), 대피 구간 = 분할 후 긴 두 간격의 가운데에 60 m 무제한 폭 구간.</span></p>
+  <aside class="notes">
+    <p lang="zh">作者在审核时做了一个探针，用同一份代码，只改道路161：改宽到 12 米、按停靠点分段、分段后再加会车点。图是搭载组合下、100 台车时的读数。分段让上界从 703 涨到 1,241，预约的吞吐涨 10%，逐段涨 47%；改宽只让预约涨 4%，逐段不变；会车点在分段之外没有再增加。吊车利用率 0.97 时，逐段的逐日下降从约 −20% 减到约 −5%。两点要注意：分段时没有加方向锁，死锁反而增多，逐段的增幅里混有瞬移的贡献，所以只有预约的变化可以直接当数用；吊车为什么空闲也还没核。这些都交给 T22 和 T25 用 10 个种子定下来。</p>
+    <p lang="en">During the review the author ran a probe: the same code, with only road 161 changed — widened to 12 m, split at its stops, and split with passing bays. The chart shows the erection mix at 100 vehicles. The split raises the bound from 703 to 1,241, reservation throughput by 10% and segment request by 47%; widening raises reservation by 4% and leaves segment request unchanged; passing bays add nothing beyond the split. At crane utilisation 0.97, segment request's daily decline shrinks from about −20% to about −5%. Two cautions: the split had no direction locks, so deadlocks rose and teleporting is mixed into segment request's gain, and only reservation's change counts directly; why the crane idles is not yet checked. T22 and T25 settle these with 10 seeds.</p>
+    <p lang="ko">저자는 검토 중에 같은 코드로 도로161만 바꾼 탐침을 했습니다: 12 m로 확폭, 정차 지점별 분할, 분할 후 대피 구간 추가입니다. 그림은 탑재 조합에서 100대일 때의 판독입니다. 분할하면 상한이 703에서 1,241로, 예약 처리량이 10%, 구간별이 47% 오릅니다. 확폭은 예약만 4% 올리고 구간별은 그대로이며, 대피 구간은 분할 이상으로 더하지 않습니다. 크레인 이용률 0.97에서 구간별의 일별 하락은 약 −20%에서 약 −5%로 줄었습니다. 주의할 점이 둘 있습니다: 분할에 방향 잠금이 없어 교착이 오히려 늘어 구간별 증가에 순간이동의 기여가 섞였으므로 예약의 변화만 그대로 쓸 수 있고, 크레인이 왜 쉬는지도 아직 확인하지 않았습니다. T22와 T25가 시드 10개로 이를 정합니다.</p>
+  </aside>
+</section>
+
+<!-- H2: the decline -->
+<section class="slide" data-sec="h2">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">H2 下降何时出现：等吊车的车占着路时，饱和吞吐随车数先升后降</span><span lang="en">H2, when the decline appears: while vehicles waiting for the crane hold the road, saturated throughput first rises and then falls with fleet size</span><span lang="ko">H2 하락은 언제 나타나는가: 크레인을 기다리는 차가 도로를 점유할 때 포화 처리량은 차량 수에 따라 올랐다가 내려간다</span></h2>
+  <div class="content g-l" style="gap:22px;margin-top:12px">
+    <div class="col" style="gap:8px">
+      <div class="ctlrow"><div class="seg" id="kYard" role="group" aria-label="Yard"><button type="button" data-v="yupu"><span lang="zh">玉浦</span><span lang="en">Okpo</span><span lang="ko">옥포</span></button><button type="button" data-v="yantai"><span lang="zh">烟台</span><span lang="en">Yantai</span><span lang="ko">옌타이</span></button></div></div>
+      <div class="fill chart" id="cK"></div>
+      <div class="legend" id="lgK"></div>
+    </div>
+    <div class="col compact" style="gap:10px;justify-content:center">
+      <p class="quote sm" style="font-size:17px;line-height:1.45"><span lang="zh">在路外等待、规则无死锁时，吞吐随车数单调不降，表现为平台。只要多出来的车占用网络资源，越过 K₀ 后吞吐下降，K₀ 随待命区容量 S 右移。</span><span lang="en">With off-road waiting and a deadlock-free rule, throughput never falls as vehicles are added: a plateau. As long as the extra vehicles occupy network resources, throughput falls beyond K₀, and K₀ moves right with the holding-area capacity S.</span><span lang="ko">도로 밖에서 기다리고 규칙에 교착이 없으면 처리량은 차량 수에 따라 줄지 않고 평탄 구간이 된다. 늘어난 차가 네트워크 자원을 점유하기만 하면 K₀를 넘어 처리량이 떨어지고, K₀는 대기 구역 용량 S에 따라 오른쪽으로 이동한다.</span></p>
+      <div class="tblwrap"><table class="tbl dense rdtbl" id="dropTbl"></table></div>
+      <p class="small" style="margin:0"><span lang="zh"><b>整条路径预约</b>（路外等待、无死锁）：两厂每一档 ρ，吞吐都随 K 单调上升（K = 20–150）。</span><span lang="en"><b>Whole-route reservation</b> (off-road waiting, deadlock-free): on both yards and at every ρ, throughput rises monotonically with K (K = 20–150).</span><span lang="ko"><b>전체 경로 예약</b> (도로 밖 대기, 교착 없음): 두 조선소 모든 ρ에서 처리량이 K에 따라 단조 증가 (K = 20–150).</span></p>
+      <p class="note"><span lang="zh">下降的读数非稳态、来自逐段申请（参照规则：瞬移疏解），玉浦的还依赖道路161 整段占用；它们不单独支撑 H2，标出的是无瞬移规则下要去扫的位置（T22、T26）。</span><span lang="en">The decline readings are non-steady and come from segment request (reference rule, teleport clearing), and Okpo's also from road 161 as one resource; they do not support H2 on their own, but mark where to sweep under rules without teleporting (T22, T26).</span><span lang="ko">하락 판독은 비정상 상태이고 구간별 요청 (참조 규칙: 순간이동 해소)에서 나왔으며 옥포는 도로161 전 구간 점유에도 기댄다. H2를 단독으로 뒷받침하지 않으며, 순간이동 없는 규칙에서 스캔할 위치를 표시한다 (T22, T26).</span></p>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：研究宣言 v1 第 3 节 H2（引文）；thesis-core 83c16bf ρ 批次 1b06c6d46f0d、87d02d32bc13（饱和档，8 天，10 个种子均值）；表中数字与作者审核意见第 2.5 节一致（make_data.py 逐项核对）。其余条件同 ρ 曲线页。空心点：该 K 不满足稳态判据。</span><span lang="en">Sources: research manifesto v1 §3, H2 (quoted); thesis-core 83c16bf ρ batches 1b06c6d46f0d and 87d02d32bc13 (saturated, 8 days, mean of 10 seeds); the table matches the author's review §2.5 (checked item by item by make_data.py). Other conditions as on the ρ-curve slide. Hollow: that K fails the steady-state test.</span><span lang="ko">출처: 연구 선언 v1 §3 H2 (인용), thesis-core 83c16bf ρ 배치 1b06c6d46f0d·87d02d32bc13 (포화, 8일, 시드 10개 평균), 표의 수치는 저자 검토 의견 §2.5와 일치 (make_data.py가 항목별 확인). 나머지 조건은 ρ 곡선 장과 같음. 속이 빈 점: 해당 K가 정상 상태 판정 불통과.</span></p>
+  <aside class="notes">
+    <p lang="zh">H2 在宣言里改成了“下降何时出现”。主情景看不到下降，是模型构造使然：空闲车不占路，预约在路外等，逐段的死锁靠瞬移化解。坞口是第一个看到下降的地方：逐段申请下等吊车的车在路上等，玉浦 ρ = 0.97 时，100、120、150 台车的吞吐是 738、719、672；烟台更明显。虚线是整条路径预约，在路外等、没有死锁，所有 ρ 下都随车数单调上升，正好是 H2 的前半句。但这些下降读数非稳态、来自参照规则，玉浦的还依赖整段占用，所以它们只告诉我们下一步要去哪里扫，不单独支撑 H2。</p>
+    <p lang="en">The manifesto restates H2 as “when the decline appears”. The main scenario shows no decline by construction: idle vehicles do not occupy roads, reservation waits off-road and segment request's deadlocks are cleared by teleporting. The dock mouth is the first place a decline shows: under segment request, vehicles wait for the crane on the road, and at Okpo's ρ = 0.97 throughput is 738, 719 and 672 at 100, 120 and 150 vehicles; Yantai is starker. The dashed line is whole-route reservation, off-road and deadlock-free, which rises monotonically with fleet size at every ρ, exactly the first half of H2. The decline readings are non-steady, come from the reference rule and, at Okpo, from the whole-road resource, so they tell us where to sweep next rather than support H2 on their own.</p>
+    <p lang="ko">선언은 H2를 “하락은 언제 나타나는가”로 고쳤습니다. 주 시나리오에서 하락이 보이지 않는 것은 모형 구조 때문입니다: 유휴 차량은 도로를 점유하지 않고, 예약은 도로 밖에서 기다리며, 구간별 교착은 순간이동으로 풉니다. 도크 입구는 하락이 처음 보이는 곳입니다. 구간별 요청에서는 크레인을 기다리는 차가 도로 위에서 기다리며, 옥포 ρ = 0.97에서 100, 120, 150대의 처리량은 738, 719, 672이고 옌타이는 더 뚜렷합니다. 점선은 도로 밖에서 기다리고 교착이 없는 전체 경로 예약으로, 모든 ρ에서 차량 수에 따라 단조 증가하며 바로 H2의 앞 문장입니다. 다만 하락 판독은 비정상 상태이고 참조 규칙에서 나왔으며 옥포는 전 구간 자원에도 기대므로, 다음에 어디를 스캔할지를 알려 줄 뿐 H2를 단독으로 뒷받침하지는 않습니다.</p>
+  </aside>
+</section>
+
+<!-- H2: switches and T4 -->
+<section class="slide" data-sec="h2">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">H2 的判据：在无瞬移的规则下逐一扫三个开关；T4 先在单车道走廊加待命区上证明</span><span lang="en">Testing H2: sweep three switches one at a time under rules without teleporting; prove T4 first on a single-lane corridor with a holding area</span><span lang="ko">H2의 판정: 순간이동 없는 규칙에서 세 스위치를 하나씩 스캔하고, T4는 먼저 단일 차로 회랑과 대기 구역에서 증명한다</span></h2>
+  <div class="content g2" style="gap:26px;margin-top:14px">
+    <div class="col" style="gap:10px;justify-content:center">
+      <div class="rules">
+        <div class="rl" style="--c:var(--steel)"><b><span lang="zh">① 待命区容量 S</span><span lang="en">① Holding area S</span><span lang="ko">① 대기 구역 용량 S</span></b><span><span lang="zh">空闲与等待的车超出 S 时占用路边</span><span lang="en">idle and waiting vehicles beyond S occupy the roadside</span><span lang="ko">S를 넘는 유휴·대기 차량은 길가를 점유</span> <span class="tag">T26</span></span></div>
+        <div class="rl" style="--c:var(--oxide)"><b><span lang="zh">② 疏解方式</span><span lang="en">② Clearing mode</span><span lang="ko">② 해소 방식</span></b><span><span lang="zh">安全放行 segment_safe（Banker 型死锁避免，车不离开路网，对应现场信号员的放行，KED Global 2024）；不疏解：卡住的车一直占着路</span><span lang="en">safe release segment_safe (Banker-type deadlock avoidance, no vehicle leaves the network, as signalmen release vehicles on site, KED Global 2024); no clearing: stuck vehicles keep the road</span><span lang="ko">안전 출발 segment_safe (Banker형 교착 회피, 차가 도로망을 떠나지 않음, 현장 신호수의 출발 허가에 해당, KED Global 2024), 해소 안 함: 멈춘 차가 계속 도로 점유</span> <span class="tag">T22</span></span></div>
+        <div class="rl" style="--c:var(--amber-hi)"><b><span lang="zh">③ 等吊车的位置</span><span lang="en">③ Where to wait for the crane</span><span lang="ko">③ 크레인 대기 위치</span></b><span><span lang="zh">路外（预约到坞、坞前待命位）或坞前道路上；道路整段或按停靠点分段</span><span lang="en">off-road (booking to the dock, a holding bay at the dock) or on the dock road; the road whole or split at its stops</span><span lang="ko">도로 밖 (도크까지 예약, 도크 앞 대기 자리) 또는 도크 앞 도로 위, 도로 전체 또는 정차 지점별 분할</span> <span class="tag">T22 · T25</span></span></div>
+      </div>
+      <div class="card" style="gap:6px;padding:12px 16px">
+        <p style="font-size:15.5px;line-height:1.5"><span lang="zh"><b>成立</b>：得到加车反伤的条件，以及“待命区值几台车”。<b>不成立</b>：给出冗余度指标，即边际吞吐与自由流边际之比。好的编排能推迟 K₀。</span><span lang="en"><b>If it holds</b>: the conditions under which more vehicles hurt, and “how many vehicles a holding area is worth”. <b>If not</b>: a redundancy index, the ratio of marginal throughput to the free-flow margin. Good orchestration can push K₀ back.</span><span lang="ko"><b>성립하면</b>: 차를 늘리면 손해가 되는 조건과 “대기 구역은 차 몇 대의 가치인가”. <b>성립하지 않으면</b>: 중복도 지표, 즉 한계 처리량과 자유류 한계의 비. 좋은 편성은 K₀를 늦출 수 있다.</span></p>
+      </div>
+    </div>
+    <div class="col" style="gap:8px;justify-content:center">
+      <div><svg style="display:block;width:100%;height:auto" viewBox="0 0 540 340" role="img" aria-label="T4 small network: a single-lane corridor between two stops with a holding area of capacity S; schematic curves of throughput against fleet size peaking at K0(S)">
+        <rect x="10" y="40" width="56" height="70" rx="4" style="fill:var(--steel-soft);stroke:var(--steel)"/>
+        <rect x="474" y="40" width="56" height="70" rx="4" style="fill:var(--steel-soft);stroke:var(--steel)"/>
+        <text x="38" y="30" text-anchor="middle" style="fill:var(--ink2);font:12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">停靠点 A</tspan><tspan lang="en">stop A</tspan><tspan lang="ko" style="font-family:var(--f-ko)">정차 A</tspan></text>
+        <text x="502" y="30" text-anchor="middle" style="fill:var(--ink2);font:12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">停靠点 B</tspan><tspan lang="en">stop B</tspan><tspan lang="ko" style="font-family:var(--f-ko)">정차 B</tspan></text>
+        <rect x="66" y="64" width="408" height="22" style="fill:var(--line)"/>
+        <text x="270" y="58" text-anchor="middle" style="fill:var(--ink2);font:12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">单车道走廊</tspan><tspan lang="en">single-lane corridor</tspan><tspan lang="ko" style="font-family:var(--f-ko)">단일 차로 회랑</tspan></text>
+        <path d="M210 86V112M330 86V112" style="stroke:var(--line);stroke-width:8"/>
+        <rect x="180" y="112" width="180" height="44" rx="5" style="fill:var(--good-soft);stroke:var(--good);stroke-dasharray:6 4"/>
+        <rect x="192" y="124" width="44" height="18" rx="3" style="fill:var(--amber-hi);stroke:var(--ink)"/>
+        <rect x="248" y="124" width="44" height="18" rx="3" style="fill:var(--amber-hi);stroke:var(--ink)"/>
+        <rect x="304" y="124" width="44" height="18" rx="3" style="fill:none;stroke:var(--ink3);stroke-dasharray:3 3"/>
+        <text x="370" y="146" style="fill:var(--good);font:600 12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">待命区，容量 S</tspan><tspan lang="en">holding area, capacity S</tspan><tspan lang="ko" style="font-family:var(--f-ko)">대기 구역, 용량 S</tspan></text>
+        <rect x="372" y="68" width="40" height="14" rx="2" style="fill:var(--oxide);stroke:var(--ink)"/>
+        <text x="392" y="104" text-anchor="middle" style="fill:var(--oxide);font:600 12px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">超出 S：占走廊</tspan><tspan lang="en">beyond S: on the corridor</tspan><tspan lang="ko" style="font-family:var(--f-ko)">S 초과: 회랑 점유</tspan></text>
+        <path d="M70 320V186M70 320H520" style="stroke:var(--ink3);fill:none"/>
+        <text x="520" y="336" text-anchor="end" style="fill:var(--ink2);font:12.5px var(--f-latin)">K</text>
+        <text x="78" y="196" style="fill:var(--ink2);font:12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">吞吐</tspan><tspan lang="en">throughput</tspan><tspan lang="ko" style="font-family:var(--f-ko)">처리량</tspan></text>
+        <path class="a-draw" d="M70 320C130 250 170 222 214 216S270 236 330 270S420 300 500 306" pathLength="1" style="--d:.3s;fill:none;stroke:var(--oxide);stroke-width:2.6"/>
+        <path class="a-draw" d="M70 320C130 250 190 214 266 208S350 228 420 262S480 282 510 288" pathLength="1" style="--d:.7s;fill:none;stroke:var(--good);stroke-width:2.6;stroke-dasharray:7 4"/>
+        <path d="M214 216V320M266 208V320" style="stroke:var(--ink3);stroke-dasharray:2 3"/>
+        <text x="214" y="336" text-anchor="middle" style="fill:var(--oxide);font:600 12.5px var(--mono)">K₀(S₁)</text>
+        <text x="270" y="336" text-anchor="start" style="fill:var(--good);font:600 12.5px var(--mono)">K₀(S₂)</text>
+        <text x="300" y="200" style="fill:var(--good);font:12.5px var(--f-latin)">S₂ &gt; S₁</text>
+        <text x="520" y="196" text-anchor="end" style="fill:var(--ink3);font:italic 12px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">示意，非数据</tspan><tspan lang="en">schematic, not data</tspan><tspan lang="ko" style="font-family:var(--f-ko)">개념도, 데이터 아님</tspan></text>
+      </svg></div>
+      <p class="small" style="margin:0"><span lang="zh"><b>T4 非单调性</b>（宣言第 4 节）：单车道走廊加容量为 S 的待命区，贪心放行下，K &gt; K₀(S) 时吞吐严格下降。证法：样本路径构造。产出：第 5 章的设计规则“待命区值几台车”。</span><span lang="en"><b>T4, non-monotonicity</b> (manifesto §4): on a single-lane corridor with a holding area of capacity S, under greedy release, throughput falls strictly for K &gt; K₀(S). Method: a sample-path construction. Output: chapter 5's design rule “how many vehicles a holding area is worth”.</span><span lang="ko"><b>T4 비단조성</b> (선언 §4): 용량 S의 대기 구역이 있는 단일 차로 회랑에서 탐욕적 출발이면 K &gt; K₀(S)일 때 처리량이 엄격히 감소한다. 증명: 표본 경로 구성. 산출: 5장 설계 규칙 “대기 구역은 차 몇 대의 가치인가”.</span></p>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：研究宣言 v1 第 3 节 H2（判据、成立与不成立）、第 4 节 T4；作者审核意见第 3 节问题 3（三个开关、样本路径证法）；00_总控/runs/2026-10-09_T22_prompt.md 第 2.1–2.2 节（segment_safe 与不疏解开关）；tasks.md T22、T25、T26。</span><span lang="en">Sources: research manifesto v1 §3, H2 (test, outcomes) and §4, T4; the author's review §3, question 3 (three switches, sample-path proof); 00_总控/runs/2026-10-09_T22_prompt.md §2.1–2.2 (segment_safe and the no-clearing switch); tasks.md T22, T25, T26.</span><span lang="ko">출처: 연구 선언 v1 §3 H2 (판정, 성립·불성립)와 §4 T4, 저자 검토 의견 §3 질문 3 (세 스위치, 표본 경로 증명), 00_总控/runs/2026-10-09_T22_prompt.md §2.1–2.2 (segment_safe와 해소 안 함 스위치), tasks.md T22·T25·T26.</span></p>
+  <aside class="notes">
+    <p lang="zh">H2 的判据是在没有瞬移的规则下读饱和曲线，逐一扫三个开关。第一个是待命区容量 S：超出 S 的空闲和等待的车只能占路边，T26 做。第二个是疏解方式：安全放行是 Banker 型的死锁避免，车不离开路网；不疏解就是卡住的车一直占着路，T22 做。第三个是等吊车的位置：路外还是坞前道路上，道路整段还是分段，T22 和 T25 做。成立的话，我们得到加车反伤的条件，以及待命区值几台车；不成立的话，给出冗余度指标。理论上 T4 先在一个最小的网络上证：单车道走廊两端各一个停靠点，加一个容量为 S 的待命区，贪心放行下，车数超过 K₀(S) 后吞吐严格下降，待命区越大，K₀ 越往右。</p>
+    <p lang="en">H2 is tested by reading saturated curves under rules without teleporting and sweeping three switches one at a time. First, the holding-area capacity S: idle and waiting vehicles beyond S must use the roadside; T26 does this. Second, the clearing mode: safe release is Banker-type deadlock avoidance in which no vehicle leaves the network, and no clearing leaves stuck vehicles on the road; T22 does this. Third, where vehicles wait for the crane: off-road or on the dock road, with the road whole or split; T22 and T25. If H2 holds we get the conditions under which more vehicles hurt and how many vehicles a holding area is worth; if not, a redundancy index. On the theory side, T4 is proved first on the smallest network: a single-lane corridor with a stop at each end and a holding area of capacity S; under greedy release, throughput falls strictly once the fleet exceeds K₀(S), and a larger holding area moves K₀ to the right.</p>
+    <p lang="ko">H2의 판정은 순간이동 없는 규칙에서 포화 곡선을 읽으며 세 스위치를 하나씩 스캔하는 것입니다. 첫째는 대기 구역 용량 S로, S를 넘는 유휴·대기 차량은 길가를 쓰며 T26이 맡습니다. 둘째는 해소 방식으로, 안전 출발은 차가 도로망을 떠나지 않는 Banker형 교착 회피이고, 해소 안 함은 멈춘 차가 도로를 계속 점유하는 것이며 T22가 맡습니다. 셋째는 크레인 대기 위치로, 도로 밖인지 도크 앞 도로 위인지, 도로 전체인지 분할인지이며 T22와 T25가 맡습니다. 성립하면 차를 늘리면 손해가 되는 조건과 대기 구역이 차 몇 대의 가치인지를 얻고, 성립하지 않으면 중복도 지표를 제시합니다. 이론에서는 T4를 가장 작은 망에서 먼저 증명합니다: 양 끝에 정차 지점이 있는 단일 차로 회랑과 용량 S의 대기 구역에서, 탐욕적 출발이면 차량 수가 K₀(S)를 넘을 때 처리량이 엄격히 감소하고 대기 구역이 클수록 K₀가 오른쪽으로 갑니다.</p>
+  </aside>
+</section>
+
+<!-- candidate proposition -->
+<section class="slide" data-sec="prop">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">候选坞口命题：名义负荷 ρ&nbsp;&lt;&nbsp;1 时，阻塞造成的饥饿也能让系统失稳</span><span lang="en">The candidate dock-mouth proposition: with nominal load ρ&nbsp;&lt;&nbsp;1, starvation caused by blocking can still destabilise the system</span><span lang="ko">도크 입구 명제 후보: 명목 부하 ρ&nbsp;&lt;&nbsp;1이어도 차단이 일으킨 기아가 시스템을 불안정하게 할 수 있다</span></h2>
+  <div class="content g2" style="gap:24px;margin-top:12px">
+    <div class="col compact" style="gap:9px">
+      <ul class="clean" style="margin:0">
+        <li><span lang="zh"><b>失稳的通道</b>：等吊车的车堵住通往其他停靠点的通道 → 后续搭载到不了坞，吊车因上游被堵而空闲 → 有效能力小于 1，名义 ρ &lt; 1 也失稳</span><span lang="en"><b>The channel</b>: vehicles waiting for the crane block the way to other stops → later erections cannot reach the dock and the crane idles because upstream is blocked → effective capacity falls below 1, and the system is unstable although nominal ρ &lt; 1</span><span lang="ko"><b>불안정의 통로</b>: 크레인을 기다리는 차가 다른 정차 지점으로 가는 길을 막음 → 다음 탑재가 도크에 못 와 크레인이 상류 차단으로 유휴 → 유효 능력 1 미만, 명목 ρ &lt; 1이어도 불안정</span></li>
+        <li><span lang="zh"><b>恢复稳定</b>：等待在路外（预约规则、坞前待命位），或坞前道路分段使用 → 稳定区间恢复到 ρ &lt; 1</span><span lang="en"><b>Restoring stability</b>: waiting off-road (reservation, a holding bay at the dock) or a dock road used in sections → the stable range returns to ρ &lt; 1</span><span lang="ko"><b>안정 회복</b>: 도로 밖 대기 (예약 규칙, 도크 앞 대기 자리) 또는 도크 앞 도로의 구간별 사용 → 안정 구간이 ρ &lt; 1로 회복</span></li>
+        <li><span lang="zh"><b>观测量</b>：吊车饥饿率，即吊车空着、同时有已放出未开吊的搭载的时间比例，另报其中车被路网卡住的部分（T22）</span><span lang="en"><b>Observable</b>: the crane starvation rate, the share of time a crane is free while a released erection has not started, with the part where the vehicle is stuck in the network reported separately (T22)</span><span lang="ko"><b>관측량</b>: 크레인 기아율, 즉 크레인이 비어 있는데 출발한 탑재가 아직 시작하지 못한 시간 비율과 그중 차가 도로망에 갇힌 부분 (T22)</span></li>
+      </ul>
+      <div class="tblwrap"><table class="tbl dense" style="font-size:14px">
+        <thead><tr><th><span lang="zh">理论来源</span><span lang="en">Theory source</span><span lang="ko">이론 출처</span></th><th><span lang="zh">文献</span><span lang="en">Works</span><span lang="ko">문헌</span></th><th><span lang="zh">用法</span><span lang="en">Use</span><span lang="ko">용도</span></th></tr></thead>
+        <tbody>
+          <tr><td style="font-family:var(--body);white-space:normal"><span lang="zh">带阻塞的排队网络</span><span lang="en">Queueing networks with blocking</span><span lang="ko">차단이 있는 대기행렬망</span></td><td>Onvural 1990; Balsamo et al. 2001 <span class="pill run"><span lang="zh">待核</span><span lang="en">to verify</span><span lang="ko">확인 예정</span></span></td><td><span lang="zh">理论支撑</span><span lang="en">foundation</span><span lang="ko">이론적 근거</span></td></tr>
+          <tr><td style="font-family:var(--body);white-space:normal"><span lang="zh">名义负荷 &lt; 1 仍因策略失稳</span><span lang="en">Policy-induced instability at nominal load &lt; 1</span><span lang="ko">명목 부하 &lt; 1에서 정책으로 인한 불안정</span></td><td>Kumar &amp; Seidman 1990; Lu &amp; Kumar 1991; Rybko &amp; Stolyar 1992 <span class="pill run"><span lang="zh">凭记忆，待核</span><span lang="en">from memory, to verify</span><span lang="ko">기억에 의존, 확인 예정</span></span></td><td><span lang="zh">类比与迁移来源</span><span lang="en">analogy, transfer source</span><span lang="ko">유추와 이전 출처</span></td></tr>
+          <tr><td style="font-family:var(--body);white-space:normal"><span lang="zh">流体模型</span><span lang="en">Fluid models</span><span lang="ko">유체 모형</span></td><td>Dai 1995 <span class="pill run"><span lang="zh">待核</span><span lang="en">to verify</span><span lang="ko">확인 예정</span></span></td><td><span lang="zh">证明工具</span><span lang="en">proof tool</span><span lang="ko">증명 도구</span></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="col" style="gap:10px;justify-content:center">
+      <div><svg style="display:block;width:100%;height:auto" viewBox="0 0 540 214" role="img" aria-label="Three-resource network: crane, single-lane dock road and one adjacent stop">
+        <rect x="414" y="20" width="116" height="62" rx="5" style="fill:var(--oxide-soft);stroke:var(--oxide);stroke-width:1.5"/>
+        <text x="472" y="46" text-anchor="middle" style="fill:var(--ink);font:600 13.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">吊车 C</tspan><tspan lang="en">crane C</tspan><tspan lang="ko" style="font-family:var(--f-ko)">크레인 C</tspan></text>
+        <text x="472" y="66" text-anchor="middle" style="fill:var(--ink2);font:12.5px var(--mono)">190 min</text>
+        <rect x="40" y="104" width="374" height="26" style="fill:var(--line);stroke:var(--ink3)"/>
+        <text x="227" y="98" text-anchor="middle" style="fill:var(--ink);font:600 13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">坞前单车道 R</tspan><tspan lang="en">single-lane dock road R</tspan><tspan lang="ko" style="font-family:var(--f-ko)">도크 앞 단일 차로 R</tspan></text>
+        <path d="M414 117C440 117 456 100 462 82" style="fill:none;stroke:var(--ink3);stroke-width:1.5"/>
+        <rect x="190" y="160" width="110" height="44" rx="5" style="fill:var(--steel-soft);stroke:var(--steel)"/>
+        <text x="245" y="187" text-anchor="middle" style="fill:var(--ink);font:600 13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">相邻停靠点 A</tspan><tspan lang="en">adjacent stop A</tspan><tspan lang="ko" style="font-family:var(--f-ko)">인접 정차 A</tspan></text>
+        <path d="M245 130V160" style="stroke:var(--ink3);stroke-width:1.5"/>
+        <rect x="340" y="110" width="44" height="14" rx="2" style="fill:var(--amber-hi);stroke:var(--ink)"/>
+        <rect x="334" y="100" width="56" height="34" rx="3" style="fill:var(--steel);fill-opacity:.85"/>
+        <rect x="120" y="110" width="40" height="14" rx="2" style="fill:var(--amber-hi);stroke:var(--ink)"/>
+        <path d="M0 117H40" style="stroke:var(--ink3);stroke-width:1.5;marker-end:none"/>
+        <text x="8" y="150" style="fill:var(--ink2);font:12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">到达：搭载 + 其他任务</tspan><tspan lang="en">arrivals: erections + other tasks</tspan><tspan lang="ko" style="font-family:var(--f-ko)">도착: 탑재 + 기타 작업</tspan></text>
+        <text x="8" y="30" style="fill:var(--ink);font:600 13px var(--mono)">ρ* = f(<tspan lang="zh" style="font-family:var(--f-zh)">坞前可通行余量</tspan><tspan lang="en">dock-road slack</tspan><tspan lang="ko" style="font-family:var(--f-ko)">도크 앞 통행 여유</tspan>)</text>
+        <text x="8" y="52" style="fill:var(--ink3);font:12px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">T25 写出门槛式，供作者写命题</tspan><tspan lang="en">T25 derives the threshold for the author's proposition</tspan><tspan lang="ko" style="font-family:var(--f-ko)">T25가 임계식을 도출, 저자가 명제 작성</tspan></text>
+      </svg></div>
+      <p class="note"><span lang="zh">写法：本文把带阻塞排队网络中“阻塞造成饥饿”的机理推广到吊车与独占道路串联的坞口。状态：宣言列为候选，视 T22 第 2 项的结果再定。</span><span lang="en">Wording: we extend the blocking-induced starvation of queueing networks with blocking to a dock mouth where a crane is in series with an exclusively occupied road. Status: a candidate in the manifesto, to be decided on T22 item 2.</span><span lang="ko">표현: 본 연구는 차단이 있는 대기행렬망의 “차단으로 인한 기아” 메커니즘을 크레인과 독점 도로가 직렬인 도크 입구로 확장한다. 상태: 선언의 후보이며 T22 제2항 결과를 보고 정한다.</span></p>
+      <div class="card warm" style="padding:10px 14px;gap:4px;background:var(--good-soft)"><p style="font-size:14.5px;line-height:1.45;color:var(--ink)"><span lang="zh"><b>比同领域最接近的工作多了什么</b>：ZhangSG2025 把龙门吊调度与平板车调度作为两个问题分别求解；这里把吊车节拍与载货车独占道路放进同一个仿真、同一个上界（T1′ 吊车行），读出两者串联时的坞口瓶颈。同领域是否已有联合的占路模型，文献库正在核对（T24）。</span><span lang="en"><b>What this adds over the closest work in the field</b>: ZhangSG2025 solves gantry-crane scheduling and transporter scheduling as two separate problems; here crane cadence and road-owning loaded vehicles sit in one simulation and one bound (the crane row of T1′), which reveals the bottleneck of the two in series. Whether the field already has a joint occupancy model is being checked by the literature library (T24).</span><span lang="ko"><b>같은 분야의 가장 가까운 연구보다 더한 것</b>: ZhangSG2025는 갠트리 크레인 스케줄링과 트랜스포터 스케줄링을 별개 문제로 푼다. 여기서는 크레인 주기와 도로를 독점하는 적재 차량을 한 시뮬레이션과 한 상한 (T1′의 크레인 행)에 넣어 둘이 직렬일 때의 도크 입구 병목을 읽는다. 같은 분야에 결합 점유 모형이 이미 있는지는 문헌 라이브러리가 확인 중이다 (T24).</span></p></div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：研究宣言 v1 第 4 节（候选）；作者审核意见第 2.2 节加强写法第 2 条与附录 B（迁移来源与理论，证据等级照录）；runs/2026-10-09_T22_prompt.md 第 2.4 节（吊车饥饿率）；T20 报告第 7 节、T21 报告第 7 节（与 ZhangSG2025 的对比）。</span><span lang="en">Sources: research manifesto v1 §4 (candidate); the author's review §2.2, strengthening item 2, and appendix B (transfer sources and theory, evidence levels as given); runs/2026-10-09_T22_prompt.md §2.4 (crane starvation rate); T20 report §7 and T21 report §7 (comparison with ZhangSG2025).</span><span lang="ko">출처: 연구 선언 v1 §4 (후보), 저자 검토 의견 §2.2 보강 제2항과 부록 B (이전 출처와 이론, 증거 수준 그대로), runs/2026-10-09_T22_prompt.md §2.4 (크레인 기아율), T20 보고서 §7·T21 보고서 §7 (ZhangSG2025와의 비교).</span></p>
+  <aside class="notes">
+    <p lang="zh">如果物理规则下“在哪里等”的对照仍然成立，它就是第 3 章的理论亮点：坞口命题。名义吊车负荷 ρ 小于 1，但等吊车的车堵住通往其他停靠点的通道，后面的搭载到不了坞，吊车因为上游被堵而空闲，有效能力小于 1，系统失稳；车在路外等，或者坞前道路分段使用，稳定区间就恢复到 ρ 小于 1。它的直接观测量是 T22 新加的吊车饥饿率。理论上，这是带阻塞的排队网络里的“阻塞造成饥饿”；排队网络里各站名义负荷都小于 1、仍因策略失稳的经典工作作类比和迁移来源，证明工具是流体模型。这几篇是凭记忆列的，引用前要核对。可写的小网络是吊车、单车道坞前道路和一个相邻停靠点三个资源，T25 把门槛 ρ* 写成坞前可通行余量的函数，命题由我们自己写。</p>
+    <p lang="en">If the “where to wait” contrast survives physical rules, it becomes chapter 3's theoretical highlight, the dock-mouth proposition. Nominal crane load ρ is below 1, but vehicles waiting for the crane block the way to other stops, later erections cannot reach the dock, the crane idles because upstream is blocked, effective capacity drops below 1 and the system becomes unstable; with waiting off-road or the dock road used in sections, the stable range returns to ρ below 1. Its direct observable is the crane starvation rate added in T22. In theory this is blocking-induced starvation in queueing networks with blocking; the classic works in which every station has nominal load below 1 yet a policy destabilises the network serve as analogy and transfer sources, and fluid models are the proof tool. Those references are listed from memory and will be checked before citation. The small network has three resources, the crane, a single-lane dock road and one adjacent stop; T25 writes the threshold ρ* as a function of the dock road's slack, and we write the proposition ourselves.</p>
+    <p lang="ko">물리 규칙에서도 “어디서 기다리나”의 대비가 유지되면 3장의 이론적 핵심인 도크 입구 명제가 됩니다. 명목 크레인 부하 ρ가 1보다 작아도, 크레인을 기다리는 차가 다른 정차 지점으로 가는 길을 막으면 다음 탑재가 도크에 오지 못하고 크레인은 상류가 막혀 쉬게 되어 유효 능력이 1보다 작아지고 시스템이 불안정해집니다. 도로 밖에서 기다리거나 도크 앞 도로를 구간별로 쓰면 안정 구간이 ρ < 1로 돌아옵니다. 직접 관측량은 T22에서 추가한 크레인 기아율입니다. 이론적으로는 차단이 있는 대기행렬망의 “차단으로 인한 기아”이며, 각 스테이션의 명목 부하가 1보다 작은데도 정책 때문에 불안정해지는 고전 연구를 유추와 이전 출처로, 유체 모형을 증명 도구로 씁니다. 이 문헌들은 기억에 의존해 적었으므로 인용 전에 확인합니다. 소형 망은 크레인, 단일 차로 도크 앞 도로, 인접 정차 지점의 세 자원이며, T25가 임계값 ρ*를 도크 앞 통행 여유의 함수로 쓰고 명제는 저희가 직접 씁니다.</p>
+  </aside>
+</section>
+
+<!-- floating docks -->
+<section class="slide" data-sec="prop">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">浮坞：玉浦有 3 座，建模为“码头侧汇点 + 浮吊资源”；巨型分段的多车联运是 H7 的案例</span><span lang="en">Floating docks: a quay-side sink plus a floating crane; giant blocks on coupled transporters are H7's case</span><span lang="ko">플로팅 도크: 부두 측 도착점 + 해상 크레인, 결합 트랜스포터의 거대 블록 운송은 H7의 사례</span></h2>
+  <div class="content g2" style="gap:24px;margin-top:12px">
+    <div class="col compact" style="gap:8px;justify-content:center">
+      <ul class="clean" style="margin:0">
+        <li><span lang="zh"><b>3 座浮坞</b>：韩华海洋 4Q24 IR 第 29 页“Floating Dock : 3EA”；影像标注（rev 1833）F1 约 457 × 82 m、F2 约 360 × 77 m、F3 约 472 × 80 m，F1、F3 内是在建集装箱船</span><span lang="en"><b>Three floating docks</b>: Hanwha Ocean 4Q24 IR, p. 29, “Floating Dock : 3EA”; on the imagery (rev 1833) F1 ≈ 457 × 82 m, F2 ≈ 360 × 77 m, F3 ≈ 472 × 80 m, with container ships being built in F1 and F3</span><span lang="ko"><b>플로팅 도크 3기</b>: 한화오션 4Q24 IR 29쪽 “Floating Dock : 3EA”, 영상 표시 (rev 1833) F1 약 457 × 82 m, F2 약 360 × 77 m, F3 약 472 × 80 m, F1·F3에서 컨테이너선 건조 중</span></li>
+        <li><span lang="zh"><b>与基础情景一致</b>：LNG 船进 1、2 号干坞（作者确认；1 号坞同时建 4 艘，首尔新闻 2024、韩华 2025）；33 艘商船都进干坞时 ρ = 1.29–1.60，超过吊车能力</span><span lang="en"><b>Fits the base scenario</b>: LNG carriers in dry docks 1 and 2 (confirmed by the author; dock 1 builds four at once, Seoul Shinmun 2024, Hanwha 2025); all 33 merchant ships there would give ρ = 1.29–1.60, beyond the cranes</span><span lang="ko"><b>기본 시나리오와 일치</b>: LNG선은 1·2번 건식 도크 (저자 확인, 1번 도크 4척 동시 건조, 서울신문 2024·한화 2025), 상선 33척이 모두 들어가면 ρ = 1.29–1.60으로 크레인 능력 초과</span></li>
+        <li><span lang="zh"><b>模型</b>：来源 = 靠近码头的总组场地；汇点 = 码头前沿交接位（停靠路段）；浮吊 = 容量 1–2、节拍长的资源，复用吊车代码</span><span lang="en"><b>Model</b>: source = assembly sites near the quay; sink = the hand-over stop at the quay edge; floating crane = capacity 1–2 and a long cycle, reusing the crane code</span><span lang="ko"><b>모형</b>: 출발 = 부두 가까운 총조립장, 도착 = 부두 전면 인계 위치 (정차 구간), 해상 크레인 = 용량 1–2, 긴 주기, 크레인 코드 재사용</span></li>
+        <li><span lang="zh"><b>巨型分段</b>：2–4 台车并车联运，外廓更宽、占路更久，空车回程成队 → H7，与 MY-B 的协同运输衔接</span><span lang="en"><b>Giant blocks</b>: 2–4 coupled transporters, wider and holding the road longer, returning empty as a team → H7, linking to MY-B's coupled carriage</span><span lang="ko"><b>거대 블록</b>: 트랜스포터 2–4대 결합, 더 넓고 더 오래 점유, 공차 복귀도 팀으로 → H7, MY-B의 결합 운송과 연결</span></li>
+      </ul>
+      <p class="note"><span lang="zh">工法属一般知识，进模型前逐项找公开原文（T24），含“每艘约 10 个巨型分段”；基础情景不变，浮坞流单列（T26）。</span><span lang="en">The practice is general knowledge; each item needs a public source before modelling (T24), including “about 10 giant blocks a ship”. The base scenario stays; the floating-dock flow is separate (T26).</span><span lang="ko">공법은 일반 지식이므로 모형에 넣기 전 항목별 공개 원문을 찾는다 (T24), “척당 거대 블록 약 10개” 포함. 기본 시나리오는 그대로, 플로팅 도크 흐름은 따로 (T26).</span></p>
+    </div>
+    <div class="col" style="justify-content:center">
+      <div><svg style="display:block;width:100%;height:auto" viewBox="0 0 540 380" role="img" aria-label="Schematic: giant block carried by several coupled transporters from an assembly site to the quay, lifted by a floating crane into a floating dock">
+        <rect x="0" y="0" width="300" height="380" style="fill:var(--panel)"/>
+        <rect x="300" y="0" width="240" height="380" style="fill:var(--steel-soft)"/>
+        <path d="M300 0V380" style="stroke:var(--ink3);stroke-width:2"/>
+        <text x="420" y="24" text-anchor="middle" style="fill:var(--steel);font:600 13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">水域</tspan><tspan lang="en">water</tspan><tspan lang="ko" style="font-family:var(--f-ko)">수역</tspan></text>
+        <rect x="10" y="40" width="170" height="80" rx="4" style="fill:var(--paper);stroke:var(--ink3);stroke-dasharray:4 3"/>
+        <text x="95" y="84" text-anchor="middle" style="fill:var(--ink2);font:12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">总组场地（来源）</tspan><tspan lang="en">assembly site (source)</tspan><tspan lang="ko" style="font-family:var(--f-ko)">총조립장 (출발)</tspan></text>
+        <rect x="70" y="120" width="40" height="80" style="fill:var(--line)"/>
+        <rect x="70" y="200" width="230" height="44" style="fill:var(--line)"/>
+        <g class="a-drive" style="--d:.4s">
+          <rect x="128" y="204" width="40" height="10" rx="2" style="fill:var(--amber-hi);stroke:var(--ink)"/>
+          <rect x="128" y="217" width="40" height="10" rx="2" style="fill:var(--amber-hi);stroke:var(--ink)"/>
+          <rect x="128" y="230" width="40" height="10" rx="2" style="fill:var(--amber-hi);stroke:var(--ink)"/>
+          <rect x="112" y="190" width="74" height="70" rx="4" style="fill:var(--steel);fill-opacity:.82"/>
+        </g>
+        <text x="14" y="312" style="fill:var(--ink);font:600 12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">巨型分段：2–4 台车并车</tspan><tspan lang="en">giant block: 2–4 coupled</tspan><tspan lang="ko" style="font-family:var(--f-ko)">거대 블록: 2–4대 결합</tspan></text>
+        <text x="14" y="330" style="fill:var(--ink2);font:12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">外廓更宽、占路更久（H7）</tspan><tspan lang="en">wider, holds the road longer (H7)</tspan><tspan lang="ko" style="font-family:var(--f-ko)">더 넓고 더 오래 점유 (H7)</tspan></text>
+        <rect x="236" y="196" width="64" height="52" rx="3" style="fill:var(--oxide-soft);stroke:var(--oxide);stroke-dasharray:5 3"/>
+        <text x="296" y="266" text-anchor="end" style="fill:var(--oxide);font:600 12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">码头交接位</tspan><tspan lang="en">quay hand-over</tspan><tspan lang="ko" style="font-family:var(--f-ko)">부두 인계 위치</tspan></text>
+        <text x="296" y="282" text-anchor="end" style="fill:var(--oxide);font:12px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">（汇点）</tspan><tspan lang="en">(sink)</tspan><tspan lang="ko" style="font-family:var(--f-ko)">(도착점)</tspan></text>
+        <g class="a-fade" style="--d:.9s">
+          <rect x="318" y="240" width="70" height="30" rx="4" style="fill:var(--paper);stroke:var(--ink)"/>
+          <path d="M350 240L330 150M330 150L300 210" style="stroke:var(--amber);stroke-width:4;fill:none"/>
+          <text x="312" y="292" style="fill:var(--ink);font:600 12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">浮吊</tspan><tspan lang="en">floating crane</tspan><tspan lang="ko" style="font-family:var(--f-ko)">해상 크레인</tspan></text>
+          <text x="312" y="308" style="fill:var(--ink2);font:12px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">容量 1–2，节拍长</tspan><tspan lang="en">capacity 1–2, long cycle</tspan><tspan lang="ko" style="font-family:var(--f-ko)">용량 1–2, 긴 주기</tspan></text>
+        </g>
+        <path d="M410 60H520V200H410V180H500V80H410Z" style="fill:var(--ink3);fill-opacity:.55;stroke:var(--ink2)"/>
+        <rect x="420" y="96" width="74" height="68" rx="30" style="fill:var(--steel);fill-opacity:.8"/>
+        <text x="465" y="224" text-anchor="middle" style="fill:var(--ink);font:600 12.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">浮坞（F1–F3）</tspan><tspan lang="en">floating dock (F1–F3)</tspan><tspan lang="ko" style="font-family:var(--f-ko)">플로팅 도크 (F1–F3)</tspan></text>
+        <text x="530" y="368" text-anchor="end" style="fill:var(--ink3);font:italic 12px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">示意，不按比例</tspan><tspan lang="en">schematic, not to scale</tspan><tspan lang="ko" style="font-family:var(--f-ko)">개념도, 축척 아님</tspan></text>
+      </svg></div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：T21 报告第 3.2 节与来源表 [IR]、[SN]；00_总控/tasks.md（浮船坞标注，2026-10-09，rev 1826–1833）；reviews/T21.md 第 4 节（影像中 F1、F3 的船型；作者确认基础情景）；作者审核意见第 3 节问题 4（建模建议，一般工法知识）。</span><span lang="en">Sources: T21 report §3.2 and sources [IR], [SN]; 00_总控/tasks.md (floating docks drawn on the map, 9 Oct 2026, rev 1826–1833); reviews/T21.md §4 (ship types in F1 and F3 on the imagery; the author confirmed the base scenario); the author's review §3, question 4 (modelling advice, general practice).</span><span lang="ko">출처: T21 보고서 §3.2와 출처 [IR]·[SN], 00_总控/tasks.md (플로팅 도크 표시, 2026-10-09, rev 1826–1833), reviews/T21.md §4 (영상 속 F1·F3의 선종, 저자가 기본 시나리오 확인), 저자 검토 의견 §3 질문 4 (모형화 제안, 일반 공법 지식).</span></p>
+  <aside class="notes">
+    <p lang="zh">浮坞是坞口的另一种形态。玉浦有三座浮坞，韩华海洋的 IR 写着 Floating Dock 3EA，我们在影像上也标出了三座，作者给它们接了支路；影像里有两座里在造集装箱船，和“LNG 船进 1、2 号干坞、其余船走浮坞”的基础情景一致。建模上，浮坞按“码头侧汇点加浮吊资源”处理：浮吊和龙门吊是同一种抽象，只是容量 1 到 2、节拍更长，可以直接复用吊车的代码。巨型分段要两到四台车并车联运，外廓更宽、占路更久，空车回程也成队，正是 H7 车型与组队的现场，和车队配置论文的协同运输衔接起来。这些工法知识进模型前要逐项找公开原文，由 T24 和 T26 来做。</p>
+    <p lang="en">Floating docks are another form of dock mouth. Okpo has three: Hanwha Ocean's IR lists Floating Dock 3EA, we drew three on the imagery and the author connected them with spur roads; two of them hold container ships under construction, consistent with the base scenario of LNG carriers in dry docks 1 and 2 and other ships in floating docks. In the model a floating dock is a quay-side sink plus a floating-crane resource: the same abstraction as a gantry crane, only with capacity 1 to 2 and a longer cycle, so the crane code is reused. Giant blocks need two to four coupled transporters, with a wider outline, longer occupation and empty returns as a team, which is exactly where H7 on vehicle type and teaming lives, and where the fleet-sizing paper's coupled carriage connects. Each piece of this practice needs a public source before it enters the model; T24 and T26 do that.</p>
+    <p lang="ko">플로팅 도크는 도크 입구의 또 다른 형태입니다. 옥포에는 세 기가 있으며 한화오션 IR에 Floating Dock 3EA로 나오고, 영상에도 세 기를 표시했으며 저자가 지선을 연결했습니다. 그중 두 기에서 컨테이너선을 건조 중이어서, “LNG선은 1·2번 건식 도크, 나머지는 플로팅 도크”라는 기본 시나리오와 맞습니다. 모형에서는 플로팅 도크를 “부두 측 도착점 + 해상 크레인 자원”으로 둡니다. 해상 크레인은 갠트리와 같은 추상이고 용량이 1–2, 주기가 더 길 뿐이어서 크레인 코드를 그대로 씁니다. 거대 블록은 트랜스포터 2–4대를 결합해 옮기며 외곽이 넓고 점유가 길며 공차 복귀도 팀으로 하므로, 바로 H7 차종과 결합의 현장이고 차량군 산정 논문의 결합 운송과 이어집니다. 이 공법 지식은 모형에 넣기 전에 항목별 공개 원문을 찾아야 하며 T24와 T26이 맡습니다.</p>
+  </aside>
+</section>
+
+<!-- established vs in progress -->
+<section class="slide" data-sec="status">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">已成立的与进行中的：每项后续任务都对应论文的一张图或一节</span><span lang="en">Established and in progress: each next task feeds a thesis figure or section</span><span lang="ko">확립된 것과 진행 중인 것: 다음 작업마다 논문의 그림이나 절 하나에 대응한다</span></h2>
+  <div class="content" style="grid-template-rows:1fr auto;gap:10px;margin-top:12px">
+    <div class="tblwrap"><table class="tbl st">
+      <thead><tr><th><span lang="zh">内容</span><span lang="en">Item</span><span lang="ko">내용</span></th><th><span lang="zh">状态</span><span lang="en">Status</span><span lang="ko">상태</span></th><th><span lang="zh">产出（论文位置）</span><span lang="en">Output (where in the thesis)</span><span lang="ko">산출 (논문 위치)</span></th></tr></thead>
+      <tbody>
+        <tr><td><span lang="zh">吊车作为坞的资源、搭载按吊车节拍、跨内吊运；T1′ 吊车行与窗口边界项（两厂 17,760 个占路点无一超出）</span><span lang="en">Cranes as dock resources, erections at crane cadence, in-span lifts; the crane row and window edge term of T1′ (none of 17,760 occupancy points on the two yards exceeds it)</span><span lang="ko">도크 자원인 크레인, 크레인 주기 탑재, 스팬 내 인양, T1′ 크레인 행과 창 경계 항 (두 조선소 17,760개 점유 점 모두 초과 없음)</span></td><td><span class="pill done"><span lang="zh">已成立 · T20–T21</span><span lang="en">established · T20–T21</span><span lang="ko">확립 · T20–T21</span></span></td><td><span lang="zh">第 3 章方法节与参数表</span><span lang="en">Chapter 3 methods and parameter table</span><span lang="ko">3장 방법 절과 매개변수 표</span></td></tr>
+        <tr><td><span lang="zh">两厂 ρ 曲线：整条路径预约与逐段申请（参照规则），道路整段</span><span lang="en">Both yards' ρ curves: reservation and segment request (reference rule), whole road</span><span lang="ko">두 조선소 ρ 곡선: 예약과 구간별 요청 (참조 규칙), 도로 전 구간</span></td><td><span class="pill done"><span lang="zh">已成立 · 作对照</span><span lang="en">established · comparison</span><span lang="ko">확립 · 대조용</span></span></td><td><span lang="zh">第 3 章坞口节的对照曲线</span><span lang="en">Comparison curves in the chapter 3 dock section</span><span lang="ko">3장 도크 입구 절의 대조 곡선</span></td></tr>
+        <tr><td><span lang="zh">作者探针：分段闭塞、改宽、会车点（3 个种子）</span><span lang="en">The author's probe: split, widening, passing bays (3 seeds)</span><span lang="ko">저자 탐침: 구간 분할, 확폭, 대피 구간 (시드 3개)</span></td><td><span class="pill run"><span lang="zh">雏形</span><span lang="en">prototype</span><span lang="ko">시제</span></span></td><td><span lang="zh">T22、T25 的设计</span><span lang="en">Design of T22 and T25</span><span lang="ko">T22·T25의 설계</span></td></tr>
+        <tr><td><span lang="zh"><b>T22</b>：安全放行 segment_safe 与“不疏解”开关；坞前道路按停靠点分段（参照规则加方向锁）；吊车饥饿率；两厂 ρ 曲线与搭载组合重画</span><span lang="en"><b>T22</b>: safe release segment_safe and a no-clearing switch; dock road split at its stops (direction locks for the reference rule); crane starvation rate; ρ curves and erection mix redrawn on both yards</span><span lang="ko"><b>T22</b>: 안전 출발 segment_safe와 “해소 안 함” 스위치, 정차 지점별 도로 분할 (참조 규칙에 방향 잠금), 크레인 기아율, 두 조선소 ρ 곡선과 탑재 조합 재작성</span></td><td><span class="pill run"><span lang="zh">进行中</span><span lang="en">running</span><span lang="ko">진행 중</span></span></td><td><span lang="zh">第 3 章坞口节的机理图；H1 第 3 段的读数</span><span lang="en">The mechanism figure of the chapter 3 dock section; readings for H1 part 3</span><span lang="ko">3장 도크 입구 절 메커니즘 그림, H1 제3단 판독</span></td></tr>
+        <tr><td><span lang="zh"><b>T25</b>：坞口三资源小网络（ρ* 与坞前可通行余量）；改造仿真：分段闭塞、坞前待命位、会车点、改宽（10 个种子、完整 K 网格）；运力—闭塞粒度曲线</span><span lang="en"><b>T25</b>: the three-resource dock network (ρ* against dock-road slack); upgrade simulations: split, holding bay, passing bays, widening (10 seeds, full K grid); capacity against block length</span><span lang="ko"><b>T25</b>: 도크 세 자원 소형 망 (ρ*와 도크 앞 통행 여유), 개조 시뮬레이션: 구간 분할, 도크 앞 대기 자리, 대피 구간, 확폭 (시드 10개, 전체 K 격자), 능력–폐색 단위 곡선</span></td><td><span class="pill pend"><span lang="zh">待做</span><span lang="en">queued</span><span lang="ko">예정</span></span></td><td><span lang="zh">坞口命题的门槛式；第一张路—车汇率表（第 5 章）</span><span lang="en">The proposition's threshold; the first road–vehicle exchange-rate table (chapter 5)</span><span lang="ko">명제의 임계식, 첫 도로–차량 환율 표 (5장)</span></td></tr>
+        <tr><td><span lang="zh"><b>T26</b>：玉浦 rev 1833 与浮坞情景；有限待命区 S 与 K₀(S)</span><span lang="en"><b>T26</b>: Okpo rev 1833 and the floating-dock scenario; finite holding area S and K₀(S)</span><span lang="ko"><b>T26</b>: 옥포 rev 1833과 플로팅 도크 시나리오, 유한 대기 구역 S와 K₀(S)</span></td><td><span class="pill pend"><span lang="zh">待做</span><span lang="en">queued</span><span lang="ko">예정</span></span></td><td><span lang="zh">H2 的 K₀(S) 曲线与“待命区值几台车”；H7 浮坞案例</span><span lang="en">H2's K₀(S) curve and “how many vehicles a holding area is worth”; H7's floating-dock case</span><span lang="ko">H2의 K₀(S) 곡선과 “대기 구역은 차 몇 대의 가치인가”, H7 플로팅 도크 사례</span></td></tr>
+        <tr><td><span lang="zh"><b>T24</b>：排队网络、策略致稳、闭塞粒度的迁移来源；浮坞与巨型分段的公开资料</span><span lang="en"><b>T24</b>: transfer sources on queueing networks, policy-induced instability and block granularity; public sources on floating docks and giant blocks</span><span lang="ko"><b>T24</b>: 대기행렬망, 정책 불안정, 폐색 단위의 이전 출처, 플로팅 도크와 거대 블록 공개 자료</span></td><td><span class="pill run"><span lang="zh">进行中</span><span lang="en">running</span><span lang="ko">진행 중</span></span></td><td><span lang="zh">参考文献核对；浮坞参数</span><span lang="en">Reference checks; floating-dock parameters</span><span lang="ko">참고문헌 확인, 플로팅 도크 매개변수</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="risk"><b><span lang="zh">风险</span><span lang="en">Risk</span><span lang="ko">위험</span></b><span><span lang="zh">物理规则与分段闭塞下，玉浦的坞口下降变弱或消失。</span><span lang="en">Under physical rules and the split road, Okpo's dock-mouth decline weakens or disappears.</span><span lang="ko">물리 규칙과 구간 분할에서 옥포의 도크 입구 하락이 약해지거나 사라진다.</span></span><b><span lang="zh">缓解</span><span lang="en">Mitigation</span><span lang="ko">완화</span></b><span><span lang="zh">结论写成“在哪里等、怎样分段”的条件读数加设计杠杆，不依赖某一座船厂的门槛数字；第 6 章中坞前道路更窄、更长的船厂可以补例。</span><span lang="en">Write the result as conditional readings on where to wait and how to split, plus design levers, not as one yard's threshold; yards in chapter 6 with narrower or longer dock roads add cases.</span><span lang="ko">결론을 “어디서 기다리고 어떻게 나누나”의 조건부 판독과 설계 수단으로 쓰고 특정 조선소의 임계값에 기대지 않으며, 6장에서 도크 앞 도로가 더 좁거나 긴 조선소로 사례를 보탠다.</span></span></div>
+  </div>
+  <p class="src"><span lang="zh">来源：00_总控/tasks.md T20–T26（2026-10-09）；reviews/T20.md、T21.md；T21 报告第 5、10 节（17,760 个点的逐例核对）；作者审核意见第 4.1 节与第 5 节（风险与缓解）。T22–T26 尚无结果，只列计划。</span><span lang="en">Sources: 00_总控/tasks.md T20–T26 (9 Oct 2026); reviews/T20.md, T21.md; T21 report §5 and §10 (case-by-case check of 17,760 points); the author's review §4.1 and §5 (risks and mitigation). T22–T26 have no results yet; they are listed as plans.</span><span lang="ko">출처: 00_总控/tasks.md T20–T26 (2026-10-09), reviews/T20.md·T21.md, T21 보고서 §5·§10 (17,760점 사례별 확인), 저자 검토 의견 §4.1과 §5 (위험과 완화). T22–T26은 아직 결과가 없어 계획으로만 적었다.</span></p>
+  <aside class="notes">
+    <p lang="zh">已经成立的是：吊车作为坞的资源、搭载按吊车节拍、跨内吊运，以及上界里的吊车行，两厂一万七千多个占路点无一超出；两种规则的 ρ 曲线作为对照留在论文里。作者探针是雏形。进行中的是 T22：安全放行和不疏解开关、坞前道路分段、吊车饥饿率，它直接给出第 3 章坞口节的机理图。T25 做三资源小网络和改造仿真，产出命题的门槛式和第一张路—车汇率表；T26 做浮坞和有限待命区，产出 H2 的 K₀(S) 曲线和 H7 的浮坞案例。最大的风险是物理规则下玉浦的下降变弱；缓解办法是把结论写成“在哪里等、怎样分段”的条件读数和设计杠杆，再用第 6 章的船厂补例。</p>
+    <p lang="en">Established: cranes as dock resources, erections at crane cadence, in-span lifts, and the crane row of the bound, with none of more than seventeen thousand occupancy points exceeding it; the ρ curves under both rules stay in the thesis as comparison. The author's probe is a prototype. In progress is T22: safe release and the no-clearing switch, the split dock road and the crane starvation rate, which give the mechanism figure of chapter 3's dock section directly. T25 builds the three-resource network and the upgrade simulations, giving the proposition's threshold and the first road–vehicle exchange-rate table; T26 adds floating docks and the finite holding area, giving H2's K₀(S) curve and H7's floating-dock case. The main risk is that Okpo's decline weakens under physical rules; the mitigation is to write the result as conditional readings on where to wait and how to split, with design levers, and to add cases from chapter 6's yards.</p>
+    <p lang="ko">확립된 것은 도크 자원인 크레인, 크레인 주기 탑재, 스팬 내 인양, 상한의 크레인 행이며, 두 조선소 1만 7천여 점유 점이 모두 상한을 넘지 않았습니다. 두 규칙의 ρ 곡선은 대조로 논문에 남깁니다. 저자 탐침은 시제입니다. 진행 중인 T22는 안전 출발과 해소 안 함 스위치, 도크 앞 도로 분할, 크레인 기아율로 3장 도크 입구 절의 메커니즘 그림을 바로 줍니다. T25는 세 자원 소형 망과 개조 시뮬레이션으로 명제의 임계식과 첫 도로–차량 환율 표를, T26은 플로팅 도크와 유한 대기 구역으로 H2의 K₀(S) 곡선과 H7 플로팅 도크 사례를 냅니다. 가장 큰 위험은 물리 규칙에서 옥포의 하락이 약해지는 것이고, 완화책은 결론을 “어디서 기다리고 어떻게 나누나”의 조건부 판독과 설계 수단으로 쓰고 6장 조선소로 사례를 보태는 것입니다.</p>
+  </aside>
+</section>
+
+<!-- candidate journals -->
+<section class="slide" data-sec="pub">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">候选期刊：先列选项，等坞口命题与物理规则的结果出来再定</span><span lang="en">Candidate journals: options now, a choice once the proposition and the physical-rule results are in</span><span lang="ko">후보 학술지: 지금은 선택지만, 명제와 물리 규칙 결과가 나온 뒤 결정</span></h2>
+  <div class="content" style="grid-template-rows:auto auto;align-content:center;gap:18px">
+    <div class="cols3">
+      <div class="card jr" style="--c:var(--oxide)"><h3><span lang="zh">理论向（若坞口命题证出）</span><span lang="en">Theory (if the proposition is proved)</span><span lang="ko">이론 (명제가 증명되면)</span></h3>
+        <p class="vn">Operations Research<br>Stochastic Systems<br>Queueing Systems</p>
+        <p><span lang="zh">卖点：阻塞造成饥饿的失稳，门槛 ρ* 的显式式子，路外等待与分段使用的稳定化。</span><span lang="en">Selling point: blocking-induced instability, an explicit threshold ρ*, and stabilisation by off-road waiting or a sectioned road.</span><span lang="ko">강점: 차단으로 인한 기아와 불안정, 임계값 ρ*의 명시식, 도로 밖 대기와 구간 사용에 의한 안정화.</span></p></div>
+      <div class="card jr" style="--c:var(--steel)"><h3><span lang="zh">交通与运筹</span><span lang="en">Transportation and OR</span><span lang="ko">교통과 운영연구</span></h3>
+        <p class="vn">Transportation Science<br>Transportation Research Part B</p>
+        <p><span lang="zh">卖点：运力区间、坞口机理与命题，作为第一篇论文（第 3 章）的一节，或独立成文。</span><span lang="en">Selling point: the capacity interval, the dock-mouth mechanism and proposition, as a section of the first paper (chapter 3) or a paper of its own.</span><span lang="ko">강점: 운송 능력 구간, 도크 입구 메커니즘과 명제, 첫 논문 (3장)의 한 절 또는 독립 논문.</span></p></div>
+      <div class="card jr" style="--c:var(--amber-hi)"><h3><span lang="zh">应用向</span><span lang="en">Applied</span><span lang="ko">응용</span></h3>
+        <p class="vn">IISE Transactions<br>Transportation Research Part E<br>European Journal of Operational Research</p>
+        <p><span lang="zh">卖点：等待位置、分段闭塞与浮坞的设计规则，改造相当于几台车。</span><span lang="en">Selling point: design rules on waiting position, road sectioning and floating docks, and upgrades priced in vehicles.</span><span lang="ko">강점: 대기 위치, 구간 폐색, 플로팅 도크의 설계 규칙과 개조의 차량 환산 가치.</span></p></div>
+    </div>
+    <p class="small" style="margin:0;border-left:4px solid var(--amber-hi);padding-left:12px"><span lang="zh">作者审核意见第 4.2 节对第一篇论文的建议：主投 TR-E 或 IISE Transactions；补上 T1′ 的可达性与坞口命题的证明后，冲 TR-B 或 Transportation Science，题目可加 “and dock-mouth instability”。都是选项，到时由作者决定。</span><span lang="en">The author's review §4.2 on the first paper: submit to TR-E or IISE Transactions; with the attainability of T1′ and a proof of the proposition, aim at TR-B or Transportation Science, adding “and dock-mouth instability” to the title. All are options for the author to choose later.</span><span lang="ko">저자 검토 의견 §4.2의 첫 논문 제안: TR-E 또는 IISE Transactions에 투고하고, T1′의 달성 가능성과 명제 증명을 더하면 TR-B 또는 Transportation Science를 노리며 제목에 “and dock-mouth instability”를 붙인다. 모두 선택지이며 나중에 저자가 정한다.</span></p>
+  </div>
+  <p class="src"><span lang="zh">来源：作者审核意见（2026-10-09）第 4.2 节；《博士论文方向进攻指导（第二版）》（2026-10-08）第 5 节期刊栏。期刊范围以各刊当期投稿须知为准。</span><span lang="en">Sources: the author's review (9 Oct 2026) §4.2; the thesis direction document (2nd ed., 8 Oct 2026) §5, journal column. Each journal's current author guidelines govern its scope.</span><span lang="ko">출처: 저자 검토 의견 (2026-10-09) §4.2, 박사 논문 방향 지침 (제2판, 2026-10-08) §5 학술지 열. 각 학술지의 범위는 현행 투고 규정을 따른다.</span></p>
+  <aside class="notes">
+    <p lang="zh">期刊不定死，先列三组选项。如果坞口命题证出来，理论向可以投 Operations Research、Stochastic Systems 或 Queueing Systems。交通与运筹方向是 Transportation Science 和 TR-B，坞口可以作为第一篇论文的一节，也可以独立成文。应用向是 IISE Transactions、TR-E 和 EJOR，卖点是等待位置、分段闭塞和浮坞的设计规则。作者的审核意见建议第一篇主投 TR-E 或 IISE，补上理论后冲 TR-B 或 TS。到时再定。</p>
+    <p lang="en">The venue is not fixed; here are three groups of options. If the proposition is proved, theory venues are Operations Research, Stochastic Systems or Queueing Systems. In transportation and OR, Transportation Science and TR-B, with the dock mouth as a section of the first paper or a paper of its own. Applied venues are IISE Transactions, TR-E and EJOR, selling design rules on waiting position, road sectioning and floating docks. The author's review suggests the first paper go to TR-E or IISE, and to TR-B or TS once the theory is added. We choose later.</p>
+    <p lang="ko">학술지는 정해 두지 않고 세 묶음의 선택지를 듭니다. 명제가 증명되면 이론 쪽으로 Operations Research, Stochastic Systems, Queueing Systems가 있습니다. 교통과 운영연구 쪽은 Transportation Science와 TR-B로, 도크 입구를 첫 논문의 한 절로 넣거나 독립 논문으로 쓸 수 있습니다. 응용 쪽은 IISE Transactions, TR-E, EJOR이며 대기 위치, 구간 폐색, 플로팅 도크의 설계 규칙이 강점입니다. 저자 검토 의견은 첫 논문을 TR-E나 IISE에 내고 이론을 더하면 TR-B나 TS를 노리라고 제안합니다. 결정은 나중에 합니다.</p>
+  </aside>
+</section>
+
+<!-- references -->
+<section class="slide" data-sec="ref">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">参考文献（1/2）</span><span lang="en">References (1/2)</span><span lang="ko">참고문헌 (1/2)</span></h2>
+  <div class="content" style="grid-template-rows:auto;align-content:start;margin-top:14px">
+    <ol class="refs" start="1" style="font-size:16.5px;line-height:1.5">
+      <li>Balsamo, S., de Nitto Personè, V., Onvural, R. (2001). <i>Analysis of Queueing Networks with Blocking</i>. Kluwer Academic Publishers, Boston. <b>[待核 · to verify]</b></li>
+      <li>Dai, J.G. (1995). On positive Harris recurrence of multiclass queueing networks: a unified approach via fluid limit models. <i>Annals of Applied Probability</i> 5(1), 49–77. <b>[待核 · to verify]</b></li>
+      <li>Daewoo Shipbuilding &amp; Marine Engineering (2009). 드라이 도크의 LNGC 화물창 공사용 총조립 시스템발판을 이용한 선박 건조방법. Korean patent application KR20090050364A (filed 2007-11-15, published 2009-05-20).</li>
+      <li>Eustace, C., Bobbermen, L., Hronsky, D. (2021). Simulation of Carrapateena underground haulage operations. <i>Proc. 2021 Winter Simulation Conference</i> (industry case study).</li>
+      <li>Hanwha (2025-02-28). Hanwha Ocean reaches world-first milestone with 200th LNG carrier delivery (press release).</li>
+      <li>Hanwha Ocean (2025). 4Q24 IR presentation, p. 29 (“Dry Dock : 2EA • Floating Dock : 3EA”).</li>
+      <li>Hanwha Ocean. Facilities: dock dimensions and crane lists. hanwhaocean.com/en/whoweare/ig/facilities (read 2026-10).</li>
+      <li>Hoist Magazine (2008-05-19). Yantai Raffles' big gamble (the 20,000 t bridge crane over the 1st dry dock).</li>
+      <li>KED Global (2024-03-26). Report on Hanwha Ocean's block transporters (21 m × 7.5 m; signalmen at the front and back).</li>
+      <li>Kumar, P.R., Seidman, T.I. (1990). Dynamic instabilities and stabilization methods in distributed real-time scheduling of manufacturing systems. <i>IEEE Transactions on Automatic Control</i> 35(3), 289–298. <b>[待核 · to verify]</b></li>
+      <li>Lu, S.H., Kumar, P.R. (1991). Distributed scheduling based on due dates and buffer priorities. <i>IEEE Transactions on Automatic Control</i> 36(12), 1406–1416. <b>[待核 · to verify]</b></li>
+      <li>Onvural, R.O. (1990). Survey of closed queueing networks with blocking. <i>ACM Computing Surveys</i> 22(2), 83–121. doi:10.1145/78919.78920</li>
+      <li>Riviera (2014-03-26). Daewoo at top of LNG tree (900 t goliath crane with a 206 m span).</li>
+    </ol>
+  </div>
+  <p class="src"><span lang="zh">来源：作者审核意见附录 B 的证据等级照录：带阻塞排队网络与策略致稳、流体模型几篇为“待核 / 凭记忆”，引用前对照原文核对（T24 进行中）；Onvural 1990 的 DOI 已在博士论文汇报中经 Crossref 核对。厂商、公司与新闻资料按 T20、T21 报告的来源表。</span><span lang="en">Sources: evidence levels as in the author's review, appendix B: the queueing-network, policy-instability and fluid-model works are “to verify / from memory” and will be checked against the originals (T24 running); Onvural 1990's DOI was checked against Crossref for the thesis briefing. Company, manufacturer and press material per the source tables of the T20 and T21 reports.</span><span lang="ko">출처: 저자 검토 의견 부록 B의 증거 수준 그대로. 대기행렬망·정책 불안정·유체 모형 문헌은 “확인 예정 / 기억에 의존”이며 인용 전 원문과 대조 (T24 진행 중). Onvural 1990의 DOI는 박사 논문 보고에서 Crossref로 확인. 회사·제조사·보도 자료는 T20·T21 보고서 출처표에 따름.</span></p>
+  <aside class="notes">
+    <p lang="zh">参考文献第一页。排队理论的几篇按审核意见标为待核，引用前要对照原文，文献库正在做。</p>
+    <p lang="en">References, page one. The queueing-theory works are marked to verify, following the review; the literature library is checking them against the originals.</p>
+    <p lang="ko">참고문헌 첫 쪽입니다. 대기행렬 이론 문헌은 검토 의견에 따라 확인 예정으로 표시했고, 문헌 라이브러리가 원문과 대조하고 있습니다.</p>
+  </aside>
+</section>
+
+<section class="slide" data-sec="ref">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">参考文献（2/2）</span><span lang="en">References (2/2)</span><span lang="ko">참고문헌 (2/2)</span></h2>
+  <div class="content" style="grid-template-rows:auto auto;align-content:start;gap:12px;margin-top:14px">
+    <ol class="refs" start="14" style="font-size:16.5px;line-height:1.56">
+      <li>Roh, M.-I., Cha, J.-H. (2011). A block transportation scheduling system considering a minimisation of travel distance without loading of and interference between multiple transporters. <i>Int. J. Production Research</i> 49(11), 3231–3250. doi:10.1080/00207543.2010.484427</li>
+      <li>Roh, M.-I., Lee, K.-Y. (2006). 초기 선체 구조 모델을 기반으로 한 선체 블록의 물량 정보 생성 및 블록 탑재 시뮬레이션. <i>J. Society of Naval Architects of Korea</i> 43(1), 103–118. doi:10.3744/snak.2006.43.1.103</li>
+      <li>Rybko, A.N., Stolyar, A.L. (1992). Ergodicity of stochastic processes describing the operation of open queueing networks. <i>Problems of Information Transmission</i> 28(3), 199–220. <b>[待核 · to verify]</b></li>
+      <li>Seoul Shinmun 서울신문 (2024-08-28). Report on Hanwha Ocean's Geoje yard (“1도크는 LNG운반선을 동시에 4척 건조하는 체계”).</li>
+      <li>Shen, H., Jeong, Y.-K., Shin, J.G., Lee, P., Woo, J.H., Lee, Y.G., Kim, S.H., Jeong, J.H. (2018). Key performance indicators and analysis method for ship block logistics flow in shipyards. <i>Proc. 2018 Winter Simulation Conference</i>.</li>
+      <li>Shinailbo 신아일보 (2020-02-24). Report on Daewoo's Okpo yard (“드라이도크장 2기 … 플로팅도크장 3기”).</li>
+      <li>The Motorship. Konecranes to supply Korean shipyard (900 t crane, “span over 148 m”).</li>
+      <li>UIC (2013). <i>UIC Code 406: Capacity</i>, 2nd ed. International Union of Railways, Paris.</li>
+      <li>Yim, S.-B., Roh, M.-I., Cha, J.-H., Lee, K.-Y. (2008). 트랜스포터의 공주행 최소화를 고려한 블록 운반 계획 최적화. <i>J. Society of Naval Architects of Korea</i> 45(6), 646–655.</li>
+      <li>Zhang, S. 张水根 (2025). 大型船海装备制造场地智慧调度与优化系统设计及实现. 硕士学位论文, 沈阳工业大学. doi:10.27322/d.cnki.gsgyu.2025.000182</li>
+      <li>中集来福士 CIMC Raffles (2012-07-11). 海工基地项目环境影响评价第二次信息公告 (2 × 370 t gantry, 20,000 t bridge crane).</li>
+    </ol>
+    </div>
+  <p class="src"><span lang="zh">数据：thesis-core 提交 83c16bf（T20–T21，均经总控复核）的 results/t21_report_9eb8bf099d3a、1b06c6d46f0d、87d02d32bc13、a0ab16fceb94、49d2383872e7；研究宣言 v1（标签 manifesto-v1）；作者审核意见与后续指导（2026-10-09，附录 A 探针）。路网由作者在公开影像上标注，本汇报不显示影像与路网几何。Roh &amp; Lee 2006 与大宇专利的页码、原文见 T21 报告第 12 节。</span><span lang="en">Data: thesis-core commit 83c16bf (T20–T21, each reviewed by the project control): results/t21_report_9eb8bf099d3a, 1b06c6d46f0d, 87d02d32bc13, a0ab16fceb94, 49d2383872e7; research manifesto v1 (tag manifesto-v1); the author's review and guidance (9 Oct 2026, appendix A probe). Networks were traced by the author on public imagery; neither imagery nor network geometry is shown. Pages and quotations of Roh &amp; Lee 2006 and the DSME patent in the T21 report §12.</span><span lang="ko">데이터: thesis-core 커밋 83c16bf (T20–T21, 모두 프로젝트 관리 검토)의 results/t21_report_9eb8bf099d3a, 1b06c6d46f0d, 87d02d32bc13, a0ab16fceb94, 49d2383872e7, 연구 선언 v1 (태그 manifesto-v1), 저자 검토 의견과 후속 지침 (2026-10-09, 부록 A 탐침). 도로망은 저자가 공개 영상에서 표시했으며 영상과 도로망 형상은 싣지 않는다. Roh &amp; Lee 2006과 대우 특허의 쪽수·원문은 T21 보고서 §12.</span></p>
+  <aside class="notes">
+    <p lang="zh">参考文献第二页和数据来源。图表的数字都由 make_data.py 从已复核的提交 83c16bf 和作者审核意见的表格生成，不手抄。</p>
+    <p lang="en">References, page two, and the data. Every number in the charts is generated by make_data.py from the reviewed commit 83c16bf and the tables of the author's review, not typed by hand.</p>
+    <p lang="ko">참고문헌 둘째 쪽과 데이터 출처입니다. 그림의 수치는 모두 make_data.py가 검토된 커밋 83c16bf와 저자 검토 의견의 표에서 생성하며 손으로 옮기지 않았습니다.</p>
+  </aside>
+</section>
+
+<!-- close -->
+<section class="slide" data-sec="end">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">小结：坞口这一节要回答的，是“在哪里等、怎样分段”</span><span lang="en">To close: the dock-mouth section answers “where to wait, and how to split the road”</span><span lang="ko">정리: 도크 입구 절이 답할 것은 “어디서 기다리고, 도로를 어떻게 나누나”</span></h2>
+  <div class="content" style="grid-template-rows:auto auto auto;align-content:center;gap:20px">
+    <div class="cols3">
+      <div class="card sumc"><span class="k">1</span><p style="font-size:17px"><span lang="zh">吊车进了模型：搭载按吊车节拍，跨内跨外按地图，ρ 一个参数把船厂放到曲线上。</span><span lang="en">The crane is in the model: erections at crane cadence, in- and out-of-span from the map, and one parameter ρ places a yard on the curve.</span><span lang="ko">크레인이 모형에 들어왔다: 크레인 주기 탑재, 지도로 정한 스팬 안팎, ρ 하나로 조선소를 곡선 위에 놓는다.</span></p></div>
+      <div class="card sumc"><span class="k">2</span><p style="font-size:17px"><span lang="zh">机理已显形：路外等待时平台不随 ρ 变；车占着坞前道路等吊车时（参照规则、道路整段），吊车排队传到全厂。</span><span lang="en">The mechanism shows: with off-road waiting the plateau does not move with ρ; when vehicles hold the dock road while waiting (reference rule, whole road), the crane queue reaches the yard.</span><span lang="ko">메커니즘이 드러났다: 도로 밖에서 기다리면 평탄 구간은 ρ에 따라 변하지 않고, 차가 도크 앞 도로를 점유한 채 기다리면 (참조 규칙, 도로 전 구간) 크레인 대기열이 조선소 전체로 번진다.</span></p></div>
+      <div class="card sumc"><span class="k">3</span><p style="font-size:17px"><span lang="zh">接下来在物理规则与分段道路上定量，配上三资源小网络的门槛 ρ*，做成第 3 章的坞口节与第 5 章的设计规则。</span><span lang="en">Next, quantify it under physical rules and a split road, add the threshold ρ* of the three-resource network, and turn it into chapter 3's dock section and chapter 5's design rules.</span><span lang="ko">다음은 물리 규칙과 분할 도로에서 정량화하고 세 자원 소형 망의 임계값 ρ*를 더해 3장 도크 입구 절과 5장 설계 규칙으로 만든다.</span></p></div>
+    </div>
+    <div class="golinks"><a class="tbtn golink" href="../thesis/"><span lang="zh">← 返回博士论文总汇报</span><span lang="en">← Back to the thesis briefing</span><span lang="ko">← 박사 논문 전체 보고로</span></a><a class="tbtn golink" href="../capacity/"><span lang="zh">运力区间 →</span><span lang="en">Capacity interval →</span><span lang="ko">운송 능력 구간 →</span></a><a class="tbtn golink" href="../orchestration/"><span lang="zh">交通编排 →</span><span lang="en">Traffic orchestration →</span><span lang="ko">교통 편성 →</span></a><a class="tbtn golink" href="../codesign/"><span lang="zh">车队与路网协同设计 →</span><span lang="en">Fleet–network co-design →</span><span lang="ko">차량군·도로망 협동 설계 →</span></a><a class="tbtn golink" href="../fleet/"><span lang="zh">车队配置（MY-B）：组队联运 →</span><span lang="en">Fleet sizing (MY-B): coupled carriage →</span><span lang="ko">차량군 산정 (MY-B): 결합 운송 →</span></a></div>
+    <div class="d" style="font-size:26px;font-weight:700;color:var(--ink3)"><span lang="zh">谢谢，请老师指正。</span><span lang="en">Thank you.</span><span lang="ko">감사합니다.</span></div>
+  </div>
+  <p class="src"><span lang="zh">来源：本汇报各页。相邻分项：运力区间（../capacity/，ρ 曲线所在的运力区间与 H1）、交通编排（../orchestration/，安全放行与等待点）、车队与路网协同设计（../codesign/，坞前待命位与路—车汇率）；车队配置论文（../fleet/）与 H7 的组队联运相接。</span><span lang="en">Sources: the slides of this briefing. Neighbouring sub-studies: capacity interval (../capacity/, the interval and H1 behind the ρ curve), traffic orchestration (../orchestration/, safe release and waiting points), fleet–network co-design (../codesign/, holding bays and the road–vehicle exchange rate); the fleet-sizing paper (../fleet/) links to H7's coupled carriage.</span><span lang="ko">출처: 이 보고의 각 장. 인접 세부 연구: 운송 능력 구간 (../capacity/, ρ 곡선 뒤의 구간과 H1), 교통 편성 (../orchestration/, 안전 출발과 대기 지점), 차량군·도로망 협동 설계 (../codesign/, 도크 앞 대기 자리와 도로–차량 환율), 차량군 산정 논문 (../fleet/)은 H7 결합 운송과 연결.</span></p>
+  <aside class="notes">
+    <p lang="zh">小结三点。第一，吊车已经进了模型，一个 ρ 就能把一座船厂放到坞口曲线上。第二，机理已经显形：车在路外等，平台不随 ρ 变；车占着坞前道路等吊车，吊车排队就传到全厂，这是参照规则和整段道路下的读数，物理规则下由 T22 定量。第三，接下来在物理规则和分段道路上把它定量，配上三资源小网络的门槛，做成第 3 章的坞口节和第 5 章的设计规则。可以从这里回到博士论文的总汇报，或者打开相邻的运力区间、交通编排和协同设计三份分项汇报，以及车队配置论文里的组队联运。谢谢，请老师指正。</p>
+    <p lang="en">Three points to close. First, the crane is now in the model, and a single ρ places a yard on the dock-mouth curve. Second, the mechanism shows: with vehicles waiting off-road the plateau does not move with ρ; when they hold the dock road while waiting for the crane, the queue reaches the yard — a reading under the reference rule and the whole road, which T22 quantifies under physical rules. Third, next we quantify it under physical rules and a split road, add the threshold of the three-resource network, and turn it into chapter 3's dock section and chapter 5's design rules. From here you can go back to the thesis briefing, open the neighbouring sub-studies on the capacity interval, orchestration and co-design, or the coupled carriage of the fleet-sizing paper. Thank you.</p>
+    <p lang="ko">세 가지로 정리합니다. 첫째, 크레인이 모형에 들어와 ρ 하나로 조선소를 도크 입구 곡선 위에 놓을 수 있습니다. 둘째, 메커니즘이 드러났습니다: 차가 도로 밖에서 기다리면 평탄 구간은 ρ에 따라 변하지 않고, 도크 앞 도로를 점유한 채 크레인을 기다리면 대기열이 조선소 전체로 번집니다. 이는 참조 규칙과 도로 전 구간에서의 판독이며, 물리 규칙에서의 정량은 T22가 맡습니다. 셋째, 다음은 물리 규칙과 분할 도로에서 정량화하고 세 자원 소형 망의 임계값을 더해 3장 도크 입구 절과 5장 설계 규칙으로 만듭니다. 여기서 박사 논문 전체 보고, 인접한 운송 능력 구간·교통 편성·협동 설계 세부 보고, 차량군 산정 논문의 결합 운송으로 갈 수 있습니다. 감사합니다.</p>
+  </aside>
+</section>
+
+</main>
+
+<dl id="glossary" hidden>
+  <dt><span lang="zh">坞口</span><span lang="en">Dock mouth</span><span lang="ko">도크 입구</span></dt>
+  <dd><span lang="zh">坞的吊车与坞前停靠路段串联而成的局部系统。</span><span lang="en">The local system formed by a dock's cranes in series with the dock stopping road.</span><span lang="ko">도크의 크레인과 도크 앞 정차 구간이 직렬로 이룬 국지 시스템.</span></dd>
+  <dt><span lang="zh">搭载（P6）</span><span lang="en">Erection (P6)</span><span lang="ko">탑재 (P6)</span></dt>
+  <dd><span lang="zh">把总组好的分段吊入坞内合拢的流向；MY-B 流向编号中的第 6 类。</span><span lang="en">The flow that lifts assembled blocks into the dock for joining; flow 6 in MY-B's numbering.</span><span lang="ko">총조립한 블록을 도크에 들여 결합하는 흐름, MY-B 흐름 번호의 6번.</span></dd>
+  <dt><span lang="zh">吊车利用率 ρ</span><span lang="en">Crane utilisation ρ</span><span lang="ko">크레인 이용률 ρ</span></dt>
+  <dd><span lang="zh">每天搭载数 × 190 min ÷（吊车台数 × 960 min）：名义负荷，不计道路。</span><span lang="en">Erections a day × 190 min ÷ (cranes × 960 min): the nominal load, ignoring roads.</span><span lang="ko">하루 탑재 수 × 190분 ÷ (크레인 대수 × 960분): 도로를 빼고 본 명목 부하.</span></dd>
+  <dt><span lang="zh">跨内吊运 / 跨外</span><span lang="en">In-span lift / out of span</span><span lang="ko">스팬 내 인양 / 스팬 밖</span></dt>
+  <dd><span lang="zh">总组场地在龙门吊跨区内（覆盖 ≥ 0.5）时由吊车直接吊运、不派车；否则由平板车送到坞边。</span><span lang="en">If the assembly site lies within the gantry span (cover ≥ 0.5), the crane lifts the block directly with no transporter; otherwise a transporter takes it to the dock edge.</span><span lang="ko">총조립장이 갠트리 스팬 안 (피복 ≥ 0.5)이면 크레인이 바로 인양하고 차량을 쓰지 않으며, 아니면 트랜스포터가 도크 가장자리로 옮긴다.</span></dd>
+  <dt><span lang="zh">整条路径预约</span><span lang="en">Whole-route reservation</span><span lang="ko">전체 경로 예약</span></dt>
+  <dd><span lang="zh">载货出发前把整条路径（含吊车时段）一次订好、就时出发；不会死锁，车在路外等。</span><span lang="en">Book the whole route (with the crane slot) before a loaded departure and leave just in time; deadlock-free, vehicles wait off-road.</span><span lang="ko">적재 출발 전에 전체 경로 (크레인 시간대 포함)를 한 번에 예약하고 제때 출발, 교착 없음, 차는 도로 밖에서 대기.</span></dd>
+  <dt><span lang="zh">逐段申请（参照规则：瞬移疏解）</span><span lang="en">Segment request (reference rule, teleport clearing)</span><span lang="ko">구간별 요청 (참조 규칙: 순간이동 해소)</span></dt>
+  <dd><span lang="zh">走一段申请一段；死锁 900 s 后让车离开路网。只作参照，不单独支撑任何 C 或 H 的结论。</span><span lang="en">Request one segment at a time; after 900 s a deadlocked vehicle leaves the network. A reference only; it supports no C or H conclusion on its own.</span><span lang="ko">구간마다 차례로 요청하고 교착 900초 후 차가 도로망을 떠난다. 참조용이며 C나 H의 결론을 단독으로 뒷받침하지 않는다.</span></dd>
+  <dt><span lang="zh">安全放行 segment_safe</span><span lang="en">Safe release, segment_safe</span><span lang="ko">안전 출발 segment_safe</span></dt>
+  <dd><span lang="zh">逐段申请，但只在放行后系统仍处于安全状态时放行（Banker 型死锁避免）；车不离开路网（T22）。</span><span lang="en">Segment request that grants a request only if the system stays in a safe state (Banker-type deadlock avoidance); no vehicle leaves the network (T22).</span><span lang="ko">구간별 요청이되 허가 후에도 안전 상태일 때만 허가 (Banker형 교착 회피), 차가 도로망을 떠나지 않음 (T22).</span></dd>
+  <dt><span lang="zh">分段闭塞</span><span lang="en">Sectioned road (block sections)</span><span lang="ko">구간 폐색</span></dt>
+  <dd><span lang="zh">把长路段在停靠点前后切成多个资源，车只占所在的段；借自铁路闭塞区段。</span><span lang="en">Splitting a long road into several resources around its stops so a vehicle holds only its section; borrowed from railway block sections.</span><span lang="ko">긴 도로를 정차 지점 앞뒤로 여러 자원으로 나눠 차가 있는 구간만 점유, 철도 폐색 구간에서 차용.</span></dd>
+  <dt><span lang="zh">待命区容量 S 与 K₀(S)</span><span lang="en">Holding-area capacity S and K₀(S)</span><span lang="ko">대기 구역 용량 S와 K₀(S)</span></dt>
+  <dd><span lang="zh">不占路的待命位数 S；吞吐开始随车数下降的车数 K₀，随 S 右移。</span><span lang="en">The number S of off-road holding places; K₀ is the fleet size beyond which throughput falls, moving right with S.</span><span lang="ko">도로를 점유하지 않는 대기 자리 수 S, 처리량이 차량 수에 따라 떨어지기 시작하는 차량 수 K₀는 S에 따라 오른쪽으로 이동.</span></dd>
+  <dt><span lang="zh">吊车饥饿率</span><span lang="en">Crane starvation rate</span><span lang="ko">크레인 기아율</span></dt>
+  <dd><span lang="zh">吊车空着、同时有已放出但未开吊的搭载的时间比例；坞口命题的观测量（T22）。</span><span lang="en">The share of time a crane is free while a released erection has not started; the observable of the dock-mouth proposition (T22).</span><span lang="ko">크레인이 비어 있는데 출발한 탑재가 아직 시작하지 못한 시간 비율, 도크 입구 명제의 관측량 (T22).</span></dd>
+  <dt><span lang="zh">饱和平台与稳态判据</span><span lang="en">Saturated plateau and steady-state test</span><span lang="ko">포화 평탄 구간과 정상 상태 판정</span></dt>
+  <dd><span lang="zh">任务不断供时 K = 100–150 的平均日吞吐；读数须满足组合偏移 ≤ 2%、逐日趋势 ≤ 5%。</span><span lang="en">Mean daily throughput over K = 100–150 when tasks never run out; a reading must have mix shift ≤ 2% and daily trend ≤ 5%.</span><span lang="ko">작업이 끊이지 않을 때 K = 100–150의 평균 일일 처리량, 판독은 조합 편차 ≤ 2%, 일별 추세 ≤ 5%를 만족해야 한다.</span></dd>
+  <dt><span lang="zh">浮坞</span><span lang="en">Floating dock</span><span lang="ko">플로팅 도크</span></dt>
+  <dd><span lang="zh">水上的坞；模型中为码头侧汇点加浮吊资源，巨型分段由多车联运到码头前沿。</span><span lang="en">A dock afloat; in the model a quay-side sink plus a floating-crane resource, with giant blocks carried to the quay by coupled transporters.</span><span lang="ko">물 위의 도크, 모형에서는 부두 측 도착점과 해상 크레인 자원이며 거대 블록은 결합한 트랜스포터로 부두 전면까지 운송.</span></dd>
+</dl>
+
+<script src="data.js"></script>
+<script src="../shared/deck-core.js"></script>
+<script src="deck.js"></script>

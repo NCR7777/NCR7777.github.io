@@ -1,0 +1,73 @@
+/* Bound deck only. */
+.rules{display:flex;flex-direction:column;gap:8px}
+.rl{display:grid;grid-template-columns:190px 1fr;gap:12px;align-items:center;padding:9px 12px;background:var(--panel);border-left:5px solid var(--c);border-radius:4px;font-size:15.5px;line-height:1.42;color:var(--ink2)}
+.rl b{color:var(--ink);font-size:16px}
+.rl .pill{margin-top:4px}
+.tbl.thm{font-size:14.5px}
+.tbl.thm td{padding:7px 8px;line-height:1.36}
+.tbl.thm td:first-child{white-space:nowrap}
+.tbl.thm td:last-child{white-space:nowrap}
+[data-lang="zh"] .tbl.thm{font-size:15.5px}
+.tbl.sens{font-size:15px}
+.tbl.sens td{padding:6px 8px}
+.tbl.sens td:first-child{font-family:var(--body);font-weight:400;color:var(--ink2)}
+.tbl.sens td.mono{text-align:right;color:var(--ink)}
+.tbl.sens th:not(:first-child){text-align:right}
+.tbl.plan{font-size:14.5px}
+.tbl.plan td{padding:6px 8px;line-height:1.34}
+.tbl.plan td:first-child{white-space:nowrap}
+.tbl.plan td:last-child{white-space:nowrap}
+[data-lang="zh"] .tbl.plan{font-size:15.5px}
+.tbl.src2{font-size:14.5px}
+.tbl.src2 td{padding:6px 8px;line-height:1.34}
+.tbl.src2 td:first-child{font-family:var(--body);white-space:normal;font-weight:500}
+[data-lang="zh"] .tbl.src2{font-size:15.5px}
+.tbl.jr{font-size:16px}
+.tbl.jr td{padding:9px 8px;line-height:1.38}
+.tbl.jr td:first-child{font-family:var(--body);white-space:nowrap;font-weight:600}
+.tbl.jr td:nth-child(2){white-space:nowrap;color:var(--ink);font-weight:600}
+.box{background:var(--panel);border-radius:6px;padding:12px 16px;display:flex;flex-direction:column;gap:6px}
+.box h3{margin:0;font-size:18px;color:var(--ink)}
+.box p{margin:0;font-size:15.5px;line-height:1.5;color:var(--ink2)}
+.box.c1{border-left:5px solid var(--amber-hi)}
+.box.c1 p{color:var(--ink);font-size:16.5px}
+.aa{display:grid;grid-template-columns:52px 1fr;gap:4px 10px;font-size:15.5px;line-height:1.45;color:var(--ink2)}
+.aa b{font-family:var(--mono);color:var(--ink);font-weight:600}
+.cov{display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:center;font-size:15px;line-height:1.4;color:var(--ink2)}
+.cov .pill{justify-self:end}
+.eqb{font-family:var(--mono);font-size:15px;line-height:1.6;background:var(--panel);border-radius:4px;padding:10px 14px;color:var(--ink);white-space:pre}
+.eqb i{font-style:normal;color:var(--ink3)}
+.rows3{display:flex;flex-direction:column;gap:8px}
+.r3{display:grid;grid-template-columns:150px 1fr;gap:10px;padding:8px 12px;border-left:5px solid var(--c);background:var(--panel);border-radius:4px;font-size:15px;line-height:1.45;color:var(--ink2)}
+.r3 b{color:var(--ink);font-size:15.5px}
+.r3 b small{display:block;font-weight:400;color:var(--ink3);font-size:13px;margin-top:2px}
+.yg{padding:12px 16px;background:var(--panel);border-radius:6px;border-left:5px solid var(--c);display:flex;flex-direction:column;gap:6px}
+.yg h3{margin:0;font-size:18px;color:var(--ink)}
+.yg p{margin:0;font-size:15px;line-height:1.48;color:var(--ink2)}
+.yg p.chk{color:var(--ink);background:var(--good-soft);border-radius:4px;padding:6px 10px}
+.vsteps{display:flex;flex-direction:column;gap:8px;counter-reset:vs}
+.vsteps div{display:grid;grid-template-columns:38px 1fr;gap:10px;align-items:center;padding:9px 12px;background:var(--panel);border-radius:6px;font-size:16px;line-height:1.45;color:var(--ink2)}
+.vsteps div::before{counter-increment:vs;content:counter(vs);font-family:var(--d-en);font-size:28px;font-weight:700;color:var(--steel);line-height:1}
+.vsteps div:last-child{background:var(--amber-soft)}
+.vsteps div:last-child::before{color:var(--amber)}
+.vsteps b{color:var(--ink)}
+.done{display:flex;flex-direction:column;gap:7px}
+.done div{display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:15.5px;line-height:1.45;color:var(--ink2)}
+.done div::before{content:"✓";color:var(--good);font-weight:700;font-size:17px}
+.limits{font-size:14.5px;line-height:1.5;color:var(--ink2);border-left:4px solid var(--oxide);padding:6px 0 6px 12px;background:var(--oxide-soft);border-radius:0 4px 4px 0}
+.limits b{color:var(--ink)}
+.golink{align-self:flex-start;font-size:15px;padding:8px 14px}
+.golinks{display:flex;gap:10px;flex-wrap:wrap}
+#seedRead .stat .num,#chkRead .stat .num{font-size:40px}
+#seedRead .stat p,#chkRead .stat p{font-size:15.5px}
+.flow .rl,.flow .r3,.flow .aa{grid-template-columns:minmax(0,1fr)}
+.flow .eqb{white-space:pre-wrap}
+/* Chinese runs shorter than English and Korean: larger type where the slide has room */
+[data-lang="zh"] .rl,[data-lang="zh"] .rl b{font-size:16.5px}
+[data-lang="zh"] .aa,[data-lang="zh"] .box p,[data-lang="zh"] .done div,[data-lang="zh"] .yg p,[data-lang="zh"] .tbl.src2{font-size:16.5px}
+[data-lang="zh"] .cov,[data-lang="zh"] .tbl.plan{font-size:16px}
+[data-lang="zh"] .vsteps div{font-size:17.5px}
+[data-lang="zh"] .limits,[data-lang="zh"] .r3{font-size:15.5px}
+[data-lang="zh"] .tbl.jr{font-size:18px}
+[data-lang="zh"] .tbl.jr td{padding:11px 8px}
+[data-lang="ko"] .slide{word-break:keep-all}

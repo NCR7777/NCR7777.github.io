@@ -1,0 +1,620 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Occupancy Model and Bounds</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="../shared/favicon.svg" type="image/svg+xml">
+<script src="../shared/lang.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../shared/deck.css">
+<link rel="stylesheet" href="bound.css">
+
+<main id="deck" data-pdf="Occupancy_Model_and_Bounds" data-home="../">
+<div class="brand-src" hidden><b>OCCUPANCY MODEL &amp; BOUNDS</b><span lang="zh">占路运输模型与路网上界 · 分项研究</span><span lang="en">Occupancy model and network bounds · sub-study</span><span lang="ko">점유 운송 모형과 도로망 상한 · 세부 연구</span></div>
+
+<!-- 01 cover -->
+<section class="slide cover" data-sec="cover">
+  <div class="left">
+    <div class="kick"><span lang="zh">分项研究汇报 · 2026 年 10 月</span><span lang="en">Sub-study briefing · October 2026</span><span lang="ko">세부 연구 보고 · 2026년 10월</span></div>
+    <h1 class="d">
+      <span lang="zh">车把路占了，<br>路网每天最多<br>能运多少？</span>
+      <span lang="en">When transporters own the road, how much can the network carry in a day?</span>
+      <span lang="ko">차가 도로를 점유할 때,<br>도로망은 하루에<br>최대 얼마나 나를까?</span>
+    </h1>
+    <p class="sub"><span lang="zh">占路运输模型与路网上界：博士论文第 2 章与第 3 章的上界节</span><span lang="en">The road-occupancy model and the network bound: thesis chapter 2 and the bound section of chapter 3</span><span lang="ko">점유 운송 모형과 도로망 상한: 박사 논문 2장과 3장의 상한 절</span></p>
+    <p class="paper">A capacity bound for shipyard road networks with shareable widths and asymmetric loaded and empty occupancy</p>
+    <div class="meta">
+      <div><b>Chunrui Na</b></div>
+      <div><span lang="zh">哈尔滨工程大学 · 南洋理工大学</span><span lang="en">Harbin Engineering University · Nanyang Technological University</span><span lang="ko">하얼빈공정대학 · 난양이공대학</span></div>
+      <div><span lang="zh">上界经两座船厂 17,760 个占路仿真点逐例核对 · thesis-core 83c16bf</span><span lang="en">Bound checked case by case on 17,760 occupancy simulation points in two yards · thesis-core 83c16bf</span><span lang="ko">두 조선소 점유 시뮬레이션 17,760점에서 상한을 사례별로 확인 · thesis-core 83c16bf</span></div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="fill"><svg viewBox="0 0 520 470" role="img" aria-label="A road segment as a width container: a loaded transporter takes most of the width, an empty one waits; below, the resource's occupancy windows over one day">
+      <text x="20" y="40" style="fill:var(--ink);font:600 15px var(--mono)"><tspan lang="zh" style="font-family:var(--f-zh)">一个资源 = 一个宽度容器</tspan><tspan lang="en">One resource = one width container</tspan><tspan lang="ko" style="font-family:var(--f-ko)">자원 하나 = 폭 컨테이너 하나</tspan></text>
+      <text class="a-fade" x="20" y="66" style="--d:1.9s;fill:var(--oxide);font:600 15px var(--mono)"><tspan lang="zh" style="font-family:var(--f-zh)">任何时刻：占用宽度之和 ≤ 容量</tspan><tspan lang="en">At every moment: widths in use ≤ capacity</tspan><tspan lang="ko" style="font-family:var(--f-ko)">모든 순간: 점유 폭의 합 ≤ 용량</tspan></text>
+      <text x="40" y="102" style="fill:var(--ink2);font:13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">容量 C = 路宽 W + 侧向净空 c</tspan><tspan lang="en">capacity C = road width W + lateral clearance c</tspan><tspan lang="ko" style="font-family:var(--f-ko)">용량 C = 도로 폭 W + 측면 여유 c</tspan></text>
+      <rect x="40" y="112" width="440" height="128" style="fill:var(--line)"/>
+      <path d="M40 112H480M40 240H480" style="stroke:var(--ink3);stroke-width:2"/>
+      <path d="M488 112H498V240H488" style="fill:none;stroke:var(--ink2);stroke-width:1.4"/>
+      <text x="503" y="181" style="fill:var(--ink);font:600 15px var(--f-latin)">C</text>
+      <g class="a-drive" style="--d:1.4s"><rect x="56" y="164" width="84" height="24" rx="3" style="fill:var(--amber-hi);stroke:var(--ink);stroke-width:1.2"/><rect x="56" y="164" width="12" height="24" style="fill:var(--ink)"/></g>
+      <g class="a-drive" style="--d:.3s"><rect x="196" y="163" width="220" height="26" rx="3" style="fill:var(--amber-hi);stroke:var(--ink);stroke-width:1.2"/><rect x="196" y="163" width="16" height="26" style="fill:var(--ink)"/></g>
+      <g class="a-drop" style="--d:.9s">
+        <rect x="222" y="119" width="168" height="114" rx="5" style="fill:var(--steel);fill-opacity:.92"/>
+        <path d="M222 157H390M222 195H390M264 119V233M306 119V233M348 119V233" style="stroke:var(--paper);stroke-opacity:.3;stroke-width:2"/>
+        <text x="306" y="181" text-anchor="middle" style="fill:var(--paper);font:600 15px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">载货占 d = B + c</tspan><tspan lang="en">loaded: d = B + c</tspan><tspan lang="ko" style="font-family:var(--f-ko)">적재 d = B + c</tspan></text>
+      </g>
+      <text class="a-fade" x="40" y="262" style="--d:1.6s;fill:var(--ink2);font:13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">空车：剩余宽度不够，等待</tspan><tspan lang="en">empty: not enough width left, waits</tspan><tspan lang="ko" style="font-family:var(--f-ko)">공차: 남은 폭 부족, 대기</tspan></text>
+      <g class="a-fade" style="--d:2.2s">
+        <text x="40" y="312" style="fill:var(--ink);font:600 14px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">这个资源的一天（H = 16 h）</tspan><tspan lang="en">This resource over one day (H = 16 h)</tspan><tspan lang="ko" style="font-family:var(--f-ko)">이 자원의 하루 (H = 16 h)</tspan></text>
+        <rect x="58" y="330" width="88" height="40" style="fill:var(--steel)"/>
+        <rect x="166" y="344" width="34" height="26" style="fill:var(--amber-hi)"/>
+        <rect x="226" y="330" width="102" height="40" style="fill:var(--steel)"/>
+        <rect x="350" y="344" width="30" height="26" style="fill:var(--amber-hi)"/>
+        <rect x="402" y="330" width="62" height="40" style="fill:var(--steel)"/>
+        <path d="M40 372H480" style="stroke:var(--ink3);stroke-width:1.4"/>
+        <text x="40" y="390" text-anchor="middle" style="fill:var(--ink2);font:12px var(--f-latin)">0</text>
+        <text x="480" y="390" text-anchor="middle" style="fill:var(--ink2);font:12px var(--f-latin)">H</text>
+        <text x="40" y="424" style="fill:var(--oxide);font:600 15px var(--mono)">Σ ℓ · u(d / C) ≤ H</text>
+        <text x="40" y="448" style="fill:var(--ink2);font:13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">每个资源一行：这就是路网上界的线性规划</tspan><tspan lang="en">One row per resource: this is the LP of the network bound</tspan><tspan lang="ko" style="font-family:var(--f-ko)">자원마다 한 행: 이것이 도로망 상한의 선형계획</tspan></text>
+      </g>
+    </svg></div>
+    <div class="stripe"></div>
+  </div>
+  <aside class="notes">
+    <p lang="zh">这是博士论文的一个分项：占路运输模型和路网上界，对应论文第 2 章和第 3 章的上界节。问题很直接：载着分段的平板车把路占了，一座船厂的路网每天最多能完成多少运输任务？右边是我们的基本做法：一条路就是一个宽度容器，任何时刻占用的宽度之和不超过容量；把一天里的占用加起来，就得到线性规划的一行。</p>
+    <p lang="en">This is one sub-study of the thesis: the road-occupancy model and the network bound, which are chapter 2 and the bound section of chapter 3. The question is direct: once loaded transporters own the road, how many transport tasks can a yard's network complete in a day? On the right is our basic idea: a road is a width container, and at every moment the widths in use cannot exceed its capacity; summing the occupancy over a day gives one row of a linear program.</p>
+    <p lang="ko">박사 논문의 세부 연구 하나입니다: 점유 운송 모형과 도로망 상한이며, 논문의 2장과 3장 상한 절에 해당합니다. 질문은 단순합니다: 블록을 실은 트랜스포터가 도로를 점유할 때, 조선소 도로망은 하루에 최대 몇 건의 운송 작업을 끝낼 수 있을까요? 오른쪽이 저희의 기본 생각입니다: 도로 하나는 폭 컨테이너이고, 어느 순간에도 점유 폭의 합은 용량을 넘을 수 없습니다. 하루 동안의 점유를 더하면 선형계획의 한 행이 됩니다.</p>
+  </aside>
+</section>
+
+<!-- one minute -->
+<section class="slide" data-sec="intro">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">一分钟看完这个分项</span><span lang="en">This sub-study in one minute</span><span lang="ko">1분 요약</span></h2>
+  <div class="content" style="grid-template-rows:auto auto;align-content:center;gap:16px">
+    <div class="cols4">
+      <div class="card sumc"><span class="k">1</span><h3><span lang="zh">问题</span><span lang="en">The question</span><span lang="ko">질문</span></h3>
+        <p><span lang="zh">载货的平板车独占路段与路口时，船厂路网每天最多能完成多少运输任务？上界要对一类交通规则都成立，还要指出卡在哪里。</span><span lang="en">When loaded transporters hold segments and junctions exclusively, how many tasks a day can a yard's network complete? The bound should hold for a whole class of traffic rules and show where it binds.</span><span lang="ko">적재 트랜스포터가 구간과 교차로를 독점할 때, 조선소 도로망은 하루에 최대 몇 건을 끝낼 수 있을까? 상한은 한 부류의 통행 규칙 전체에 성립하고, 어디서 걸리는지도 보여야 한다.</span></p></div>
+      <div class="card sumc"><span class="k">2</span><h3><span lang="zh">模型</span><span lang="en">The model</span><span lang="ko">모형</span></h3>
+        <p><span lang="zh">路段、路口、停靠位都是宽度容器，车按阻塞时间（通过 + 净空，路口加转弯扫过）占用；载货与空驶占宽不同。</span><span lang="en">Segments, junctions and stops are width containers, held for a blocking time (passage plus clearance, plus the turn sweep at junctions); loaded and empty vehicles take different widths.</span><span lang="ko">구간, 교차로, 정차 위치는 폭 컨테이너이고, 차량은 차단 시간 (통과 + 여유, 교차로는 회전 시간 추가) 동안 점유한다. 적재와 공차의 점유 폭이 다르다.</span></p></div>
+      <div class="card sumc"><span class="k">3</span><h3><span lang="zh">结果</span><span lang="en">The result</span><span lang="ko">결과</span></h3>
+        <p><span lang="zh">T1′：占用率线性规划加宽度装箱行、吊车行与窗口边界项。玉浦 1,997 → 1,720 个/日（收紧 14%）；两厂 17,760 个占路仿真点无一超出。</span><span lang="en">T1′: the occupancy-rate LP plus width bin-packing rows, crane rows and a window edge term. Okpo 1,997 → 1,720 tasks a day (14% tighter); none of 17,760 occupancy simulation points in two yards exceeds it.</span><span lang="ko">T1′: 점유율 LP에 폭 빈 패킹 행, 크레인 행, 창 경계항을 더했다. 옥포 하루 1,997 → 1,720건 (14% 강화), 두 조선소 점유 시뮬레이션 17,760점 중 넘는 점이 없다.</span></p></div>
+      <div class="card sumc"><span class="k">4</span><h3><span lang="zh">接下来</span><span lang="en">Next</span><span lang="ko">다음</span></h3>
+        <p><span lang="zh">无抽样噪声的系统 T1′ 与路线自由的 T1″（T23）；不瞬移的安全放行规则 segment_safe（T22）；作者重写证明。</span><span lang="en">A system T1′ without sampling noise and the route-free T1″ (T23); the safe-release rule segment_safe, with no teleport (T22); the author rewrites the proof.</span><span lang="ko">표본 잡음 없는 시스템 T1′과 경로 자유 T1″ (T23), 순간이동 없는 안전 허가 규칙 segment_safe (T22), 저자의 증명 재작성.</span></p></div>
+    </div>
+    <p class="quote"><span lang="zh">上界给出运力区间的上沿，并指出卡在哪一段路、哪一个门。</span><span lang="en">The bound is the upper edge of the capacity interval, and it names the road or the door where capacity binds.</span><span lang="ko">상한은 운송 능력 구간의 위쪽 끝이며, 어느 도로, 어느 문에서 걸리는지 알려 준다.</span></p>
+  </div>
+  <p class="src"><span lang="zh">来源：thesis-core 提交 83c16bf（T18 报告第 0、2 节；T21 报告第 0 节第 6 条）；T22、T23 任务说明（00_总控/runs/2026-10-09_T22_prompt.md、2026-10-09_T23_prompt.md），两项都在进行中。</span><span lang="en">Sources: thesis-core commit 83c16bf (T18 report §0 and §2; T21 report §0 item 6); T22 and T23 task statements (00_总控/runs/2026-10-09_T22_prompt.md, 2026-10-09_T23_prompt.md), both in progress.</span><span lang="ko">출처: thesis-core 커밋 83c16bf (T18 보고서 §0·§2, T21 보고서 §0 6항), T22·T23 작업 지시 (00_总控/runs/2026-10-09_T22_prompt.md, 2026-10-09_T23_prompt.md), 두 작업 모두 진행 중.</span></p>
+  <aside class="notes">
+    <p lang="zh">一分钟版本。问题：载货车独占道路时，路网每天最多能完成多少任务，而且上界要对一类规则都成立、能指出卡在哪里。模型：路段、路口、停靠位都是宽度容器，按阻塞时间占用。结果：我们在占用率线性规划上加了三类行，玉浦的上界收紧了 14%，两座船厂一万七千多个仿真点没有一个超出。接下来是系统 T1′、路线自由的 T1″ 和不瞬移的安全放行规则。</p>
+    <p lang="en">The one-minute version. The question: when loaded vehicles own the road, how many tasks a day can the network complete, with a bound that holds for a class of rules and shows where it binds. The model: segments, junctions and stops are width containers held for blocking times. The result: we added three kinds of rows to the occupancy-rate LP; Okpo's bound is 14% tighter, and none of more than seventeen thousand simulation points in two yards exceeds it. Next come the system T1′, the route-free T1″ and a safe-release rule without teleport.</p>
+    <p lang="ko">1분 요약입니다. 질문: 적재 차량이 도로를 독점할 때 도로망이 하루에 몇 건을 끝낼 수 있는지, 그리고 그 상한이 한 부류의 규칙 전체에 성립하고 어디서 걸리는지 보여야 합니다. 모형: 구간, 교차로, 정차 위치는 차단 시간 동안 점유되는 폭 컨테이너입니다. 결과: 점유율 LP에 세 종류의 행을 더해 옥포의 상한이 14% 강화됐고, 두 조선소의 시뮬레이션 1만 7천여 점 중 넘는 점이 없습니다. 다음은 시스템 T1′, 경로 자유 T1″, 순간이동 없는 안전 허가 규칙입니다.</p>
+  </aside>
+</section>
+
+<!-- agenda -->
+<section class="slide" data-sec="intro">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">汇报顺序（点击跳转）</span><span lang="en">The order of this briefing (click to jump)</span><span lang="ko">보고 순서 (클릭하면 이동)</span></h2>
+  <div class="content" style="align-content:center">
+    <ol class="agenda a7">
+      <li data-go="q" tabindex="0"><span class="an">1</span><div><h3><span lang="zh">问题与定位</span><span lang="en">Question and place in the thesis</span><span lang="ko">질문과 논문 내 위치</span></h3><p><span lang="zh">C1、定理清单与本分项在论文中的位置</span><span lang="en">C1, the theorem list and where this sub-study sits</span><span lang="ko">C1, 정리 목록, 이 세부 연구의 위치</span></p></div><span class="pg"></span></li>
+      <li data-go="model" tabindex="0"><span class="an">2</span><div><h3><span lang="zh">占路模型</span><span lang="en">The occupancy model</span><span lang="ko">점유 모형</span></h3><p><span lang="zh">宽度容器、阻塞时间、不对称占用、交通规则与成立条件</span><span lang="en">Width containers, blocking times, asymmetric occupancy, traffic rules and conditions</span><span lang="ko">폭 컨테이너, 차단 시간, 비대칭 점유, 통행 규칙과 성립 조건</span></p></div><span class="pg"></span></li>
+      <li data-go="bound" tabindex="0"><span class="an">3</span><div><h3><span lang="zh">路网上界 T1′</span><span lang="en">The network bound T1′</span><span lang="ko">도로망 상한 T1′</span></h3><p><span lang="zh">线性规划与三类新增行、两厂读数、逐例核对</span><span lang="en">The LP and its three new kinds of rows, readings on two yards, the case-by-case check</span><span lang="ko">선형계획과 새 행 세 종류, 두 조선소 판독, 사례별 확인</span></p></div><span class="pg"></span></li>
+      <li data-go="robust" tabindex="0"><span class="an">4</span><div><h3><span lang="zh">稳健性与关键要素</span><span lang="en">Robustness and key elements</span><span lang="ko">강건성과 핵심 요소</span></h3><p><span lang="zh">道路161 的三种改动；取紧要素与复核步骤</span><span lang="en">Three changes to road 161; binding elements and the review step</span><span lang="ko">도로161의 세 가지 변경, 결속 요소와 검토 단계</span></p></div><span class="pg"></span></li>
+      <li data-go="plan" tabindex="0"><span class="an">5</span><div><h3><span lang="zh">进度与下一步</span><span lang="en">Progress and next steps</span><span lang="ko">진행과 다음 단계</span></h3><p><span lang="zh">已成立的部分；T22–T25 与论文产出</span><span lang="en">What stands; T22–T25 and what they feed in the thesis</span><span lang="ko">성립한 부분, T22–T25와 논문 산출</span></p></div><span class="pg"></span></li>
+      <li data-go="pos" tabindex="0"><span class="an">6</span><div><h3><span lang="zh">定位与去向</span><span lang="en">Positioning and venues</span><span lang="ko">위치와 투고처</span></h3><p><span lang="zh">新意、迁移来源、候选期刊</span><span lang="en">What is new, sources we build on, candidate journals</span><span lang="ko">새로운 점, 이전 출처, 후보 학술지</span></p></div><span class="pg"></span></li>
+    </ol>
+  </div>
+  <p class="src"><span lang="zh">来源：本汇报各部分。结果读自 thesis-core 提交 83c16bf（T17–T21，已复核）与作者审核意见（2026-10-09）附录 A；论断与定理的表述以研究宣言 v1 为准。</span><span lang="en">Sources: the parts of this briefing. Results are read from thesis-core commit 83c16bf (T17–T21, reviewed) and appendix A of the author's review (9 Oct 2026); claims and theorems are worded as in manifesto v1.</span><span lang="ko">출처: 이 보고의 각 부분. 결과는 thesis-core 커밋 83c16bf (T17–T21, 검토 완료)와 저자 검토 의견 (2026-10-09) 부록 A에서 읽었고, 논제와 정리의 서술은 연구 선언 v1을 따른다.</span></p>
+  <aside class="notes">
+    <p lang="zh">汇报分六部分：问题与定位；占路模型；路网上界 T1′；稳健性与关键要素；进度与下一步；最后是定位和候选期刊。点击任一项可以跳过去。</p>
+    <p lang="en">Six parts: the question and its place in the thesis; the occupancy model; the network bound T1′; robustness and key elements; progress and next steps; and finally positioning and candidate journals. Click any item to jump.</p>
+    <p lang="ko">여섯 부분입니다: 질문과 위치, 점유 모형, 도로망 상한 T1′, 강건성과 핵심 요소, 진행과 다음 단계, 마지막으로 위치와 후보 학술지입니다. 항목을 누르면 이동합니다.</p>
+  </aside>
+</section>
+
+<!-- question and place -->
+<section class="slide" data-sec="q">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">研究问题：把“占路”写成结构性运力约束，算出路网能承载的日吞吐上界</span><span lang="en">The question: write road occupancy as a structural capacity constraint and compute the daily throughput the network can carry</span><span lang="ko">연구 질문: “도로 점유”를 구조적 제약으로 쓰고 도로망이 감당할 일일 처리량의 상한을 계산한다</span></h2>
+  <div class="content g2" style="gap:24px">
+    <div class="col" style="gap:10px;justify-content:center">
+      <div class="box"><h3><span lang="zh">在论文中的位置</span><span lang="en">Place in the thesis</span><span lang="ko">논문 내 위치</span></h3>
+        <p><span lang="zh">第 2 章：占路运输模型（资源、阻塞时间、交通规则）。第 3 章“运力机理”的上界节：T1′ 及其验证，随后是 T1″ 与系统 T1′。</span><span lang="en">Chapter 2: the occupancy model (resources, blocking times, traffic rules). The bound section of chapter 3 (capacity): T1′ and its validation, then T1″ and the system T1′.</span><span lang="ko">2장: 점유 운송 모형 (자원, 차단 시간, 통행 규칙). 3장 “운송 능력 메커니즘”의 상한 절: T1′과 검증, 이어서 T1″과 시스템 T1′.</span></p></div>
+      <div class="box c1"><h3><span lang="zh">C1 双上界与运力区间</span><span lang="en">C1 Two bounds and the capacity interval</span><span lang="ko">C1 이중 상한과 운송 능력 구간</span></h3>
+        <p><span lang="zh">吞吐 ≤ min{车队上界 K·H/c̄，路网上界}。路网上界由阻塞时间结构决定，可由线性规划算出。可达运力落在区间 [最好的无死锁规则，路网上界] 之内。</span><span lang="en">Throughput ≤ min{fleet bound K·H/c̄, network bound}. The network bound is set by the blocking-time structure and can be computed by linear programming. Attainable capacity lies within the interval [best deadlock-free rule, network bound].</span><span lang="ko">처리량 ≤ min{차량군 상한 K·H/c̄, 도로망 상한}. 도로망 상한은 차단 시간 구조가 정하며 선형계획으로 계산할 수 있다. 달성 가능한 운송 능력은 구간 [가장 좋은 교착 없는 규칙, 도로망 상한] 안에 있다.</span></p></div>
+      <div class="box"><h3><span lang="zh">同时提供给</span><span lang="en">Also feeds</span><span lang="ko">함께 제공</span></h3>
+        <p><span lang="zh">C4 路—车汇率：上界的对偶价格是它的输入。C5 与 H6 跨厂预测：由地图直接算出的路网上界及其取紧要素就是预测器。</span><span lang="en">C4, the road–vehicle exchange rate: the bound's dual prices are its input. C5 and H6, cross-yard prediction: the network bound computed from the map, with its binding elements, is the predictor.</span><span lang="ko">C4 도로–차량 환율: 상한의 쌍대 가격이 입력이다. C5·H6 조선소 간 예측: 지도에서 바로 계산한 도로망 상한과 결속 요소가 예측 변수다.</span></p></div>
+    </div>
+    <div class="col" style="justify-content:center">
+      <table class="tbl dense thm">
+        <thead><tr><th><span lang="zh">编号</span><span lang="en">Item</span><span lang="ko">번호</span></th><th><span lang="zh">内容（研究宣言 v1 第 4 节）</span><span lang="en">Statement (manifesto v1, §4)</span><span lang="ko">내용 (연구 선언 v1 §4)</span></th><th><span lang="zh">状态</span><span lang="en">Status</span><span lang="ko">상태</span></th></tr></thead>
+        <tbody>
+          <tr class="first"><td>T1′</td><td><span lang="zh">双上界的路网部分：占用率线性规划，加宽度装箱行、吊车行与窗口边界项。对满足 (A1)–(A3) 的规则成立；载货路线固定</span><span lang="en">Network part of the two bounds: occupancy-rate LP with width bin-packing rows, crane rows and the window edge term. Holds for rules satisfying (A1)–(A3); loaded routes fixed</span><span lang="ko">이중 상한의 도로망 부분: 점유율 LP에 폭 빈 패킹 행, 크레인 행, 창 경계항. (A1)–(A3)을 만족하는 규칙에 성립, 적재 경로 고정</span></td><td><span class="pill run"><span lang="zh">初稿；作者重写</span><span lang="en">draft; author rewrites</span><span lang="ko">초안, 저자 재작성</span></span></td></tr>
+          <tr><td>T1″</td><td><span lang="zh">路线自由的上界：载货也做成多商品流，对任何路由规则成立</span><span lang="en">Route-free bound: loaded moves also as multicommodity flow; holds for any routing rule</span><span lang="ko">경로 자유 상한: 적재도 다품종 흐름으로, 어떤 경로 규칙에도 성립</span></td><td><span class="pill pend"><span lang="zh">待做</span><span lang="en">to do</span><span lang="ko">예정</span></span></td></tr>
+          <tr><td>T6</td><td><span lang="zh">路—车汇率：由对偶价格给出；只在取紧约束上改造才有价值。新增路段时用 T1″</span><span lang="en">Road–vehicle exchange rate: given by dual prices; upgrades pay only on tight constraints. Use T1″ for new links</span><span lang="ko">도로–차량 환율: 쌍대 가격으로 주어지며, 결속 제약의 개조만 가치가 있다. 새 구간에는 T1″ 사용</span></td><td><span class="pill run"><span lang="zh">作者</span><span lang="en">author</span><span lang="ko">저자</span></span></td></tr>
+          <tr><td><span lang="zh">复杂性</span><span lang="en">Complexity</span><span lang="ko">복잡도</span></td><td><span lang="zh">带截止期与独占资源的可行性判定是 NP 难的（归约自阻塞作业车间）</span><span lang="en">Feasibility with deadlines and exclusive resources is NP-hard (reduction from the blocking job shop)</span><span lang="ko">마감과 독점 자원이 있는 실행 가능성 판정은 NP-난해 (차단 작업장에서 환원)</span></td><td><span class="pill pend"><span lang="zh">待做</span><span lang="en">to do</span><span lang="ko">예정</span></span></td></tr>
+          <tr><td><span lang="zh">候选</span><span lang="en">Candidate</span><span lang="ko">후보</span></td><td><span lang="zh">坞口命题：名义负荷 ρ &lt; 1 时，阻塞造成的饥饿使系统失稳；路外等待或坞前道路分段使用时恢复稳定。另一项是 T1′ 的可达性</span><span lang="en">Dock-mouth proposition: at nominal load ρ &lt; 1, starvation caused by blocking destabilises the system; waiting off the road or using the dock road in sections restores stability. The other is attainability of T1′</span><span lang="ko">도크 입구 명제: 명목 부하 ρ &lt; 1에서 차단으로 인한 기아가 시스템을 불안정하게 하고, 도로 밖 대기나 도크 앞 도로의 구간 사용으로 안정이 회복된다. 다른 하나는 T1′의 달성 가능성</span></td><td><span class="pill pend"><span lang="zh">视 T22 第 2 项再定</span><span lang="en">after T22 item 2</span><span lang="ko">T22 2항 후 결정</span></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：研究宣言 v1（thesis-core tag manifesto-v1，docs/研究宣言.md）第 2 节 C1 与第 4 节定理清单，原文照录；C4、C5、H6 只列名称与它们需要的输入。论文章节安排见进攻指导（2026-10-08）第 4 节“论文架构”。</span><span lang="en">Sources: research manifesto v1 (thesis-core tag manifesto-v1, docs/研究宣言.md), §2 C1 and the §4 theorem list, quoted in full; C4, C5 and H6 are named only with the input they need. Chapter plan from the direction document (8 Oct 2026), §4 “thesis architecture”.</span><span lang="ko">출처: 연구 선언 v1 (thesis-core tag manifesto-v1, docs/研究宣言.md) §2 C1과 §4 정리 목록 원문, C4·C5·H6은 이름과 필요한 입력만 표기. 장 구성은 방향 지침 (2026-10-08) §4 “논문 구성”.</span></p>
+  <aside class="notes">
+    <p lang="zh">这个分项回答的问题是：把“占路”写成结构性的运力约束以后，路网每天能承载多少。它在论文里是第 2 章的模型和第 3 章的上界节。它直接服务研究宣言的 C1：吞吐不超过车队上界和路网上界中较小的那个，路网上界可以由线性规划算出，可达运力落在“最好的无死锁规则”和路网上界之间。上界的对偶价格还是 C4 路—车汇率的输入，上界和它的取紧要素也是 C5、H6 跨厂预测的预测器。右边是宣言里与本分项相关的定理和它们的状态。</p>
+    <p lang="en">The question here is how much a yard's network can carry once road occupancy is written as a structural capacity constraint. In the thesis this is the model of chapter 2 and the bound section of chapter 3. It serves claim C1 of the manifesto directly: throughput is at most the smaller of the fleet bound and the network bound, the network bound can be computed by an LP, and attainable capacity lies between the best deadlock-free rule and the network bound. The bound's dual prices are also the input to C4, the road–vehicle exchange rate, and the bound with its binding elements is the predictor for C5 and H6. On the right are the theorems of the manifesto that concern this sub-study, with their status.</p>
+    <p lang="ko">이 세부 연구의 질문은 도로 점유를 구조적 제약으로 쓴 뒤 도로망이 하루에 얼마나 감당하는가입니다. 논문에서는 2장 모형과 3장 상한 절입니다. 연구 선언의 C1을 직접 뒷받침합니다: 처리량은 차량군 상한과 도로망 상한 중 작은 값을 넘지 않고, 도로망 상한은 선형계획으로 계산할 수 있으며, 달성 가능한 능력은 가장 좋은 교착 없는 규칙과 도로망 상한 사이에 있습니다. 상한의 쌍대 가격은 C4 도로–차량 환율의 입력이고, 상한과 결속 요소는 C5·H6 조선소 간 예측의 예측 변수입니다. 오른쪽은 선언에서 이 세부 연구와 관련된 정리와 상태입니다.</p>
+  </aside>
+</section>
+
+<!-- model 1: width containers and blocking times -->
+<section class="slide" data-sec="model">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">资源是宽度容器：路段、路口、停靠位按阻塞时间被占用</span><span lang="en">Resources are width containers: segments, junctions and stops are held for a blocking time</span><span lang="ko">자원은 폭 컨테이너: 구간, 교차로, 정차 위치가 차단 시간 동안 점유된다</span></h2>
+  <div class="content g2" style="gap:26px">
+    <div class="col" style="gap:10px;justify-content:center">
+      <div class="fill" style="flex:none;aspect-ratio:640/380"><svg viewBox="0 0 640 380" role="img" aria-label="Time-space diagram of one loaded move: load at the origin stop, segment e1, junction v with a turn sweep, segment e2, unload at the destination stop">
+        <g style="font:14px var(--f-latin);fill:var(--ink2)">
+          <text x="80" y="60" text-anchor="end"><tspan lang="zh" style="font-family:var(--f-zh)">起点停靠位</tspan><tspan lang="en">origin stop</tspan><tspan lang="ko" style="font-family:var(--f-ko)">출발 정차</tspan></text>
+          <text x="80" y="122" text-anchor="end"><tspan lang="zh" style="font-family:var(--f-zh)">路段 e₁</tspan><tspan lang="en">segment e₁</tspan><tspan lang="ko" style="font-family:var(--f-ko)">구간 e₁</tspan></text>
+          <text x="80" y="184" text-anchor="end"><tspan lang="zh" style="font-family:var(--f-zh)">路口 v</tspan><tspan lang="en">junction v</tspan><tspan lang="ko" style="font-family:var(--f-ko)">교차로 v</tspan></text>
+          <text x="80" y="246" text-anchor="end"><tspan lang="zh" style="font-family:var(--f-zh)">路段 e₂</tspan><tspan lang="en">segment e₂</tspan><tspan lang="ko" style="font-family:var(--f-ko)">구간 e₂</tspan></text>
+          <text x="80" y="308" text-anchor="end"><tspan lang="zh" style="font-family:var(--f-zh)">终点停靠位</tspan><tspan lang="en">end stop</tspan><tspan lang="ko" style="font-family:var(--f-ko)">도착 정차</tspan></text>
+        </g>
+        <path d="M88 26V336H630" style="stroke:var(--ink3);fill:none"/>
+        <text x="630" y="358" text-anchor="end" style="fill:var(--ink2);font:13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">时间 →</tspan><tspan lang="en">time →</tspan><tspan lang="ko" style="font-family:var(--f-ko)">시간 →</tspan></text>
+        <g class="a-x" style="--d:.2s"><rect x="92" y="38" width="112" height="34" style="fill:var(--g-load)"/></g>
+        <text class="a-fade" x="148" y="60" text-anchor="middle" style="--d:.5s;fill:var(--paper);font:600 13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">装货 10 min</tspan><tspan lang="en">load 10 min</tspan><tspan lang="ko" style="font-family:var(--f-ko)">적재 10분</tspan></text>
+        <rect class="a-x" x="204" y="100" width="150" height="34" style="--d:.45s;fill:var(--steel)"/>
+        <rect class="a-x" x="354" y="100" width="30" height="34" style="--d:.6s;fill:var(--steel);fill-opacity:.35"/>
+        <rect class="a-x" x="304" y="162" width="50" height="34" style="--d:.7s;fill:var(--steel)"/>
+        <rect class="a-x" x="354" y="162" width="32" height="34" style="--d:.8s;fill:var(--oxide);fill-opacity:.8"/>
+        <rect class="a-x" x="354" y="162" width="32" height="34" style="--d:.8s;fill:url(#hatch)"/>
+        <rect class="a-x" x="334" y="224" width="168" height="34" style="--d:.9s;fill:var(--steel)"/>
+        <rect class="a-x" x="502" y="224" width="30" height="34" style="--d:1s;fill:var(--steel);fill-opacity:.35"/>
+        <g class="a-x" style="--d:1.1s"><rect x="502" y="286" width="122" height="34" style="fill:var(--g-load)"/></g>
+        <text class="a-fade" x="563" y="308" text-anchor="middle" style="--d:1.3s;fill:var(--paper);font:600 13px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">卸货 10 min</tspan><tspan lang="en">unload 10 min</tspan><tspan lang="ko" style="font-family:var(--f-ko)">하역 10분</tspan></text>
+        <g class="a-fade" style="--d:1.4s">
+          <path d="M204 94V86H384V94" style="fill:none;stroke:var(--ink);stroke-width:1.3"/>
+          <text x="294" y="79" text-anchor="middle" style="fill:var(--ink);font:600 13.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">阻塞时间 = 通过 + 净空</tspan><tspan lang="en">blocking time = passage + clearance</tspan><tspan lang="ko" style="font-family:var(--f-ko)">차단 시간 = 통과 + 여유</tspan></text>
+          <text x="392" y="122" style="fill:var(--ink2);font:13.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">净空 (车长 + 5 m)/v</tspan><tspan lang="en">clearance (length + 5 m)/v</tspan><tspan lang="ko" style="font-family:var(--f-ko)">여유 (차 길이 + 5 m)/v</tspan></text>
+          <text x="394" y="184" style="fill:var(--oxide);font:600 13.5px var(--f-latin)"><tspan lang="zh" style="font-family:var(--f-zh)">转弯扫过 30 s（转角 ≥ 60°）</tspan><tspan lang="en">turn sweep 30 s (turn ≥ 60°)</tspan><tspan lang="ko" style="font-family:var(--f-ko)">회전 30초 (회전각 ≥ 60°)</tspan></text>
+        </g>
+      </svg></div>
+      <div class="legend" style="justify-content:center">
+        <span><i style="background:var(--steel)"></i><span lang="zh">通过</span><span lang="en">passage</span><span lang="ko">통과</span></span>
+        <span><i style="background:var(--steel);opacity:.35"></i><span lang="zh">净空</span><span lang="en">clearance</span><span lang="ko">여유</span></span>
+        <span><i style="background:var(--oxide)"></i><span lang="zh">转弯扫过</span><span lang="en">turn sweep</span><span lang="ko">회전 점유</span></span>
+        <span><i style="background:var(--g-load)"></i><span lang="zh">装卸占停靠点</span><span lang="en">loading holds the stop</span><span lang="ko">적재·하역 정차 점유</span></span>
+      </div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:12px">
+      <ul class="clean">
+        <li><span lang="zh"><b>三类资源</b>：路段（玉浦 721 条）、路口与入口节点（552 个）、驶入式停靠位（172 个）；T20 起，吊车也是坞的资源</span><span lang="en"><b>Three kinds of resources</b>: segments (721 on Okpo), junctions and entrance nodes (552), drive-in stops (172); from T20 the cranes are dock resources too</span><span lang="ko"><b>자원 세 종류</b>: 구간 (옥포 721개), 교차로와 출입구 노드 (552개), 진입식 정차 위치 (172개), T20부터 크레인도 도크의 자원</span></li>
+        <li><span lang="zh"><b>容量</b> = 路宽 W + 侧向净空 c（1 m）；车占外廓宽 + c；任何时刻占用宽度之和不超过容量</span><span lang="en"><b>Capacity</b> = road width W + lateral clearance c (1 m); a vehicle takes its outline width + c; at every moment the widths in use stay within capacity</span><span lang="ko"><b>용량</b> = 도로 폭 W + 측면 여유 c (1 m), 차량은 외곽 폭 + c를 차지, 어느 순간에도 점유 폭의 합 ≤ 용량</span></li>
+        <li><span lang="zh"><b>阻塞时间</b>：路段从车头驶入，到车尾离开下一路口再加纵向净空；路口 (D + 车长 + 5 m)/v，转角 ≥ 60° 时加 30 s 扫过</span><span lang="en"><b>Blocking time</b>: a segment is held from the head entering until the tail clears the next junction, plus longitudinal clearance; a junction for (D + length + 5 m)/v, plus a 30 s sweep for turns ≥ 60°</span><span lang="ko"><b>차단 시간</b>: 구간은 차 머리가 들어와 꼬리가 다음 교차로를 벗어날 때까지에 종방향 여유를 더하고, 교차로는 (D + 차 길이 + 5 m)/v, 회전각 ≥ 60°이면 30초 추가</span></li>
+        <li><span lang="zh"><b>停靠</b>：厂房在门口（入口节点）装卸；堆场、总组场地驶入停靠位；缓冲区、船坞路边停靠，装卸时所在路段就是停靠资源</span><span lang="en"><b>Stops</b>: shops load at their doors (entrance nodes); stockyards and assembly areas have drive-in stops; buffers and docks load at the roadside, so that road segment is the stop</span><span lang="ko"><b>정차</b>: 공장은 문 (출입구 노드)에서 적재·하역, 야드와 총조립장은 진입식 정차 위치, 버퍼와 도크는 길가 정차라 그 구간이 정차 자원</span></li>
+      </ul>
+      <div class="eq">Σ<sub>v</sub> d<sub>v,r</sub>(t) ≤ C<sub>r</sub> <span lang="zh">对每个资源 r、每个时刻 t</span><span lang="en">for every resource r and time t</span><span lang="ko">모든 자원 r, 모든 시각 t</span></div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：thesis-core 83c16bf，docs/T17_flag_report.md 第 1.1 节（资源、容量、占用时长、停靠）与 results/a0ab16fceb94/config.json（净空、扫过时间、装卸时间）；吊车资源见 T20 报告第 1 节。阻塞时间的概念借自铁路闭塞（UIC 406；Goverde 2007）。示意图不按比例。</span><span lang="en">Sources: thesis-core 83c16bf, docs/T17_flag_report.md §1.1 (resources, capacities, holding times, stops) and results/a0ab16fceb94/config.json (clearances, sweep and handling times); cranes as resources in the T20 report §1. Blocking time is borrowed from railway signalling (UIC 406; Goverde 2007). Sketch not to scale.</span><span lang="ko">출처: thesis-core 83c16bf, docs/T17_flag_report.md §1.1 (자원, 용량, 점유 시간, 정차)와 results/a0ab16fceb94/config.json (여유, 회전 시간, 적재·하역 시간), 크레인 자원은 T20 보고서 §1. 차단 시간 개념은 철도 폐색에서 차용 (UIC 406, Goverde 2007). 개념도는 축척 아님.</span></p>
+  <aside class="notes">
+    <p lang="zh">模型的骨架是铁路闭塞的阻塞时间，但我们把每个资源写成宽度容器。左图是一次载货运输：起点装货 10 分钟，然后依次占用路段 e₁、路口 v、路段 e₂，最后在终点卸货。每段的占用都是通过时间加净空；路口转弯超过 60 度再加 30 秒扫过。右边是三类资源和容量的定义。约束只有一条：任何时刻，一个资源上各车占用宽度之和不超过容量。T20 以后，坞的吊车也作为资源进来。</p>
+    <p lang="en">The skeleton is the blocking time of railway signalling, but we write each resource as a width container. On the left is one loaded move: ten minutes of loading at the origin, then segment e₁, junction v and segment e₂ in turn, and unloading at the end. Each hold is passage plus clearance; turns over 60 degrees add a 30-second sweep at the junction. On the right are the three kinds of resources and the capacity rule. There is only one constraint: at every moment, the widths in use on a resource stay within its capacity. From T20 on, the dock cranes are resources too.</p>
+    <p lang="ko">모형의 뼈대는 철도 폐색의 차단 시간이지만, 저희는 각 자원을 폭 컨테이너로 씁니다. 왼쪽은 적재 운송 한 번입니다: 출발지에서 10분 적재, 이어서 구간 e₁, 교차로 v, 구간 e₂를 차례로 점유하고 도착지에서 하역합니다. 각 점유는 통과 시간에 여유를 더하고, 60도 넘게 회전하면 교차로에 30초를 더합니다. 오른쪽은 자원 세 종류와 용량 규칙입니다. 제약은 하나뿐입니다: 어느 순간에도 한 자원의 점유 폭 합은 용량을 넘지 않습니다. T20부터는 도크 크레인도 자원으로 들어옵니다.</p>
+  </aside>
+</section>
+
+<!-- model 2: asymmetry and passability -->
+<section class="slide" data-sec="model">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">载货与空驶占路不对称：通行类别由宽度算出，路宽与空驶规则作情景扫描</span><span lang="en">Loaded and empty occupancy are asymmetric: passability classes follow from widths, and widths and empty-run rules are scanned as scenarios</span><span lang="ko">적재와 공차의 점유는 비대칭: 통행 등급은 폭에서 계산하고, 폭과 공차 규칙은 시나리오로 스캔한다</span></h2>
+  <div class="content g2" style="gap:26px">
+    <div class="col" style="gap:10px;justify-content:center">
+      <div class="fill" style="flex:none;aspect-ratio:600/310"><svg viewBox="0 0 600 310" role="img" aria-label="Three road widths at the same scale with a 10 m block: 12 m loaded-exclusive, 18 m passable by an empty transporter, 25 m two loaded transporters can pass">
+        <rect x="20" y="12" width="360" height="50.4" style="fill:var(--line)"/>
+        <rect class="a-drop" x="200" y="16.2" width="170" height="42" rx="4" style="--d:.3s;fill:var(--steel);fill-opacity:.92"/>
+        <g class="a-drive" style="--d:.6s"><rect x="40" y="25.6" width="80" height="23.1" rx="3" style="fill:var(--amber-hi);stroke:var(--ink);stroke-width:1.1"/></g>
+        <rect x="20" y="90" width="360" height="75.6" style="fill:var(--line)"/>
+        <rect class="a-drop" x="200" y="93" width="170" height="42" rx="4" style="--d:.5s;fill:var(--steel);fill-opacity:.92"/>
+        <g class="a-drive" style="--d:.9s"><rect x="230" y="139" width="80" height="23.1" rx="3" style="fill:var(--amber-hi);stroke:var(--ink);stroke-width:1.1"/></g>
+        <rect x="20" y="192" width="360" height="105" style="fill:var(--line)"/>
+        <rect class="a-drop" x="200" y="195" width="170" height="42" rx="4" style="--d:.7s;fill:var(--steel);fill-opacity:.92"/>
+        <rect class="a-drop" x="60" y="252" width="170" height="42" rx="4" style="--d:.9s;fill:var(--steel);fill-opacity:.92"/>
+        <g style="font:13px var(--f-latin);fill:var(--ink2)">
+          <text x="394" y="32" style="fill:var(--ink);font-weight:600"><tspan lang="zh" style="font-family:var(--f-zh)">W = 12 m：载货独占</tspan><tspan lang="en">W = 12 m: loaded-exclusive</tspan><tspan lang="ko" style="font-family:var(--f-ko)">W = 12 m: 적재 독점</tspan></text>
+          <text x="394" y="51">W &lt; B + w + c = 16.5 m</text>
+          <text x="394" y="122" style="fill:var(--ink);font-weight:600"><tspan lang="zh" style="font-family:var(--f-zh)">W = 18 m：可与空车交会</tspan><tspan lang="en">W = 18 m: passable by empties</tspan><tspan lang="ko" style="font-family:var(--f-ko)">W = 18 m: 공차와 교행</tspan></text>
+          <text x="394" y="141">16.5 ≤ W &lt; 2B + c = 21 m</text>
+          <text x="394" y="240" style="fill:var(--ink);font-weight:600"><tspan lang="zh" style="font-family:var(--f-zh)">W = 25 m：两辆载货可交会</tspan><tspan lang="en">W = 25 m: two loaded can pass</tspan><tspan lang="ko" style="font-family:var(--f-ko)">W = 25 m: 적재 두 대 교행</tspan></text>
+          <text x="394" y="259">W ≥ 2B + c = 21 m</text>
+        </g>
+      </svg></div>
+      <div class="legend" style="justify-content:center">
+        <span><i style="background:var(--steel)"></i><span lang="zh">载货：分段宽 B = 10 m</span><span lang="en">loaded: block width B = 10 m</span><span lang="ko">적재: 블록 폭 B = 10 m</span></span>
+        <span><i style="background:var(--amber-hi)"></i><span lang="zh">空车：平台宽 w = 5.5 m</span><span lang="en">empty: platform w = 5.5 m</span><span lang="ko">공차: 차대 폭 w = 5.5 m</span></span>
+        <span><span lang="zh">同一比例尺；c = 1 m</span><span lang="en">same scale; c = 1 m</span><span lang="ko">같은 축척, c = 1 m</span></span>
+      </div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:12px">
+      <ul class="clean">
+        <li><span lang="zh"><b>分段</b>宽 B ∈ {5,…,15} m、长 max(B, 10)–30 m 均匀抽取；载货外廓宽 max(B, 5.5 m)。空车平台 16.25 × 5.5 m；空车 12 km/h，载货 6 km/h</span><span lang="en"><b>Blocks</b> drawn with width B ∈ {5,…,15} m and length max(B, 10)–30 m; loaded outline width max(B, 5.5 m). Empty platform 16.25 × 5.5 m; 12 km/h empty, 6 km/h loaded</span><span lang="ko"><b>블록</b> 폭 B ∈ {5,…,15} m, 길이 max(B, 10)–30 m 균등 추출, 적재 외곽 폭 max(B, 5.5 m). 공차 차대 16.25 × 5.5 m, 공차 12 km/h, 적재 6 km/h</span></li>
+        <li><span lang="zh"><b>不做精准标注</b>：路宽按影像分级（误差约 ±1.5 m），三种通行类别由宽度自动算出，不逐条判定</span><span lang="en"><b>No precise survey</b>: road widths are graded from imagery (about ±1.5 m); the three classes follow from widths, not from road-by-road judgement</span><span lang="ko"><b>정밀 표시 없음</b>: 도로 폭은 영상에서 등급화 (약 ±1.5 m), 통행 등급 세 가지는 폭에서 자동 계산</span></li>
+      </ul>
+      <table class="tbl sens" id="sensTbl"></table>
+      <p class="small" style="margin:0"><span lang="zh">烟台取紧在门口节点，路宽与空驶规则都不动它；玉浦取紧在窄路，对两者敏感。</span><span lang="en">Yantai binds at door nodes, so neither widths nor the empty-run rule move it; Okpo binds on narrow roads and responds to both.</span><span lang="ko">옌타이는 문 노드에서 걸려 폭과 공차 규칙이 움직이지 못하고, 옥포는 좁은 도로에서 걸려 둘 다에 반응한다.</span></p>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：thesis-core 83c16bf，docs/T17_flag_report.md 第 1.1、1.3 节与第 2 节参数表（分段尺寸沿用 MY-B；车速取自苏州大方 DCY270 参数页）；表中 T1′ 为 results/a0ab16fceb94/bounds.csv（玉浦）与 b82aa19b22af/bounds.csv（烟台）各 10 个种子的均值，个/日。示意图按同一比例尺。</span><span lang="en">Sources: thesis-core 83c16bf, docs/T17_flag_report.md §1.1, §1.3 and the §2 parameter table (block sizes as in MY-B; speeds from the Suzhou Dafang DCY270 data sheet); T1′ in the table is the mean of 10 seeds in results/a0ab16fceb94/bounds.csv (Okpo) and b82aa19b22af/bounds.csv (Yantai), tasks a day. Sketch drawn to one scale.</span><span lang="ko">출처: thesis-core 83c16bf, docs/T17_flag_report.md §1.1·§1.3과 §2 매개변수 표 (블록 크기는 MY-B, 속도는 쑤저우 다팡 DCY270 사양), 표의 T1′은 results/a0ab16fceb94/bounds.csv (옥포)와 b82aa19b22af/bounds.csv (옌타이) 시드 10개 평균, 하루 건수. 개념도는 같은 축척.</span></p>
+  <aside class="notes">
+    <p lang="zh">船厂特有的是载货与空驶占路不对称。左图是同一比例尺下三种路宽，载着 10 米宽的分段：12 米的路，空车也过不去，载货独占；18 米的路，空车可以从旁边交会；25 米的路，两辆载货车都能交会。这三类不用逐条判定，由路宽和分段宽直接算出来。路宽按影像分级，误差约正负 1.5 米，所以我们把路宽和空驶规则作为情景扫描。右表是上界对这些情景的反应：玉浦取紧在窄路，路宽减 1.5 米上界降约 3%，空车处处可交会升约 6%；烟台取紧在门口，几乎不动。</p>
+    <p lang="en">What is particular to shipyards is the asymmetry between loaded and empty occupancy. The sketch shows three road widths at one scale, with a 10-metre block: on a 12-metre road even an empty transporter cannot pass, so the loaded one is exclusive; on 18 metres an empty one can pass alongside; on 25 metres two loaded ones can pass. These classes are not judged road by road; they follow from road and block widths. Widths are graded from imagery to about plus or minus 1.5 metres, so we scan widths and the empty-run rule as scenarios. The table shows how the bound responds: Okpo binds on narrow roads, losing about 3% at minus 1.5 metres and gaining about 6% when empties can pass everywhere; Yantai binds at doors and hardly moves.</p>
+    <p lang="ko">조선소 고유의 특성은 적재와 공차 점유의 비대칭입니다. 왼쪽은 같은 축척의 세 도로 폭에 10 m 폭 블록을 실은 경우입니다: 12 m 도로는 공차도 지나갈 수 없어 적재 독점, 18 m 도로는 공차가 옆으로 교행, 25 m 도로는 적재 두 대가 교행합니다. 이 등급은 도로마다 판정하지 않고 도로 폭과 블록 폭에서 바로 계산합니다. 도로 폭은 영상에서 약 ±1.5 m로 등급화하므로 폭과 공차 규칙을 시나리오로 스캔합니다. 오른쪽 표가 상한의 반응입니다: 옥포는 좁은 도로에서 걸려 폭 −1.5 m에 약 3% 내려가고 공차가 어디서나 교행하면 약 6% 오릅니다. 옌타이는 문에서 걸려 거의 움직이지 않습니다.</p>
+  </aside>
+</section>
+
+<!-- model 3: traffic rules and (A1)-(A3) -->
+<section class="slide" data-sec="model">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">四种交通规则，以及上界成立的条件 (A1)–(A3)</span><span lang="en">Four traffic rules, and the conditions (A1)–(A3) under which the bound holds</span><span lang="ko">네 가지 통행 규칙과 상한이 성립하는 조건 (A1)–(A3)</span></h2>
+  <div class="content g-l" style="gap:24px">
+    <div class="col compact" style="gap:10px;justify-content:center">
+      <div class="rules">
+        <div class="rl" style="--c:var(--steel)"><b><span lang="zh">自由流</span><span lang="en">Free flow</span><span lang="ko">자유류</span></b><span><span lang="zh">不检查容量，车辆互不影响；领域的默认做法。上界不约束它：单车道反例中 K = 4 时就已超出</span><span lang="en">No capacity check, vehicles never interact; the field's default. The bound does not apply: on a one-lane example it is exceeded already at K = 4</span><span lang="ko">용량 검사 없음, 차량끼리 영향 없음, 분야의 기본값. 상한이 적용되지 않으며 단일 차로 반례에서 K = 4에 이미 넘는다</span></span></div>
+        <div class="rl" style="--c:var(--oxide)"><b><span lang="zh">整条路径预约（就时出发）</span><span lang="en">Whole-route reservation (just-in-time departure)</span><span lang="ko">전체 경로 예약 (제때 출발)</span></b><span><span lang="zh">空驶、装货、载货、卸货一次订好，只在停靠点等，途中不停；构造上不会死锁</span><span lang="en">Empty run, loading, loaded run and unloading booked at once; waits only at stops, never on the way; deadlock-free by construction</span><span lang="ko">공차 주행, 적재, 적재 주행, 하역을 한 번에 예약, 정차 위치에서만 대기, 구조상 교착 없음</span></span></div>
+        <div class="rl" style="--c:var(--amber-hi)"><b><span lang="zh">逐段申请 · 参照规则（瞬移疏解）</span><span lang="en">Segment request · reference rule (teleport clearing)</span><span lang="ko">구간별 요청 · 참조 규칙 (순간이동 해소)</span></b><span><span lang="zh">到路口一次申请“路口 + 下一段”，申请不到就占着当前路段等；死锁时让一辆车离开路网 900 s。只作参照</span><span lang="en">At each junction request “junction + next segment”, waiting on the current segment if refused; a deadlock sends one vehicle off the network for 900 s. Reference only</span><span lang="ko">교차로마다 “교차로 + 다음 구간”을 요청하고, 거절되면 현재 구간을 점유한 채 대기, 교착 시 한 대를 900초 동안 도로망 밖으로. 참조용</span></span></div>
+        <div class="rl" style="--c:var(--good)"><b><span lang="zh">segment_safe</span><span lang="en">segment_safe</span><span lang="ko">segment_safe</span><br><span class="pill run"><span lang="zh">T22 进行中</span><span lang="en">T22 in progress</span><span lang="ko">T22 진행 중</span></span></b><span><span lang="zh">逐段申请加安全放行（Banker 型死锁避免）：只放行不会导致死锁的申请，不瞬移；另设“不疏解”开关</span><span lang="en">Segment request with safe release (Banker-type deadlock avoidance): only requests that cannot lead to deadlock are granted, no teleport; plus a no-clearing switch</span><span lang="ko">구간별 요청 + 안전 허가 (Banker형 교착 회피): 교착으로 이어지지 않는 요청만 허가, 순간이동 없음, “해소 없음” 스위치 추가</span></span></div>
+      </div>
+      <p class="small" style="margin:0"><span lang="zh">四种规则共用同一派工：最近的空闲车，先到先服务。车队上界 K·H/c̄ 对四种都成立。</span><span lang="en">All four share one dispatcher: nearest idle vehicle, first come first served. The fleet bound K·H/c̄ holds for all four.</span><span lang="ko">네 규칙 모두 같은 배차: 가장 가까운 유휴 차량, 선착순. 차량군 상한 K·H/c̄는 넷 모두에 성립.</span></p>
+    </div>
+    <div class="col compact" style="gap:12px;justify-content:center">
+      <div class="box">
+        <h3><span lang="zh">成立条件（证明草稿第 3 节）</span><span lang="en">Conditions (proof draft, §3)</span><span lang="ko">성립 조건 (증명 초안 §3)</span></h3>
+        <div class="aa">
+          <b>(A1)</b><span><span lang="zh">每个任务对每个资源的占用，时长不短于无等待窗口，宽度不小于外廓</span><span lang="en">Each task holds each resource at least for its no-wait window and at least at its outline width</span><span lang="ko">각 작업은 각 자원을 무대기 창 이상의 시간, 외곽 이상의 폭으로 점유</span></span>
+          <b>(A2)</b><span><span lang="zh">空驶对资源的占用不少于线性规划中的空驶系数</span><span lang="en">Empty runs occupy resources at least as much as the LP's empty-run coefficients</span><span lang="ko">공차 주행의 점유는 LP의 공차 계수 이상</span></span>
+          <b>(A3)</b><span><span lang="zh">同一辆车计入的各段占用互不重叠：终点窗口只计到卸完</span><span lang="en">The windows counted for one vehicle never overlap: the end window stops when unloading ends</span><span lang="ko">한 차량에 계산된 창은 겹치지 않음: 도착 창은 하역 완료까지만</span></span>
+        </div>
+      </div>
+      <div class="cov">
+        <span><span lang="zh">整条路径预约</span><span lang="en">Whole-route reservation</span><span lang="ko">전체 경로 예약</span></span><span class="pill done"><span lang="zh">在证明内</span><span lang="en">proved</span><span lang="ko">증명 범위</span></span>
+        <span><span lang="zh">逐段申请，无疏解的时段</span><span lang="en">Segment request while no clearing occurs</span><span lang="ko">구간별 요청, 해소 없는 구간</span></span><span class="pill done"><span lang="zh">在证明内</span><span lang="en">proved</span><span lang="ko">증명 범위</span></span>
+        <span><span lang="zh">参照规则（瞬移疏解）：瞬移会截短占用，(A1) 可能不成立</span><span lang="en">Reference rule (teleport clearing): a teleport can cut a hold short, so (A1) may fail</span><span lang="ko">참조 규칙 (순간이동 해소): 순간이동이 점유를 줄여 (A1)이 깨질 수 있음</span></span><span class="pill pend"><span lang="zh">逐例核对</span><span lang="en">checked per case</span><span lang="ko">사례별 확인</span></span>
+        <span><span lang="zh">segment_safe：不瞬移，等待只会延长占用</span><span lang="en">segment_safe: no teleport, waiting only lengthens holds</span><span lang="ko">segment_safe: 순간이동 없음, 대기는 점유를 늘릴 뿐</span></span><span class="pill run"><span lang="zh">待 T22 复核</span><span lang="en">after T22 review</span><span lang="ko">T22 검토 후</span></span>
+        <span><span lang="zh">自由流：不检查容量</span><span lang="en">Free flow: no capacity check</span><span lang="ko">자유류: 용량 검사 없음</span></span><span class="pill pend"><span lang="zh">不适用</span><span lang="en">does not apply</span><span lang="ko">해당 없음</span></span>
+      </div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：thesis-core 83c16bf，docs/T18_T1_tight_proof.md 第 1、3、5 节；docs/T17_flag_report.md 第 1.2 节与第 0 节（单车道反例）。segment_safe 的定义见 T22 任务说明（00_总控/runs/2026-10-09_T22_prompt.md 第 2.1 节），结果尚未复核。</span><span lang="en">Sources: thesis-core 83c16bf, docs/T18_T1_tight_proof.md §1, §3, §5; docs/T17_flag_report.md §1.2 and §0 (one-lane counterexample). segment_safe as defined in the T22 task statement (00_总控/runs/2026-10-09_T22_prompt.md §2.1); no reviewed results yet.</span><span lang="ko">출처: thesis-core 83c16bf, docs/T18_T1_tight_proof.md §1·§3·§5, docs/T17_flag_report.md §1.2·§0 (단일 차로 반례). segment_safe 정의는 T22 작업 지시 (00_总控/runs/2026-10-09_T22_prompt.md §2.1), 검토된 결과는 아직 없음.</span></p>
+  <aside class="notes">
+    <p lang="zh">交通规则有四种。自由流是领域的默认做法，不检查容量，所以上界不约束它。整条路径预约一次订好整趟，构造上不死锁。逐段申请走一段申请一段，死锁时让一辆车离开路网 900 秒，这是参照规则，只作对照。T22 正在做的 segment_safe 用 Banker 型的安全检查，只放行不会导致死锁的申请，不需要瞬移。右边是上界成立的三个条件：占用不短于无等待窗口，空驶占用不少于线性规划里的系数，同一辆车的窗口不重叠。整条路径预约和无疏解时的逐段申请在证明内；瞬移可能截短占用，所以参照规则只做逐例核对；segment_safe 不瞬移，按设计满足条件，等 T22 复核后可以收回证明范围。</p>
+    <p lang="en">There are four rules. Free flow is the field's default; it does not check capacity, so the bound does not apply to it. Whole-route reservation books the whole trip at once and cannot deadlock. Segment request books one piece at a time, and a deadlock sends one vehicle off the network for 900 seconds; this is the reference rule, used for comparison only. segment_safe, now in T22, uses a Banker-type safety check that grants only requests that cannot lead to deadlock, so no teleport is needed. On the right are the three conditions: holds no shorter than the no-wait window, empty-run occupancy no less than the LP coefficients, and no overlapping windows for one vehicle. Reservation, and segment request while no clearing occurs, are inside the proof; a teleport can cut a hold short, so the reference rule is only checked case by case; segment_safe has no teleport and satisfies the conditions by design, so after the T22 review it can come inside the proof.</p>
+    <p lang="ko">통행 규칙은 네 가지입니다. 자유류는 분야의 기본값으로 용량을 검사하지 않아 상한이 적용되지 않습니다. 전체 경로 예약은 한 번에 전체 운행을 예약해 구조상 교착이 없습니다. 구간별 요청은 한 구간씩 요청하고, 교착 시 한 대를 900초 동안 도로망 밖으로 보냅니다. 이것이 참조 규칙이며 비교용입니다. T22에서 만드는 segment_safe는 Banker형 안전 검사로 교착으로 이어지지 않는 요청만 허가하므로 순간이동이 필요 없습니다. 오른쪽은 세 조건입니다: 점유는 무대기 창보다 짧지 않고, 공차 점유는 LP 계수 이상이며, 한 차량의 창은 겹치지 않습니다. 전체 경로 예약과 해소가 없는 동안의 구간별 요청은 증명 범위에 있고, 순간이동은 점유를 줄일 수 있어 참조 규칙은 사례별로만 확인합니다. segment_safe는 순간이동이 없어 설계상 조건을 만족하므로 T22 검토 후 증명 범위로 들어올 수 있습니다.</p>
+  </aside>
+</section>
+
+<!-- T1 -> T1' -->
+<section class="slide" data-sec="bound">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">T1′：在占用率线性规划上加三类行，上界更紧，坞口也进来</span><span lang="en">T1′: three new kinds of rows tighten the LP bound and bring in the dock</span><span lang="ko">T1′: 세 종류의 행으로 상한을 강화하고 도크를 넣는다</span></h2>
+  <div class="content g2" style="gap:26px">
+    <div class="col" style="gap:8px">
+      <div class="fill chart" id="cDff"></div>
+      <div class="legend" id="lgDff"></div>
+    </div>
+    <div class="col compact" style="gap:10px;justify-content:center">
+      <div class="eqb">max λ
+s.t. λ·ā<sub>r</sub><sup>(k)</sup> + Σ<sub>a</sub> f<sub>a</sub>·e<sub>ar</sub><sup>(k)</sup> ≤ H        <i>∀ r, k = 0, 1, 2</i>
+     Σ<sub>a→n</sub> f<sub>a</sub> − Σ<sub>n→a</sub> f<sub>a</sub> = λ·(o<sub>n</sub> − d<sub>n</sub>)  <i>∀ n</i>
+     λ·s<sub>z</sub>·190 min ≤ m<sub>z</sub>·H            <i>∀ dock z</i></div>
+      <div class="rows3">
+        <div class="r3" style="--c:var(--steel)"><b><span lang="zh">宽度装箱行</span><span lang="en">Width bin-packing rows</span><span lang="ko">폭 빈 패킹 행</span><small>T18</small></b><span><span lang="zh">把宽度份额 x = d/C 换成 Fekete–Schepers 对偶可行函数 u<sup>(1)</sup>、u<sup>(2)</sup>，有理数精确计算：两辆放不下的车各按独占计</span><span lang="en">The share x = d/C becomes the Fekete–Schepers dual-feasible functions u<sup>(1)</sup>, u<sup>(2)</sup>, in exact rationals: two vehicles that cannot fit side by side each count as exclusive</span><span lang="ko">폭 비율 x = d/C를 Fekete–Schepers 쌍대 실행 가능 함수 u<sup>(1)</sup>, u<sup>(2)</sup>로 바꾸고 유리수로 정확히 계산: 나란히 못 들어가는 두 차는 각각 독점으로 계산</span></span></div>
+        <div class="r3" style="--c:var(--oxide)"><b><span lang="zh">吊车行</span><span lang="en">Crane rows</span><span lang="ko">크레인 행</span><small>T20</small></b><span><span lang="zh">每座坞一行：每次搭载占吊车 190 min（挂钩 10 + 定位松钩 180），能力为台数 × 16 h</span><span lang="en">One row per dock: an erection holds a crane 190 min (hook 10, position and release 180) against cranes × 16 h</span><span lang="ko">도크마다 한 행: 탑재 1회가 크레인을 190분 점유 (걸기 10 + 위치 맞춤·해제 180), 능력은 대수 × 16시간</span></span></div>
+        <div class="r3" style="--c:var(--amber-hi)"><b><span lang="zh">窗口边界项</span><span lang="en">Window edge term</span><span lang="ko">창 경계항</span><small>T21</small></b><span><span lang="zh">逐例核对在有限窗口 W 上做，窗口内每台吊车至多多开始一次：每次记 190 min × W/(W + 190 min)</span><span lang="en">The case check runs over a finite window W, where a crane can start once more than its rate: each lift counts 190 min × W/(W + 190 min)</span><span lang="ko">사례 확인은 유한 창 W에서 하며, 창 안에서 크레인은 속도보다 최대 한 번 더 시작: 1회를 190분 × W/(W + 190분)으로 계산</span></span></div>
+      </div>
+      <p class="small" style="margin:0;border-left:4px solid var(--amber-hi);padding-left:12px"><span lang="zh"><b>定理 T1′</b>：规则满足 (A1)–(A3) 时，长期日吞吐 λ ≤ min{T1′，K·H/c̄}；载货路线与仿真相同（最短路）。</span><span lang="en"><b>Theorem T1′</b>: for a rule satisfying (A1)–(A3), long-run daily throughput λ ≤ min{T1′, K·H/c̄}; loaded routes as in the simulation (shortest paths).</span><span lang="ko"><b>정리 T1′</b>: (A1)–(A3)을 만족하는 규칙에서 장기 일일 처리량 λ ≤ min{T1′, K·H/c̄}, 적재 경로는 시뮬레이션과 같음 (최단 경로).</span></p>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：thesis-core 83c16bf，docs/T18_T1_tight_proof.md 第 1–3 节（引理 1 为 Fekete &amp; Schepers 2001 的特例，草稿中独立证明）；吊车行见 T20 报告第 0 节第 3 条，190 min 取自张水根 2025 第 2525–2528 行（另一座船厂）；窗口边界项见 T21 报告第 5 节。ā、e 为一个任务、一次空驶对资源 r 的无等待占用（秒 × u 份额）；s<sub>z</sub> 为到坞 z 的搭载份额，m<sub>z</sub> 为吊车台数。左图由定义画出。</span><span lang="en">Sources: thesis-core 83c16bf, docs/T18_T1_tight_proof.md §1–3 (lemma 1 is a special case of Fekete &amp; Schepers 2001, proved on its own in the draft); crane rows in the T20 report §0 item 3, the 190 min from Zhang 2025, lines 2525–2528 (another yard); the window edge term in the T21 report §5. ā and e are the no-wait holds of one task and one empty run on resource r (seconds × share u); s<sub>z</sub> is the erection share to dock z and m<sub>z</sub> its cranes. The chart is drawn from the definitions.</span><span lang="ko">출처: thesis-core 83c16bf, docs/T18_T1_tight_proof.md §1–3 (보조정리 1은 Fekete &amp; Schepers 2001의 특수한 경우로 초안에서 따로 증명), 크레인 행은 T20 보고서 §0 3항, 190분은 Zhang 2025 2525–2528행 (다른 조선소), 창 경계항은 T21 보고서 §5. ā·e는 작업 1건·공차 주행 1회의 자원 r 무대기 점유 (초 × 비율 u), s<sub>z</sub>는 도크 z로 가는 탑재 비율, m<sub>z</sub>는 크레인 대수. 왼쪽 그림은 정의로 그렸다.</span></p>
+  <aside class="notes">
+    <p lang="zh">T1 是最基本的占用率线性规划：每个资源一天的占用不超过 H，空车流守恒，求最大日吞吐。T1′ 在它上面加了三类行。第一类是宽度装箱行：把宽度份额换成 Fekete–Schepers 的对偶可行函数。左图里蓝线是原来的份额，红线和橙线是两个对偶可行函数。以玉浦取紧的道路161 为例，9 米宽、容量 10，空车占 6.5，份额 0.65；两辆车放不下，所以对偶可行函数把它记成 1，这就是收紧的来源。第二类是吊车行，每座坞一行。第三类是窗口边界项，用于有限窗口上的逐例核对。证明的思路是：每个时刻用引理把份额之和压到 1 以下，对时间积分，再用 (A1)–(A3) 把每辆车的积分下界成线性规划的行。</p>
+    <p lang="en">T1 is the basic occupancy-rate LP: each resource is occupied at most H per day, empty flow is conserved, and daily throughput is maximised. T1′ adds three kinds of rows. The first are width bin-packing rows: the width share is replaced by Fekete–Schepers dual-feasible functions. In the chart, blue is the plain share and red and orange are the two dual-feasible functions. Take road 161, where Okpo binds: 9 metres wide, capacity 10, an empty vehicle takes 6.5, a share of 0.65; two cannot fit side by side, so the dual-feasible function counts it as 1, and that is where the tightening comes from. The second kind are crane rows, one per dock. The third is the window edge term for the case-by-case check over a finite window. The proof: at each moment the lemma keeps the transformed shares at most 1; integrate over time; then (A1)–(A3) bound each vehicle's integral from below by the LP rows.</p>
+    <p lang="ko">T1은 기본 점유율 LP입니다: 각 자원의 하루 점유가 H 이하, 공차 흐름 보존, 일일 처리량 최대화. T1′은 여기에 세 종류의 행을 더합니다. 첫째는 폭 빈 패킹 행으로, 폭 비율을 Fekete–Schepers 쌍대 실행 가능 함수로 바꿉니다. 왼쪽 그림에서 파란 선은 원래 비율, 빨간 선과 주황 선이 두 함수입니다. 옥포가 걸리는 도로161을 예로 들면, 폭 9 m, 용량 10, 공차가 6.5를 차지해 비율 0.65입니다. 두 대가 나란히 못 들어가므로 함수가 이를 1로 계산하며, 이것이 강화의 출처입니다. 둘째는 도크마다 한 행인 크레인 행, 셋째는 유한 창 사례 확인용 창 경계항입니다. 증명은 각 순간 보조정리로 변환된 비율 합을 1 이하로 두고, 시간에 대해 적분한 뒤, (A1)–(A3)으로 각 차량의 적분을 LP 행으로 아래에서 묶는 방식입니다.</p>
+  </aside>
+</section>
+
+<!-- per-seed bounds -->
+<section class="slide" data-sec="bound">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">两厂逐种子：玉浦收紧 14%，取紧在道路；烟台取紧在一座厂房的两个门</span><span lang="en">Seed by seed in two yards: Okpo tightens by 14% and binds on roads; Yantai binds at the two doors of one building</span><span lang="ko">시드별 두 조선소: 옥포는 14% 강화되어 도로에서 걸리고, 옌타이는 한 건물의 두 문에서 걸린다</span></h2>
+  <div class="content g-l" style="gap:24px;margin-top:16px">
+    <div class="col" style="gap:8px">
+      <div class="fill chart" id="cSeeds"></div>
+      <div class="legend" id="lgSeeds"></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:4px" id="seedRead"></div>
+  </div>
+  <p class="src"><span lang="zh">来源：thesis-core 83c16bf，results/a0ab16fceb94/bounds.csv（玉浦，地图 rev 1824，T21 核对 rev 1825 路网相同）、b82aa19b22af/bounds.csv（烟台 rev 395，与 rev 396 路网相同）、f7ac88b60111/bounds.csv（搭载组合）。条件：MY-B 流向组合，每个种子取任务流的前 2,000 个任务；资源为整段一个资源。烟台取紧节点在结果中同名，经总控用 83c16bf 代码重算去歧义（00_总控/tasks.md，2026-10-09）。</span><span lang="en">Sources: thesis-core 83c16bf, results/a0ab16fceb94/bounds.csv (Okpo, map rev 1824; T21 confirms rev 1825 has the same network), b82aa19b22af/bounds.csv (Yantai rev 395, same network as rev 396), f7ac88b60111/bounds.csv (erection mix). Conditions: MY-B flow mix, the first 2,000 tasks of each seed's stream; each road one resource. Yantai's binding nodes share one name in the results and were told apart by the project control rerunning the 83c16bf code (00_总控/tasks.md, 9 Oct 2026).</span><span lang="ko">출처: thesis-core 83c16bf, results/a0ab16fceb94/bounds.csv (옥포, 지도 rev 1824, T21에서 rev 1825 도로망 동일 확인), b82aa19b22af/bounds.csv (옌타이 rev 395, rev 396과 도로망 동일), f7ac88b60111/bounds.csv (탑재 조합). 조건: MY-B 흐름 조합, 시드별 작업 흐름의 처음 2,000건, 도로 하나가 자원 하나. 옌타이 결속 노드는 결과에서 이름이 같아 총괄이 83c16bf 코드로 재계산해 구분 (00_总控/tasks.md, 2026-10-09).</span></p>
+  <aside class="notes">
+    <p lang="zh">这是两座船厂每个种子的 T1 和 T1′。空心点是 T1，实心点是 T1′，颜色表示取紧的资源。玉浦主情景 T1 平均 1,997 个/日，T1′ 1,720，收紧 14%；取紧的是三条道路，道路161 五个种子、道路010-6 四个种子。搭载组合下十个种子全部取紧在道路161。烟台的上界约 1,252，九个种子取紧在建筑014 的两个门；这里 T1′ 比 T1 略高，因为 T1 重复计入了卸货后让出停靠位的净空，T1 不是严格上界，只作对照。种子之间差别不小，玉浦从 1,436 到 1,948，这是任务组合的抽样噪声，T23 的系统 T1′ 会把它去掉。</p>
+    <p lang="en">These are T1 and T1′ for every seed in both yards. Hollow points are T1, filled points T1′, coloured by the binding resource. On Okpo's main scenario T1 averages 1,997 tasks a day and T1′ 1,720, 14% tighter; three roads bind, road 161 in five seeds and road 010-6 in four. Under the erection mix all ten seeds bind on road 161. Yantai's bound is about 1,252, and nine seeds bind at the two doors of building 014; here T1′ is slightly above T1, because T1 counts the clearance after unloading twice; T1 is not a strict bound and serves only for comparison. Seeds differ a lot, from 1,436 to 1,948 on Okpo: this is sampling noise in the task mix, which the system T1′ of T23 removes.</p>
+    <p lang="ko">두 조선소의 시드별 T1과 T1′입니다. 빈 점이 T1, 채운 점이 T1′이며 색은 결속 자원입니다. 옥포 주 시나리오에서 T1은 평균 하루 1,997건, T1′은 1,720건으로 14% 강화됐고, 도로 세 개가 걸리는데 도로161이 시드 5개, 도로010-6이 4개입니다. 탑재 조합에서는 시드 10개 모두 도로161에서 걸립니다. 옌타이 상한은 약 1,252이고 시드 9개가 건물014의 두 문에서 걸립니다. 여기서는 T1′이 T1보다 약간 높은데, T1이 하역 후 정차 위치를 비우는 여유를 두 번 계산하기 때문입니다. T1은 엄격한 상한이 아니라 비교용입니다. 시드 사이 차이가 커서 옥포는 1,436에서 1,948까지인데, 이는 작업 조합의 표본 잡음이며 T23의 시스템 T1′이 없앱니다.</p>
+  </aside>
+</section>
+
+<!-- case-by-case check -->
+<section class="slide" data-sec="bound">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">逐例核对：两厂 17,760 个占路仿真点，没有一个超过 T1′</span><span lang="en">Checked case by case: none of 17,760 occupancy simulation points in two yards exceeds T1′</span><span lang="ko">사례별 확인: 두 조선소 점유 시뮬레이션 17,760점 중 T1′을 넘는 점은 없다</span></h2>
+  <div class="content g-l" style="gap:24px;margin-top:16px">
+    <div class="col" style="gap:8px">
+      <div class="fill chart" id="cChk"></div>
+      <div class="legend" id="lgChk"></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:4px">
+      <div id="chkRead"></div>
+      <p class="small" style="margin:6px 0 0"><span lang="zh">此前：T18 四批 12,140 点，最大 0.949；T20 有 13 点超出至多 2.3%，查明是统计窗口的边界效应，T21 把边界项写进代码后无一超出。</span><span lang="en">Before: T18's four batches, 12,140 points, largest 0.949; in T20, 13 points were over by up to 2.3%, traced to the window edge; with the edge term in the code (T21) none is over.</span><span lang="ko">이전: T18 네 배치 12,140점, 최대 0.949. T20에서 13점이 최대 2.3% 넘었고 창 경계 효과로 밝혀졌으며, T21에서 경계항을 코드에 넣은 뒤 넘는 점이 없다.</span></p>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：thesis-core 83c16bf，results/1b06c6d46f0d/points.csv（玉浦）与 87d02d32bc13/points.csv（烟台）：T21 的吊车节拍批次，整条路径预约与参照规则（瞬移疏解），高峰与饱和档；比值 = 吞吐 ÷ 本例统计窗口内完成组合的 T1′（含吊车行与窗口边界项）。汇总与 t21_summary.json 的 T1_tight_check 一致。小实例见 docs/T18_T1_tight_proof.md 第 4 节；T18、T20 的核对见各自报告第 2、8 节。</span><span lang="en">Sources: thesis-core 83c16bf, results/1b06c6d46f0d/points.csv (Okpo) and 87d02d32bc13/points.csv (Yantai): T21's crane-cadence batches, whole-route reservation and the reference rule (teleport clearing), peak and saturated demand; ratio = throughput ÷ T1′ of the mix completed in that point's window (with crane rows and the edge term). Totals agree with T1_tight_check in t21_summary.json. Small instances in docs/T18_T1_tight_proof.md §4; the T18 and T20 checks in their reports, §2 and §8.</span><span lang="ko">출처: thesis-core 83c16bf, results/1b06c6d46f0d/points.csv (옥포)와 87d02d32bc13/points.csv (옌타이): T21 크레인 주기 배치, 전체 경로 예약과 참조 규칙 (순간이동 해소), 피크와 포화. 비율 = 처리량 ÷ 그 점의 창에서 완료된 조합의 T1′ (크레인 행·창 경계항 포함). 합계는 t21_summary.json의 T1_tight_check와 일치. 소규모 예제는 docs/T18_T1_tight_proof.md §4, T18·T20 확인은 각 보고서 §2·§8.</span></p>
+  <aside class="notes">
+    <p lang="zh">上界有证明草稿，但我们也逐例核对。T21 两座船厂一共 17,760 个占路仿真点，每个点都按它自己统计窗口里完成的任务组合重新算一次 T1′，再看吞吐与它的比值。直方图里没有一个点越过 1，最大 0.973。比值 0.9 以上的点几乎都在名义吊车负荷 ρ ≥ 0.92 的几档，吊车几乎满负荷，上界在那里几乎贴合。小实例上我们还找到了 T1′ 是紧的例子：同一停靠点卸完接着装，逐段申请恰好做到 T1′，而老的 T1 在这里被超过。这也是我们只把 T1 当对照的原因。</p>
+    <p lang="en">The bound has a proof draft, but we also check it case by case. T21 has 17,760 occupancy simulation points in two yards; for each we recompute T1′ on the task mix completed in that point's window and take the ratio of throughput to it. No point in the histogram passes 1; the largest is 0.973. Points above 0.9 almost all come from the settings with nominal crane load ρ ≥ 0.92, where the cranes are nearly saturated and the bound is nearly reached. On small instances we also found a case where T1′ is tight: unloading and loading again at the same stop, segment request reaches exactly T1′, while the old T1 is exceeded there. That is why T1 serves only for comparison.</p>
+    <p lang="ko">상한에는 증명 초안이 있지만 사례별로도 확인합니다. T21의 두 조선소 점유 시뮬레이션 17,760점마다 그 점의 창에서 완료된 작업 조합으로 T1′을 다시 계산하고 처리량과의 비율을 봅니다. 히스토그램에서 1을 넘는 점은 없고 최대는 0.973입니다. 0.9를 넘는 점은 거의 모두 명목 크레인 부하 ρ ≥ 0.92인 단계에 있으며, 크레인이 거의 포화되어 상한에 거의 닿습니다. 소규모 예제에서는 T1′이 꼭 맞는 경우도 찾았습니다: 같은 정차 위치에서 하역 후 바로 적재하면 구간별 요청이 정확히 T1′에 이르고, 예전 T1은 여기서 넘어섭니다. 그래서 T1은 비교용으로만 씁니다.</p>
+  </aside>
+</section>
+
+<!-- robustness -->
+<section class="slide" data-sec="robust">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">道路161 的三种改动：主情景上界只变 <span style="white-space:nowrap">5%–8%</span>；搭载组合下取决于坞前道路怎样分段</span><span lang="en">Three changes to road 161: the main-scenario bound moves only <span style="white-space:nowrap">5–8%</span>; under the erection mix it depends on how the dock road is divided</span><span lang="ko">도로161의 세 가지 변경: 주 시나리오 상한은 <span style="white-space:nowrap">5–8%</span>만 변하고, 탑재 조합에서는 도크 앞 도로를 어떻게 나누는지에 달렸다</span></h2>
+  <div class="content g-l" style="gap:24px;margin-top:16px">
+    <div class="col" style="gap:8px">
+      <div class="fill chart" id="cRob"></div>
+      <div class="legend" id="lgRob"></div>
+    </div>
+    <div class="col compact" style="justify-content:center;gap:10px">
+      <ul class="clean">
+        <li><span lang="zh"><b>主情景</b>：1,720 → 1,805（改宽到 12 m）→ 1,857（按停靠点分段闭塞）→ 1,857（再加两处会车点）；取紧移到道路010-6。预约吞吐只变 +0.2%–2.4%：区间下沿由规则决定</span><span lang="en"><b>Main scenario</b>: 1,720 → 1,805 (widened to 12 m) → 1,857 (sectioned at its stops) → 1,857 (plus two passing bays); binding moves to road 010-6. Reservation throughput moves only +0.2–2.4%: the rule sets the lower edge</span><span lang="ko"><b>주 시나리오</b>: 1,720 → 1,805 (12 m로 확폭) → 1,857 (정차 지점별 구간 폐색) → 1,857 (대피 구간 두 곳 추가), 결속은 도로010-6으로 이동. 예약 처리량은 +0.2–2.4%만 변해 구간 하단은 규칙이 정한다</span></li>
+        <li><span lang="zh"><b>搭载组合（P6 15%）</b>：703 → 786 → 1,241（+77%）→ 1,241：上界的数值取决于坞前道路怎样离散化；预约吞吐 582 → 637（+10%）</span><span lang="en"><b>Erection mix (P6 15%)</b>: 703 → 786 → 1,241 (+77%) → 1,241: the bound depends on how the dock road is discretised; reservation 582 → 637 (+10%)</span><span lang="ko"><b>탑재 조합 (P6 15%)</b>: 703 → 786 → 1,241 (+77%) → 1,241, 상한 값은 도크 앞 도로의 이산화에 달렸다. 예약 처리량 582 → 637 (+10%)</span></li>
+        <li><span lang="zh"><b>分段后仍是上界</b>：资源只是分得更细，(A1)–(A3) 照样满足，证明不变</span><span lang="en"><b>Still a bound after sectioning</b>: resources are only finer, (A1)–(A3) still hold, the proof is unchanged</span><span lang="ko"><b>구간화 후에도 상한</b>: 자원이 더 잘게 나뉠 뿐, (A1)–(A3)이 그대로 성립하고 증명은 같다</span></li>
+      </ul>
+      <p class="small" style="margin:0"><span lang="zh">作者审核时的探针：上界 10 个种子，仿真 3 个种子，分段未加方向锁。正式数字由 T25 给出（10 个种子、完整 K 网格）。</span><span lang="en">A probe from the author's review: bounds over 10 seeds, simulations over 3, sections without direction locks. T25 gives the final numbers (10 seeds, full K grid).</span><span lang="ko">저자 검토의 탐침: 상한은 시드 10개, 시뮬레이션은 3개, 구간에 방향 잠금 없음. 최종 수치는 T25 (시드 10개, 전체 K 격자).</span></p>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：作者审核意见（00_总控/audit/response/占路运输全量审核意见与后续指导_20261009.md）附录 A 的两张表，由 make_data.py 解析；代码为 thesis-core 83c16bf，地图玉浦 rev 1825。预约吞吐：主情景 K = 120、搭载组合 K = 100，饱和档，4 天计第 2–4 天；+0.2%–2.4% 为 K = 60 与 120 两列合看。改宽：道路161 由 9 m 改为 12 m；分段闭塞：3 个停靠点前后各 25 m 设边界，切成 7 个资源；会车点：两段长间隔中部各一段 60 m 的不限宽段。</span><span lang="en">Source: the author's review (00_总控/audit/response/占路运输全量审核意见与后续指导_20261009.md), the two tables of appendix A, parsed by make_data.py; code thesis-core 83c16bf, Okpo map rev 1825. Reservation throughput: K = 120 in the main scenario and K = 100 in the erection mix, saturated, 4 days counting days 2–4; the +0.2–2.4% covers both K = 60 and 120. Widening: road 161 from 9 m to 12 m; sectioning: boundaries 25 m either side of its 3 stops, giving 7 resources; passing bays: a 60 m unrestricted piece in the middle of each of the two long gaps.</span><span lang="ko">출처: 저자 검토 의견 (00_总控/audit/response/占路运输全量审核意见与后续指导_20261009.md) 부록 A의 두 표, make_data.py가 파싱. 코드 thesis-core 83c16bf, 옥포 지도 rev 1825. 예약 처리량: 주 시나리오 K = 120, 탑재 조합 K = 100, 포화, 4일 중 2–4일. +0.2–2.4%는 K = 60·120 두 열을 함께 본 값. 확폭: 도로161 9 m → 12 m, 구간 폐색: 정차 지점 3곳 앞뒤 25 m에 경계, 자원 7개, 대피 구간: 긴 간격 두 곳 중간에 60 m 무제한 폭 구간.</span></p>
+  <aside class="notes">
+    <p lang="zh">作者审核时对玉浦取紧的道路161 做了三种改动：改宽到 12 米、按停靠点分段闭塞、分段后再加会车点。柱子是 T1′，点是整条路径预约的饱和吞吐，两者之间就是运力区间。主情景下上界只变 5% 到 8%，取紧移到道路010-6，而预约吞吐几乎不动，说明区间的下沿由规则决定，不由这条路决定。搭载组合下不同：分段闭塞让上界从 703 升到 1,241，上界的数值取决于坞前道路怎样离散化。分段只是把资源分细，证明不变。这是三种子的探针，正式数字由 T25 用十个种子和完整网格给出。</p>
+    <p lang="en">In the author's review, road 161, where Okpo binds, was changed three ways: widened to 12 metres, sectioned at its stops, and sectioned with two passing bays. Bars are T1′, dots are the saturated throughput of whole-route reservation; between them lies the capacity interval. In the main scenario the bound moves only 5 to 8% and binding moves to road 010-6, while reservation throughput hardly moves: the lower edge is set by the rule, not by this road. The erection mix is different: sectioning lifts the bound from 703 to 1,241, so its value depends on how the dock road is discretised. Sectioning only makes resources finer, so the proof is unchanged. This is a three-seed probe; T25 gives the final numbers with ten seeds and the full grid.</p>
+    <p lang="ko">저자 검토에서 옥포가 걸리는 도로161을 세 가지로 바꿔 봤습니다: 12 m로 확폭, 정차 지점별 구간 폐색, 구간화 후 대피 구간 추가. 막대는 T1′, 점은 전체 경로 예약의 포화 처리량이며, 그 사이가 운송 능력 구간입니다. 주 시나리오에서 상한은 5–8%만 변하고 결속은 도로010-6으로 옮겨 가지만 예약 처리량은 거의 그대로입니다. 구간의 하단은 이 도로가 아니라 규칙이 정합니다. 탑재 조합은 다릅니다: 구간 폐색으로 상한이 703에서 1,241로 올라, 상한 값이 도크 앞 도로의 이산화에 달려 있습니다. 구간화는 자원을 잘게 나눌 뿐이라 증명은 같습니다. 시드 3개의 탐침이며 최종 수치는 T25가 시드 10개와 전체 격자로 냅니다.</p>
+  </aside>
+</section>
+
+<!-- key elements -->
+<section class="slide" data-sec="robust">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">两厂的取紧要素都落在偏保守的建模选择上：关键要素复核成为固定步骤</span><span lang="en">Both yards' binding elements sat on conservative modelling choices: the key-element review becomes a fixed step</span><span lang="ko">두 조선소의 결속 요소가 모두 보수적 모형 선택 위에 있었다: 핵심 요소 검토를 고정 단계로 만든다</span></h2>
+  <div class="content g2" style="gap:24px">
+    <div class="col compact" style="gap:12px;justify-content:center">
+      <div class="yg" style="--c:var(--oxide)"><h3><span lang="zh">玉浦 · 道路161（宽 9 m、长 1,095 m，1 号干坞前）</span><span lang="en">Okpo · road 161 (9 m wide, 1,095 m, at dock no. 1)</span><span lang="ko">옥포 · 도로161 (폭 9 m, 1,095 m, 1번 도크 앞)</span></h3>
+        <p><span lang="zh">主情景 5/10 个种子取紧，对偶价格 98.9 个/日（每多 1 h/日可用），约合 4.2 台车；道路010-6 4/10，115.5。搭载组合 10/10，43.9，约合 1.8 台车。</span><span lang="en">Binds in 5 of 10 seeds in the main scenario, dual price 98.9 a day per extra hour a day, about 4.2 vehicles; road 010-6 in 4 of 10, 115.5. Erection mix: 10 of 10, 43.9, about 1.8 vehicles.</span><span lang="ko">주 시나리오 시드 10개 중 5개에서 결속, 쌍대 가격은 하루 1시간 추가당 하루 98.9건, 약 4.2대, 도로010-6은 10개 중 4개, 115.5. 탑재 조합 10/10, 43.9, 약 1.8대.</span></p>
+        <p class="chk"><span lang="zh">作者影像核对：车在坞边卸货或等吊车时，相邻总组场地可以进出。→ 从 T22 起，按停靠点分段闭塞是玉浦主情景，整段作对照。</span><span lang="en">Author's imagery check: while a vehicle unloads or waits for the crane at the dock edge, the neighbouring assembly areas stay reachable. → From T22, Okpo's main scenario sections the road at its stops; the whole road is the comparison.</span><span lang="ko">저자의 영상 확인: 차량이 도크 가장자리에서 하역하거나 크레인을 기다릴 때 인접 총조립장에 드나들 수 있다. → T22부터 정차 지점별 구간 폐색이 옥포 주 시나리오, 전체 구간은 비교용.</span></p></div>
+      <div class="yg" style="--c:var(--good)"><h3><span lang="zh">烟台 · 建筑014 的两个门</span><span lang="en">Yantai · the two doors of building 014</span><span lang="ko">옌타이 · 건물014의 두 문</span></h3>
+        <p><span lang="zh">9/10 个种子取紧。两个门都是尽头节点，车在门口装卸、独占约 10 min；这座厂房只有两个门，每个门约承担全部任务的 7%。</span><span lang="en">Binds in 9 of 10 seeds. Both doors are dead-end nodes where vehicles load and unload, holding the door about 10 min; the building has only two doors, each serving about 7% of all tasks.</span><span lang="ko">시드 10개 중 9개에서 결속. 두 문 모두 막다른 노드로 차량이 문에서 적재·하역하며 약 10분 독점, 문이 두 개뿐이라 문마다 전체 작업의 약 7%를 맡는다.</span></p>
+        <p class="chk"><span lang="zh">作者影像核对：两个门，门前能错车，“门口独占装卸”偏保守。→ T25 加门口粒度情景。</span><span lang="en">Author's check on imagery: two doors, and vehicles can pass in front, so “exclusive loading at the door” is conservative. → T25 adds a door-granularity scenario.</span><span lang="ko">저자의 영상 확인: 문이 두 개이고 문 앞에서 교행할 수 있어 “문 앞 독점 적재·하역”은 보수적이다. → T25에서 문 단위 시나리오 추가.</span></p></div>
+    </div>
+    <div class="col compact" style="gap:10px;justify-content:center">
+      <h3 style="margin:0;font-size:19px"><span lang="zh">固定步骤（第 6 章每座船厂）</span><span lang="en">The fixed step (every yard in chapter 6)</span><span lang="ko">고정 단계 (6장의 모든 조선소)</span></h3>
+      <div class="vsteps">
+        <div><span><span lang="zh">算出 T1′ 与各资源的对偶价格</span><span lang="en">Compute T1′ and the dual price of every resource</span><span lang="ko">T1′과 자원별 쌍대 가격 계산</span></span></div>
+        <div><span><span lang="zh">列出对偶价格前 3 名的要素</span><span lang="en">List the three elements with the highest dual prices</span><span lang="ko">쌍대 가격 상위 3개 요소 나열</span></span></div>
+        <div><span><span lang="zh">作者在影像上看：<b>路宽、入口数、停靠点前后的通行方式</b></span><span lang="en">The author checks on imagery: <b>road width, number of entrances, how traffic passes a stop</b></span><span lang="ko">저자가 영상에서 확인: <b>도로 폭, 출입구 수, 정차 지점 앞뒤의 통행 방식</b></span></span></div>
+        <div><span><span lang="zh">按结果选资源粒度后重算，写进地图的来源字段</span><span lang="en">Choose the resource granularity, recompute, and record it in the map's source field</span><span lang="ko">결과에 따라 자원 단위를 고른 뒤 재계산, 지도의 출처 필드에 기록</span></span></div>
+      </div>
+      <p class="small" style="margin:0"><span lang="zh">这是对少数关键要素的定点确认，不是精准标注；可作为工程方法（最小人工核对）写进论文。</span><span lang="en">This is a pinpoint check of a few key elements, not a precise survey; it can go into the thesis as an engineering method (minimal human check).</span><span lang="ko">소수 핵심 요소의 정점 확인이지 정밀 표시가 아니며, 공학적 방법 (최소 인적 확인)으로 논문에 쓸 수 있다.</span></p>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：对偶价格为 T18 汇总（thesis-core 83c16bf，results/t18_report_d10b9015cd4d/t18_summary.json），换算按车队上界每台车 H/c̄（c̄ = 40.5 / 39.8 min），条件同上一页；烟台的门与任务份额、两项影像核对与固定步骤见 00_总控/tasks.md（作者 2026-10-09）与 船厂清单.md 第三节第 4 条；作者审核意见第 2.6 节。</span><span lang="en">Sources: dual prices from the T18 summary (thesis-core 83c16bf, results/t18_report_d10b9015cd4d/t18_summary.json), converted at H/c̄ per vehicle (c̄ = 40.5 / 39.8 min), conditions as on the earlier slides; Yantai's doors and task shares, both imagery checks and the fixed step in 00_总控/tasks.md (author, 9 Oct 2026) and 船厂清单.md §3 item 4; the author's review §2.6.</span><span lang="ko">출처: 쌍대 가격은 T18 요약 (thesis-core 83c16bf, results/t18_report_d10b9015cd4d/t18_summary.json), 차량 환산은 대당 H/c̄ (c̄ = 40.5 / 39.8분), 조건은 앞 슬라이드와 같음. 옌타이 문과 작업 비율, 두 영상 확인과 고정 단계는 00_总控/tasks.md (저자, 2026-10-09)와 船厂清单.md 3절 4항, 저자 검토 의견 §2.6.</span></p>
+  <aside class="notes">
+    <p lang="zh">上界还告诉我们卡在哪里。玉浦取紧在道路161，1 号干坞前 9 米宽、一公里多长的停靠路段；烟台取紧在建筑014 的两个门。两处正好都落在偏保守的建模选择上：整条路算一个资源，门口独占装卸。作者在影像上核对后，两处都改了建模：玉浦从 T22 起按停靠点分段为主情景，烟台在 T25 加门口粒度情景。由此我们把关键要素复核定为固定步骤：每座船厂算完上界，看对偶价格前三名的要素，在影像上确认，再选资源粒度重算。这不是精准标注，而是对少数要素的定点确认。</p>
+    <p lang="en">The bound also tells us where capacity binds. Okpo binds on road 161, the 9-metre, kilometre-long stopping road in front of dock no. 1; Yantai binds at the two doors of building 014. Both happen to sit on conservative modelling choices: the whole road as one resource, and exclusive loading at the door. After the author checked the imagery, both models changed: from T22 Okpo's main scenario sections the dock road at its stops, and T25 adds a door-granularity scenario for Yantai. So we made the key-element review a fixed step: after each yard's bound, take the three elements with the highest dual prices, confirm them on imagery, then choose the resource granularity and recompute. This is not a precise survey but a pinpoint check of a few elements.</p>
+    <p lang="ko">상한은 어디서 걸리는지도 알려 줍니다. 옥포는 1번 건조 도크 앞 폭 9 m, 길이 1 km가 넘는 정차 구간인 도로161에서, 옌타이는 건물014의 두 문에서 걸립니다. 두 곳 모두 보수적인 모형 선택 위에 있었습니다: 도로 전체를 자원 하나로, 문 앞에서 독점 적재·하역. 저자가 영상을 확인한 뒤 두 곳 모두 모형을 바꿨습니다: 옥포는 T22부터 정차 지점별 구간화가 주 시나리오, 옌타이는 T25에서 문 단위 시나리오를 추가합니다. 그래서 핵심 요소 검토를 고정 단계로 정했습니다: 조선소마다 상한을 계산한 뒤 쌍대 가격 상위 3개 요소를 영상에서 확인하고, 자원 단위를 골라 다시 계산합니다. 정밀 표시가 아니라 소수 요소의 정점 확인입니다.</p>
+  </aside>
+</section>
+
+<!-- progress and next steps -->
+<section class="slide" data-sec="plan">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">已成立的部分与下一步：每项计算都落到论文的一张图、一张表或一节</span><span lang="en">What stands and what comes next: every computation lands in a figure, a table or a section of the thesis</span><span lang="ko">성립한 부분과 다음 단계: 모든 계산이 논문의 그림, 표, 절 하나로 이어진다</span></h2>
+  <div class="content" style="grid-template-columns:0.82fr 1.18fr;gap:24px;margin-top:16px">
+    <div class="col compact" style="gap:12px;justify-content:center">
+      <h3 style="margin:0;font-size:19px"><span lang="zh">已成立</span><span lang="en">In hand</span><span lang="ko">확보</span></h3>
+      <div class="done">
+        <div><span><span lang="zh">T1′ 的线性规划与三类新增行，代码与测试（有理数对偶可行函数、三个小实例手算、吊车边界项）</span><span lang="en">The T1′ LP with its three kinds of rows, code and tests (exact dual-feasible functions, three hand-checked instances, the crane edge term)</span><span lang="ko">T1′ LP와 새 행 세 종류, 코드와 테스트 (유리수 쌍대 실행 가능 함수, 손 계산 예제 3개, 크레인 경계항)</span></span></div>
+        <div><span><span lang="zh">证明草稿：对满足 (A1)–(A3) 的规则成立</span><span lang="en">Proof draft for rules satisfying (A1)–(A3)</span><span lang="ko">(A1)–(A3)을 만족하는 규칙의 증명 초안</span></span></div>
+        <div><span><span lang="zh">两厂 17,760 点逐例核对，无一超出</span><span lang="en">17,760 points in two yards checked, none over</span><span lang="ko">두 조선소 17,760점 사례별 확인, 넘는 점 없음</span></span></div>
+        <div><span><span lang="zh">玉浦主情景对道路161 的改宽、分段与会车点稳健（<span style="white-space:nowrap">+5%–8%</span>）</span><span lang="en">Okpo's main scenario is robust to widening, sectioning and passing bays on road 161 (<span style="white-space:nowrap">+5–8%</span>)</span><span lang="ko">옥포 주 시나리오는 도로161 확폭, 구간화, 대피 구간에 강건 (<span style="white-space:nowrap">+5–8%</span>)</span></span></div>
+      </div>
+      <p class="limits"><span lang="zh"><b>适用条件（只写这一次）</b>：载货路线固定为最短路；逐种子任务组合带抽样噪声（玉浦 1,436–1,948）；参照规则（瞬移疏解）不在证明内；玉浦 1,720 为整段一个资源的口径（分段后 1,857）；地图玉浦 rev 1824/1825、烟台 rev 395/396；MY-B 流向组合。</span><span lang="en"><b>Conditions (stated once)</b>: loaded routes fixed to shortest paths; per-seed task mixes carry sampling noise (Okpo 1,436–1,948); the reference rule (teleport clearing) is outside the proof; Okpo's 1,720 treats each road as one resource (1,857 when sectioned); maps Okpo rev 1824/1825, Yantai rev 395/396; MY-B flow mix.</span><span lang="ko"><b>적용 조건 (한 번만 적음)</b>: 적재 경로는 최단 경로로 고정, 시드별 작업 조합에 표본 잡음 (옥포 1,436–1,948), 참조 규칙 (순간이동 해소)은 증명 밖, 옥포 1,720은 도로 하나가 자원 하나인 기준 (구간화 시 1,857), 지도 옥포 rev 1824/1825·옌타이 rev 395/396, MY-B 흐름 조합.</span></p>
+    </div>
+    <div class="col" style="justify-content:center">
+      <table class="tbl dense plan">
+        <thead><tr><th><span lang="zh">任务</span><span lang="en">Task</span><span lang="ko">작업</span></th><th><span lang="zh">做什么</span><span lang="en">What</span><span lang="ko">내용</span></th><th><span lang="zh">产出（论文中的位置）</span><span lang="en">Output (place in the thesis)</span><span lang="ko">산출 (논문 내 위치)</span></th><th><span lang="zh">状态</span><span lang="en">Status</span><span lang="ko">상태</span></th></tr></thead>
+        <tbody>
+          <tr><td>T23</td><td><span lang="zh">系统 T1′：按起讫与宽度的分布算期望占用，无抽样噪声</span><span lang="en">System T1′ from expected holds, no sampling noise</span><span lang="ko">시스템 T1′: OD·폭 분포로 기대 점유 계산, 표본 잡음 없음</span></td><td><span lang="zh">第 3 章正文的上界数字</span><span lang="en">Bound numbers in chapter 3</span><span lang="ko">3장 본문 상한 수치</span></td><td><span class="pill run"><span lang="zh">进行中</span><span lang="en">running</span><span lang="ko">진행 중</span></span></td></tr>
+          <tr><td>T23</td><td><span lang="zh">路线自由的 T1″；路线选择的价值 T1″ − T1′</span><span lang="en">Route-free T1″; value of route choice T1″ − T1′</span><span lang="ko">경로 자유 T1″, 경로 선택의 가치 T1″ − T1′</span></td><td><span lang="zh">第 3 章上界节一行；第 5 章汇率表的对偶价格列</span><span lang="en">Chapter 3 bound section; dual-price column of chapter 5's rate table</span><span lang="ko">3장 상한 절 한 행, 5장 환율표의 쌍대 가격 열</span></td><td><span class="pill run"><span lang="zh">进行中</span><span lang="en">running</span><span lang="ko">진행 중</span></span></td></tr>
+          <tr><td>T23</td><td><span lang="zh">对偶价格前 10 名</span><span lang="en">Top-10 dual prices</span><span lang="ko">쌍대 가격 상위 10개</span></td><td><span lang="zh">关键要素复核清单</span><span lang="en">The key-element review list</span><span lang="ko">핵심 요소 검토 목록</span></td><td><span class="pill run"><span lang="zh">进行中</span><span lang="en">running</span><span lang="ko">진행 중</span></span></td></tr>
+          <tr><td>T22</td><td><span lang="zh">segment_safe；坞前道路分段闭塞</span><span lang="en">segment_safe; the dock road sectioned at its stops</span><span lang="ko">segment_safe, 도크 앞 도로 구간 폐색</span></td><td><span lang="zh">第 3 章运力区间图的下沿；规则收回证明范围</span><span lang="en">Lower edge of the capacity-interval figure (ch. 3); rule inside the proof</span><span lang="ko">3장 운송 능력 구간 그림의 하단, 규칙을 증명 범위로</span></td><td><span class="pill run"><span lang="zh">进行中</span><span lang="en">running</span><span lang="ko">진행 중</span></span></td></tr>
+          <tr><td>T25</td><td><span lang="zh">门口粒度；资源名去歧义</span><span lang="en">Door granularity; unambiguous resource names</span><span lang="ko">문 단위, 자원 이름 구분</span></td><td><span lang="zh">烟台的 T1′ 与取紧要素</span><span lang="en">Yantai's T1′ and binding elements</span><span lang="ko">옌타이 T1′과 결속 요소</span></td><td><span class="pill pend"><span lang="zh">待做</span><span lang="en">to do</span><span lang="ko">예정</span></span></td></tr>
+          <tr><td><span lang="zh">作者</span><span lang="en">Author</span><span lang="ko">저자</span></td><td><span lang="zh">重写 T1′ 证明</span><span lang="en">Rewrite the T1′ proof</span><span lang="ko">T1′ 증명 재작성</span></td><td><span lang="zh">第 3 章定理节</span><span lang="en">Chapter 3, theorem section</span><span lang="ko">3장 정리 절</span></td><td><span class="pill pend"><span lang="zh">第 3–4 周</span><span lang="en">weeks 3–4</span><span lang="ko">3–4주차</span></span></td></tr>
+          <tr><td>—</td><td><span lang="zh">候选：T1′ 的可达性（坞口主导时，周期规则达到 T1′ 的 1 − ε）</span><span lang="en">Candidate: attainability of T1′ (a periodic rule reaching 1 − ε of T1′ when the dock dominates)</span><span lang="ko">후보: T1′ 달성 가능성 (도크가 지배할 때 주기 규칙이 T1′의 1 − ε 달성)</span></td><td><span lang="zh">第 3 章定理节；TR-B / TS 的筹码</span><span lang="en">Chapter 3 theorems; the case for TR-B / TS</span><span lang="ko">3장 정리 절, TR-B·TS 근거</span></td><td><span class="pill pend"><span lang="zh">视 T22 再定</span><span lang="en">after T22</span><span lang="ko">T22 후 결정</span></span></td></tr>
+          <tr><td>—</td><td><span lang="zh">复杂性：NP 难（归约自阻塞作业车间）</span><span lang="en">Complexity: NP-hard (from the blocking job shop)</span><span lang="ko">복잡도: NP-난해 (차단 작업장에서 환원)</span></td><td><span lang="zh">第 3 章定理节</span><span lang="en">Chapter 3, theorem section</span><span lang="ko">3장 정리 절</span></td><td><span class="pill pend"><span lang="zh">待做</span><span lang="en">to do</span><span lang="ko">예정</span></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：00_总控/tasks.md 的 T22–T25 行（2026-10-09）；T22、T23 任务说明（00_总控/runs/）；作者审核意见第 2.4、2.7、4.2、4.4 节；研究宣言 v1 第 4 节。进行中与待做的任务只列计划，不是结果。</span><span lang="en">Sources: rows T22–T25 of 00_总控/tasks.md (9 Oct 2026); T22 and T23 task statements (00_总控/runs/); the author's review §2.4, §2.7, §4.2, §4.4; manifesto v1 §4. Running and to-do tasks are plans, not results.</span><span lang="ko">출처: 00_总控/tasks.md의 T22–T25 행 (2026-10-09), T22·T23 작업 지시 (00_总控/runs/), 저자 검토 의견 §2.4·§2.7·§4.2·§4.4, 연구 선언 v1 §4. 진행·예정 작업은 계획이며 결과가 아니다.</span></p>
+  <aside class="notes">
+    <p lang="zh">已经成立的有四项：线性规划和三类新增行连同测试，证明草稿，一万七千多个点的逐例核对，以及主情景对道路161 改动的稳健性。适用条件我们只在这里写一次：载货路线固定，逐种子组合有抽样噪声，参照规则不在证明内，玉浦的数字是整段口径。右边是下一步，每一项都写明产出放在论文哪里。T23 做系统 T1′、路线自由的 T1″ 和对偶价格表；T22 做 segment_safe 和坞前道路分段，它给出运力区间的下沿；T25 做门口粒度。作者本人重写证明，并考虑 T1′ 可达性这一候选结果。</p>
+    <p lang="en">Four things stand: the LP and its three kinds of rows with tests, the proof draft, the case-by-case check of over seventeen thousand points, and the robustness of the main scenario to changes on road 161. We state the conditions once, here: loaded routes are fixed, per-seed mixes carry sampling noise, the reference rule is outside the proof, and Okpo's number treats each road as one resource. On the right are the next steps, each with its place in the thesis. T23 computes the system T1′, the route-free T1″ and the dual-price table; T22 builds segment_safe and the sectioned dock road, which give the lower edge of the capacity interval; T25 handles door granularity. The author rewrites the proof and considers attainability of T1′ as a candidate result.</p>
+    <p lang="ko">확보한 것은 네 가지입니다: LP와 새 행 세 종류 및 테스트, 증명 초안, 1만 7천여 점의 사례별 확인, 도로161 변경에 대한 주 시나리오의 강건성. 적용 조건은 여기서 한 번만 씁니다: 적재 경로 고정, 시드별 조합의 표본 잡음, 참조 규칙은 증명 밖, 옥포 수치는 도로 하나가 자원 하나인 기준. 오른쪽은 다음 단계이며 각각 논문의 어디에 들어가는지 적었습니다. T23은 시스템 T1′, 경로 자유 T1″, 쌍대 가격표, T22는 segment_safe와 도크 앞 도로 구간화로 운송 능력 구간의 하단을 줍니다. T25는 문 단위를 다룹니다. 저자는 증명을 다시 쓰고 T1′ 달성 가능성을 후보 결과로 검토합니다.</p>
+  </aside>
+</section>
+
+<!-- positioning -->
+<section class="slide" data-sec="pos">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">新在哪里：宽度可共享、载货与空驶不对称的路网上的线性规划运力上界</span><span lang="en">What is new: an LP capacity bound for road networks with shareable widths and asymmetric loaded and empty occupancy</span><span lang="ko">새로운 점: 폭을 나눠 쓰고 적재·공차 점유가 비대칭인 도로망의 LP 운송 능력 상한</span></h2>
+  <div class="content" style="grid-template-columns:0.9fr 1.1fr;gap:24px;margin-top:14px">
+    <div class="col compact" style="gap:10px;justify-content:center">
+      <ul class="clean">
+        <li><span lang="zh"><b>据检索</b>（作者审核附录 B，2026-10-09），船厂运输文献中没有运力上界；AGV 分区控制的线性规划吞吐上界也未见直接对应的工作（该项检索为摘要级）</span><span lang="en"><b>Within our search</b> (the author's review, appendix B, 9 Oct 2026), the shipyard transport literature has no capacity bound, and no direct counterpart of an LP throughput bound for AGV zone control turned up (that search was abstract-level)</span><span lang="ko"><b>검색 범위 내</b> (저자 검토 부록 B, 2026-10-09) 조선소 운송 문헌에 운송 능력 상한이 없고, AGV 구역 제어의 LP 처리량 상한도 직접 대응하는 연구가 보이지 않았다 (초록 수준 검색)</span></li>
+        <li><span lang="zh">本文把占用率线性规划推广到<b>宽度可共享、载货与空驶占用不对称</b>的道路网，对满足 (A1)–(A3) 的任何规则成立</span><span lang="en">We extend the occupancy-rate LP to road networks with <b>shareable widths and asymmetric loaded and empty occupancy</b>, valid for any rule satisfying (A1)–(A3)</span><span lang="ko">점유율 LP를 <b>폭을 나눠 쓰고 적재·공차 점유가 비대칭인</b> 도로망으로 확장하며, (A1)–(A3)을 만족하는 모든 규칙에 성립</span></li>
+        <li><span lang="zh">对偶可行函数原本用于装箱下界，本文把它用作<b>对时间积分的容量行</b>；吊车行与窗口边界项把坞口接进同一个上界</span><span lang="en">Dual-feasible functions, made for bin-packing lower bounds, serve here as <b>time-integrated capacity rows</b>; crane rows and the window edge term bring the dock into the same bound</span><span lang="ko">빈 패킹 하한용 쌍대 실행 가능 함수를 <b>시간에 대해 적분한 용량 행</b>으로 쓰고, 크레인 행과 창 경계항으로 도크를 같은 상한에 넣는다</span></li>
+        <li><span lang="zh"><b>系统层面</b>：公开影像描图 → 上界 → 对偶价格 → 关键要素复核，每座船厂一次线性规划</span><span lang="en"><b>As a system</b>: tracing on public imagery → bound → dual prices → key-element review, one LP per yard</span><span lang="ko"><b>시스템 차원</b>: 공개 영상 추적 → 상한 → 쌍대 가격 → 핵심 요소 검토, 조선소마다 LP 한 번</span></li>
+      </ul>
+    </div>
+    <div class="col" style="justify-content:center">
+      <table class="tbl dense src2">
+        <thead><tr><th><span lang="zh">迁移来源</span><span lang="en">Source we build on</span><span lang="ko">이전 출처</span></th><th><span lang="zh">本文借来什么</span><span lang="en">What we take</span><span lang="ko">가져오는 것</span></th><th><span lang="zh">阅读深度</span><span lang="en">Read</span><span lang="ko">열람 수준</span></th></tr></thead>
+        <tbody>
+          <tr><td><span lang="zh">铁路阻塞时间与 UIC 406 压缩法；Goverde 2007</span><span lang="en">Railway blocking times and UIC 406 compression; Goverde 2007</span><span lang="ko">철도 차단 시간과 UIC 406 압축법, Goverde 2007</span></td><td><span lang="zh">阻塞时间 → 资源占用行；max-plus 给的是给定顺序下的可达周期，属下界一侧</span><span lang="en">Blocking time → occupancy rows; max-plus gives the cycle of a given order, a lower-side result</span><span lang="ko">차단 시간 → 점유 행, max-plus는 주어진 순서의 달성 주기로 하한 쪽</span></td><td><span lang="zh">摘要；UIC 406 待核</span><span lang="en">abstract; UIC 406 to check</span><span lang="ko">초록, UIC 406 확인 예정</span></td></tr>
+          <tr><td>Jensen, Schmidt, Nielsen 2020 (TR-C)</td><td><span lang="zh">不依赖时刻表的铁路网容量：结构上最近</span><span lang="en">Railway network capacity without a fixed timetable: closest in structure</span><span lang="ko">고정 시각표 없는 철도망 용량: 구조상 가장 가까움</span></td><td><span lang="zh">摘要</span><span lang="en">abstract</span><span lang="ko">초록</span></td></tr>
+          <tr><td>Campos, Chiola, Silva</td><td><span lang="zh">Petri 网的线性规划吞吐界：结构上最近</span><span lang="en">LP throughput bounds for Petri nets: closest in structure</span><span lang="ko">Petri 넷의 LP 처리량 한계: 구조상 가장 가까움</span></td><td><span lang="zh">原文乱码；期刊卷期待核</span><span lang="en">garbled PDF; venue to check</span><span lang="ko">원문 깨짐, 게재지 확인 예정</span></td></tr>
+          <tr><td><span lang="zh">带阻塞的排队网络：Onvural 1990；Balsamo 等 2001</span><span lang="en">Queueing networks with blocking: Onvural 1990; Balsamo et al. 2001</span><span lang="ko">차단이 있는 대기행렬망: Onvural 1990, Balsamo 외 2001</span></td><td><span lang="zh">阻塞与饥饿的理论支撑</span><span lang="en">Theory of blocking and starvation</span><span lang="ko">차단과 기아의 이론적 근거</span></td><td><span lang="zh">摘要；专著待核</span><span lang="en">abstract; book to check</span><span lang="ko">초록, 단행본 확인 예정</span></td></tr>
+          <tr><td>Fekete &amp; Schepers 2001</td><td><span lang="zh">对偶可行函数</span><span lang="en">Dual-feasible functions</span><span lang="ko">쌍대 실행 가능 함수</span></td><td><span lang="zh">引理在草稿中独立证明</span><span lang="en">lemma proved in the draft</span><span lang="ko">보조정리를 초안에서 증명</span></td></tr>
+          <tr><td>Mascis &amp; Pacciarelli 2002</td><td><span lang="zh">阻塞作业车间 → 复杂性归约</span><span lang="en">Blocking job shop → complexity reduction</span><span lang="ko">차단 작업장 → 복잡도 환원</span></td><td><span lang="zh">摘要</span><span lang="en">abstract</span><span lang="ko">초록</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：作者审核意见第 1.1 节（新意与写法“本文把 X 推广到宽度可共享、载货与空驶占用不对称的道路网”）与附录 B（检索与阅读深度）；进攻指导附录（Goverde、Onvural、Mascis 为摘要级）；T18 证明草稿第 6.2 节（max-plus 属下界一侧）。跨学科工作都作迁移来源，不作先占。</span><span lang="en">Sources: the author's review §1.1 (what is new, and the phrasing “we extend X to road networks with shareable widths and asymmetric loaded and empty occupancy”) and appendix B (searches and reading depth); the direction document's appendix (Goverde, Onvural and Mascis at abstract level); T18 proof draft §6.2 (max-plus is on the lower side). Work from other fields is cited as a source we build on, not as prior coverage.</span><span lang="ko">출처: 저자 검토 의견 §1.1 (새로운 점과 서술 “X를 폭을 나눠 쓰고 적재·공차 점유가 비대칭인 도로망으로 확장한다”)과 부록 B (검색과 열람 수준), 방향 지침 부록 (Goverde, Onvural, Mascis는 초록 수준), T18 증명 초안 §6.2 (max-plus는 하한 쪽). 다른 분야 연구는 선점이 아니라 이전 출처로 인용.</span></p>
+  <aside class="notes">
+    <p lang="zh">新意在哪里。据我们的检索，船厂运输文献里没有运力上界；AGV 分区控制的线性规划上界也没有找到直接对应的工作，但这项检索是摘要级的。我们做的是把占用率线性规划推广到宽度可共享、载货与空驶占用不对称的道路网，对满足三个条件的任何规则都成立。另一个想法是把装箱里的对偶可行函数用作对时间积分的容量行。右表是迁移来源：结构上最近的是铁路不依赖时刻表的容量和 Petri 网的线性规划吞吐界；阻塞时间来自铁路；阻塞与饥饿的理论来自带阻塞的排队网络。这些都按阅读深度标注，摘要级的引用前回原文核对。</p>
+    <p lang="en">What is new. Within our search the shipyard transport literature has no capacity bound, and we found no direct counterpart of an LP throughput bound for AGV zone control, though that search was abstract-level. We extend the occupancy-rate LP to road networks with shareable widths and asymmetric loaded and empty occupancy, valid for any rule meeting the three conditions. A second idea is to use the dual-feasible functions of bin packing as time-integrated capacity rows. The table lists the sources we build on: closest in structure are timetable-free railway capacity and LP throughput bounds for Petri nets; blocking time comes from railways; the theory of blocking and starvation comes from queueing networks with blocking. Each carries its reading depth, and abstract-level items will be checked against the originals before citation.</p>
+    <p lang="ko">새로운 점입니다. 저희 검색 범위에서 조선소 운송 문헌에는 운송 능력 상한이 없고, AGV 구역 제어의 LP 상한도 직접 대응하는 연구를 찾지 못했습니다. 다만 이 검색은 초록 수준입니다. 저희는 점유율 LP를 폭을 나눠 쓰고 적재·공차 점유가 비대칭인 도로망으로 확장했고, 세 조건을 만족하는 모든 규칙에 성립합니다. 또 하나는 빈 패킹의 쌍대 실행 가능 함수를 시간에 대해 적분한 용량 행으로 쓴 것입니다. 오른쪽 표는 이전 출처입니다: 구조상 가장 가까운 것은 시각표 없는 철도 용량과 Petri 넷의 LP 처리량 한계이고, 차단 시간은 철도에서, 차단과 기아의 이론은 차단이 있는 대기행렬망에서 옵니다. 모두 열람 수준을 표시했고 초록 수준 항목은 인용 전 원문을 확인합니다.</p>
+  </aside>
+</section>
+
+<!-- journals -->
+<section class="slide" data-sec="pos">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">上界与模型论文的候选期刊：列几种选项，成文时再定</span><span lang="en">Candidate journals for a bound-and-model paper: several options, chosen when the paper is written</span><span lang="ko">상한·모형 논문의 후보 학술지: 몇 가지 선택지, 원고를 쓸 때 정한다</span></h2>
+  <div class="content" style="grid-template-rows:auto auto;align-content:center;gap:16px">
+    <table class="tbl jr">
+      <thead><tr><th><span lang="zh">类别</span><span lang="en">Kind</span><span lang="ko">구분</span></th><th><span lang="zh">期刊</span><span lang="en">Journal</span><span lang="ko">학술지</span></th><th><span lang="zh">适合的情形</span><span lang="en">When it fits</span><span lang="ko">맞는 경우</span></th></tr></thead>
+      <tbody>
+        <tr><td><span lang="zh">首选 · 理论</span><span lang="en">First · theory</span><span lang="ko">우선 · 이론</span></td><td>Transportation Research Part B</td><td><span lang="zh">运力上界与运力区间作主线；补上 T1′ 可达性或坞口命题后更有分量</span><span lang="en">The capacity bound and interval as the main line; stronger once T1′ attainability or the dock-mouth proposition is proved</span><span lang="ko">운송 능력 상한과 구간이 주축, T1′ 달성 가능성이나 도크 입구 명제가 증명되면 더 무게가 실림</span></td></tr>
+        <tr><td><span lang="zh">首选 · 理论</span><span lang="en">First · theory</span><span lang="ko">우선 · 이론</span></td><td>Transportation Science</td><td><span lang="zh">网络运力、交通规则与上界的对照；条件同上</span><span lang="en">Network capacity, traffic rules and the bound side by side; same conditions</span><span lang="ko">도로망 능력, 통행 규칙, 상한의 대조, 조건은 위와 같음</span></td></tr>
+        <tr><td><span lang="zh">备选 · 运筹</span><span lang="en">Alternative · OR</span><span lang="ko">대안 · OR</span></td><td>Operations Research</td><td><span lang="zh">T1′、T1″ 与可达性都证出时，写成一般的线性规划运力方法</span><span lang="en">If T1′, T1″ and attainability are all proved, as a general LP capacity method</span><span lang="ko">T1′, T1″, 달성 가능성이 모두 증명되면 일반 LP 능력 방법으로</span></td></tr>
+        <tr><td><span lang="zh">备选 · 运筹</span><span lang="en">Alternative · OR</span><span lang="ko">대안 · OR</span></td><td>Naval Research Logistics</td><td><span lang="zh">对偶可行函数行、对偶价格与上界的方法贡献</span><span lang="en">The method: dual-feasible-function rows, dual prices and the bound</span><span lang="ko">방법 기여: 쌍대 실행 가능 함수 행, 쌍대 가격, 상한</span></td></tr>
+        <tr><td><span lang="zh">备选 · 运筹</span><span lang="en">Alternative · OR</span><span lang="ko">대안 · OR</span></td><td>European Journal of Operational Research</td><td><span lang="zh">模型、上界与两厂计算并重</span><span lang="en">Model, bound and computation on two yards in balance</span><span lang="ko">모형, 상한, 두 조선소 계산을 고르게</span></td></tr>
+        <tr><td><span lang="zh">应用向</span><span lang="en">Applied</span><span lang="ko">응용</span></td><td>IISE Transactions</td><td><span lang="zh">制造物流系统的运力分析与改造决策（关键要素、对偶价格）</span><span lang="en">Capacity analysis and upgrade decisions for manufacturing logistics (key elements, dual prices)</span><span lang="ko">제조 물류 시스템의 능력 분석과 개조 결정 (핵심 요소, 쌍대 가격)</span></td></tr>
+      </tbody>
+    </table>
+    <p class="small" style="margin:0;border-left:4px solid var(--amber-hi);padding-left:12px"><span lang="zh">作者指导第 4.2 节对第一篇论文（模型、运力区间、坞口、路—车汇率合在一起）的安排：主投 TR-E 或 IISE Transactions；补上 T1′ 的可达性与坞口命题后，冲 TR-B 或 Transportation Science。本页只列选项，不定一个目标。</span><span lang="en">The author's guidance (§4.2) for the first paper, which combines model, capacity interval, dock and exchange rate: submit to TR-E or IISE Transactions; with attainability of T1′ and the dock-mouth proposition added, aim at TR-B or Transportation Science. This slide lists options only and fixes no target.</span><span lang="ko">저자 지침 §4.2의 첫 논문 (모형, 운송 능력 구간, 도크, 도로–차량 환율을 함께) 계획: TR-E 또는 IISE Transactions에 투고, T1′ 달성 가능성과 도크 입구 명제를 더하면 TR-B 또는 Transportation Science. 이 슬라이드는 선택지만 나열하고 목표를 하나로 정하지 않는다.</span></p>
+  </div>
+  <p class="src"><span lang="zh">来源：作者审核意见第 4.2 节（第一篇论文的去向）；进攻指导第 4 节（第 2 章随第 3 章发表，第 3 章首选 TR-B / TS）；各期刊“适合的情形”为我们对本分项内容的匹配判断，投稿前按各刊的范围说明核对。</span><span lang="en">Sources: the author's review §4.2 (venues for the first paper); the direction document §4 (chapter 2 published with chapter 3, whose first choice is TR-B or TS); “when it fits” is our own matching of this sub-study to each journal, to be checked against each journal's aims and scope before submission.</span><span lang="ko">출처: 저자 검토 의견 §4.2 (첫 논문의 투고처), 방향 지침 §4 (2장은 3장과 함께 게재, 3장 우선 TR-B·TS), “맞는 경우”는 이 세부 연구 내용에 대한 저희의 판단이며 투고 전 각 학술지의 범위 설명으로 확인한다.</span></p>
+  <aside class="notes">
+    <p lang="zh">如果把上界和模型单独写成一篇，候选期刊有几种。理论向首选 TR-B 和 Transportation Science：以运力上界和运力区间为主线，补上 T1′ 可达性或坞口命题后更有分量。运筹向可以选 Operations Research、Naval Research Logistics 或 EJOR，侧重各不相同。应用向是 IISE Transactions。作者指导里对第一篇论文的安排是先投 TR-E 或 IISE Transactions，补上理论后冲 TR-B 或 Transportation Science。这里只列选项，成文时再定。</p>
+    <p lang="en">If the bound and model become a paper of their own, there are several candidate journals. On the theory side, TR-B and Transportation Science come first, with the capacity bound and interval as the main line, stronger once attainability of T1′ or the dock-mouth proposition is proved. On the OR side, Operations Research, Naval Research Logistics or EJOR, each with a different emphasis. On the applied side, IISE Transactions. The author's guidance for the first paper is TR-E or IISE Transactions first, then TR-B or Transportation Science once the theory is added. These are options; the choice comes when the paper is written.</p>
+    <p lang="ko">상한과 모형을 따로 논문으로 쓴다면 후보 학술지는 여러 가지입니다. 이론 쪽은 TR-B와 Transportation Science가 우선이며, 운송 능력 상한과 구간이 주축이고 T1′ 달성 가능성이나 도크 입구 명제가 증명되면 더 무게가 실립니다. OR 쪽은 Operations Research, Naval Research Logistics, EJOR로 강조점이 각각 다릅니다. 응용 쪽은 IISE Transactions입니다. 저자 지침의 첫 논문 계획은 TR-E나 IISE Transactions에 먼저 내고 이론을 더한 뒤 TR-B나 Transportation Science입니다. 선택지일 뿐이며 원고를 쓸 때 정합니다.</p>
+  </aside>
+</section>
+
+<!-- references -->
+<section class="slide" data-sec="ref">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">参考文献与数据来源</span><span lang="en">References and data sources</span><span lang="ko">참고문헌과 데이터 출처</span></h2>
+  <div class="content" style="grid-template-rows:auto auto;align-content:start;gap:14px;margin-top:14px">
+    <ol class="refs" start="1" style="font-size:15.5px;line-height:1.5">
+      <li>Balsamo, S., de Nitto Personè, V., Onvural, R. (2001). <i>Analysis of Queueing Networks with Blocking</i>. Kluwer, Boston. (to be checked)</li>
+      <li>Campos, J., Chiola, G., Silva, M. (1991). Ergodicity and throughput bounds of Petri nets with unique consistent firing count vector. <i>IEEE Transactions on Software Engineering</i> 17(2). (journal and issue to be checked)</li>
+      <li>Fekete, S.P., Schepers, J. (2001). New classes of fast lower bounds for bin packing problems. <i>Mathematical Programming</i> 91(1), 11–31. doi:10.1007/s101070100243</li>
+      <li>Goverde, R.M.P. (2007). Railway timetable stability analysis using max-plus system theory. <i>Transportation Research Part B</i> 41(2), 179–201. doi:10.1016/j.trb.2006.02.003</li>
+      <li>Jensen, L.W., Schmidt, M., Nielsen, O.A. (2020). Determination of infrastructure capacity in railway networks without the need for a fixed timetable. <i>Transportation Research Part C</i> 119, 102751.</li>
+      <li>Mascis, A., Pacciarelli, D. (2002). Job-shop scheduling with blocking and no-wait constraints. <i>European J. Operational Research</i> 143(3), 498–517. doi:10.1016/S0377-2217(01)00338-1</li>
+      <li>Onvural, R.O. (1990). Survey of closed queueing networks with blocking. <i>ACM Computing Surveys</i> 22(2), 83–121. doi:10.1145/78919.78920</li>
+      <li>Reveliotis, S.A. (2000). Conflict resolution in AGV systems. <i>IIE Transactions</i> 32(7), 647–659. doi:10.1080/07408170008967423</li>
+      <li>UIC (2013). <i>UIC Code 406: Capacity</i>, 2nd ed. International Union of Railways, Paris.</li>
+      <li>Zhang, S. 张水根 (2025). 大型船海装备制造场地智慧调度与优化系统设计及实现. 硕士学位论文, 沈阳工业大学. doi:10.27322/d.cnki.gsgyu.2025.000182</li>
+    </ol>
+    <div class="refs-data" style="font-size:15.5px;line-height:1.5">
+      <p><span lang="zh">数据与文档：thesis-core 提交 83c16bf（T21，2026-10-09 复核通过）的 results/a0ab16fceb94、b82aa19b22af、f7ac88b60111（bounds.csv），1b06c6d46f0d、87d02d32bc13（points.csv），t18_report_d10b9015cd4d、t21_report_9eb8bf099d3a（汇总），docs/T17_flag_report.md、T18_report.md、T18_T1_tight_proof.md、T20_report.md、T21_report.md；研究宣言 v1（tag manifesto-v1）；作者审核意见 2026-10-09（附录 A、B）；00_总控/tasks.md；苏州大方 DCY270 参数页（车速）。图中数字由 bound/make_data.py 生成。</span><span lang="en">Data and documents: thesis-core commit 83c16bf (T21, reviewed 9 Oct 2026): results/a0ab16fceb94, b82aa19b22af, f7ac88b60111 (bounds.csv), 1b06c6d46f0d, 87d02d32bc13 (points.csv), t18_report_d10b9015cd4d, t21_report_9eb8bf099d3a (summaries); docs/T17_flag_report.md, T18_report.md, T18_T1_tight_proof.md, T20_report.md, T21_report.md; manifesto v1 (tag manifesto-v1); the author's review of 9 Oct 2026 (appendices A and B); 00_总控/tasks.md; Suzhou Dafang DCY270 data sheet (speeds). Chart numbers are generated by bound/make_data.py.</span><span lang="ko">데이터와 문서: thesis-core 커밋 83c16bf (T21, 2026-10-09 검토 통과)의 results/a0ab16fceb94·b82aa19b22af·f7ac88b60111 (bounds.csv), 1b06c6d46f0d·87d02d32bc13 (points.csv), t18_report_d10b9015cd4d·t21_report_9eb8bf099d3a (요약), docs/T17_flag_report.md·T18_report.md·T18_T1_tight_proof.md·T20_report.md·T21_report.md, 연구 선언 v1 (tag manifesto-v1), 저자 검토 의견 2026-10-09 (부록 A·B), 00_总控/tasks.md, 쑤저우 다팡 DCY270 사양 (속도). 그림의 수치는 bound/make_data.py가 생성.</span></p>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：DOI 取自总汇报已用 Crossref 或文献库全文核对的条目；Jensen 2020 与 Campos 等的卷期、Balsamo 等的专著按作者审核附录 B 标为待核；UIC 406 无 DOI。</span><span lang="en">Sources: DOIs from the entries of the thesis briefing that were checked against Crossref or the library's full texts; the volume details of Jensen 2020 and Campos et al. and the Balsamo et al. book are marked to be checked, as in the author's review, appendix B; UIC 406 has no DOI.</span><span lang="ko">출처: DOI는 총괄 보고에서 Crossref나 라이브러리 전문으로 확인한 항목, Jensen 2020과 Campos 외의 권호, Balsamo 외의 단행본은 저자 검토 부록 B에 따라 확인 예정으로 표시, UIC 406은 DOI 없음.</span></p>
+  <aside class="notes">
+    <p lang="zh">参考文献和数据来源。待核的条目已经标出，引用前回原文核对。图中的数字都由 make_data.py 从复核过的提交生成。</p>
+    <p lang="en">References and data sources. Items still to be checked are marked and will be checked against the originals before citation. All chart numbers are generated by make_data.py from the reviewed commit.</p>
+    <p lang="ko">참고문헌과 데이터 출처입니다. 확인할 항목은 표시했고 인용 전 원문을 확인합니다. 그림의 수치는 모두 make_data.py가 검토된 커밋에서 생성합니다.</p>
+  </aside>
+</section>
+
+<!-- end -->
+<section class="slide" data-sec="end">
+  <header class="eb"></header>
+  <h2 class="ttl d"><span lang="zh">这个分项给论文的：一个算得出、核得过、能指路的路网上界</span><span lang="en">What this sub-study gives the thesis: a network bound that can be computed, checked and that points the way</span><span lang="ko">이 세부 연구가 논문에 주는 것: 계산되고, 확인되고, 길을 가리키는 도로망 상한</span></h2>
+  <div class="content" style="grid-template-rows:auto auto auto;align-content:center;gap:18px">
+    <div class="cols3">
+      <div class="card sumc"><span class="k">1</span><h3><span lang="zh">算得出</span><span lang="en">Computable</span><span lang="ko">계산 가능</span></h3><p><span lang="zh">每座船厂一次线性规划，只用公开影像描出的路网与公开参数。</span><span lang="en">One LP per yard, using only networks traced on public imagery and public parameters.</span><span lang="ko">조선소마다 LP 한 번, 공개 영상으로 추적한 도로망과 공개 매개변수만 사용.</span></p></div>
+      <div class="card sumc"><span class="k">2</span><h3><span lang="zh">核得过</span><span lang="en">Checked</span><span lang="ko">확인됨</span></h3><p><span lang="zh">证明草稿覆盖满足 (A1)–(A3) 的规则；两厂 17,760 个占路仿真点无一超出。</span><span lang="en">The proof draft covers rules satisfying (A1)–(A3); none of 17,760 occupancy simulation points in two yards exceeds it.</span><span lang="ko">증명 초안이 (A1)–(A3) 규칙을 포괄하고, 두 조선소 점유 시뮬레이션 17,760점 중 넘는 점이 없다.</span></p></div>
+      <div class="card sumc"><span class="k">3</span><h3><span lang="zh">能指路</span><span lang="en">Points the way</span><span lang="ko">길을 가리킴</span></h3><p><span lang="zh">对偶价格指出取紧的路段与门口，接到关键要素复核与路—车汇率。</span><span lang="en">Dual prices name the binding roads and doors, leading to the key-element review and the road–vehicle exchange rate.</span><span lang="ko">쌍대 가격이 결속 도로와 문을 짚어 핵심 요소 검토와 도로–차량 환율로 이어진다.</span></p></div>
+    </div>
+    <div class="golinks"><a class="tbtn golink" href="../thesis/"><span lang="zh">← 回到博士论文总汇报</span><span lang="en">← Back to the thesis briefing</span><span lang="ko">← 박사 논문 총괄 보고로</span></a><a class="tbtn golink" href="../capacity/"><span lang="zh">运力区间分项 →</span><span lang="en">The capacity-interval sub-study →</span><span lang="ko">운송 능력 구간 세부 연구 →</span></a><a class="tbtn golink" href="../codesign/"><span lang="zh">车队与路网协同设计分项（路—车汇率）→</span><span lang="en">The fleet–network co-design sub-study (exchange rate) →</span><span lang="ko">차량군·도로망 협동 설계 세부 연구 (환율) →</span></a></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:20px">
+      <p class="quote sm" style="flex:1"><span lang="zh">车把路占了：运力的天花板在路网，上界告诉我们天花板有多高、卡在哪里。</span><span lang="en">Transporters own the road: capacity is capped by the network, and the bound tells us how high the cap is and where it binds.</span><span lang="ko">차가 도로를 점유한다: 운송 능력의 천장은 도로망에 있고, 상한은 그 높이와 걸리는 곳을 알려 준다.</span></p>
+      <div class="d" style="font-size:26px;font-weight:700;color:var(--ink3);white-space:nowrap"><span lang="zh">谢谢，请老师指正。</span><span lang="en">Thank you.</span><span lang="ko">감사합니다.</span></div>
+    </div>
+  </div>
+  <p class="src"><span lang="zh">来源：本汇报各页。运力区间的下沿（无死锁规则的平台）见运力区间分项；对偶价格怎样变成路—车汇率见协同设计分项；总汇报给出全部论断与其余分项。</span><span lang="en">Source: the slides of this briefing. The lower edge of the capacity interval (plateaus of deadlock-free rules) is in the capacity-interval sub-study; how dual prices become the exchange rate is in the co-design sub-study; the thesis briefing gives all claims and the other sub-studies.</span><span lang="ko">출처: 이 보고의 슬라이드. 운송 능력 구간의 하단 (교착 없는 규칙의 평탄 구간)은 운송 능력 구간 세부 연구, 쌍대 가격이 환율이 되는 과정은 협동 설계 세부 연구, 모든 논제와 다른 세부 연구는 총괄 보고에 있다.</span></p>
+  <aside class="notes">
+    <p lang="zh">总结一下，这个分项给论文的是一个算得出、核得过、能指路的路网上界：每座船厂一次线性规划；证明草稿覆盖满足三个条件的规则，一万七千多个仿真点没有一个超出；对偶价格指出卡在哪段路、哪个门，接到关键要素复核和路—车汇率。从这里可以回到博士论文总汇报，也可以打开相邻的两个分项：运力区间，以及车队与路网协同设计。谢谢各位老师。</p>
+    <p lang="en">To sum up, this sub-study gives the thesis a network bound that can be computed, checked and that points the way: one LP per yard; a proof draft covering rules that meet the three conditions, with none of more than seventeen thousand simulation points above it; and dual prices that name the binding road or door, leading to the key-element review and the exchange rate. From here you can go back to the thesis briefing or open two neighbouring sub-studies: the capacity interval, and fleet–network co-design. Thank you.</p>
+    <p lang="ko">정리하면, 이 세부 연구가 논문에 주는 것은 계산되고, 확인되고, 길을 가리키는 도로망 상한입니다: 조선소마다 LP 한 번, 세 조건을 만족하는 규칙을 포괄하는 증명 초안과 1만 7천여 점 중 넘는 점이 없는 확인, 그리고 걸리는 도로와 문을 짚어 핵심 요소 검토와 환율로 이어지는 쌍대 가격입니다. 여기서 박사 논문 총괄 보고로 돌아가거나 이웃한 두 세부 연구, 운송 능력 구간과 차량군·도로망 협동 설계를 열 수 있습니다. 감사합니다.</p>
+  </aside>
+</section>
+
+</main>
+
+<dl id="glossary" hidden>
+  <dt><span lang="zh">宽度容器</span><span lang="en">Width container</span><span lang="ko">폭 컨테이너</span></dt>
+  <dd><span lang="zh">把路段、路口、停靠位看作以宽度为容量的资源：任何时刻各车占用宽度之和不超过容量（路宽 + 侧向净空）。</span><span lang="en">A segment, junction or stop seen as a resource whose capacity is a width: at every moment the widths of the vehicles on it stay within capacity (road width plus lateral clearance).</span><span lang="ko">구간, 교차로, 정차 위치를 폭이 용량인 자원으로 본 것: 어느 순간에도 차량 점유 폭의 합이 용량 (도로 폭 + 측면 여유) 이하.</span></dd>
+  <dt><span lang="zh">阻塞时间</span><span lang="en">Blocking time</span><span lang="ko">차단 시간</span></dt>
+  <dd><span lang="zh">一次运输占住一个资源的时间：通过加净空；路口转角 ≥ 60° 时另加转弯扫过。借自铁路闭塞。</span><span lang="en">How long one move holds a resource: passage plus clearance, plus a turn sweep at junctions for turns of 60° or more. Borrowed from railway signalling.</span><span lang="ko">운송 1회가 자원 하나를 점유하는 시간: 통과 + 여유, 회전각 60° 이상이면 교차로에 회전 시간 추가. 철도 폐색에서 차용.</span></dd>
+  <dt><span lang="zh">通行类别</span><span lang="en">Passability class</span><span lang="ko">통행 등급</span></dt>
+  <dd><span lang="zh">载货独占、可与空车交会、两辆载货可交会；由路宽、分段宽与平台宽算出。</span><span lang="en">Loaded-exclusive, passable by empties, or passable by two loaded vehicles; computed from road, block and platform widths.</span><span lang="ko">적재 독점, 공차와 교행, 적재 두 대 교행. 도로 폭, 블록 폭, 차대 폭에서 계산.</span></dd>
+  <dt>T1</dt>
+  <dd><span lang="zh">占用率线性规划：每个资源一天的占用不超过 H，空车流守恒，求最大日吞吐（T17）。只作对照。</span><span lang="en">The occupancy-rate LP: each resource is occupied at most H a day, empty flow is conserved, daily throughput is maximised (T17). Used for comparison only.</span><span lang="ko">점유율 LP: 각 자원의 하루 점유 ≤ H, 공차 흐름 보존, 일일 처리량 최대화 (T17). 비교용.</span></dd>
+  <dt>T1′</dt>
+  <dd><span lang="zh">T1 加宽度装箱行、吊车行与窗口边界项；对满足 (A1)–(A3) 的规则成立，载货路线固定。</span><span lang="en">T1 plus width bin-packing rows, crane rows and the window edge term; holds for rules satisfying (A1)–(A3), with loaded routes fixed.</span><span lang="ko">T1에 폭 빈 패킹 행, 크레인 행, 창 경계항을 더한 것. (A1)–(A3) 규칙에 성립, 적재 경로 고정.</span></dd>
+  <dt>T1″</dt>
+  <dd><span lang="zh">路线自由的上界：载货也做成多商品流，对任何路由规则成立（待做，T23）。</span><span lang="en">The route-free bound: loaded moves also as multicommodity flow, valid for any routing rule (to do, T23).</span><span lang="ko">경로 자유 상한: 적재도 다품종 흐름으로, 어떤 경로 규칙에도 성립 (예정, T23).</span></dd>
+  <dt><span lang="zh">系统 T1′</span><span lang="en">System T1′</span><span lang="ko">시스템 T1′</span></dt>
+  <dd><span lang="zh">按起讫与宽度的概率分布算期望占用的 T1′，没有逐种子的抽样噪声（T23）。</span><span lang="en">T1′ computed from expected holds under the OD and width distributions, without per-seed sampling noise (T23).</span><span lang="ko">OD·폭 확률 분포의 기대 점유로 계산한 T1′, 시드별 표본 잡음 없음 (T23).</span></dd>
+  <dt><span lang="zh">对偶可行函数</span><span lang="en">Dual-feasible function</span><span lang="ko">쌍대 실행 가능 함수</span></dt>
+  <dd><span lang="zh">把份额 x 映射为 u(x)，凡和不超过 1 的一组份额，映射后之和仍不超过 1（Fekete &amp; Schepers 2001）。</span><span lang="en">A map from shares x to u(x) such that any set of shares summing to at most 1 still sums to at most 1 after mapping (Fekete &amp; Schepers 2001).</span><span lang="ko">비율 x를 u(x)로 바꾸며, 합이 1 이하인 비율 묶음은 바꾼 뒤에도 합이 1 이하 (Fekete &amp; Schepers 2001).</span></dd>
+  <dt><span lang="zh">吊车行 / 窗口边界项</span><span lang="en">Crane row / window edge term</span><span lang="ko">크레인 행 / 창 경계항</span></dt>
+  <dd><span lang="zh">每座坞一行，搭载占吊车 190 min，能力为台数 × 16 h；在有限窗口 W 上核对时，每次记 190 min × W/(W + 190 min)。</span><span lang="en">One row per dock, each erection holding a crane 190 min against cranes × 16 h; over a finite check window W, each lift counts 190 min × W/(W + 190 min).</span><span lang="ko">도크마다 한 행, 탑재가 크레인을 190분 점유, 능력은 대수 × 16시간. 유한 창 W에서 확인할 때 1회를 190분 × W/(W + 190분)으로 계산.</span></dd>
+  <dt><span lang="zh">取紧资源 / 对偶价格</span><span lang="en">Binding resource / dual price</span><span lang="ko">결속 자원 / 쌍대 가격</span></dt>
+  <dd><span lang="zh">最优解中占用达到上限的资源；它每天多 1 h 可用时上界的增量即对偶价格，折成车数即路—车汇率（T6）。</span><span lang="en">A resource at its limit in the optimum; the bound's gain per extra hour a day on it is the dual price, and in vehicles it is the road–vehicle exchange rate (T6).</span><span lang="ko">최적해에서 점유가 상한에 이른 자원. 하루 1시간 더 쓸 때 상한 증가가 쌍대 가격이며, 차량 수로 환산하면 도로–차량 환율 (T6).</span></dd>
+  <dt><span lang="zh">运力区间</span><span lang="en">Capacity interval</span><span lang="ko">운송 능력 구간</span></dt>
+  <dd><span lang="zh">[最好的无死锁规则，路网上界]：可达运力所在的范围（C1）。</span><span lang="en">[best deadlock-free rule, network bound]: where attainable capacity lies (C1).</span><span lang="ko">[가장 좋은 교착 없는 규칙, 도로망 상한]: 달성 가능한 능력의 범위 (C1).</span></dd>
+  <dt><span lang="zh">参照规则（瞬移疏解）</span><span lang="en">Reference rule (teleport clearing)</span><span lang="ko">참조 규칙 (순간이동 해소)</span></dt>
+  <dd><span lang="zh">逐段申请，死锁时让一辆车离开路网 900 s（无公开来源）；只作参照，不单独支撑任何论断。</span><span lang="en">Segment request in which a deadlock sends one vehicle off the network for 900 s (no published value); a reference only, never the sole support of a claim.</span><span lang="ko">구간별 요청에서 교착 시 한 대를 900초 동안 도로망 밖으로 (공개 값 없음). 참조용이며 논제를 단독으로 뒷받침하지 않는다.</span></dd>
+  <dt>segment_safe</dt>
+  <dd><span lang="zh">逐段申请加安全放行（Banker 型死锁避免），只放行不会导致死锁的申请，不瞬移（T22 进行中）。</span><span lang="en">Segment request with safe release (Banker-type deadlock avoidance): only requests that cannot lead to deadlock are granted, no teleport (T22, in progress).</span><span lang="ko">구간별 요청 + 안전 허가 (Banker형 교착 회피): 교착으로 이어지지 않는 요청만 허가, 순간이동 없음 (T22 진행 중).</span></dd>
+  <dt><span lang="zh">资源粒度</span><span lang="en">Resource granularity</span><span lang="ko">자원 단위</span></dt>
+  <dd><span lang="zh">一条路算一个资源还是按停靠点分段闭塞；门口是装卸时独占还是只在通过时占用。</span><span lang="en">Whether a road is one resource or sectioned at its stops; whether a door is held while loading or only while passing.</span><span lang="ko">도로 하나를 자원 하나로 볼지 정차 지점별로 나눌지, 문을 적재·하역 중 독점할지 통과할 때만 점유할지.</span></dd>
+  <dt><span lang="zh">关键要素复核</span><span lang="en">Key-element review</span><span lang="ko">핵심 요소 검토</span></dt>
+  <dd><span lang="zh">每座船厂算完上界后，作者在影像上核对对偶价格前 3 名的要素，再选资源粒度重算。</span><span lang="en">After each yard's bound, the author checks the three elements with the highest dual prices on imagery, then chooses the resource granularity and recomputes.</span><span lang="ko">조선소마다 상한을 계산한 뒤 저자가 쌍대 가격 상위 3개 요소를 영상에서 확인하고 자원 단위를 골라 재계산.</span></dd>
+</dl>
+
+<script src="data.js"></script>
+<script src="../shared/deck-core.js"></script>
+<script src="deck.js"></script>
