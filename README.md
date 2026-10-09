@@ -14,6 +14,7 @@ decks.js            汇报登记表：live 的卡片可打开，planned 的显�
 shared/
   lang.js           <head> 中加载，首帧前定语言（各页共用 localStorage 键 deck-lang2）
   deck.css          设计系统与幻灯片外壳（配色、排版、卡片、图表、动效、手机阅读模式）
+  favicon.svg       网站图标（根目录另有 favicon.ico 供只认 ICO 的浏览器）
   deck-core.js      引擎：生成顶栏、舞台、讲稿、页脚、目录与术语抽屉；翻页、语言、主题、全屏、PDF、布局
 thesis/             博士论文汇报（占路运输）
 fleet/              船厂分段运输车选型（MY-B）
@@ -40,6 +41,7 @@ python -m http.server 8000      # 在本文件夹运行
 <meta charset="utf-8">
 <title>Short Title</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="../shared/favicon.svg" type="image/svg+xml">
 <script src="../shared/lang.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?...">   <!-- 与现有汇报相同 -->
 <link rel="stylesheet" href="../shared/deck.css">
