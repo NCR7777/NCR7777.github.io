@@ -157,7 +157,7 @@ function layout() {
   // reading mode on phones and on screens too short for a legible slide (e.g. a phone held sideways)
   const flow = innerWidth < 760 || Math.min((innerWidth - 32) / 1280, (innerHeight - 120) / 720) < 0.42;
   root.classList.toggle('flow', flow);
-  if (wasFlow !== null && wasFlow !== flow) { drawAll(); fit(); }
+  if (wasFlow !== null && wasFlow !== flow) drawAll();
   wasFlow = flow;
   if (flow) { stage.style.transform = ''; return; }
   const r = wrap.getBoundingClientRect();
@@ -182,7 +182,6 @@ function setLang(l) {
   }
   document.querySelectorAll('[data-set-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.setLang === l));
   drawAll();
-  fit();
   fillNotes();
   buildProg();
 }
@@ -231,25 +230,6 @@ function toggleFull() {
   } catch (e) {}
 }
 function paintRange(r) { r.style.setProperty('--p', (100 * (r.value - r.min) / (r.max - r.min)) + '%'); }
-// A content box marked data-fit="min,max" (font sizes in px) is filled by its text: the largest font size, then the
-// largest line height, at which every such box of the deck still fits. It is measured in the reader's own browser, so
-// fallback fonts and a minimum-font-size setting are accounted for; all boxes share one size so the pages match.
-function fit() {
-  const boxes = [...document.querySelectorAll('.slide [data-fit]')];
-  boxes.forEach(b => { b.style.removeProperty('--fs'); b.style.removeProperty('--lh'); });
-  if (!boxes.length || root.classList.contains('flow')) return;
-  const [lo, hi] = boxes[0].dataset.fit.split(',').map(Number);
-  const set = (v, k) => boxes.forEach(b => b.style.setProperty(k, v + (k === '--fs' ? 'px' : '')));
-  const fits = () => boxes.every(b => {   // the last block must end 14 design px above the box's bottom edge
-    const r = b.getBoundingClientRect(), k = r.height / b.clientHeight || 1;
-    return Math.max(...[...b.children].map(c => c.getBoundingClientRect().bottom)) <= r.bottom - 14 * k;
-  });
-  const search = (k, a, z) => { for (let n = 0; n < 9; n++) { const m = (a + z) / 2; set(m, k); if (fits()) a = m; else z = m; } set(a, k); return a; };
-  set(1.38, '--lh');
-  set(hi, '--fs');
-  if (fits()) search('--lh', 1.38, 1.8);   // the largest font still leaves room: open up the lines
-  else search('--fs', lo, hi);
-}
 
 // config: { strings: {key: [zh, en, ko]} (with `title`), sections: {sec: [zh, en, ko]}, draw: [fn] (redrawn on language,
 // font and layout changes), init(): wires the deck's own controls and draws static figures once, after the shell exists }
@@ -353,7 +333,7 @@ function start(cfg) {
   slides.forEach(s => s.setAttribute('aria-hidden', 'true'));
   layout();
   setLang(lang);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { drawAll(); fit(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawAll);
   const m0 = /^#s(\d+)$/.exec(location.hash);
   go(m0 ? +m0[1] - 1 : 0, true);
   layout();

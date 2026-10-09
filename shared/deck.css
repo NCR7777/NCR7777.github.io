@@ -453,7 +453,7 @@ input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;b
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
 .slide>.src{margin:6px 0 0;padding-top:5px;border-top:1px solid var(--line);font-size:11.5px;line-height:1.4;color:var(--ink3)}
-.refs{margin:0;padding-left:22px;columns:2;column-gap:28px;font-size:11.5px;line-height:1.38;color:var(--ink2)}
+.refs{margin:0;padding-left:1.9em;columns:2;column-gap:2.4em;font-size:11.5px;line-height:1.38;color:var(--ink2)}
 .refs li{break-inside:avoid;margin:0 0 3px}
 .refs-data{font-size:11.5px;line-height:1.4;color:var(--ink2);border-top:1px solid var(--line);padding-top:6px}.refs-data p{margin:0 0 2px}
 .flow .refs{columns:1}
@@ -483,8 +483,3 @@ html:not(.flow) .bar{flex-wrap:nowrap}
 .brand{overflow:hidden}
 .brand b,.brand>span{white-space:nowrap}
 .brand>span{overflow:hidden;text-overflow:ellipsis;min-width:0}
-/* reference lists that fill their slide: deck-core.js fit() sets --fs and --lh */
-[data-fit] .refs,[data-fit] .refs-data{font-size:var(--fs,12.5px);line-height:var(--lh,1.38)}
-[data-fit] .refs{padding-left:1.9em;column-gap:2.4em}
-[data-fit]{grid-template-rows:auto auto!important;align-content:start}   /* natural heights, so fit() can measure them */
-[data-fit] .refs-data p{margin:0 0 .25em}

@@ -32,7 +32,8 @@ python -m http.server 8000      # 在本文件夹运行
 
 1. 新建文件夹，例如 `ch3/`，放 `index.html`、`deck.js`，需要时加 `data.js`、`make_data.py`、`assets/`、`<名>.css`。
 2. 在 `decks.js` 加一条（`status: 'live'`，`href: 'ch3/'`）。
-3. 运行 `python tools/make_pdf.py ch3` 生成 `ch3/pdf/<data-pdf>_<lang>.pdf`。
+3. 运行 `python tools/check_layout.py ch3`：逐页、三种语言、加载与屏蔽网页字体两种情况下检查有没有内容溢出，并报告参考文献页的填充比例（建议 0.8–0.93，留出余量给不同字体与最小字号设置）。有溢出时退出码为 1。
+4. 运行 `python tools/make_pdf.py ch3` 生成 `ch3/pdf/<data-pdf>_<lang>.pdf`。只重建改过的汇报的 PDF，以免仓库变大。
 
 ### `index.html` 的约定
 
@@ -70,7 +71,7 @@ python -m http.server 8000      # 在本文件夹运行
 - 每段文字写三种语言：`<span lang="zh|en|ko">`，只显示当前语言。
 - `data-sec` 把页面分成章节：进度条、目录、页眉都按它分组；章节名在 `deck.js` 的 `sections` 中给出。
 - 任何带 `data-go="<章节>"` 的元素点击后跳到该章节第一页；其中的 `.pg` 显示页码。
-- 参考文献页：`<div class="content" data-fit="14,17">` 里放 `ol.refs`（可再加 `.refs-data`）。引擎在读者自己的浏览器里先放大字号（14–17 px）、再放大行距，直到正好填满且离页脚留 14 px；同一份汇报的各页用同一字号。文献多时分几页，每页条数按字数大致均分。
+- 字号固定，不在浏览器里自动缩放（会抖动）。内容放不下就加一页：参考文献按字数大致均分到几页，标题写“（1/3）”这类页码，数据来源放最后一页。
 
 ### `deck.js` 的约定
 
