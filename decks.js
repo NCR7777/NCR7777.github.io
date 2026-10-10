@@ -26,7 +26,7 @@ window.DECKS = [
     sub: ['船厂里发生了什么，研究在问什么，已经做了什么，正在做什么，接下来做什么。',
       'What happens in a shipyard, what the research asks, what has been done, what is under way and what comes next.',
       '조선소에서 무슨 일이 일어나는지, 연구가 무엇을 묻는지, 무엇을 했고 무엇을 하고 있으며 다음에 무엇을 할지.'],
-    note: ['从换题到当前工作 · 截至 2026-10-10', 'From the new direction to the current work · as of 10 Oct 2026', '주제 전환부터 현재 작업까지 · 2026-10-10 기준'],
+    note: ['从立旗实验到当前工作', 'From the flag experiment to the current work', '깃발 실험부터 현재 작업까지'],
   },
   {
     id: 'bound', href: 'bound/', status: 'live', group: 'thesis',
