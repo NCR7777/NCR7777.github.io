@@ -1,0 +1,45 @@
+/* Plain-language guide: the few styles the shared deck.css does not have */
+.tbl.lab td:first-child{font-family:var(--body);white-space:normal;color:var(--ink);font-weight:600}
+.fig text{font:14px var(--f-latin);fill:var(--ink2)}
+.fig [lang="zh"]{font-family:var(--f-zh)}
+.fig [lang="ko"]{font-family:var(--f-ko)}
+.fig .b,.fig .b text{font-weight:600}
+.golink{align-self:flex-start;font-size:15px;padding:8px 14px}
+.golinks{display:flex;gap:10px;flex-wrap:wrap}
+.rules .card{gap:4px;padding:12px 16px}
+.rules .card h3{font-size:17.5px}
+.rules .card p{font-size:16px;line-height:1.45}
+.stat .num small [lang]{font-family:var(--body)}
+.fig .vt{fill:#fff;font:700 15px var(--f-latin)}
+/* looping schematics: they run while their slide is shown; the unanimated state is a meaningful still (PDF, reduced motion) */
+.slide.on .lp-trip{animation:trip 11s ease-in-out infinite}
+@keyframes trip{0%{transform:none;opacity:0}3%{opacity:1}10%{transform:none}28%,40%{transform:translateX(280px)}58%,70%{transform:translateX(575px)}88%,96%{transform:translateX(725px);opacity:1}100%{transform:translateX(725px);opacity:0}}
+.slide.on .lp-L{animation:carL 8s linear infinite}
+@keyframes carL{from{transform:translateX(-330px)}to{transform:translateX(400px)}}
+.slide.on .lp-Ef{animation:carEf 8s linear infinite}
+@keyframes carEf{from{transform:translateX(330px)}to{transform:translateX(-330px)}}
+.slide.on .lp-Eo{animation:carEo 8s ease-in-out infinite}
+@keyframes carEo{0%{transform:translate(150px,-34px)}18%{transform:translate(0,-34px)}26%,84%{transform:none}90%{transform:translate(0,-34px)}100%{transform:translate(-460px,-34px)}}
+.slide.on .lp-dA{animation:dockA 6s ease-out infinite}
+@keyframes dockA{0%{transform:translateX(-140px)}40%,100%{transform:none}}
+.slide.on .lp-dB{animation:dockB 6s ease-in-out infinite}
+@keyframes dockB{0%{transform:translate(-145px,-76px)}40%{transform:translate(0,-76px)}70%,100%{transform:none}}
+.slide.on .lp-xA{animation:blinkA 6s linear infinite}
+@keyframes blinkA{0%,40%{opacity:0}48%{opacity:1}70%{opacity:.35}90%,100%{opacity:1}}
+.slide.on .lp-1A{animation:r1A 10s ease-out infinite}
+@keyframes r1A{0%{transform:translateX(-400px)}45%,100%{transform:none}}
+.slide.on .lp-1B{animation:r1B 10s ease-out infinite}
+@keyframes r1B{0%{transform:translateX(330px)}45%,100%{transform:none}}
+.slide.on .lp-1X{animation:blink1 10s linear infinite}
+@keyframes blink1{0%,44%{opacity:0}50%{opacity:1}70%{opacity:.35}88%,100%{opacity:1}}
+.slide.on .lp-2A{animation:r2A 10s linear infinite}
+@keyframes r2A{0%{transform:translateX(-410px);opacity:1}60%{transform:translateX(410px);opacity:1}64%,100%{transform:translateX(440px);opacity:0}}
+.slide.on .lp-2R{animation:r2R 10s linear infinite}
+@keyframes r2R{0%,60%{opacity:1}64%,100%{opacity:0}}
+.slide.on .lp-2B{animation:r2B 10s ease-in-out infinite}
+@keyframes r2B{0%,62%{transform:none}68%{transform:translateY(45px)}100%{transform:translate(-830px,45px)}}
+.slide.on .lp-3A{animation:r3A 10s ease-in-out infinite}
+@keyframes r3A{0%{transform:translate(-238px,-31px)}25%{transform:translate(0,-31px)}33%,70%{transform:none}78%{transform:translate(0,-31px)}100%{transform:translate(560px,-31px)}}
+.slide.on .lp-3B{animation:r3B 10s linear infinite}
+@keyframes r3B{0%,10%{transform:translateX(330px)}80%,100%{transform:translateX(-470px)}}
+@media (prefers-reduced-motion: reduce){.slide.on [class*="lp-"]{animation:none}}

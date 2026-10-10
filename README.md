@@ -17,6 +17,7 @@ shared/
   favicon.svg       网站图标（根目录另有 favicon.ico 供只认 ICO 的浏览器）
   deck-core.js      引擎：生成顶栏、舞台、讲稿、页脚、目录与术语抽屉；翻页、语言、主题、全屏、PDF、布局
 thesis/             博士论文总览（占路运输），研究地图链接到下面六项分研究
+story/              博士论文研究全程：按时间讲从换题到当前任务的故事线；图表读 thesis/data.js（不另设 make_data.py），示意动画为内嵌 SVG
 bound/              分研究：占路运输模型与路网上界（第 2–3 章）
 capacity/           分研究：运力区间与路网约束区（第 3 章）
 dock/               分研究：坞口与搭载高峰（第 3 章）

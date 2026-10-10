@@ -20,6 +20,15 @@ window.DECKS = [
     note: ['研究宣言 v1 · T22–T24 已复核 · 2026 年 10 月', 'Manifesto v1 · T22–T24 reviewed · October 2026', '연구 선언 v1 · T22–T24 검토 완료 · 2026년 10월'],
   },
   {
+    id: 'story', href: 'story/', status: 'live', group: 'thesis',
+    kind: ['博士学位论文 · 研究全程', 'PhD thesis · the story so far', '박사 학위 논문 · 연구 전 과정'],
+    title: ['一个故事讲完整个博士课题', 'The whole thesis as one story', '이야기 하나로 보는 박사 연구'],
+    sub: ['船厂里发生了什么，研究在问什么，已经做了什么，正在做什么，接下来做什么。',
+      'What happens in a shipyard, what the research asks, what has been done, what is under way and what comes next.',
+      '조선소에서 무슨 일이 일어나는지, 연구가 무엇을 묻는지, 무엇을 했고 무엇을 하고 있으며 다음에 무엇을 할지.'],
+    note: ['从换题到 T27 · 截至 2026-10-10', 'From the new direction to T27 · as of 10 Oct 2026', '주제 전환부터 T27까지 · 2026-10-10 기준'],
+  },
+  {
     id: 'bound', href: 'bound/', status: 'live', group: 'thesis',
     kind: ['第 2–3 章 · 分研究', 'Ch. 2–3 · sub-study', '2–3장 · 세부 연구'],
     title: ['占路运输模型与路网上界', 'Occupancy model and network bounds', '점유 운송 모형과 도로망 상한'],
