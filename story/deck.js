@@ -15,7 +15,7 @@ const T = {
   segment_safe: ['安全放行', 'Safe release', '안전 출발'],
   K: ['车队规模 K（台）', 'Fleet size K (vehicles)', '차량군 규모 K (대)'],
   thr: ['日吞吐（任务 / 16 h）', 'Daily throughput (tasks / 16 h)', '일일 처리량 (작업 / 16시간)'],
-  t1: ['路网上界 T1′ {v}', 'Network bound T1′ {v}', '도로망 상한 T1′ {v}'],
+  t1: ['路网上界 {v}', 'Network bound {v}', '도로망 상한 {v}'],
   t1y: ['{y} 上界 {v}', '{y} bound {v}', '{y} 상한 {v}'],
   freeOut: ['自由流 K = 150：{v} ↑', 'free flow at K = 150: {v} ↑', '자유류 K = 150: {v} ↑'],
   tip: ['{m}<br>K = {k}：每天 {v} 个（种子范围 {lo}–{hi}）', '{m}<br>K = {k}: {v} a day (seeds {lo}–{hi})', '{m}<br>K = {k}: 하루 {v}건 (시드 범위 {lo}–{hi})'],
@@ -25,7 +25,7 @@ const T = {
   yardLbl: ['两座船厂：整条路径预约下的日吞吐', 'Two yards: daily throughput under whole-route reservation', '두 조선소: 전체 경로 예약의 일일 처리량'],
   yres: ['{y}（预约）', '{y} (reservation)', '{y} (예약)'],
   kstar: ['{y} K* ≈ {k}', '{y} K* ≈ {k}', '{y} K* ≈ {k}'],
-  t1Leg: ['路网上界 T1′（虚线）', 'Network bound T1′ (dashed)', '도로망 상한 T1′ (점선)'],
+  t1Leg: ['路网上界（虚线）', 'Network bound (dashed)', '도로망 상한 (점선)'],
   // work zones
   workLbl: ['玉浦：日任务量与所需车数', 'Okpo: daily volume against vehicles needed', '옥포: 일일 작업량과 필요 차량'],
   wX: ['日任务量（个 / 日）', 'Daily task volume (a day)', '일일 작업량 (건 / 일)'],
@@ -84,9 +84,9 @@ const at = (C, md, k) => C[md][C.K.indexOf(k)][0];
 
 // ---------- step 2: the flag curves at Okpo ----------
 function drawFlag() {
-  const F = D.flag.yupu, C = F.saturated, c = kFrame('cFlag', t('flagLbl'), 2000, 500);
-  el('path', { d: `M${c.m.l} ${c.y(F.T1t[0])}H${c.W - c.m.r}`, style: 'stroke:var(--ink);stroke-width:1.6;stroke-dasharray:7 4' }, c.s);
-  el('text', { x: c.m.l + 8, y: c.y(F.T1t[0]) - 6, style: 'fill:var(--ink);font-weight:600' }, c.s, fmt(t('t1'), { v: f0(F.T1t[0]) }));
+  const F = D.flag.yupu, C = F.saturated, hi = F.T1t[0], c = kFrame('cFlag', t('flagLbl'), 2000, 500);
+  el('path', { d: `M${c.m.l} ${c.y(hi)}H${c.W - c.m.r}`, style: 'stroke:var(--ink);stroke-width:1.6;stroke-dasharray:7 4' }, c.s);
+  el('text', { x: c.m.l + 8, y: c.y(hi) - 6, style: 'fill:var(--ink);font-weight:600' }, c.s, fmt(t('t1'), { v: f0(hi) }));
   [['free', 0], ['reserve', 1], ['segment', 2]].forEach(([md, i]) => curve(c, C, md, MC[md], .2 + .3 * i, t(md), md === 'segment' ? 'stroke-dasharray:7 4;' : ''));
   el('text', { x: c.W - c.m.r - 4, y: c.m.t + 14, 'text-anchor': 'end', style: 'fill:var(--steel);font-weight:600;font-size:12px' }, c.s, fmt(t('freeOut'), { v: f0(at(C, 'free', 150)) }));
   swatches('lgFlag', [[MC.free, t('free')], [MC.reserve, t('reserve')], [MC.segment, t('segment'), 'height:2px;border:0']]);
