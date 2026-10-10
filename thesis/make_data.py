@@ -1,7 +1,7 @@
-"""Write data.js for the thesis deck from the committed results of thesis-core (T17–T21).
+"""Write data.js for the thesis deck from the committed results of thesis-core (T17–T23).
 
 Everything is read with `git show <commit>:<path>`, so the deck shows reviewed results only, whatever is in the working
-tree. COMMIT is the T21 commit that passed review on 2026-10-09; move it when a later task passes review.
+tree. COMMIT is the merge of T22 and T23 that passed review on 2026-10-10; move it when a later task passes review.
 THESIS_CORE overrides the repository path.
 
   python thesis/make_data.py
@@ -14,32 +14,43 @@ import subprocess
 from pathlib import Path
 
 REPO = Path(os.environ.get('THESIS_CORE') or Path(__file__).resolve().parents[2] / '30_研究' / 'thesis-core')
-COMMIT = '83c16bf'
-MODELS = ['free', 'reserve', 'segment']
-# final batch directories per the review records (00_总控/reviews/T18.md, T20.md)
-FLAG = {'yupu': ['a0ab16fceb94', '49d2383872e7'],   # Okpo, MY-B task mix: K 5–40, K 45–150
+COMMIT = 'a882742'
+MODELS = ['free', 'reserve', 'segment', 'segment_safe']
+# final batch directories per the review records (00_总控/reviews/T18.md, T20.md, T22.md, T23.md)
+FLAG = {'yupu': ['a0ab16fceb94', '49d2383872e7'],   # Okpo, MY-B task mix: K 5–40, K 45–150 (free, reserve, segment)
         'yantai': ['b82aa19b22af']}                 # Yantai map rev 395: K 1–150
+SAFE = {'yupu': '656e2da75368', 'yantai': '930e637e0658'}    # T22 main_safe: segment_safe on the main scenario
+SYSTEM = {'yupu': '97d667d16273', 'yantai': 'e7f94238b96d'}  # T23 round 2: system T1' without sampling noise
 T18 = 'results/t18_report_d10b9015cd4d/t18_summary.json'
 T20 = 'results/t20_report_c12289dfda9d/t20_summary.json'
+T22 = 'results/t22_report_3287d62c7916'
+LEVELS = [300, 339, 350, 450, 500, 600, 678, 700, 900, 1200]
 
 
 def show(path):
     return subprocess.run(['git', '-C', str(REPO), 'show', f'{COMMIT}:{path}'], capture_output=True, check=True).stdout.decode('utf-8-sig')
 
 
+def rows(path):
+    return list(csv.DictReader(io.StringIO(show(path))))
+
+
 def saturated(yard):
-    rows = [r for d in FLAG[yard] for r in csv.DictReader(io.StringIO(show(f'results/{d}/curves.csv')))
-            if r['scen'] == 'main' and r['level'] == 'saturated']
-    Ks = sorted({int(r['K']) for r in rows})
-    get = {(r['model'], int(r['K'])): r for r in rows}
+    sel = [r for d in FLAG[yard] for r in rows(f'results/{d}/curves.csv') if r['scen'] == 'main' and r['level'] == 'saturated']
+    sel += [r for r in rows(f'results/{SAFE[yard]}/curves.csv') if r['scen'] == 'main' and r['model'] == 'segment_safe']
+    Ks = sorted({int(r['K']) for r in sel})
+    get = {(r['model'], int(r['K'])): r for r in sel}
     assert all((m, k) in get for m in MODELS for k in Ks), yard
     return {'K': Ks, **{m: [[round(float(get[m, k][f'throughput_{s}']), 1) for s in ('mean', 'lo', 'hi')] for k in Ks] for m in MODELS}}
 
 
 def bounds(yard):
-    rows = [r for r in csv.DictReader(io.StringIO(show(f'results/{FLAG[yard][0]}/bounds.csv'))) if r['scen'] == 'main']
-    v = [float(r['T1_tight_per_day']) for r in rows]
+    v = [float(r['T1_tight_per_day']) for r in rows(f'results/{FLAG[yard][0]}/bounds.csv') if r['scen'] == 'main']
     return [round(sum(v) / len(v), 1), round(min(v), 1), round(max(v), 1)]
+
+
+def k_req(v):   # '27' -> 27; '>150' / '>200' -> the scan limit, flagged negative
+    return int(v) if v.isdigit() else -int(v.lstrip('>'))
 
 
 t18, t20 = json.loads(show(T18)), json.loads(show(T20))
@@ -47,17 +58,34 @@ h1 = {'yupu': t18['H1']['main|reserve'], 'yantai': t20['change']['r395']['H1']['
 flag = {}
 for y in FLAG:
     flag[y] = {'saturated': saturated(y), 'T1t': bounds(y),
+               'T1sys': round(float(next(r for r in rows(f'results/{SYSTEM[y]}/system.csv') if r['scen'] == 'main')['T1_system']), 1),
                'Kstar20': [h1[y]['K_star_20'], *h1[y]['K_star_20_ci']],
                'plateau': {m: round(next(e for e in t20['cmp'][y] if e['scen'] == 'main')['sat'][m]['platform'], 2) for m in ('reserve', 'segment')}}
 # Okpo's T1' as reported in the T18 summary must match the bounds file; the interval must be ordered
 assert abs(flag['yupu']['T1t'][0] - t18['T1']['main']['T1t']) < 0.1, (flag['yupu']['T1t'], t18['T1']['main']['T1t'])
 assert all(f['plateau']['reserve'] < f['T1t'][0] for f in flag.values())
+# T22 interval table: the best deadlock-free rule is whole-route reservation (segment_safe lower), as reviewed
+iv = {r['block'] + '|' + r['rule']: r for r in rows(f'{T22}/t22_interval.csv')}
+for y in FLAG:
+    res, safe = iv[f'{y}|main|whole|reserve'], iv[f'{y}|main|whole|segment_safe']
+    assert float(res['plateau']) > float(safe['plateau']), (y, res['plateau'], safe['plateau'])
+    assert abs(float(res['plateau']) - flag[y]['plateau']['reserve']) < 0.06, (y, res['plateau'], flag[y]['plateau'])
 
-DATA = {'source': {'repo': 'thesis-core', 'commit': COMMIT}, 'flag': flag}
+# T22 work zones: vehicles needed (integer K) against the daily task volume, Okpo, whole dock road, 16 h and 24 h days
+dem = rows(f'{T22}/t22_demand.csv')
+work = {}
+for day in ('d16', 'd24'):
+    work[day] = {m: [k_req(next(r for r in dem if r['yard'] == 'yupu' and r['scen'] == day and r['model'] == m and r['level'] == f'n{n}')['K_req'])
+                     for n in LEVELS] for m in ('free', 'reserve', 'segment')}
+assert work['d16']['reserve'][LEVELS.index(339)] == 27 and work['d16']['reserve'][LEVELS.index(600)] == 88   # T22 report §6.1
+assert work['d24']['reserve'][LEVELS.index(339)] == 15 and work['d16']['reserve'][LEVELS.index(678)] == 117
+
+DATA = {'source': {'repo': 'thesis-core', 'commit': COMMIT}, 'flag': flag, 'work': {'levels': LEVELS, **work}}
 out = Path(__file__).parent / 'data.js'
-out.write_text('// Generated by make_data.py from thesis-core %s (results of T17–T21); do not edit by hand.\nwindow.DATA=%s;\n'
+out.write_text('// Generated by make_data.py from thesis-core %s (results of T17–T23); do not edit by hand.\nwindow.DATA=%s;\n'
                % (COMMIT, json.dumps(DATA, ensure_ascii=False, separators=(',', ':'))), encoding='utf-8')
 for y, f in flag.items():
-    print(y, 'K', f['saturated']['K'][0], '…', f['saturated']['K'][-1], "T1'", f['T1t'], 'plateau', f['plateau'], 'K*20', f['Kstar20'],
-          'share %.1f%%' % (100 * f['plateau']['reserve'] / f['T1t'][0]))
+    print(y, 'K', f['saturated']['K'][0], '…', f['saturated']['K'][-1], "T1'", f['T1t'], 'system', f['T1sys'], 'plateau', f['plateau'],
+          'K*20', f['Kstar20'], 'share %.1f%%' % (100 * f['plateau']['reserve'] / f['T1t'][0]))
+print('work', work)
 print(out, out.stat().st_size, 'bytes')

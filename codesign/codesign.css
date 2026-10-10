@@ -51,3 +51,8 @@
 [data-lang="ko"] .slide{word-break:keep-all}
 .refs.cd,.refs-data.cd{font-size:17px;line-height:1.6}
 [data-lang="en"] .refs.cd,[data-lang="en"] .refs-data.cd{font-size:16.5px;line-height:1.6}
+.venues.v4{grid-template-columns:repeat(4,1fr);gap:12px}
+.venues.v4 li{font-size:15.5px}
+.venues.v4 .card p{font-size:14.5px;line-height:1.45;margin:6px 0 0;color:var(--ink2)}
+.refs.cd li{margin-bottom:9px}
+.refs.cd.tight li{margin-bottom:5px}

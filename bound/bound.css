@@ -23,9 +23,23 @@
 .tbl.src2 td:first-child{font-family:var(--body);white-space:normal;font-weight:500}
 [data-lang="zh"] .tbl.src2{font-size:15.5px}
 .tbl.jr{font-size:16px}
-.tbl.jr td{padding:9px 8px;line-height:1.38}
+.tbl.jr td{padding:7px 8px;line-height:1.36}
 .tbl.jr td:first-child{font-family:var(--body);white-space:nowrap;font-weight:600}
-.tbl.jr td:nth-child(2){white-space:nowrap;color:var(--ink);font-weight:600}
+.tbl.jr td:nth-child(2){width:36%;color:var(--ink);font-weight:600}
+.tbl.sys{font-size:15px}
+.tbl.sys td{padding:6px 8px}
+.tbl.sys td:first-child{font-family:var(--body);color:var(--ink2)}
+.tbl.sys td.mono{text-align:right;color:var(--oxide);font-weight:600}
+.tbl.rate{font-size:14px}
+.tbl.rate td{padding:6px 8px;line-height:1.36;vertical-align:top}
+.tbl.rate td:first-child{font-family:var(--body);font-weight:600;color:var(--ink);white-space:normal;width:26%}
+.tbl.rate .tiny{font-weight:400}
+.tbl.risk{font-size:14.5px}
+.tbl.risk td{padding:8px 10px;line-height:1.42;vertical-align:top}
+.tbl.risk td:first-child{font-family:var(--body);width:30%;color:var(--ink);white-space:normal;font-weight:500}
+.tbl.risk td:last-child{width:22%}
+[data-lang="zh"] .tbl.risk{font-size:16px}
+[data-lang="zh"] .tbl.rate,[data-lang="zh"] .tbl.sys{font-size:15.5px}
 .box{background:var(--panel);border-radius:6px;padding:12px 16px;display:flex;flex-direction:column;gap:6px}
 .box h3{margin:0;font-size:18px;color:var(--ink)}
 .box p{margin:0;font-size:15.5px;line-height:1.5;color:var(--ink2)}
@@ -69,5 +83,11 @@
 [data-lang="zh"] .vsteps div{font-size:17.5px}
 [data-lang="zh"] .limits,[data-lang="zh"] .r3{font-size:15.5px}
 [data-lang="zh"] .tbl.jr{font-size:18px}
-[data-lang="zh"] .tbl.jr td{padding:11px 8px}
+[data-lang="zh"] .tbl.jr td{padding:9px 8px}
 [data-lang="ko"] .slide{word-break:keep-all}
+.tbl.near{font-size:14.5px}
+.tbl.near td{padding:6px 8px;line-height:1.36}
+.tbl.near td:first-child{font-family:var(--body);font-weight:600;white-space:normal}
+.tbl.near td:last-child{color:var(--ink)}
+[data-lang="zh"] .tbl.near{font-size:16px}
+[data-lang="ko"] .refs,[data-lang="ko"] .refs-data{word-break:normal;overflow-wrap:anywhere}

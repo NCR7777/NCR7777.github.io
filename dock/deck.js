@@ -10,54 +10,78 @@ const T = {
   title: ['坞口与搭载高峰 · 分项研究', 'Dock Mouth', '도크 입구 · 세부 연구'],
   yupu: ['玉浦', 'Okpo', '옥포'], yantai: ['烟台', 'Yantai', '옌타이'],
   reserve: ['整条路径预约', 'Whole-route reservation', '전체 경로 예약'],
-  segment: ['逐段申请·参照规则（瞬移疏解）', 'Segment request · reference rule (teleport clearing)', '구간별 요청 · 참조 규칙 (순간이동 해소)'],
-  segShort: ['逐段申请（参照规则）', 'Segment request (reference rule)', '구간별 요청 (참조 규칙)'],
-  thr: ['饱和平台（任务 / 16 h）', 'Saturated plateau (tasks / 16 h)', '포화 평탄 (작업 / 16시간)'],
+  segment_safe: ['安全放行', 'Safe release', '안전 출발'],
+  segment: ['参照规则（瞬移疏解）', 'Reference rule (teleport clearing)', '참조 규칙 (순간이동 해소)'],
+  whole: ['整段', 'whole road', '전 구간'], stops: ['分段', 'split at stops', '구간 분할'],
+  hollow: ['空心 = 不稳态', 'hollow = not steady', '빈 점 = 비정상'],
   rhoX: ['吊车利用率 ρ', 'Crane utilisation ρ', '크레인 이용률 ρ'],
-  rhoLbl: ['吊车利用率与饱和平台', 'Crane utilisation against the saturated plateau', '크레인 이용률과 포화 평탄 구간'],
-  base: ['不受吊车约束 {v}', 'no crane limit {v}', '크레인 제약 없음 {v}'],
-  work: ['玉浦工作点区间（情景读数）', 'Okpo working-point range (scenario reading)', '옥포 작업점 구간 (시나리오 판독)'],
-  workY: ['烟台本厂工作点', "Yantai's own working point", '옌타이 자체 작업점'],
-  hollow: ['空心 = 非稳态', 'hollow = not steady', '빈 점 = 비정상 상태'],
-  rhoTip: ['{yard} · {m}<br>ρ = {r}（搭载 {n} 个/日）<br>平台 {v}（相对不受吊车约束 {rel}%）<br>逐日趋势 {tr}%{st}', '{yard} · {m}<br>ρ = {r} ({n} erections a day)<br>plateau {v} ({rel}% against no crane limit)<br>daily trend {tr}%{st}', '{yard} · {m}<br>ρ = {r} (하루 탑재 {n}건)<br>평탄 {v} (크레인 제약 없음 대비 {rel}%)<br>일별 추세 {tr}%{st}'],
-  unsteady: ['；K = {k} 非稳态', '; not steady at K = {k}', ', K = {k} 비정상'],
-  // readings next to the rho chart
-  rdRes: ['整条路径预约（路外等待）的平台，全部 ρ 档；不受吊车约束时 {b}', 'Reservation plateau (waiting off-road) over every ρ; {b} with no crane limit', '예약 (도로 밖 대기) 평탄 구간, 모든 ρ, 크레인 제약 없을 때 {b}'],
-  rdLowY: ['逐段申请（参照规则）在 ρ ≤ 0.79 时相对不受吊车约束的 {b}', 'Segment request (reference rule) for ρ ≤ 0.79, against {b} with no crane limit', '구간별 요청 (참조 규칙), ρ ≤ 0.79에서 크레인 제약 없음 {b} 대비'],
-  rdLowT: ['逐段申请（参照规则）在本厂 ρ = 0.13 时相对不受吊车约束的 {b}', "Segment request (reference rule) at Yantai's own ρ = 0.13, against {b} with no crane limit", '구간별 요청 (참조 규칙), 자체 ρ = 0.13에서 크레인 제약 없음 {b} 대비'],
-  rdDropY: ['ρ = 0.88（主值，稳态）/ 0.97（区间上端，8 天内持续下降、没有平台）', 'ρ = 0.88 (main value, steady) / 0.97 (upper end, falling for 8 days, no plateau)', 'ρ = 0.88 (주값, 정상) / 0.97 (상단, 8일 내내 하락, 평탄 구간 없음)'],
-  rdDropT: ['ρ = 0.73 / 0.92：坞前道路本来就忙，比玉浦更早下降', 'ρ = 0.73 / 0.92: the dock roads are busy already, so it falls earlier than Okpo', 'ρ = 0.73 / 0.92: 도크 앞 도로가 원래 바빠 옥포보다 일찍 하락'],
-  rdLP: ['P6 固定的线性规划坞口裕度，各 ρ 下几乎不变：上界看不到排队造成的时间阻塞', 'Dock margin of the LP with P6 fixed, nearly constant over ρ: the bound cannot see queue-induced time blocking', 'P6 고정 LP의 도크 여유, ρ에 거의 무관: 상한은 대기열이 만든 시간 차단을 보지 못함'],
-  // dock road held
-  busyLbl: ['坞前停靠路段被占的时间比例', 'Share of time the dock stopping road is held', '도크 정차 구간 점유 시간 비율'],
-  busyY: ['被占比例（饱和，K = 150）', 'Held (saturated, K = 150)', '점유 비율 (포화, K = 150)'],
-  busyTip: ['玉浦 · {m}<br>ρ = {r}：被占 {v}%', 'Okpo · {m}<br>ρ = {r}: held {v}%', '옥포 · {m}<br>ρ = {r}: 점유 {v}%'],
-  // fleet size curves
   K: ['车队规模 K（台）', 'Fleet size K (vehicles)', '차량군 규모 K (대)'],
-  thrK: ['饱和吞吐（任务 / 16 h）', 'Saturated throughput (tasks / 16 h)', '포화 처리량 (작업 / 16시간)'],
-  kLbl: ['各吊车负荷下饱和吞吐随车队规模', 'Saturated throughput against fleet size at each crane load', '크레인 부하별 차량군 규모에 따른 포화 처리량'],
-  kTip: ['{yard} · {m}<br>ρ = {r}，K = {k}：{v} 个/日<br>逐日趋势 {tr}%{st}', '{yard} · {m}<br>ρ = {r}, K = {k}: {v} a day<br>daily trend {tr}%{st}', '{yard} · {m}<br>ρ = {r}, K = {k}: 하루 {v}건<br>일별 추세 {tr}%{st}'],
-  notSteady: ['（非稳态）', ' (not steady)', ' (비정상)'],
-  resAt: ['整条路径预约，ρ = {r}', 'Reservation, ρ = {r}', '예약, ρ = {r}'],
-  segHdr: ['逐段申请（参照规则）：', 'Segment request (reference rule):', '구간별 요청 (참조 규칙):'],
-  tYard: ['船厂', 'Yard', '조선소'], tRho: ['吊车负荷', 'Crane load', '크레인 부하'], tDrop: ['K 增大时的吞吐（逐段，参照规则）', 'Throughput as K grows (segment, reference rule)', 'K 증가 시 처리량 (구간별, 참조 규칙)'],
-  // probe
-  prLbl: ['作者探针：道路161 的三种改动', "The author's probe: three changes to road 161", '저자 탐침: 도로161의 세 가지 변경'],
-  prY: ['任务 / 16 h', 'tasks / 16 h', '작업 / 16시간'],
-  prG: [['T1′ 上界', 'T1′ bound', 'T1′ 상한'], ['整条路径预约', 'Reservation', '예약'], ['逐段（参照规则）', 'Segment (reference)', '구간별 (참조)']],
-  prV: [['现模型（整段）', 'Current (whole road)', '현 모형 (전 구간)'], ['改宽 12 m', 'Widened to 12 m', '12 m 확폭'], ['分段闭塞', 'Split at stops', '정차 지점별 분할'], ['分段 + 会车点', 'Split + passing bays', '분할 + 대피 구간']],
-  prNote: ['搭载组合，饱和，K = 100（仿真 3 个种子）', 'Erection mix, saturated, K = 100 (simulation, 3 seeds)', '탑재 조합, 포화, K = 100 (시뮬레이션 시드 3개)'],
-  prTip: ['{g} · {v}：{n}（相对现模型 {d}%）', '{g} · {v}: {n} ({d}% against current)', '{g} · {v}: {n} (현 모형 대비 {d}%)'],
-  // deadlocks
-  dReg: ['常规日（K = {k}）', 'regular day (K = {k})', '평상일 (K = {k})'], dPeak: ['高峰日（K = {k}）', 'peak day (K = {k})', '피크일 (K = {k})'],
-  dSat: ['饱和，K = {k}', 'saturated, K = {k}', '포화, K = {k}'],
-  dOff: ['K = 100 时至少 {h} 车·时/日不在路网上，占全天车时的 {p}%。', 'At K = 100 at least {h} vehicle-hours a day, {p}% of the fleet\'s day, are off the network.', 'K = 100에서 하루 최소 {h} 차량·시간, 전체의 {p}%가 도로망 밖에 있다.'],
+  // rho curve at one K
+  rkLbl: ['固定 K 时吞吐相对最低 ρ 档的变化', 'Change in throughput against the lowest ρ at a fixed K', '고정 K에서 최저 ρ 대비 처리량 변화'],
+  rkY: ['相对最低 ρ 档的变化（%）', 'Change against the lowest ρ (%)', '최저 ρ 대비 변화 (%)'],
+  rkThr: ['降幅 10%：阈值', '10% drop: threshold', '10% 하락: 임계값'],
+  rkTip: ['{yard} · K = {k} · {m} · {g}<br>ρ = {r}：{v}%{st}', '{yard} · K = {k} · {m} · {g}<br>ρ = {r}: {v}%{st}', '{yard} · K = {k} · {m} · {g}<br>ρ = {r}: {v}%{st}'],
+  notSteady: ['（不稳态）', ' (not steady)', ' (비정상)'],
+  rdRes: ['整条路径预约（路外等待）在 K = {k}、ρ = 0.99 时的变化（整段 / 分段）', 'Reservation (waiting off-road): change at K = {k} and ρ = 0.99 (whole / split)', '예약 (도로 밖 대기): K = {k}, ρ = 0.99의 변화 (전 구간 / 분할)'],
+  rdSafe: ['安全放行（不瞬移）在 K = {k} 的阈值（未达 10% 时给 ρ = 0.99 的变化）：整段 → 分段', 'Safe release (no teleporting), threshold at K = {k} (change at ρ = 0.99 if under 10%): whole → split', '안전 출발 (순간이동 없음), K = {k}의 임계값 (10% 미만이면 ρ = 0.99의 변화): 전 구간 → 분할'],
+  rdSeg: ['参照规则（瞬移疏解）在 K = {k} 的阈值（未达 10% 时给 ρ = 0.99 的变化）：整段 → 分段', 'Reference rule (teleport clearing), threshold at K = {k} (change at ρ = 0.99 if under 10%): whole → split', '참조 규칙 (순간이동 해소), K = {k}의 임계값 (10% 미만이면 ρ = 0.99의 변화): 전 구간 → 분할'],
+  noDrop: ['不降', 'no drop', '하락 없음'],
+  // thresholds against K
+  thLbl: ['降幅首次达 10% 的 ρ 随车队规模', 'ρ at which the drop first reaches 10%, against fleet size', '하락이 처음 10%에 이르는 ρ와 차량군 규모'],
+  thY: ['阈值 ρ', 'Threshold ρ', '임계값 ρ'],
+  thTop: ['ρ 到 0.99 降幅未达 10%', 'drop under 10% up to ρ = 0.99', 'ρ 0.99까지 하락 10% 미만'],
+  thTip: ['{yard} · {m} · {g}<br>K = {k}：阈值 ρ ≈ {r}{st}', '{yard} · {m} · {g}<br>K = {k}: threshold ρ ≈ {r}{st}', '{yard} · {m} · {g}<br>K = {k}: 임계값 ρ ≈ {r}{st}'],
+  thTipN: ['{yard} · {m} · {g}<br>K = {k}：未达 10%（ρ = 0.99 时 {d}%）', '{yard} · {m} · {g}<br>K = {k}: under 10% ({d}% at ρ = 0.99)', '{yard} · {m} · {g}<br>K = {k}: 10% 미만 (ρ = 0.99에서 {d}%)'],
+  thSteadyNote: ['（用到不稳态的点）', ' (uses non-steady points)', ' (비정상 점 사용)'],
+  rdLeft: ['安全放行·整段：阈值由 K = 20 移到 K = 150', 'Safe release, whole road: threshold from K = 20 to K = 150', '안전 출발·전 구간: K = 20에서 K = 150으로 임계값 이동'],
+  rdRight: ['同一 K = {k}：分段闭塞把安全放行的阈值右移（整段 → 分段）', 'At K = {k}, splitting the dock road at its stops moves the safe-release threshold right (whole → split)', 'K = {k}에서 정차 지점별 분할이 안전 출발의 임계값을 오른쪽으로 이동 (전 구간 → 분할)'],
+  rdRef: ['参照规则（瞬移疏解）K = 150：整段 → 分段', 'Reference rule (teleport clearing), K = 150: whole → split', '참조 규칙 (순간이동 해소), K = 150: 전 구간 → 분할'],
+  rdResAll: ['整条路径预约：两种粒度、K = 20–150 每一档在 ρ = 0.99 时的最大降幅', 'Reservation: largest drop at ρ = 0.99 over both granularities and every K = 20–150', '예약: 두 단위, K = 20–150 모든 단계에서 ρ = 0.99의 최대 하락'],
+  // H1 table
+  tRule: ['规则 · 粒度', 'Rule · granularity', '규칙 · 단위'],
+  // dock road held
+  heldLbl: ['坞前停靠路段被占的时间比例（玉浦，K = 150）', 'Share of time the dock stopping road is held (Okpo, K = 150)', '도크 정차 구간 점유 시간 비율 (옥포, K = 150)'],
+  heldY: ['被占比例（整段）', 'Held (whole road)', '점유 비율 (전 구간)'],
+  heldTip: ['玉浦 · {m}<br>ρ = {r}：被占 {v}%', 'Okpo · {m}<br>ρ = {r}: held {v}%', '옥포 · {m}<br>ρ = {r}: 점유 {v}%'],
+  // crane use
+  crLbl: ['吊车台时占用率与名义 ρ（K = 150）', 'Crane-hours used against nominal ρ (K = 150)', '크레인 시간 점유율과 명목 ρ (K = 150)'],
+  crY: ['吊车台时占用率', 'Crane-hours used', '크레인 시간 점유율'],
+  crDiag: ['名义：吊车做完全部搭载', 'nominal: cranes do every erection', '명목: 크레인이 모든 탑재 수행'],
+  crTip: ['{yard} · {m} · {g}<br>ρ = {r}：吊车用 {u}%，饥饿率 {s}%（其中被路网卡住 {b}%）', '{yard} · {m} · {g}<br>ρ = {r}: cranes used {u}%, starvation {s}% (stuck in the network {b}%)', '{yard} · {m} · {g}<br>ρ = {r}: 크레인 {u}%, 기아율 {s}% (도로망에 갇힘 {b}%)'],
+  crSafe: ['安全放行在 ρ = {r} 的吊车台时占用率（整段 / 分段），比名义少 {a}–{b} 个百分点：P6 积压，系统失稳', 'Safe release at ρ = {r}, crane-hours used (whole / split): {a}–{b} points below nominal; erections pile up and the system is unstable', '안전 출발, ρ = {r}의 크레인 시간 점유율 (전 구간 / 분할): 명목보다 {a}–{b}%p 낮음, 탑재가 쌓여 불안정'],
+  crRes: ['整条路径预约：吊车接近名义；车在停靠点上等预约时段，不传到路网', 'Reservation: cranes close to nominal; vehicles wait at stops for their slot, nothing reaches the network', '예약: 크레인은 명목에 가깝고 차는 정차 지점에서 예약 시간대를 기다려 도로망으로 번지지 않음'],
+  crRefY: ['参照规则：吊车几乎不损失；平台下降来自坞前排队占住道路161（被占 {h}%），挡住其他流向', 'Reference rule: the cranes lose almost nothing; the plateau falls because the dock queue holds road 161 ({h}% of the time) and blocks other flows', '참조 규칙: 크레인 손실은 거의 없고, 도크 대기열이 도로161을 점유 ({h}%)해 다른 흐름을 막아 평탄 구간이 떨어짐'],
+  crRefT: ['参照规则：吊车少用约 {d} 个百分点，被路网卡住的饥饿 {a}% 对预约 {b}%：吊车因上游被堵而空闲', 'Reference rule: cranes used about {d} points less; starvation stuck in the network {a}% against {b}% under reservation: the crane idles because upstream is blocked', '참조 규칙: 크레인 약 {d}%p 덜 사용, 도로망에 갇힌 기아 {a}% 대 예약 {b}%: 상류가 막혀 크레인이 쉼'],
+  // teleports
+  tlY: ['玉浦：在来坞途中至少被瞬移一次的车载 P6', 'Okpo: loaded erections teleported at least once', '옥포: 도크로 가는 길에 한 번 이상 순간이동된 차량 탑재'],
+  tlT: ['烟台：同上', 'Yantai: the same', '옌타이: 같은 값'],
+  tl2: ['其中被瞬移 2 次以上（两厂，约一半）', 'of these, teleported twice or more (both yards, about half)', '그중 2회 이상 (두 조선소, 약 절반)'],
+  tlMax: ['同一任务最多被瞬移的次数', 'most teleports of a single task', '한 작업의 최대 순간이동 횟수'],
+  // erection mix
+  erLbl: ['搭载组合：上界与三种规则的平台，整段对分段', 'Erection mix: bound and the plateau of three rules, whole road against split', '탑재 조합: 상한과 세 규칙의 평탄 구간, 전 구간 대 분할'],
+  erY: ['任务 / 16 h', 'tasks / 16 h', '작업 / 16시간'],
+  erG: [['T1′ 上界', 'T1′ bound', 'T1′ 상한'], ['整条路径预约', 'Reservation', '예약'], ['安全放행', 'Safe release', '안전 출발'], ['参照规则', 'Reference rule', '참조 규칙']],
+  erTip: ['{g} · {v}：{n}', '{g} · {v}: {n}', '{g} · {v}: {n}'],
+  ivEr: ['搭载组合：[{a}, {b}] → 分段 [{c}, {d}]；上沿 {u}，下沿 {l}', 'Erection mix: [{a}, {b}] → split [{c}, {d}]; upper edge {u}, lower edge {l}', '탑재 조합: [{a}, {b}] → 분할 [{c}, {d}], 상단 {u}, 하단 {l}'],
+  ivMain: ['玉浦主情景：[{a}, {b}] → 分段 [{c}, {d}]，只抬上沿（{u}；下沿 {l}）；烟台 [{e}, {f}]', 'Okpo main scenario: [{a}, {b}] → split [{c}, {d}], upper edge only ({u}; lower {l}); Yantai [{e}, {f}]', '옥포 주 시나리오: [{a}, {b}] → 분할 [{c}, {d}], 상단만 상승 ({u}, 하단 {l}), 옌타이 [{e}, {f}]'],
+  ivRatio: ['平台 / T1′：搭载组合 {a} → 分段 {b}，主情景 {c}–{d}：粒度一改，瓶颈从“路”移到“规则”（C3 / C4 分界）', 'Plateau / T1′: erection mix {a} → split {b}, main scenario {c}–{d}: change the granularity and the bottleneck moves from road to rule (the C3 / C4 boundary)', '평탄 / T1′: 탑재 조합 {a} → 분할 {b}, 주 시나리오 {c}–{d}: 단위를 바꾸면 병목이 “도로”에서 “규칙”으로 이동 (C3 / C4 경계)'],
+  // H2
+  h2Lbl: ['主情景饱和吞吐随车队规模', 'Saturated throughput of the main scenario against fleet size', '주 시나리오 포화 처리량과 차량군 규모'],
+  h2Y: ['饱和吞吐（任务 / 16 h）', 'Saturated throughput (tasks / 16 h)', '포화 처리량 (작업 / 16시간)'],
+  h2Tip: ['{yard} · {m}<br>K = {k}：{v} 个/日', '{yard} · {m}<br>K = {k}: {v} a day', '{yard} · {m}<br>K = {k}: 하루 {v}건'],
+  h2Peak: ['最大 {v} @ K = {k}', 'peak {v} at K = {k}', '최대 {v} @ K = {k}'],
+  h2Safe: ['安全放行（整段）：最大 @ K = {k} → K = 150（{d}%）', 'Safe release (whole road): peak at K = {k} → K = 150 ({d}%)', '안전 출발 (전 구간): K = {k}에서 최대 → K = 150 ({d}%)'],
+  h2Res: ['整条路径预约：单调上升到平台（K = 100–150 平均；K = 150 为 {v}）', 'Reservation: rises monotonically to its plateau (mean over K = 100–150; {v} at K = 150)', '예약: 평탄 구간까지 단조 증가 (K = 100–150 평균, K = 150에서 {v})'],
+  h2Ref: ['参照规则（瞬移疏解，图外）的平台；K = {k} 时最大 {v}，同一路网上没有安全放行那样的下降', 'Plateau of the reference rule (teleport clearing, off the chart); highest {v} at K = {k}, with no fall like safe release on the same network', '참조 규칙 (순간이동 해소, 그림 밖)의 평탄 구간, K = {k}에서 최대 {v}, 같은 망에서 안전 출발 같은 하락 없음'],
 };
 const t = k => T[k][LI[Deck.lang]];
 const tt = a => a[LI[Deck.lang]];
-const MC = { reserve: 'var(--oxide)', segment: 'var(--amber-hi)' };
+const MC = { reserve: 'var(--oxide)', segment_safe: 'var(--steel)', segment: 'var(--amber-hi)' };
+const RULES = ['reserve', 'segment_safe', 'segment'], GRAN = ['whole', 'stops'], KS = ['20', '40', '60', '100', '150'];
+const DASH = { whole: '', stops: '7 4' };
 const f0 = v => Math.round(v).toLocaleString('en-US');
-const half = v => Math.floor(v + 0.5);   // half up, as the review rounds
+const f2 = v => v.toFixed(2);
+const pc = v => Math.round(100 * v);
 function niceStep(top) { const p = 10 ** Math.floor(Math.log10(top / 6)); return [1, 2, 2.5, 5, 10].map(k => k * p).find(s => top / s <= 6); }
 function axes(s, x, y, xt, yt, W, H, m, fx = v => v, fy = v => v) {
   const g = el('g', { class: 'grid' }, s), a = el('g', { class: 'axis' }, s);
@@ -68,172 +92,231 @@ function axes(s, x, y, xt, yt, W, H, m, fx = v => v, fy = v => v) {
 const range = (a, b, st) => { const r = []; for (let v = a; v <= b + 1e-9; v += st) r.push(+v.toFixed(6)); return r; };
 const pathOf = pts => pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('');
 const sgn = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(1);
-// marker shapes for the working points
-function marker(s, kind, cx, cy, c) {
-  const r = 8;
-  const d = kind === 'star'
-    ? Array.from({ length: 10 }, (_, i) => { const a = -Math.PI / 2 + i * Math.PI / 5, q = i % 2 ? r * 0.45 : r * 1.15; return (i ? 'L' : 'M') + (cx + q * Math.cos(a)).toFixed(1) + ' ' + (cy + q * Math.sin(a)).toFixed(1); }).join('') + 'Z'
-    : kind === 'down' ? `M${cx - r} ${cy - r * 0.7}H${cx + r}L${cx} ${cy + r * 0.9}Z` : `M${cx - r} ${cy + r * 0.7}H${cx + r}L${cx} ${cy - r * 0.9}Z`;
-  return el('path', { d, style: `fill:${c};stroke:var(--ink);stroke-width:1` }, s);
-}
+const sgp = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(Math.abs(v) >= 10 ? 0 : 1);   // a relative change for prose
+const dot = (s, cx, cy, col, ok, r = 4) => el('circle', { cx, cy, r, style: ok ? `fill:${col};stroke:var(--paper);stroke-width:1` : `fill:var(--paper);stroke:${col};stroke-width:2` }, s);
+const stat = (num, p) => `<div class="stat"><span class="num">${num}</span><p>${p}</p></div>`;
+const legendRG = (id, rules, hollow = true) => swatches(id, rules.map(m => [MC[m], t(m)])
+  .concat([['none', t('whole'), 'width:18px;height:0;border:0;border-top:2.5px solid var(--ink3);border-radius:0'],
+    ['none', t('stops'), 'width:18px;height:0;border:0;border-top:2.5px dashed var(--ink3);border-radius:0']])
+  .concat(hollow ? [['var(--paper)', t('hollow'), 'border:2px solid var(--ink3);border-radius:50%']] : []));
+function seg(id, v) { document.querySelectorAll(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', b.dataset.v === String(v))); }
+const thr = (y, k, g, m) => D.rhok[y][k][`${g}|${m}`];
+// a-draw animates stroke-dasharray and pathLength rescales dashes, so dashed (split-road) lines fade in without pathLength
+const line = (s, pts, col, g, delay, w = 2.6) => anim(el('path', Object.assign({ d: pathOf(pts), style: `stroke:${col};stroke-width:${w};fill:none;stroke-linejoin:round;stroke-dasharray:${DASH[g]}` }, DASH[g] ? {} : { pathLength: 1 }), s), DASH[g] ? 'a-fade' : 'a-draw', delay);
+const fv = c => f2(c.thr) + (c.thrOk ? '' : '*');
 
-// ---------- the rho curve ----------
-let rYard = 'yupu';
-function drawRho() {
-  const P = D.rho[rYard], B = D.base[rYard], okpo = rYard === 'yupu';
-  const W = 560, H = fitH('cRho', W, 380), m = { l: 58, r: 16, t: 16, b: 46 };
-  const s = frame('cRho', W, H, t('rhoLbl'));
-  const x0 = okpo ? 0.5 : 0.1, x = lin(x0, 1, m.l, W - m.r);
-  const top0 = 1.12 * B.segment, st = niceStep(top0), yTop = Math.ceil(top0 / st) * st, y = lin(0, yTop, H - m.b, m.t);
-  axes(s, x, y, range(x0, 1, 0.1), range(0, yTop, st), W, H, m, v => v.toFixed(1), f0);
+// ---------- rho curve at one fleet size: change against the lowest rho ----------
+let rkYard = 'yupu', rkK = '40';
+function drawRhoK() {
+  const R = D.rhok[rkYard][rkK], okpo = rkYard === 'yupu';
+  const W = 560, H = fitH('cRhoK', W, 380), m = { l: 58, r: 16, t: 14, b: 46 };
+  const s = frame('cRhoK', W, H, t('rkLbl'));
+  const lo = Math.min(-20, ...Object.values(R).flatMap(c => c.pts.map(p => p[1])));
+  const yLo = Math.floor(lo / 10) * 10, x0 = okpo ? 0.5 : 0.1;
+  const x = lin(x0, 1, m.l, W - m.r), y = lin(yLo, 10, H - m.b, m.t);
+  axes(s, x, y, range(x0, 1, 0.1), range(yLo, 10, 10), W, H, m, v => v.toFixed(1), v => (v > 0 ? '+' : '') + v);
   el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('rhoX'));
-  yTitle(s, 14, (m.t + H - m.b) / 2, t('thr'));
-  // working points
-  const wk = okpo ? ['p6lo', 'crane', 'p6hi'] : ['crane'];
-  const wp = wk.map(k => P.find(p => p.key === k));
-  if (okpo) {
-    el('rect', { x: x(wp[0].rho), y: m.t, width: x(wp[2].rho) - x(wp[0].rho), height: H - m.b - m.t, style: 'fill:var(--amber-soft);opacity:.75' }, s);
-    el('text', { x: x(wp[0].rho) - 6, y: m.t + 14, 'text-anchor': 'end', style: 'fill:var(--amber);font-weight:600' }, s, t('work'));
-  } else {
-    el('path', { d: `M${x(wp[0].rho)} ${m.t}V${H - m.b}`, style: 'stroke:var(--amber);stroke-dasharray:3 3' }, s);
-    el('text', { x: x(wp[0].rho) + 6, y: m.t + 14, style: 'fill:var(--amber);font-weight:600' }, s, t('workY'));
-  }
-  // crane-free levels
-  ['segment', 'reserve'].forEach(md => {
-    el('path', { d: `M${m.l} ${y(B[md])}H${W - m.r}`, style: `stroke:${MC[md]};stroke-width:1.3;stroke-dasharray:6 4;opacity:.8` }, s);
-    el('text', { x: m.l + 6, y: y(B[md]) - 6, style: `fill:${md === 'segment' ? 'var(--amber)' : 'var(--oxide)'};font-size:12px` }, s, fmt(t('base'), { v: f0(B[md]) }));
-  });
-  ['reserve', 'segment'].forEach((md, i) => {
-    anim(el('path', { d: pathOf(P.map(p => [x(p.rho), y(p[md].plat)])), pathLength: 1, style: `stroke:${MC[md]};stroke-width:2.8;fill:none;stroke-linejoin:round` }, s), 'a-draw', .25 + .3 * i);
-    P.forEach((p, j) => {
-      const r = p[md], bad = r.unsteady.length > 0, cx = x(p.rho), cy = y(r.plat);
-      const k = md === 'segment' ? wk.indexOf(p.key) : -1;
-      const c = k >= 0
-        ? marker(s, okpo ? ['down', 'star', 'up'][k] : 'star', cx, cy, bad ? 'var(--paper)' : MC[md])
-        : el('circle', { cx, cy, r: 4, style: `fill:${bad ? 'var(--paper)' : MC[md]};stroke:${bad ? MC[md] : 'var(--paper)'};stroke-width:${bad ? 2 : 1}` }, s);
-      if (k >= 0 && bad) c.style.stroke = MC[md], c.style.strokeWidth = 2;
-      anim(c, 'a-pop', .9 + .3 * spread(j + 5 * i));
-      hover(c, () => fmt(t('rhoTip'), { yard: t(rYard), m: t(md === 'segment' ? 'segShort' : 'reserve'), r: p.rho.toFixed(2), n: p.n6, v: r.plat.toFixed(1), rel: sgn(r.rel), tr: sgn(r.trend), st: bad ? fmt(t('unsteady'), { k: r.unsteady.join(', ') }) : '' }));
+  yTitle(s, 14, (m.t + H - m.b) / 2, t('rkY'));
+  el('path', { d: `M${m.l} ${y(0)}H${W - m.r}`, style: 'stroke:var(--ink3);stroke-width:1.2' }, s);
+  el('path', { d: `M${m.l} ${y(-10)}H${W - m.r}`, style: 'stroke:var(--ink2);stroke-width:1.2;stroke-dasharray:3 3' }, s);
+  el('text', { x: m.l + 6, y: y(-10) + 15, style: 'fill:var(--ink2);font-size:12px' }, s, t('rkThr'));
+  RULES.forEach((md, i) => GRAN.forEach((g, j) => {
+    const c = R[`${g}|${md}`];
+    line(s, c.pts.map(p => [x(p[0]), y(p[1])]), MC[md], g, .2 + .15 * (2 * i + j), 2.5);
+    c.pts.forEach((p, q) => {
+      const d = anim(dot(s, x(p[0]), y(p[1]), MC[md], p[2], 3.6), 'a-pop', .8 + .3 * spread(q + 7 * i + 3 * j));
+      hover(d, () => fmt(t('rkTip'), { yard: t(rkYard), k: rkK, m: t(md), g: t(g), r: f2(p[0]), v: sgn(p[1]), st: p[2] ? '' : t('notSteady') }));
     });
-  });
-  swatches('lgRho', [[MC.reserve, t('reserve')], [MC.segment, t('segment')], ['var(--paper)', t('hollow'), 'border:2px solid var(--ink3);border-radius:50%']]);
-  // readings
-  const stat = (num, p) => `<div class="stat"><span class="num">${num}</span><p>${p}</p></div>`;
-  const res = P.map(p => p.reserve.plat), at = k => P.find(p => p.key === k).segment;
-  const mg = P.map(p => p.segment.margin);
-  const mgTxt = Math.min(...mg) === Math.max(...mg) ? Math.min(...mg).toFixed(2) : `${Math.min(...mg).toFixed(2)}–${Math.max(...mg).toFixed(2)}`;
-  const low = okpo ? Math.max(...P.filter(p => p.rho <= 0.795).map(p => Math.abs(p.segment.rel))) : at('crane').rel;
-  $('rhoRead').innerHTML = stat(`${f0(Math.min(...res))}–${f0(Math.max(...res))}`, fmt(t('rdRes'), { b: f0(B.reserve) }))
-    + stat(okpo ? `≤ ±${low.toFixed(1)}%` : `${sgn(low)}%`, fmt(t(okpo ? 'rdLowY' : 'rdLowT'), { b: f0(B.segment) }))
-    + stat(okpo ? `${sgn(at('crane').rel)}% / ${sgn(at('p6hi').rel)}%` : `${sgn(at('rho11').rel)}% / ${sgn(at('rho14').rel)}%`, t(okpo ? 'rdDropY' : 'rdDropT'))
-    + stat(mgTxt, t('rdLP'));
-  document.querySelectorAll('#rhoYard button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === rYard));
+  }));
+  legendRG('lgRhoK', RULES);
+  const th2 = md => GRAN.map(g => R[`${g}|${md}`]).map(c => (c.thr ? fv(c) : `${sgn(c.drop)}%`)).join(' → ');
+  $('rkRead').innerHTML = stat(GRAN.map(g => `${sgn(R[`${g}|reserve`].drop)}%`).join(' / '), fmt(t('rdRes'), { k: rkK }))
+    + stat(th2('segment_safe'), fmt(t('rdSafe'), { k: rkK })) + stat(th2('segment'), fmt(t('rdSeg'), { k: rkK }));
+  seg('rkYard', rkYard); seg('rkK', rkK);
 }
 
-// ---------- where vehicles wait: dock stopping road held at K = 150 (Okpo) ----------
-function drawBusy() {
-  const P = D.rho.yupu;
-  const W = 520, H = fitH('cBusy', W, 230, 0.8, 1.4), m = { l: 50, r: 14, t: 12, b: 40 };
-  const s = frame('cBusy', W, H, t('busyLbl'));
+// ---------- thresholds against fleet size ----------
+let thYard = 'yupu';
+const KSH = { yupu: '40', yantai: '60' };
+function drawThr() {
+  const y0 = thYard, W = 560, H = fitH('cThr', W, 380), m = { l: 58, r: 16, t: 62, b: 46 };
+  const s = frame('cThr', W, H, t('thLbl'));
+  const x = lin(10, 155, m.l, W - m.r), y = lin(0.3, 1, H - m.b, m.t), yTop = m.t - 22;
+  axes(s, x, y, KS.map(Number), range(0.3, 1, 0.1), W, H, m, v => v, v => v.toFixed(1));
+  el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('K'));
+  yTitle(s, 14, (m.t + H - m.b) / 2, t('thY'));
+  el('rect', { x: m.l, y: yTop - 12, width: W - m.l - m.r, height: 24, rx: 3, style: 'fill:var(--good-soft);opacity:.8' }, s);
+  el('text', { x: W - m.r, y: yTop - 18, 'text-anchor': 'end', style: 'fill:var(--good);font-size:12.5px;font-weight:600' }, s, t('thTop'));
+  RULES.forEach((md, i) => GRAN.forEach((g, j) => {
+    const pts = KS.map(k => [k, thr(y0, k, g, md)]);
+    const runs = []; let cur = [];
+    pts.forEach(([k, c]) => { if (c.thr) cur.push([x(+k), y(c.thr)]); else { if (cur.length) runs.push(cur); cur = []; } });
+    if (cur.length) runs.push(cur);
+    runs.forEach(r => line(s, r, MC[md], g, .2 + .15 * (2 * i + j)));
+    pts.forEach(([k, c], q) => {
+      const off = (2 * i + j - 2.5) * 7, cx = x(+k) + (c.thr ? 0 : off), cy = c.thr ? y(c.thr) : yTop;
+      const d = anim(dot(s, cx, cy, MC[md], c.thr ? c.thrOk : true, c.thr ? 4.2 : 3.4), 'a-pop', .8 + .3 * spread(q + 5 * i + 2 * j));
+      hover(d, () => c.thr ? fmt(t('thTip'), { yard: t(y0), m: t(md), g: t(g), k, r: f2(c.thr), st: c.thrOk ? '' : t('thSteadyNote') })
+        : fmt(t('thTipN'), { yard: t(y0), m: t(md), g: t(g), k, d: sgn(c.drop) }));
+    });
+  }));
+  legendRG('lgThr', RULES);
+  const sw = k => thr(y0, k, 'whole', 'segment_safe'), sp = k => thr(y0, k, 'stops', 'segment_safe');
+  const rf = g => thr(y0, '150', g, 'segment');
+  const res = Math.min(...KS.flatMap(k => GRAN.map(g => thr(y0, k, g, 'reserve').drop)));
+  $('thRead').innerHTML = stat(`${fv(sw('20'))} → ${fv(sw('150'))}`, t('rdLeft'))
+    + stat(`${fv(sw(KSH[y0]))} → ${fv(sp(KSH[y0]))}`, fmt(t('rdRight'), { k: KSH[y0] }))
+    + stat(`${fv(rf('whole'))} → ${fv(rf('stops'))}`, t('rdRef'))
+    + stat(res > -0.05 ? t('noDrop') : `${sgn(res)}%`, t('rdResAll'));
+  seg('thYard', y0);
+}
+
+// ---------- the H1 part 3 readings table: thresholds by rule, granularity and K, both yards ----------
+function fillH1() {
+  const cell = c => (c.thr ? `<b>${f2(c.thr)}</b>${c.thrOk ? '' : '*'}` : `—<span class="tiny">（${sgn(c.drop)}）</span>`);
+  const head = `<thead><tr><th rowspan="2">${t('tRule')}</th><th colspan="5">${t('yupu')}</th><th colspan="5">${t('yantai')}</th></tr>`
+    + `<tr>${['yupu', 'yantai'].map(() => KS.map(k => `<th class="mono">K = ${k}</th>`).join('')).join('')}</tr></thead>`;
+  $('h1Tbl').innerHTML = head + '<tbody>' + RULES.flatMap(md => GRAN.map(g => `<tr><td><span class="sw" style="background:${MC[md]}"></span>${t(md)} · ${t(g)}</td>`
+    + ['yupu', 'yantai'].map(y => KS.map(k => `<td class="mono">${cell(thr(y, k, g, md))}</td>`).join('')).join('') + '</tr>')).join('') + '</tbody>';
+}
+
+// ---------- dock stopping road held at K = 150 (Okpo, whole road) ----------
+function drawHeld() {
+  const C = D.crane.yupu;
+  const W = 520, H = fitH('cHeld', W, 230, 0.8, 1.4), m = { l: 50, r: 14, t: 12, b: 40 };
+  const s = frame('cHeld', W, H, t('heldLbl'));
   const x = lin(0.5, 1, m.l, W - m.r), y = lin(0, 100, H - m.b, m.t);
   axes(s, x, y, range(0.5, 1, 0.1), [0, 25, 50, 75, 100], W, H, m, v => v.toFixed(1), v => v + '%');
   el('text', { x: (m.l + W - m.r) / 2, y: H - 5, 'text-anchor': 'middle' }, s, t('rhoX'));
-  yTitle(s, 12, (m.t + H - m.b) / 2, t('busyY'));
-  ['reserve', 'segment'].forEach((md, i) => {
-    anim(el('path', { d: pathOf(P.map(p => [x(p.rho), y(p[md].busy150)])), pathLength: 1, style: `stroke:${MC[md]};stroke-width:2.6;fill:none` }, s), 'a-draw', .2 + .3 * i);
-    P.forEach((p, j) => {
-      const c = anim(el('circle', { cx: x(p.rho), cy: y(p[md].busy150), r: 3.5, style: `fill:${MC[md]};stroke:var(--paper);stroke-width:1` }, s), 'a-pop', .8 + .3 * spread(j + 4 * i));
-      hover(c, () => fmt(t('busyTip'), { m: t(md === 'segment' ? 'segShort' : 'reserve'), r: p.rho.toFixed(2), v: p[md].busy150.toFixed(0) }));
-    });
+  yTitle(s, 12, (m.t + H - m.b) / 2, t('heldY'));
+  RULES.forEach((md, i) => {
+    const P = C[`whole|${md}`];
+    anim(el('path', { d: pathOf(P.map(p => [x(p[0]), y(100 * p[4])])), pathLength: 1, style: `stroke:${MC[md]};stroke-width:2.6;fill:none` }, s), 'a-draw', .2 + .3 * i);
+    P.forEach((p, j) => hover(anim(dot(s, x(p[0]), y(100 * p[4]), MC[md], true, 3.5), 'a-pop', .8 + .3 * spread(j + 4 * i)),
+      () => fmt(t('heldTip'), { m: t(md), r: f2(p[0]), v: pc(p[4]) })));
   });
-  swatches('lgBusy', [[MC.reserve, t('reserve')], [MC.segment, t('segShort')]]);
+  swatches('lgHeld', RULES.map(md => [MC[md], t(md)]));
 }
 
-// ---------- H2: saturated throughput against fleet size at several crane loads ----------
-let kYard = 'yupu';
-const KSEL = { yupu: ['rho8', 'crane', 'rho14', 'p6hi', 'rho15'], yantai: ['crane', 'rho11', 'rho12', 'rho14', 'rho15'] };
-const KC = ['var(--steel)', 'var(--good)', 'var(--amber-hi)', 'var(--amber)', 'var(--oxide)'];
-function drawK() {
-  const C = D.curves[kYard], sel = KSEL[kYard].map(k => C.find(c => c.key === k));
-  const W = 560, H = fitH('cK', W, 380), m = { l: 58, r: 16, t: 16, b: 46 };
-  const s = frame('cK', W, H, t('kLbl'));
-  const top0 = 1.1 * Math.max(...sel.flatMap(c => c.segment.map(v => v[0]))), st = niceStep(top0), yTop = Math.ceil(top0 / st) * st;
-  const x = lin(0, 150, m.l, W - m.r), y = lin(0, yTop, H - m.b, m.t);
-  axes(s, x, y, range(0, 150, 25), range(0, yTop, st), W, H, m, v => v, f0);
-  el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('K'));
-  yTitle(s, 14, (m.t + H - m.b) / 2, t('thrK'));
-  const last = sel[sel.length - 1];   // reservation at the highest load, for contrast
-  anim(el('path', { d: pathOf(last.K.map((k, j) => [x(k), y(last.reserve[j][0])])), pathLength: 1, style: 'stroke:var(--ink3);stroke-width:2.2;fill:none;stroke-dasharray:7 4' }, s), 'a-fade', .2);
-  const pts = (c, md, col, i) => c.K.forEach((k, j) => {
-    const [v, ok, tr] = c[md][j];
-    const p = anim(el('circle', { cx: x(k), cy: y(v), r: 3.6, style: ok ? `fill:${col};stroke:var(--paper);stroke-width:1` : `fill:var(--paper);stroke:${col};stroke-width:2` }, s), 'a-pop', .8 + .25 * spread(j + 7 * i));
-    hover(p, () => fmt(t('kTip'), { yard: t(kYard), m: t(md === 'segment' ? 'segShort' : 'reserve'), r: c.rho.toFixed(2), k, v: v.toFixed(1), tr: sgn(tr), st: ok ? '' : t('notSteady') }));
+// ---------- crane-hours used against nominal rho at K = 150 ----------
+let crYard = 'yupu';
+const CR = [['reserve', 'whole'], ['segment', 'whole'], ['segment_safe', 'whole'], ['segment_safe', 'stops']];
+function drawCrane() {
+  const C = D.crane[crYard], okpo = crYard === 'yupu';
+  const W = 560, H = fitH('cCrane', W, 380), m = { l: 58, r: 16, t: 14, b: 46 };
+  const s = frame('cCrane', W, H, t('crLbl'));
+  const x0 = okpo ? 0.5 : 0.1, x = lin(x0, 1, m.l, W - m.r), y = lin(x0, 1, H - m.b, m.t);
+  axes(s, x, y, range(x0, 1, 0.1), range(x0, 1, 0.1), W, H, m, v => v.toFixed(1), v => pc(v) + '%');
+  el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('rhoX'));
+  yTitle(s, 14, (m.t + H - m.b) / 2, t('crY'));
+  el('path', { d: `M${x(x0)} ${y(x0)}L${x(1)} ${y(1)}`, style: 'stroke:var(--ink3);stroke-width:1.4;stroke-dasharray:4 4' }, s);
+  el('text', { x: x(x0) + 10, y: y(x0) - 30, transform: `rotate(${-Math.atan2(y(x0) - y(1), x(1) - x(x0)) * 180 / Math.PI} ${x(x0) + 10} ${y(x0) - 30})`, style: 'fill:var(--ink3);font-size:12px' }, s, t('crDiag'));
+  CR.forEach(([md, g], i) => {
+    const P = C[`${g}|${md}`];
+    line(s, P.map(p => [x(p[0]), y(p[1])]), MC[md], g, .2 + .2 * i);
+    P.forEach((p, j) => hover(anim(dot(s, x(p[0]), y(p[1]), MC[md], true, 3.6), 'a-pop', .8 + .3 * spread(j + 5 * i)),
+      () => fmt(t('crTip'), { yard: t(crYard), m: t(md), g: t(g), r: f2(p[0]), u: pc(p[1]), s: (100 * p[2]).toFixed(1), b: (100 * p[3]).toFixed(1) })));
   });
-  pts(last, 'reserve', 'var(--ink3)', 9);
-  sel.forEach((c, i) => {
-    anim(el('path', { d: pathOf(c.K.map((k, j) => [x(k), y(c.segment[j][0])])), pathLength: 1, style: `stroke:${KC[i]};stroke-width:2.6;fill:none;stroke-linejoin:round` }, s), 'a-draw', .3 + .2 * i);
-    pts(c, 'segment', KC[i], i);
-  });
-  swatches('lgK', [['transparent', t('segHdr'), 'width:0;border:0']].concat(sel.map((c, i) => [KC[i], `ρ = ${c.rho.toFixed(2)}`]))
-    .concat([['none', fmt(t('resAt'), { r: last.rho.toFixed(2) }), 'width:18px;height:0;border:0;border-top:2.5px dashed var(--ink3);border-radius:0'], ['var(--paper)', t('hollow'), 'border:2px solid var(--ink3);border-radius:50%']]));
-  document.querySelectorAll('#kYard button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === kYard));
+  legendRG('lgCrane', ['reserve', 'segment', 'segment_safe'], false);
+  const last = gm => C[gm][C[gm].length - 1], rTop = last('whole|reserve')[0];
+  const sw = last('whole|segment_safe'), ss = last('stops|segment_safe'), rs = last('whole|reserve'), rf = last('whole|segment');
+  const gaps = [sw, ss].map(p => 100 * (p[0] - p[1])).sort((a, b) => a - b);
+  $('crRead').innerHTML = stat(`${pc(sw[1])}% / ${pc(ss[1])}%`, fmt(t('crSafe'), { r: f2(rTop), a: Math.round(gaps[0]), b: Math.round(gaps[1]) }))
+    + stat(`${pc(rs[1])}%`, t('crRes'))
+    + stat(`${pc(rf[1])}%`, okpo ? fmt(t('crRefY'), { h: pc(rf[4]) }) : fmt(t('crRefT'), { d: pc(rs[1]) - pc(rf[1]), a: (100 * rf[3]).toFixed(1), b: (100 * rs[3]).toFixed(1) }));
+  seg('crYard', crYard);
 }
 
-// ---------- the decline table (review section 2.5, recomputed from the batches) ----------
-function fillDrop() {
-  const rows = [['yupu', 'p6hi', [100, 120, 150]], ['yupu', 'rho15', [100, 150]], ['yantai', 'rho14', [40, 150]], ['yantai', 'rho15', [40, 150]]];
-  $('dropTbl').innerHTML = `<thead><tr><th>${t('tYard')}</th><th>${t('tRho')}</th><th>${t('tDrop')}</th></tr></thead><tbody>`
-    + rows.map(([yd, key, Ks]) => {
-      const c = D.curves[yd].find(q => q.key === key);
-      const v = Ks.map(k => f0(half(c.segment[c.K.indexOf(k)][0]))).join(' → ');
-      return `<tr><td>${t(yd)}</td><td class="mono">ρ = ${c.rho.toFixed(2)}</td><td class="mono">${v} <span class="tiny">(K = ${Ks.join(Ks.length > 2 ? ' / ' : ' → ')})</span></td></tr>`;
-    }).join('') + '</tbody>';
+// ---------- teleports counted by task ----------
+function fillTele() {
+  const rg = (a, f = pc) => { const v = a.map(f); return `${Math.min(...v)}–${Math.max(...v)}`; };
+  const all = D.tele.yupu.concat(D.tele.yantai);
+  const n = (v, lbl) => `<div><b>${v}</b><span>${t(lbl)}</span></div>`;
+  $('teleNums').innerHTML = n(rg(D.tele.yupu.map(r => r[2])) + '%', 'tlY') + n(rg(D.tele.yantai.map(r => r[2])) + '%', 'tlT')
+    + n(rg(all.map(r => r[3])) + '%', 'tl2') + n(rg(all.map(r => r[4]), v => v), 'tlMax');
 }
 
-// ---------- the author's probe ----------
-function drawProbe() {
-  const Pr = D.probe, G = [Pr.T1t, Pr.res, Pr.seg], VC = ['var(--ink3)', 'var(--steel)', 'var(--good)', 'var(--good)'];
-  const W = 560, H = fitH('cProbe', W, 380), m = { l: 56, r: 10, t: 26, b: 46 };
-  const s = frame('cProbe', W, H, t('prLbl'));
-  const top0 = 1.12 * Math.max(...G.flat()), st = niceStep(top0), yTop = Math.ceil(top0 / st) * st;
-  const y = lin(0, yTop, H - m.b, m.t), gw = (W - m.l - m.r) / 3, bw = 34, gap = 4;
+// ---------- erection mix: bound and plateaus, whole road against split ----------
+function drawEr() {
+  const E = D.iv['yupu|erection'];
+  const G = [[E['T1|whole'], E['T1|stops']]].concat(RULES.map(md => GRAN.map(g => E[`${g}|${md}`].plat)));
+  const GC = ['var(--ink3)', MC.reserve, MC.segment_safe, MC.segment];
+  const W = 560, H = fitH('cEr', W, 380), m = { l: 56, r: 10, t: 16, b: 46 };
+  const s = frame('cEr', W, H, t('erLbl'));
+  const top0 = 1.1 * Math.max(...G.flat()), st = niceStep(top0), yTop = Math.ceil(top0 / st) * st;
+  const y = lin(0, yTop, H - m.b, m.t), gw = (W - m.l - m.r) / 4, bw = 40, gap = 6;
   const g = el('g', { class: 'grid' }, s);
   range(0, yTop, st).forEach(v => { el('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }, g); el('text', { x: m.l - 8, y: y(v) + 4, 'text-anchor': 'end' }, s, f0(v)); });
   el('path', { d: `M${m.l} ${m.t}V${H - m.b}H${W - m.r}`, style: 'stroke:var(--ink3);fill:none' }, s);
-  yTitle(s, 14, (m.t + H - m.b) / 2, t('prY'));
-  el('text', { x: m.l + 4, y: 14, style: 'fill:var(--ink3);font-size:12px' }, s, t('prNote'));
+  yTitle(s, 14, (m.t + H - m.b) / 2, t('erY'));
   G.forEach((vals, gi) => {
-    const cx = m.l + gw * (gi + 0.5), x0 = cx - (4 * bw + 3 * gap) / 2;
-    el('text', { x: cx, y: H - m.b + 18, 'text-anchor': 'middle', style: 'fill:var(--ink);font-weight:600' }, s, tt(T.prG[gi]));
+    const cx = m.l + gw * (gi + 0.5), x0 = cx - (2 * bw + gap) / 2;
+    el('text', { x: cx, y: H - m.b + 18, 'text-anchor': 'middle', style: 'fill:var(--ink);font-weight:600' }, s, tt(T.erG[gi]));
     vals.forEach((v, vi) => {
       const bx = x0 + vi * (bw + gap);
-      const r = anim(el('rect', { x: bx, y: y(v), width: bw, height: y(0) - y(v), style: `fill:${VC[vi]};${vi === 3 ? 'fill-opacity:.45;stroke:var(--good);stroke-width:1.5' : ''}` }, s), 'a-fade', .2 + .12 * vi + .25 * gi);
+      const r = anim(el('rect', { x: bx, y: y(v), width: bw, height: y(0) - y(v), style: `fill:${GC[gi]};${vi ? 'fill-opacity:.38;stroke-width:2;stroke:' + GC[gi] : ''}` }, s), 'a-fade', .2 + .12 * vi + .2 * gi);
       el('text', { x: bx + bw / 2, y: y(v) - 5, 'text-anchor': 'middle', style: 'fill:var(--ink2);font-size:12px' }, s, f0(v));
-      hover(r, () => fmt(t('prTip'), { g: tt(T.prG[gi]), v: tt(T.prV[vi]), n: f0(v), d: sgn(100 * (v / vals[0] - 1)) }));
+      hover(r, () => fmt(t('erTip'), { g: tt(T.erG[gi]), v: t(GRAN[vi]), n: f0(v) }));
     });
   });
-  swatches('lgProbe', T.prV.map((v, i) => [VC[i], tt(v), i === 3 ? 'opacity:.45;border:1.5px solid var(--good)' : '']));
+  swatches('lgEr', [['var(--ink3)', t('whole')], ['var(--paper)', t('stops'), 'border:2px solid var(--ink3)']]);
+  const M = D.iv['yupu|main'], Y = D.iv['yantai|main'], pct = (a, b) => `${sgn(100 * (b / a - 1))}%`;
+  const lo = (B, g) => B[`${g}|reserve`].plat;
+  $('ivEr').innerHTML = fmt(t('ivEr'), { a: f0(lo(E, 'whole')), b: f0(E['T1|whole']), c: f0(lo(E, 'stops')), d: f0(E['T1|stops']), u: pct(E['T1|whole'], E['T1|stops']), l: pct(lo(E, 'whole'), lo(E, 'stops')) });
+  $('ivMain').innerHTML = fmt(t('ivMain'), { a: f0(lo(M, 'whole')), b: f0(M['T1|whole']), c: f0(lo(M, 'stops')), d: f0(M['T1|stops']), u: pct(M['T1|whole'], M['T1|stops']), l: pct(lo(M, 'whole'), lo(M, 'stops')), e: f0(lo(Y, 'whole')), f: f0(Y['T1|whole']) });
+  const rt = (B, g) => f2(lo(B, g) / B[`T1|${g}`]), mr = [rt(M, 'whole'), rt(M, 'stops'), rt(Y, 'whole')].sort();
+  $('ivRatio').innerHTML = fmt(t('ivRatio'), { a: rt(E, 'whole'), b: rt(E, 'stops'), c: mr[0], d: mr[mr.length - 1] });
 }
 
-// ---------- deadlock counts ----------
-function fillDead() {
-  const d = D.dead, n = (v, k, lbl) => `<div><b>${f0(v)}</b><span>${fmt(t(lbl), { k })}</span></div>`;
-  $('deadNums').innerHTML = n(d.regular[1], d.regular[0], 'dReg') + n(d.peak[1], d.peak[0], 'dPeak') + n(d.sat100[1], d.sat100[0], 'dSat') + n(d.sat150[1], d.sat150[0], 'dSat');
-  $('deadOff').textContent = fmt(t('dOff'), { h: d.offnet100, p: d.offshare100 });
+// ---------- H2: saturated throughput against fleet size, main scenario ----------
+let h2Yard = 'yupu';
+const H2L = [['reserve', 'reserve', 'whole'], ['safe', 'segment_safe', 'whole'], ['safeS', 'segment_safe', 'stops']];
+function drawH2() {
+  const C = D.h2[h2Yard];
+  const W = 560, H = fitH('cH2', W, 380), m = { l: 58, r: 16, t: 16, b: 46 };
+  const s = frame('cH2', W, H, t('h2Lbl'));
+  const top0 = 1.15 * Math.max(...H2L.flatMap(([k]) => C[k].map(p => p[1]))), st = niceStep(top0), yTop = Math.ceil(top0 / st) * st;
+  const x = lin(0, 150, m.l, W - m.r), y = lin(0, yTop, H - m.b, m.t);
+  axes(s, x, y, range(0, 150, 25), range(0, yTop, st), W, H, m, v => v, f0);
+  el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('K'));
+  yTitle(s, 14, (m.t + H - m.b) / 2, t('h2Y'));
+  H2L.forEach(([k, md, g], i) => {
+    const P = C[k];
+    line(s, P.map(p => [x(p[0]), y(p[1])]), MC[md], g, .2 + .3 * i);
+    P.forEach((p, j) => hover(anim(dot(s, x(p[0]), y(p[1]), MC[md], true, 2.6), 'a-pop', .8 + .3 * spread(j + 9 * i)),
+      () => fmt(t('h2Tip'), { yard: t(h2Yard), m: `${t(md)} · ${t(g)}`, k: p[0], v: p[1].toFixed(1) })));
+  });
+  const pk = C.safe.reduce((a, b) => (b[1] > a[1] ? b : a)), at = C.safe.find(p => p[0] === 150);
+  el('circle', { cx: x(pk[0]), cy: y(pk[1]), r: 7, style: 'fill:none;stroke:var(--ink);stroke-width:1.5' }, s);
+  el('text', { x: x(pk[0]) + 10, y: y(pk[1]) - 10, style: 'fill:var(--ink);font-size:12.5px;font-weight:600' }, s, fmt(t('h2Peak'), { v: f0(pk[1]), k: pk[0] }));
+  el('circle', { cx: x(150), cy: y(at[1]), r: 7, style: 'fill:none;stroke:var(--ink);stroke-width:1.5' }, s);
+  el('text', { x: x(150) - 10, y: y(at[1]) + 24, 'text-anchor': 'end', style: 'fill:var(--ink);font-size:12.5px;font-weight:600' }, s, `${f0(at[1])} @ K = 150`);
+  swatches('lgH2', [[MC.reserve, t('reserve')], [MC.segment_safe, t('segment_safe')],
+    ['none', t('whole'), 'width:18px;height:0;border:0;border-top:2.5px solid var(--ink3);border-radius:0'],
+    ['none', t('stops'), 'width:18px;height:0;border:0;border-top:2.5px dashed var(--ink3);border-radius:0']]);
+  const iv = D.iv[`${h2Yard}|main`], ref = C.segment.reduce((a, b) => (b[1] > a[1] ? b : a));
+  $('h2Read').innerHTML = stat(`${f0(pk[1])} → ${f0(at[1])}`, fmt(t('h2Safe'), { k: pk[0], d: sgp(100 * (at[1] / pk[1] - 1)) }))
+    + stat(f0(iv['whole|reserve'].plat), fmt(t('h2Res'), { v: f0(C.reserve.find(p => p[0] === 150)[1]) }))
+    + stat(f0(iv['whole|segment'].plat), fmt(t('h2Ref'), { k: ref[0], v: f0(ref[1]) }));
+  seg('h2Yard', h2Yard);
 }
 
 function init() {
-  $('rhoYard').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { rYard = b.dataset.v; drawRho(); } });
-  $('kYard').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { kYard = b.dataset.v; drawK(); } });
+  const on = (id, f) => $(id).addEventListener('click', e => { const b = e.target.closest('button'); if (b) f(b.dataset.v); });
+  on('rkYard', v => { rkYard = v; drawRhoK(); });
+  on('rkK', v => { rkK = v; drawRhoK(); });
+  on('thYard', v => { thYard = v; drawThr(); });
+  on('crYard', v => { crYard = v; drawCrane(); });
+  on('h2Yard', v => { h2Yard = v; drawH2(); });
 }
 
 Deck.start({
   strings: T,
   sections: { intro: ['导读', 'Overview', '개요'], q: ['问题与定位', 'Question and position', '질문과 위치'], res: ['吊车与 ρ 曲线', 'Cranes and the ρ curve', '크레인과 ρ 곡선'],
-    mech: ['机理与建模选择', 'Mechanism and modelling', '메커니즘과 모형 선택'], h2: ['下降何时出现', 'When the decline appears', '하락은 언제 나타나는가'],
+    mech: ['机理与有效能力', 'Mechanism and effective capacity', '메커니즘과 유효 능력'], h2: ['下降何时出现', 'When the decline appears', '하락은 언제 나타나는가'],
     prop: ['坞口命题与浮坞', 'Proposition and floating docks', '명제와 플로팅 도크'], status: ['进度与计划', 'Progress and plan', '진행과 계획'],
-    pub: ['候选期刊', 'Candidate journals', '후보 학술지'], ref: ['参考文献', 'References', '참고문헌'], end: ['结尾', 'Close', '마무리'] },
-  draw: [drawRho, drawBusy, drawK, fillDrop, drawProbe, fillDead],
+    pub: ['目标期刊', 'Target journals', '목표 학술지'], ref: ['参考文献', 'References', '참고문헌'], end: ['结尾', 'Close', '마무리'] },
+  draw: [drawRhoK, drawThr, fillH1, drawHeld, drawCrane, fillTele, drawEr, drawH2],
   init,
 });
 })();

@@ -7,8 +7,6 @@
 .golinks{display:flex;gap:10px;flex-wrap:wrap}
 .tbl.lab td:first-child{font-family:var(--body);white-space:normal}
 .tbl.lab td.mono{font-size:.95em}
-.tbl tr.hi td{background:var(--amber-soft)}
-.tbl tr.sub td{color:var(--ink3)}
 .tbl td.c,.tbl th.c{text-align:center}
 .tbl .refcol{color:var(--amber)}
 .mf{display:grid;grid-template-columns:58px 1fr 1fr;gap:0 14px;align-items:start;padding:8px 0;border-bottom:1px solid var(--line)}
@@ -61,4 +59,22 @@
 .tbl.plan td{padding:9px 8px}
 [data-lang="zh"] .tbl.plan{font-size:16.5px}
 [data-lang="zh"] .tbl.plan td,[data-lang="ko"] .tbl.plan td{padding:12px 8px}
-#prevTbl td.mono,#prevTbl th:nth-child(2){white-space:nowrap}
+/* T22 tables: vehicles needed coloured by the H1 test */
+.tbl td.vY{background:var(--oxide-soft);color:var(--ink)}
+.tbl td.vNear{background:var(--amber-soft);color:var(--ink)}
+.tbl tr.own td{font-weight:600;color:var(--ink)}
+#demTbl{font-size:14.5px}
+#demTbl td{padding:4px 5px;white-space:nowrap}
+#demTbl th{padding:3px 5px;letter-spacing:.02em;text-transform:none;font-size:12.5px}
+#demTbl th.grp{text-align:center;color:var(--ink2);border-bottom:1px solid var(--line)}
+#demTbl td:first-child{font-family:var(--body)}
+#demTbl td:nth-child(5){border-right:1px solid var(--line)}
+#h1Tbl td{padding:9px 10px}
+#h1Tbl td:first-child{font-family:var(--body);white-space:normal;color:var(--ink)}
+#h1Tbl th{text-transform:none;letter-spacing:.02em;font-size:13px}
+#sysTbl td:first-child,#ratioTbl td:first-child{font-family:var(--body)}
+#sysTbl th,#ratioTbl th{text-transform:none;letter-spacing:.02em;font-size:12.5px}
+#rhoRead .stat,#zoneRead .stat{padding:6px 0}
+#rhoRead .stat .num,#zoneRead .stat .num{font-size:32px}
+#rhoRead .stat p,#zoneRead .stat p{font-size:15px;line-height:1.42}
+.yd .tiny{font-size:13px}

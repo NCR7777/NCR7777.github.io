@@ -89,3 +89,12 @@
 .tbl.obj{font-size:15px}
 [data-lang="zh"] .claim p{font-size:16px;line-height:1.5}
 [data-lang="zh"] .claim h4{font-size:18.5px}
+.tbl.grad{font-size:15px}
+.tbl.grad td{padding:8px 8px;line-height:1.35}
+.tbl.grad td:first-child{font-family:var(--body);white-space:normal}
+[data-lang="zh"] .tbl.grad{font-size:16.5px}
+.tbl.venues td:nth-child(3){white-space:normal;color:var(--ink);max-width:300px}
+.tbl.venues td{white-space:normal!important}
+.tbl.venues td:first-child{width:19%}
+.tbl.venues td:nth-child(2),.tbl.venues td:nth-child(4){width:17%}
+.tbl.venues td:nth-child(5){width:14%}

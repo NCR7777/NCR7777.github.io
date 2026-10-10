@@ -72,3 +72,6 @@
 .ttl [lang="ko"],.cover h1 [lang="ko"],.quote [lang="ko"],.card h3 [lang="ko"]{word-break:keep-all}
 [lang="ko"]{word-break:keep-all}
 .tbl.mf,.tbl.ex{font-size:15px}
+/* rules table: tighter rows in Chinese (T22 update added rows) */
+[data-lang="zh"] .tbl.rl{font-size:16px}
+[data-lang="zh"] .tbl.rl td{padding:8px 8px}

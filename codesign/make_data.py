@@ -1,12 +1,17 @@
 """Write data.js for the fleet–network co-design deck (thesis chapter 5).
 
-Two sources, both read-only:
-  1. The author's review of 9 Oct 2026, appendix A (the reviewer's probe on Okpo's dock road 161):
-     00_总控/audit/response/占路运输全量审核意见与后续指导_20261009.md. The two tables "主情景" and "搭载组合" are parsed
-     from the Markdown; the numbers exist only in that document (bounds 10 seeds, simulations 3 seeds; a prototype).
-  2. thesis-core at the reviewed commit 83c16bf, read with `git show` (never the working tree):
-     results/t18_report_d10b9015cd4d/t18_summary.json (T1′, reservation plateau, binding resources and dual prices) and
-     curves.csv of the batches it names (fleet bound K·H/c̄, giving each vehicle's daily capacity H/c̄).
+Sources, all read-only:
+  1. thesis-core at the reviewed commit a882742, read with `git show` (never the working tree, which holds unreviewed
+     T27 changes):
+     - T22 capacity intervals: the curves.csv of the saturated batches T22 §4 names (plateau = mean throughput over
+       K = 100–150, T1′ = 10-seed mean), checked against results/t22_report_3287d62c7916/t22_interval.csv;
+     - T22 vehicles needed at whole-yard volume: t22_demand.csv and t22_summary.json (K* interval); the two field
+       anchors are parsed from the source table of docs/T22_report.md (§13, T24 full-text quotes);
+     - T23 (results/97d667d16273 Okpo, results/e7f94238b96d Yantai): system.csv, prices.csv (two columns: shortest-path
+       dispatch T1′, re-routing allowed T1″), platform.csv, route_free.csv, readout.csv. Each vehicle's daily capacity
+       H/c̄ comes from the fleet bound K·H/c̄ in the curves.csv of the batch platform.csv names for that scenario.
+  2. The 3-seed probe of the author's review of 9 Oct 2026, appendix A (00_总控/audit/response/
+     占路运输全量审核意见与后续指导_20261009.md), kept only as history for widening and passing bays, which T22 did not rerun.
 THESIS_CORE and CONTROL override the repository paths.
 
   python codesign/make_data.py
@@ -23,96 +28,180 @@ ROOT = Path(__file__).resolve().parents[2]
 REPO = Path(os.environ.get('THESIS_CORE') or ROOT / '30_研究' / 'thesis-core')
 CONTROL = Path(os.environ.get('CONTROL') or ROOT / '00_总控')
 GUIDE = CONTROL / 'audit' / 'response' / '占路运输全量审核意见与后续指导_20261009.md'
-COMMIT = '83c16bf'
-T18 = 'results/t18_report_d10b9015cd4d/t18_summary.json'
-VARIANTS = ['现模型', 'w12', 'sect', 'sect_bay']
+COMMIT = 'a882742'
+T22R = 'results/t22_report_3287d62c7916'
+T23D = {'yupu': 'results/97d667d16273', 'yantai': 'results/e7f94238b96d'}
 
 
 def show(path):
     return subprocess.run(['git', '-C', str(REPO), 'show', f'{COMMIT}:{path}'], capture_output=True, check=True).stdout.decode('utf-8-sig')
 
 
-def table_after(text, heading):
-    """Rows of the first Markdown table after the line that starts with `heading`, as lists of cell strings."""
-    lines = text[text.index(heading):].splitlines()[1:]
-    start = next(i for i, l in enumerate(lines) if l.startswith('|'))
-    rows = []
-    for l in lines[start + 2:]:   # skip header and separator
-        if not l.startswith('|'):
-            break
-        rows.append([c.strip() for c in l.strip('|').split('|')])
-    return rows
+def rows(path):
+    return list(csv.DictReader(io.StringIO(show(path))))
 
 
 num = lambda s: float(s.replace(',', ''))
-pair = lambda s: [num(x) for x in s.split('/')]
-pct = lambda new, old: round(100 * (new - old) / old, 1)
+pct = lambda new, old: 100 * (new - old) / old
+fl = lambda s: float(s) if s not in ('', None) else None
 
-# ---------- 1. appendix A of the review ----------
-guide = GUIDE.read_text(encoding='utf-8')
-appA = guide[guide.index('## 附录 A'):guide.index('## 附录 B')]
-main_rows = {r[0]: r for r in table_after(appA, '**主情景**')}
-ere_rows = {r[0]: r for r in table_after(appA, '**搭载组合**')}
-assert list(main_rows) == VARIANTS and list(ere_rows) == VARIANTS, (list(main_rows), list(ere_rows))
-main = {'T1t': [num(main_rows[v][1]) for v in VARIANTS],
-        'res60': [pair(main_rows[v][3])[0] for v in VARIANTS], 'res120': [pair(main_rows[v][3])[1] for v in VARIANTS],
-        'seg60': [pair(main_rows[v][4])[0] for v in VARIANTS], 'seg120': [pair(main_rows[v][4])[1] for v in VARIANTS]}
-ere = {'T1t': [num(ere_rows[v][1]) for v in VARIANTS], 'res': [num(ere_rows[v][3]) for v in VARIANTS],
-       'seg': [num(ere_rows[v][4]) for v in VARIANTS], 'dl': [num(ere_rows[v][5]) for v in VARIANTS]}
-for d in (main, ere):   # change against the current model (whole dock road as one resource), in per cent
-    d['chg'] = {k: [pct(x, d[k][0]) for x in d[k][1:]] for k in list(d) if k != 'dl'}
+# ---------- 1. T22 capacity intervals (T22 §4; saturated batches, 10 seeds) ----------
+IVL = {   # key: (batch, scen, model)
+    'yupu|main|whole': ('49d2383872e7', 'main', 'reserve'), 'yupu|main|stops': ('656e2da75368', 'main_s', 'reserve'),
+    'yupu|erection|whole': ('dfb2758822ad', 'erection', 'reserve'), 'yupu|erection|stops': ('a1f485302418', 'erection_s', 'reserve'),
+    'yantai|main|whole': ('b82aa19b22af', 'main', 'reserve'), 'yantai|main|stops': ('930e637e0658', 'main_s', 'reserve'),
+}
+ivl = {}
+for key, (batch, scen, model) in IVL.items():
+    cur = [r for r in rows(f'results/{batch}/curves.csv') if r['scen'] == scen and r['model'] == model and r['level'] == 'saturated']
+    pl = [float(r['throughput_mean']) for r in cur if 100 <= int(r['K']) <= 150]
+    t1 = {float(r['T1_tight']) for r in cur}
+    assert len(pl) == 11 and len(t1) == 1, (key, len(pl), t1)
+    ivl[key] = {'plateau': round(sum(pl) / len(pl), 2), 'T1': round(t1.pop(), 2)}
+    ivl[key]['ratio'] = round(ivl[key]['plateau'] / ivl[key]['T1'], 4)
+# the same numbers as the T22 summary table (one decimal there)
+for r in rows(f'{T22R}/t22_interval.csv'):
+    sec, model = r['rule'].split('|')
+    key = f"{r['block']}|{sec}"
+    if model == 'reserve' and key in ivl:
+        assert abs(ivl[key]['plateau'] - float(r['plateau'])) <= 0.051, (key, ivl[key], r['plateau'])
+        assert abs(ivl[key]['T1'] - float(r['T1_whole' if sec == 'whole' else 'T1_stops'])) <= 0.051, (key, r)
+assert round(ivl['yupu|main|whole']['plateau']) == 627   # 627.45: shown as 627 (the T22 report's 628 rounds twice)
+# 10-seed range and the noise-free system T1′ (T23 system.csv) for the whole-road rows
+for yard, scens in (('yupu', ('main', 'erection')), ('yantai', ('main',))):
+    sysr = {r['scen']: r for r in rows(f'{T23D[yard]}/system.csv')}
+    for s in scens:
+        r, k = sysr[s], f'{yard}|{s}|whole'
+        assert abs(float(r['ref_mean']) - ivl[k]['T1']) < 0.01, (k, r['ref_mean'])
+        ivl[k].update(lo=round(float(r['ref_min']), 2), hi=round(float(r['ref_max']), 2), sys=round(float(r['T1_system']), 2))
+seg = {}
+for s in ('main', 'erection'):
+    w, st = ivl[f'yupu|{s}|whole'], ivl[f'yupu|{s}|stops']
+    seg[s] = {'dT1': round(pct(st['T1'], w['T1']), 4), 'dPl': round(pct(st['plateau'], w['plateau']), 4)}
+# T22 report §0 item 4 and §4: main +8% / +0.3%; erection +77% (76.49 before rounding) / +8.3%; ratio 0.87 → 0.53, main 0.34–0.36
+assert round(seg['main']['dT1']) == 8 and round(seg['main']['dPl'], 1) == 0.3, seg
+assert round(seg['erection']['dT1'], 1) == 76.5 and round(seg['erection']['dPl'], 1) == 8.3, seg
+assert round(ivl['yupu|erection|whole']['ratio'], 2) == 0.87 and round(ivl['yupu|erection|stops']['ratio'], 2) == 0.53
+assert round(ivl['yupu|main|stops']['ratio'], 2) == 0.34 and round(ivl['yupu|main|whole']['ratio'], 2) == 0.36
 
-# the review's own reading of these tables (§0.2 (c), §2.3) must follow from them
-mres = main['chg']['res60'] + main['chg']['res120']
-assert (min(mres), max(mres)) == (0.2, 2.4), mres                       # "预约 … +0.2% 至 +2.4%"
-assert (round(min(main['chg']['T1t'])), round(max(main['chg']['T1t']))) == (5, 8), main['chg']['T1t']   # "T1′ 变 +5% 至 +8%"
-mseg = main['chg']['seg60'] + main['chg']['seg120']
-assert round(min(mseg)) == 0 and round(max(mseg)) == 4, mseg            # "逐段变 0 至 +4%"
-w12, sect, bay = 0, 1, 2   # positions in the 'chg' lists (the baseline is left out there)
-assert round(ere['chg']['res'][sect]) == 10 and round(ere['chg']['seg'][sect]) == 47   # 分段闭塞：预约 +10%，逐段 +47%
-assert round(ere['chg']['res'][w12]) == 4 and round(ere['chg']['seg'][w12]) == 0       # 加宽：+4% 和 0
-assert ere['chg']['res'][bay] <= ere['chg']['res'][sect] and ere['chg']['seg'][bay] <= ere['chg']['seg'][sect]   # 会车点：在分段之外没有再增加
-assert abs(ere['chg']['T1t'][sect] - 77) < 0.6, ere['chg']['T1t']                       # 附录 A 读法第 2 条："T1′ +77%"
+# ---------- 2. T22 vehicles needed at whole-yard volume (T22 §6; integer K, 10 seeds, whole road) ----------
+kreq = {(r['section'], float(r['day_h']), r['model'], int(r['demand'])): r['K_req']
+        for r in rows(f'{T22R}/t22_demand.csv') if r['yard'] == 'yupu'}
+LEVELS = [(339, 16), (339, 24), (500, 24), (600, 16), (600, 24), (678, 16), (678, 24)]
+need = [{'n': n, 'h': h, **{m: int(kreq[('whole', float(h), m, n)]) for m in ('free', 'reserve', 'segment')}} for n, h in LEVELS]
+# the segmented dock road differs by at most one vehicle in these cells
+assert all(abs(int(kreq[('stops', float(h), m, n)]) - int(kreq[('whole', float(h), m, n)])) <= 1
+           for n, h in LEVELS for m in ('free', 'reserve', 'segment'))
+nd = {(d['n'], d['h']): d for d in need}
+assert (nd[339, 16]['free'], nd[339, 24]['free'], nd[339, 16]['reserve'], nd[339, 24]['reserve']) == (17, 12, 27, 15)
+assert (nd[600, 16]['free'], nd[600, 24]['free'], nd[600, 16]['reserve'], nd[600, 24]['reserve']) == (30, 20, 88, 37)
+assert (nd[600, 16]['segment'], nd[600, 24]['segment'], nd[678, 16]['reserve'], nd[678, 24]['reserve']) == (47, 27, 117, 46)
+assert (nd[500, 24]['free'], nd[500, 24]['reserve']) == (17, 27)
+kstar = json.loads(show(f'{T22R}/t22_summary.json'))['K_star']['yupu']
+assert kstar == [50, 60], kstar
+rep = show('docs/T22_report.md')
+m = re.search(r'(\d+)대의 트랜스포터를 이용하여, 하루 (\d+)시간동안 약 (\d+)여개', rep)
+hhi = {'veh': int(m.group(1)), 'h': int(m.group(2)), 'n': int(m.group(3))}
+shen = {'n': int(re.search(r'about (\d+) blocks need to be transported daily', rep).group(1)),
+        'veh': int(re.search(r'possess about (\d+) transporters', rep).group(1)), 'h': 24}   # shift not stated; read at 24 h (T22 §6.2)
+assert hhi == {'veh': 24, 'h': 24, 'n': 500} and shen['n'] == 600 and shen['veh'] == 30
+# both field fleets lie between free flow and reservation under a 24 h day (T22 §0 item 6)
+assert nd[500, 24]['free'] < hhi['veh'] < nd[500, 24]['reserve'] and nd[600, 24]['free'] < shen['veh'] < nd[600, 24]['reserve']
+anchors = [{'name': 'hhi', **hhi}, {'name': 'shen', **shen}]
 
-# ---------- 2. thesis-core 83c16bf: bounds, plateaus and dual prices (T18) ----------
-t18 = json.loads(show(T18))
-BATCH = {'main': (t18['inputs']['main'], 'main'), 'erection': (t18['inputs']['erection'], 'erection')}
+# ---------- 3. T23: dual prices in vehicles (two columns), plateau / bound, route slack ----------
+SCEN = ('main', 'erection', 'crane')
 
 
-def per_vehicle(batch, scen):
-    """H/c̄: one vehicle's daily capacity, from the fleet bound K·H/c̄ of the batch's curves (same for every K)."""
-    rows = [r for r in csv.DictReader(io.StringIO(show(f'results/{batch}/curves.csv'))) if r['scen'] == scen]
-    v = {round(float(r['fleet_bound']) / int(r['K']), 6) for r in rows}
-    assert len(v) == 1, v
+def per_vehicle(src):
+    """H/c̄ of the batch and scenario a platform.csv row names (`<batch>:<scen>`): fleet bound ÷ K, the same at every K."""
+    batch, scen = src.split(':')
+    v = {round(float(r['fleet_bound']) / int(r['K']), 6) for r in rows(f'results/{batch}/curves.csv')
+         if r['scen'] == scen and r['fleet_bound'] not in ('', 'nan')}
+    assert len(v) == 1, (src, v)
     return v.pop()
 
 
-def resource(name):
-    m = re.match(r'(.+?)（W=([\d.]+)，(\d+) m）', name)
-    return {'id': m.group(1).replace('道路', ''), 'w': float(m.group(2)), 'len': int(m.group(3))}
+def short(name):
+    """'道路161（W=9.0，1095 m）' -> '161'; an entrance node -> 'gate'."""
+    m = re.match(r'道路(\S+?)（W=', name)
+    return m.group(1) if m else 'gate'
 
 
-bounds = {}
-for key, (batch, scen) in BATCH.items():
-    e, hc = t18['T1'][key], per_vehicle(batch, scen)
-    bind = sorted(({**resource(n), 'seeds': b['seeds'], 'price': round(b['price_per_h'], 1), 'veh': round(b['price_per_h'] / hc, 1)}
-                   for n, b in e['binding_T1t'].items()), key=lambda b: -b['seeds'])
-    bounds[key] = {'T1t': [round(e['T1t'], 2), round(e['T1t_lo'], 2), round(e['T1t_hi'], 2)],
-                   'plateau': round(e['platform']['mean_K100_150'], 2), 'perVeh': round(hc, 1),
-                   'ratio': round(e['platform']['mean_K100_150'] / e['T1t'], 4), 'bind': bind}
-# the probe's baseline is T18's bound, reproduced seed by seed (appendix A, "复现核对")
-assert round(bounds['main']['T1t'][0]) == main['T1t'][0] and round(bounds['erection']['T1t'][0]) == ere['T1t'][0]
-# T18 report §2.2: road 161 in the erection mix ≈ 1.8 vehicles per extra hour a day; main scenario 4.2
-assert bounds['erection']['bind'][0]['id'] == '161' and bounds['erection']['bind'][0]['veh'] == 1.8, bounds['erection']['bind']
-assert bounds['main']['bind'][0]['id'] == '161' and bounds['main']['bind'][0]['veh'] == 4.2, bounds['main']['bind']
-assert round(100 * bounds['main']['ratio']) == 36, bounds['main']['ratio']   # review §2.3: reservation plateau 627 = 36% of T1′
+rates, slack = [], []
+for yard in ('yupu', 'yantai'):
+    plat = {(r['scen'], r['model']): r for r in rows(f'{T23D[yard]}/platform.csv')}
+    price = rows(f'{T23D[yard]}/prices.csv')
+    rf = {r['scen']: r for r in rows(f'{T23D[yard]}/route_free.csv')}
+    ro = {r['scen']: r for r in rows(f'{T23D[yard]}/readout.csv')}
+    for s in SCEN:
+        hc = per_vehicle(plat[s, 'reserve']['src'])
+        for r in price:
+            p1, p2 = float(r['T1′_price']), float(r['T1″_price'])
+            if r['scen'] != s or (p1 <= 0 and p2 <= 0):
+                continue
+            rates.append({'yard': yard, 'scen': s, 'res': short(r['name']), 'w': fl(r['W']) if r['type'] == '路段' else None,
+                          'len': fl(r['L']), 'p1': round(p1, 2), 'p2': round(p2, 2), 'v1': round(p1 / hc, 2), 'v2': round(p2 / hc, 2),
+                          'd1': round(float(r['T1′_d10']), 2), 'd2': round(float(r['T1″_d10']), 2),
+                          'f1': round(float(r['T1′_d10_first']), 2), 'perVeh': round(hc, 2),
+                          'w1a': fl(r.get('T1′_w1')), 'w1b': fl(r.get('T1″_w1')),
+                          'mix': round(float(plat[s, 'reserve']['ratio_mix']), 4), 'sys': round(float(plat[s, 'reserve']['ratio_sys']), 4),
+                          'mixRef': round(float(plat[s, 'segment']['ratio_mix']), 4)})
+        f, o = rf[s], ro[s]
+        slack.append({'yard': yard, 'scen': s, 'T1': round(float(f['T1_system']), 2), 'T1pp': round(float(f['T1pp']), 2),
+                      'lo': max(0, round(100 * float(f['margin_lo_rel']), 4)), 'hi': max(0, round(100 * float(f['margin_hi_rel']), 4)),
+                      'res': short(o['name']), 'pass': round(100 * float(o['pass_share']), 4),
+                      'alt': round(100 * fl(o['alt_slack']), 1) if fl(o['alt_slack']) is not None else None,
+                      'extra': round(fl(o['alt_extra_m'])) if fl(o['alt_extra_m']) is not None else None})
+R = {(r['yard'], r['scen'], r['res']): r for r in rates}
+# T23 §0, §4.3: road 161 in the erection mix ≈ 1.8 vehicles per extra hour a day; crane cadence: 010-6 only in the T1′ column,
+# 013-7 only in the T1″ column; Yantai: entrance A of building 014 binds in main and crane cadence, road 007 in the erection mix
+assert len(rates) == 7, [(r['yard'], r['scen'], r['res']) for r in rates]
+assert round(R['yupu', 'erection', '161']['v1'], 1) == 1.8 and round(R['yupu', 'erection', '161']['v2'], 1) == 1.9
+assert R['yupu', 'crane', '010-6']['p2'] == 0 and R['yupu', 'crane', '013-7']['p1'] == 0
+assert round(R['yupu', 'crane', '010-6']['d1']) == 198 and round(R['yupu', 'crane', '010-6']['w1a'], 1) == 187.5
+assert R['yupu', 'main', '161']['w1a'] == 0 and round(R['yantai', 'erection', '007']['w1a']) == 127
+assert round(R['yantai', 'main', 'gate']['d1'], 1) == 2.3 and round(R['yantai', 'main', 'gate']['f1']) == 144
+assert round(100 * R['yupu', 'erection', '161']['mix']) == 86 and round(100 * R['yupu', 'erection', '161']['mixRef']) == 92
+others = [r['mix'] for r in rates if not (r['yard'] == 'yupu' and r['scen'] in ('erection', 'crane'))]
+assert (round(100 * min(others)), round(100 * max(others))) == (36, 45), others   # T23 review §4: the other scenarios, reservation 36–45 %
+S = {(s['yard'], s['scen']): s for s in slack}
+assert (round(S['yupu', 'crane']['lo'], 1), round(S['yupu', 'crane']['hi'], 1)) == (45.4, 48.4)
+assert (round(S['yupu', 'main']['lo'], 1), round(S['yupu', 'main']['hi'], 1)) == (3.7, 5.3)
+assert (round(S['yupu', 'erection']['lo'], 1), round(S['yantai', 'erection']['lo'], 1)) == (5.1, 7.9)
+assert S['yantai', 'main']['hi'] == 0 and S['yantai', 'crane']['hi'] == 0
+assert round(S['yupu', 'crane']['pass']) == 97 and S['yupu', 'crane']['res'] == '010-6'
 
-DATA = {'source': {'review': GUIDE.name + ' 附录 A', 'repo': 'thesis-core', 'commit': COMMIT, 't18': T18},
-        'variants': VARIANTS, 'probe': {'main': main, 'erection': ere}, 'bounds': bounds}
+
+# ---------- 4. the 3-seed probe (review appendix A): history for widening and passing bays ----------
+def table_after(text, heading):
+    lines = text[text.index(heading):].splitlines()[1:]
+    start = next(i for i, l in enumerate(lines) if l.startswith('|'))
+    out = []
+    for l in lines[start + 2:]:
+        if not l.startswith('|'):
+            break
+        out.append([c.strip() for c in l.strip('|').split('|')])
+    return out
+
+
+guide = GUIDE.read_text(encoding='utf-8')
+appA = guide[guide.index('## 附录 A'):guide.index('## 附录 B')]
+ere = {r[0]: num(r[3]) for r in table_after(appA, '**搭载组合**')}   # reservation, K = 100, 3 seeds
+probe = {'w12': round(pct(ere['w12'], ere['现模型']), 4), 'sect': round(pct(ere['sect'], ere['现模型']), 4),
+         'bay': round(pct(ere['sect_bay'], ere['sect']), 4)}
+assert round(probe['w12'], 1) == 4.1 and round(probe['sect'], 1) == 9.5 and round(probe['bay'], 1) == -0.2, probe   # review: +10% / +4% (rounded twice)
+
+DATA = {'source': {'repo': 'thesis-core', 'commit': COMMIT, 't22': T22R, 't23': T23D, 'probe': GUIDE.name + ' 附录 A'},
+        'ivl': ivl, 'seg': seg, 'need': need, 'kstar': kstar, 'anchors': anchors, 'rates': rates, 'slack': slack, 'probe': probe}
 out = Path(__file__).parent / 'data.js'
-out.write_text('// Generated by make_data.py from the 2026-10-09 review (appendix A) and thesis-core %s (T18); do not edit by hand.\n'
+out.write_text('// Generated by make_data.py from thesis-core %s (T22, T23) and the 2026-10-09 review (appendix A); do not edit by hand.\n'
                'window.DATA=%s;\n' % (COMMIT, json.dumps(DATA, ensure_ascii=False, separators=(',', ':'))), encoding='utf-8')
-print('main chg', main['chg'])
-print('erection chg', ere['chg'])
-print('bounds', json.dumps(bounds, ensure_ascii=False))
+print(json.dumps({'ivl': ivl, 'seg': seg}, ensure_ascii=False))
+print('need', need)
+for r in rates:
+    print(r['yard'], r['scen'], r['res'], r['p1'], r['p2'], r['v1'], r['v2'], r['perVeh'], r['mix'], r['sys'], r['d1'], r['f1'], r['w1a'])
+for s in slack:
+    print(s)
+print('probe', probe)
 print(out, out.stat().st_size, 'bytes')

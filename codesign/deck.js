@@ -3,35 +3,67 @@
 (() => {
 'use strict';
 const D = window.DATA;
-const { LI, $, el, frame, fitH, anim, spread, lin, yTitle, swatches, hover, fmt } = Deck;
+const { LI, $, el, frame, fitH, anim, lin, yTitle, swatches, hover, fmt } = Deck;
 
 // ---------- strings used inside charts and filled tables: [zh, en, ko] ----------
 const T = {
   title: ['车队与路网协同设计 · 分项汇报', 'Fleet–Network Co-Design', '차량군·도로망 협동 설계 · 세부 보고'],
-  // interval chart
-  ivlLbl: ['运力区间：整条路径预约的平台与上界 T1′', 'Capacity interval: whole-route reservation plateau against the bound T1′', '운송 능력 구간: 전체 경로 예약 평탄과 상한 T1′'],
+  // interval charts
+  ivlLbl: ['运力区间：整条路径预约的平台与上界 T1′（10 个种子）', 'Capacity interval: whole-route reservation plateau against the bound T1′ (10 seeds)', '운송 능력 구간: 전체 경로 예약 평탄과 상한 T1′ (시드 10개)'],
+  segLbl: ['坞前道路分段前后的运力区间（玉浦，10 个种子）', 'Capacity interval before and after segmenting the dock road (Okpo, 10 seeds)', '도크 앞 도로 분할 전후의 운송 능력 구간 (옥포, 시드 10개)'],
   thr: ['日吞吐（任务 / 16 h）', 'Daily throughput (tasks / 16 h)', '일일 처리량 (작업 / 16시간)'],
-  rowMain: ['玉浦主情景（MY-B 流向组合）', 'Okpo main scenario (MY-B flow mix)', '옥포 주 시나리오 (MY-B 흐름 조합)'],
-  rowEre: ['搭载组合（P6 15%，白班集中）', 'Erection mix (P6 15%, day shift)', '탑재 조합 (P6 15%, 주간 집중)'],
+  rMainW: ['玉浦主情景 · 坞前道路整段', 'Okpo main scenario · dock road as one resource', '옥포 주 시나리오 · 도크 앞 도로 전체'],
+  rEreW: ['玉浦搭载组合 · 整段（P6 15%，白班集中）', 'Okpo erection mix · one resource (P6 15%, day shift)', '옥포 탑재 조합 · 전체 (P6 15%, 주간 집중)'],
+  rYtW: ['烟台主情景 · 整段', 'Yantai main scenario · one resource', '옌타이 주 시나리오 · 전체'],
+  rMainS: ['玉浦主情景 · 按停靠点分段', 'Okpo main scenario · segmented at the stops', '옥포 주 시나리오 · 정차 지점별 분할'],
+  rEreS: ['玉浦搭载组合 · 按停靠点分段', 'Okpo erection mix · segmented at the stops', '옥포 탑재 조합 · 정차 지점별 분할'],
   gapMain: ['差距来自规则 → 先改编排（第 4 章）', 'gap from the rule → orchestration first (ch. 4)', '차이는 규칙에서 → 편성 먼저 (4장)'],
   gapEre: ['差距小 → 改路直接见效', 'small gap → road changes pay', '차이 작음 → 개조가 바로 효과'],
+  gapYt: ['差距来自规则', 'gap from the rule', '차이는 규칙에서'],
+  segAnn: ['分段：T1′ {t}，平台 {p}', 'segmented: T1′ {t}, plateau {p}', '분할: T1′ {t}, 평탄 {p}'],
   lgPlat: ['整条路径预约的饱和平台（K = 100–150 均值）', 'Whole-route reservation plateau (mean of K = 100–150)', '전체 경로 예약 포화 평탄 (K = 100–150 평균)'],
   lgGap: ['到 T1′ 的差距', 'Gap to T1′', 'T1′까지의 차이'],
   lgT1: ['T1′（横线：10 个种子的范围）', 'T1′ (whisker: range over 10 seeds)', 'T1′ (가로선: 시드 10개 범위)'],
-  ivlTip: ['{row}<br>平台 {p} 个/日；T1′ {t}（{lo}–{hi}）<br>平台 / T1′ = {r}%', '{row}<br>plateau {p} a day; T1′ {t} ({lo}–{hi})<br>plateau / T1′ = {r}%', '{row}<br>평탄 하루 {p}건, T1′ {t} ({lo}–{hi})<br>평탄 / T1′ = {r}%'],
-  // probe chart
-  probeLbl: ['道路161 三种改动后的变化（相对整段一个资源）', 'Change after three alterations of road 161 (against the whole road as one resource)', '도로161 세 가지 개조 후 변화 (도로 전체 한 자원 대비)'],
-  chg: ['相对现模型的变化', 'Change against the current model', '현 모형 대비 변화'],
-  pMain: ['主情景 · K = 120', 'Main scenario · K = 120', '주 시나리오 · K = 120'],
-  pEre: ['搭载组合 · K = 100', 'Erection mix · K = 100', '탑재 조합 · K = 100'],
-  pRatio: ['平台 / T1′ = {r}%', 'plateau / T1′ = {r}%', '평탄 / T1′ = {r}%'],
-  vW12: ['改宽 12 m', 'Widen 12 m', '확폭 12 m'], vSect: ['分段闭塞', 'Sectioned', '분할 폐색'], vBay: ['分段 + 会车点', '+ passing bays', '분할 + 대피'],
-  mT1: ['T1′ 上界', 'T1′ bound', 'T1′ 상한'], mRes: ['整条路径预约', 'Whole-route reservation', '전체 경로 예약'],
-  mSeg: ['逐段申请（参照规则（瞬移疏解））', 'Segment request (reference rule, teleport clearing)', '구간별 요청 (참조 규칙, 순간 이동 해소)'],
-  mSegS: ['逐段申请 · 参照规则（瞬移疏解）', 'segment request · reference rule (teleport clearing)', '구간별 요청 · 참조 규칙 (순간 이동 해소)'],
-  probeTip: ['{panel} · {v}<br>{m}：{a} → {b}（{c}）', '{panel} · {v}<br>{m}: {a} → {b} ({c})', '{panel} · {v}<br>{m}: {a} → {b} ({c})'],
+  lgT1s: ['T1′（10 个种子均值）', 'T1′ (mean of 10 seeds)', 'T1′ (시드 10개 평균)'],
+  lgPlatS: ['分段后的预约平台', 'Reservation plateau after segmenting', '분할 후 예약 평탄'],
+  ivlTip: ['{row}<br>平台 {p} 个/日；T1′ {t}{rng}<br>平台 / T1′ = {r}%', '{row}<br>plateau {p} a day; T1′ {t}{rng}<br>plateau / T1′ = {r}%', '{row}<br>평탄 하루 {p}건, T1′ {t}{rng}<br>평탄 / T1′ = {r}%'],
+  rngTip: ['（{lo}–{hi}；系统 T1′ {s}）', ' ({lo}–{hi}; system T1′ {s})', ' ({lo}–{hi}, 시스템 T1′ {s})'],
+  // vehicles needed
+  needLbl: ['玉浦全厂口径的所需车数（整数 K，10 个种子）', 'Vehicles needed at Okpo whole-yard volume (integer K, 10 seeds)', '옥포 조선소 전체 기준 필요 차량 수 (정수 K, 시드 10개)'],
+  needX: ['所需车数（台）', 'Vehicles needed', '필요 차량 수 (대)'],
+  needRow: ['{n} 个/日 · {h} h', '{n} a day · {h} h', '하루 {n}건 · {h} h'],
+  g339: ['玉浦同法折算', 'Okpo, same conversion', '옥포 동일 환산'], g500: ['现代重工锚点', 'Hyundai Heavy anchor', '현대중공업 기준점'],
+  g600: ['韩国大型厂量级', 'large Korean yard scale', '한국 대형 조선소 규모'], g678: ['玉浦高峰（× 2）', 'Okpo peak (× 2)', '옥포 피크 (× 2)'],
+  kBand: ['K* 50–60：约束区起点', 'K* 50–60: constrained zone starts', 'K* 50–60: 제약 구간 시작'],
+  lgFree: ['自由流', 'Free flow', '자유류'], lgRes: ['整条路径预约', 'Whole-route reservation', '전체 경로 예약'],
+  lgRef: ['参照规则（瞬移疏解）', 'Reference rule (teleport clearing)', '참조 규칙 (순간 이동 해소)'],
+  lgField: ['现场车队', 'Field fleet', '현장 차량군'], lgK: ['约束区起点 K*（50–60）', 'Constrained-zone start K* (50–60)', '제약 구간 시작 K* (50–60)'],
+  needTip: ['{row}<br>自由流 {f} 台；整条路径预约 {r} 台；参照规则（瞬移疏解）{s} 台{a}', '{row}<br>free flow {f}; whole-route reservation {r}; reference rule (teleport clearing) {s}{a}', '{row}<br>자유류 {f}대, 전체 경로 예약 {r}대, 참조 규칙 (순간 이동 해소) {s}대{a}'],
+  aHhi: ['<br>现代重工：约 {n} 次/日、{v} 台、{h} h', '<br>Hyundai Heavy: about {n} moves a day, {v} vehicles, {h} h', '<br>현대중공업: 하루 약 {n}회, {v}대, {h}시간'],
+  aShen: ['<br>韩国某大型厂（Shen 等）：约 {n} 个/日、约 {v} 台（班次未写）', '<br>A large Korean yard (Shen et al.): about {n} a day, about {v} vehicles (shift not stated)', '<br>한국 대형 조선소 (Shen 등): 하루 약 {n}건, 약 {v}대 (교대 미기재)'],
+  // route slack
+  slkLbl: ['上界中的路线余量（系统上界）', 'Route slack in the bound (system bounds)', '상한의 경로 여유 (시스템 상한)'],
+  slkX: ['T1″ 比 T1′ 多出（%）', 'T1″ above T1′ (%)', 'T1″이 T1′보다 큰 정도 (%)'],
+  yYupu: ['玉浦', 'Okpo', '옥포'], yYantai: ['烟台', 'Yantai', '옌타이'],
+  sMain: ['主情景', 'main scenario', '주 시나리오'], sErection: ['搭载组合', 'erection mix', '탑재 조합'], sCrane: ['吊车节拍', 'crane cadence', '크레인 주기'],
+  cDock: ['坞的停靠路段，路过 {p}%', 'dock stopping road, {p}% through', '도크 정차 도로, 통과 {p}%'],
+  cCorr: ['贯通走廊，路过 {p}%', 'through corridor, {p}% through', '관통 통로, 통과 {p}%'],
+  cGate: ['入口：余量为 0，构造使然', 'entrance: zero by construction', '입구: 구조상 0'],
+  slkV: ['+{lo}%（+{hi}%）', '+{lo}% (+{hi}%)', '+{lo}% (+{hi}%)'],
+  lgLo: ['下限：回代可行值 − T1′', 'Lower: back-substituted feasible value − T1′', '하한: 역대입 가능값 − T1′'],
+  lgHi: ['到上限 T1″ − T1′', 'Up to T1″ − T1′', '상한 T1″ − T1′까지'],
+  slkTip: ['{row}<br>系统 T1′ {t}；T1″ {pp}<br>路线余量 +{lo}%（上限 +{hi}%）{x}', '{row}<br>system T1′ {t}; T1″ {pp}<br>route slack +{lo}% (at most +{hi}%){x}', '{row}<br>시스템 T1′ {t}, T1″ {pp}<br>경로 여유 +{lo}% (최대 +{hi}%){x}'],
+  slkAlt: ['<br>绕开它的路线剩余 {a}%、平均多走 {e} m', '<br>the detour keeps {a}% spare, {e} m longer on average', '<br>우회 경로 여유 {a}%, 평균 {e} m 더 김'],
+  road: ['道路{id}', 'road {id}', '도로{id}'], gate: ['建筑014 入口 A', 'building 014, entrance A', '건물014 입구 A'],
+  // exchange-rate chart
+  rateLbl: ['对偶价格折成台车（T23，系统上界，两列）', 'Dual prices in vehicles (T23, system bounds, two columns)', '쌍대 가격의 차량 환산 (T23, 시스템 상한, 두 열)'],
+  rateX: ['台车 / 资源每天多 1 h', 'Vehicles per extra hour a day on the resource', '자원 하루 1시간 추가당 차량'],
+  rateR: ['平台 / 上界', 'Plateau / bound', '평탄 / 상한'],
+  lgC1: ['最短路派车（T1′）', 'Shortest-path dispatch (T1′)', '최단 경로 배차 (T1′)'],
+  lgC2: ['允许绕行（T1″）', 'Re-routing allowed (T1″)', '우회 허용 (T1″)'],
+  lgDag: ['† 吊车节拍按系统口径；其余按完成组合口径', '† crane cadence on the system caliber; others on the completed mix', '† 크레인 주기는 시스템 기준, 나머지는 완료 조합 기준'],
+  rateTip: ['{row} · {res}<br>T1′：{p1} 个/日 → {v1} 台车<br>T1″：{p2} 个/日 → {v2} 台车<br>每台车每天 {hc} 个', '{row} · {res}<br>T1′: {p1} a day → {v1} vehicles<br>T1″: {p2} a day → {v2} vehicles<br>one vehicle: {hc} a day', '{row} · {res}<br>T1′: 하루 {p1}건 → {v1}대<br>T1″: 하루 {p2}건 → {v2}대<br>차량 1대 하루 {hc}건'],
   // schematics
-  schem: ['示意，非数据', 'schematic, not data', '개념도, 데이터 아님'],
   h4Lbl: ['H4 判据：对偶预测与仿真实测', 'H4 criterion: dual prediction against simulation', 'H4 판정: 쌍대 예측 대 시뮬레이션'],
   h4X: ['对偶预测（台车）', 'Dual prediction (vehicles)', '쌍대 예측 (대)'],
   h4Y: ['仿真：少用的车', 'Simulated: vehicles saved', '시뮬레이션: 절감 차량'],
@@ -42,84 +74,166 @@ const T = {
   blkY: ['运力', 'Capacity', '운송 능력'],
   blkShort: ['按停靠点分段', 'cut at stops', '정차 지점별'], blkLong: ['整段', 'whole road', '도로 전체'],
   blkBand: ['仿真平台落在哪里由 T25 读出', 'T25 reads where simulation falls', '시뮬레이션 위치는 T25가 판독'],
-  // T6 table
-  tScen: ['情景', 'Scenario', '시나리오'], tBind: ['取紧要素（种子）', 'Binding element (seeds)', '걸리는 요소 (시드)'],
-  tPrice: ['对偶价格<br>个/日 每 h/日', 'Dual price<br>tasks/day per h/day', '쌍대 가격<br>건/일 per h/일'],
-  tVeh: ['折合台车', 'In vehicles', '차량 환산'], tRatio: ['平台 / T1′', 'Plateau / T1′', '평탄 / T1′'],
-  sEre: ['搭载组合', 'Erection mix', '탑재 조합'], sMain: ['主情景', 'Main scenario', '주 시나리오'],
-  road: ['道路{id}', 'road {id}', '도로{id}'],
 };
 const t = k => T[k][LI[Deck.lang]];
 const f0 = v => Math.round(v).toLocaleString('en-US');
-const sgn = v => { const r = Math.round(v) || 0; return (r > 0 ? '+' : '') + r + '%'; };
+const f1 = v => (Math.round(v * 10) / 10).toFixed(1);
+const sg1 = v => (v >= 0 ? '+' : '−') + f1(Math.abs(v)) + '%';
 const pc = r => Math.round(100 * r);
 const range = (a, b, st) => { const r = []; for (let v = a; v <= b + 1e-9; v += st) r.push(+v.toFixed(6)); return r; };
 const pathOf = pts => pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('');
-const B = D.bounds, P = D.probe;
+const key = (...a) => a.join('|');
+const RT = Object.fromEntries(D.rates.map(r => [key(r.yard, r.scen, r.res), r]));
+const SL = Object.fromEntries(D.slack.map(r => [key(r.yard, r.scen), r]));
+const ND = Object.fromEntries(D.need.map(r => [key(r.n, r.h), r]));
+const AN = Object.fromEntries(D.anchors.map(a => [key(a.n, a.h), a]));
 
-// ---------- the dividing rule: capacity interval of two scenarios ----------
-function drawIvl() {
-  const W = 600, H = fitH('cIvl', W, 330), m = { l: 12, r: 76, t: 8, b: 46 };
-  const s = frame('cIvl', W, H, t('ivlLbl'));
+// ---------- capacity interval: plateau bar, gap to T1′, T1′ tick; one row per scenario ----------
+function ivlChart(id, lgId, label, H0, rows, whisk) {
+  const W = 600, H = fitH(id, W, H0), m = { l: 12, r: 92, t: 4, b: 42 };
+  const s = frame(id, W, H, label);
   const x = lin(0, 2000, m.l, W - m.r);
   const g = el('g', { class: 'grid' }, s), a = el('g', { class: 'axis' }, s);
   range(0, 2000, 500).forEach(v => { el('line', { x1: x(v), x2: x(v), y1: m.t, y2: H - m.b }, g); el('text', { x: x(v), y: H - m.b + 17, 'text-anchor': 'middle' }, s, f0(v)); });
   el('path', { d: `M${m.l} ${H - m.b}H${W - m.r}` }, a);
   el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('thr'));
-  const band = (H - m.t - m.b) / 2;
-  [['main', 'rowMain', 'gapMain', 'var(--oxide)'], ['erection', 'rowEre', 'gapEre', 'var(--good)']].forEach(([k, rowK, gapK, rc], i) => {
-    const b = B[k], y0 = m.t + i * band, bh = Math.min(40, band * 0.34), by = y0 + band * 0.42;
-    el('text', { x: m.l, y: y0 + band * 0.2, class: 't-strong', style: 'font-size:14px' }, s, t(rowK));
-    const solid = anim(el('rect', { x: x(0), y: by, width: x(b.plateau) - x(0), height: bh, style: 'fill:var(--oxide);opacity:.88' }, s), 'a-x', .3 + .3 * i);
-    const gap = anim(el('rect', { x: x(b.plateau), y: by, width: x(b.T1t[0]) - x(b.plateau), height: bh, style: 'fill:var(--oxide-soft);stroke:var(--oxide);stroke-width:1.4;stroke-dasharray:5 3' }, s), 'a-fade', .7 + .3 * i);
-    el('text', { x: x(b.plateau) - 8, y: by + bh / 2 + 5, 'text-anchor': 'end', style: 'fill:var(--paper);font-weight:600;font-size:14px' }, s, f0(b.plateau));
-    // T1′ tick and its seed range
-    const wy = by - 9;
-    el('path', { d: `M${x(b.T1t[1])} ${wy}H${x(b.T1t[2])}M${x(b.T1t[1])} ${wy - 4}V${wy + 4}M${x(b.T1t[2])} ${wy - 4}V${wy + 4}`, style: 'stroke:var(--ink3);stroke-width:1.4;fill:none' }, s);
-    el('path', { d: `M${x(b.T1t[0])} ${wy - 6}V${by + bh + 4}`, style: 'stroke:var(--ink);stroke-width:2.4' }, s);
-    el('text', { x: x(b.T1t[0]) + (i ? 6 : -6), y: wy - 8, 'text-anchor': i ? 'start' : 'end', style: 'fill:var(--ink);font-weight:600' }, s, `T1′ ${f0(b.T1t[0])}`);
-    const wide = x(b.T1t[0]) - x(b.plateau) > 230;
-    anim(el('text', wide ? { x: (x(b.plateau) + x(b.T1t[0])) / 2, y: by + bh / 2 + 5, 'text-anchor': 'middle', style: 'fill:var(--oxide);font-weight:600' }
-      : { x: x(b.T1t[0]) + 10, y: by + bh / 2 + 5, style: `fill:${rc};font-weight:600` }, s, t(gapK)), 'a-fade', 1.1 + .2 * i);
-    anim(el('text', { x: W - 4, y: by + bh / 2 + 10, 'text-anchor': 'end', style: `fill:${rc};font:700 30px var(--d-en)` }, s, pc(b.ratio) + '%'), 'a-pop', 1.2 + .2 * i);
-    const tip = () => fmt(t('ivlTip'), { row: t(rowK), p: f0(b.plateau), t: f0(b.T1t[0]), lo: f0(b.T1t[1]), hi: f0(b.T1t[2]), r: pc(b.ratio) });
+  const band = (H - m.t - m.b) / rows.length, bh = 26;
+  rows.forEach((r, i) => {
+    const b = D.ivl[r.k], y0 = m.t + i * band, top = y0 + (band - (whisk ? 80 : 70)) / 2, by = top + (whisk ? 28 : 22);
+    if (r.sep) el('path', { d: `M${m.l} ${y0 + 1}H${W - 4}`, style: 'stroke:var(--line);stroke-width:1.2' }, s);
+    el('text', { x: m.l, y: top + 14, class: 't-strong', style: 'font-size:14px' }, s, t(r.name));
+    const solid = anim(el('rect', { x: x(0), y: by, width: x(b.plateau) - x(0), height: bh, style: `fill:${r.bar || 'var(--oxide)'};opacity:.88` }, s), 'a-x', .3 + .2 * i);
+    const gap = anim(el('rect', { x: x(b.plateau), y: by, width: x(b.T1) - x(b.plateau), height: bh, style: 'fill:var(--oxide-soft);stroke:var(--oxide);stroke-width:1.4;stroke-dasharray:5 3' }, s), 'a-fade', .6 + .2 * i);
+    el('text', { x: x(b.plateau) - 6, y: by + bh / 2 + 5, 'text-anchor': 'end', style: 'fill:var(--paper);font-weight:600;font-size:13.5px' }, s, f0(b.plateau));
+    if (whisk && b.lo) {
+      const wy = by - 8;
+      el('path', { d: `M${x(b.lo)} ${wy}H${x(b.hi)}M${x(b.lo)} ${wy - 4}V${wy + 4}M${x(b.hi)} ${wy - 4}V${wy + 4}`, style: 'stroke:var(--ink3);stroke-width:1.4;fill:none' }, s);
+    }
+    el('path', { d: `M${x(b.T1)} ${by - (whisk ? 12 : 5)}V${by + bh + 4}`, style: 'stroke:var(--ink);stroke-width:2.4' }, s);
+    el('text', { x: x(b.T1) + 6, y: by + bh / 2 + 5, style: 'fill:var(--ink);font-weight:600;font-size:13.5px' }, s, `T1′ ${f0(b.T1)}`);
+    if (r.ann) anim(el('text', { x: x(b.plateau) + 4, y: by + bh + 17, style: `fill:${r.col};font-weight:600;font-size:13.5px` }, s, r.ann()), 'a-fade', 1 + .2 * i);
+    anim(el('text', { x: W - 4, y: by + bh / 2 + 9, 'text-anchor': 'end', style: `fill:${r.col};font:700 26px var(--d-en)` }, s, pc(b.ratio) + '%'), 'a-pop', 1.1 + .2 * i);
+    const tip = () => fmt(t('ivlTip'), { row: t(r.name), p: f0(b.plateau), t: f0(b.T1), r: pc(b.ratio),
+      rng: b.lo ? fmt(t('rngTip'), { lo: f0(b.lo), hi: f0(b.hi), s: f0(b.sys) }) : '' });
     hover(solid, tip); hover(gap, tip);
   });
-  swatches('lgIvl', [['var(--oxide)', t('lgPlat')], ['var(--oxide-soft)', t('lgGap'), 'border:1px dashed var(--oxide)'], ['var(--ink)', t('lgT1'), 'width:3px']]);
-  $('rdEre').textContent = pc(B.erection.ratio) + '%';
-  $('rdMain').textContent = pc(B.main.ratio) + '%';
+  swatches(lgId, [['var(--oxide)', t('lgPlat')], ...(rows.some(r => r.bar) ? [['var(--steel)', t('lgPlatS')]] : []),
+    ['var(--oxide-soft)', t('lgGap'), 'border:1px dashed var(--oxide)'], ['var(--ink)', t(whisk ? 'lgT1' : 'lgT1s'), 'width:3px']]);
+}
+function drawIvl() {
+  ivlChart('cIvl', 'lgIvl', t('ivlLbl'), 330, [
+    { k: 'yupu|main|whole', name: 'rMainW', col: 'var(--oxide)', ann: () => t('gapMain') },
+    { k: 'yupu|erection|whole', name: 'rEreW', col: 'var(--good)', ann: () => t('gapEre') },
+    { k: 'yantai|main|whole', name: 'rYtW', col: 'var(--oxide)', ann: () => t('gapYt') }], true);
+  $('rdMain').textContent = pc(D.ivl['yupu|main|whole'].ratio) + '%';
+  $('rdEre').textContent = pc(D.ivl['yupu|erection|whole'].ratio) + '%';
+}
+function drawSeg() {
+  const ann = sk => () => fmt(t('segAnn'), { t: sg1(D.seg[sk].dT1), p: sg1(D.seg[sk].dPl) });
+  ivlChart('cSeg', 'lgSeg', t('segLbl'), 370, [
+    { k: 'yupu|main|whole', name: 'rMainW', col: 'var(--oxide)' },
+    { k: 'yupu|main|stops', name: 'rMainS', col: 'var(--oxide)', ann: ann('main'), bar: 'var(--steel)' },
+    { k: 'yupu|erection|whole', name: 'rEreW', col: 'var(--good)', sep: true },
+    { k: 'yupu|erection|stops', name: 'rEreS', col: 'var(--amber)', ann: ann('erection'), bar: 'var(--steel)' }], false);
 }
 
-// ---------- the probe: change after three alterations of road 161 ----------
-function drawProbe() {
-  const W = 600, H = fitH('cProbe', W, 380), m = { l: 62, r: 6, t: 44, b: 40 };
-  const s = frame('cProbe', W, H, t('probeLbl'));
-  const y = lin(0, 80, H - m.b, m.t), gapP = 22, pw = (W - m.l - m.r - gapP) / 2;
+// ---------- vehicles needed at whole-yard volume: free flow to reservation, K* band, field fleets ----------
+function drawNeed() {
+  const W = 600, H = fitH('cNeed', W, 390), m = { l: 156, r: 16, t: 28, b: 40 };
+  const s = frame('cNeed', W, H, t('needLbl'));
+  const x = lin(0, 130, m.l, W - m.r), [k0, k1] = D.kstar;
   const g = el('g', { class: 'grid' }, s), a = el('g', { class: 'axis' }, s);
-  range(0, 80, 20).forEach(v => { el('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }, g); el('text', { x: m.l - 6, y: y(v) + 4, 'text-anchor': 'end' }, s, (v ? '+' : '') + v + '%'); });
-  el('path', { d: `M${m.l} ${m.t}V${H - m.b}H${W - m.r}` }, a);
-  yTitle(s, 14, (m.t + H - m.b) / 2, t('chg'));
-  el('path', { d: `M${m.l + pw + gapP / 2} ${m.t - 34}V${H - m.b}`, style: 'stroke:var(--line);stroke-width:1.2' }, s);
-  const MET = [['T1t', 'mT1', 'fill:var(--paper);stroke:var(--ink2);stroke-width:1.4'], ['res', 'mRes', 'fill:var(--oxide)'], ['seg', 'mSeg', 'fill:var(--amber-hi)']];
-  const VN = ['vW12', 'vSect', 'vBay'];
-  [['main', 'pMain', { T1t: 'T1t', res: 'res120', seg: 'seg120' }, 'var(--oxide)'], ['erection', 'pEre', { T1t: 'T1t', res: 'res', seg: 'seg' }, 'var(--good)']].forEach(([k, pk, key, pcol], i) => {
-    const x0 = m.l + i * (pw + gapP), d = P[k];
-    el('text', { x: x0 + pw / 2, y: m.t - 26, 'text-anchor': 'middle', class: 't-strong', style: 'font-size:13.5px' }, s, t(pk));
-    el('text', { x: x0 + pw / 2, y: m.t - 9, 'text-anchor': 'middle', style: `fill:${pcol};font-weight:600` }, s, fmt(t('pRatio'), { r: pc(B[k].ratio) }));
-    const gw = pw / 3, bw = Math.min(22, (gw - 16) / 3);
-    VN.forEach((vn, j) => {
-      const gx = x0 + j * gw + (gw - 3 * bw - 8) / 2;
-      el('text', { x: x0 + j * gw + gw / 2, y: H - m.b + 17, 'text-anchor': 'middle' }, s, t(vn));
-      MET.forEach(([mk, mn, st], q) => {
-        const v = d.chg[key[mk]][j], raw = d[key[mk]], bx = gx + q * (bw + 4), top = y(Math.max(0, v));
-        const r = anim(el('rect', { x: bx, y: top, width: bw, height: Math.max(1, y(0) - top), style: st }, s), 'a-y', .35 + .12 * (3 * j + q) + .4 * i);
-        if (mk === 'seg') el('rect', { x: bx, y: top, width: bw, height: Math.max(1, y(0) - top), style: 'fill:url(#hatch);pointer-events:none' }, s);
-        anim(el('text', { x: bx + bw / 2, y: top - 4, 'text-anchor': 'middle', style: `font-size:12px;font-weight:600;paint-order:stroke;stroke:var(--paper);stroke-width:3px;fill:${mk === 'res' ? 'var(--oxide)' : 'var(--ink2)'}` }, s, sgn(v)), 'a-fade', 1 + .4 * i);
-        hover(r, () => fmt(t('probeTip'), { panel: t(pk), v: t(vn), m: t(mk === 'seg' ? 'mSegS' : mn), a: f0(raw[0]), b: f0(raw[j + 1]), c: v.toFixed(1) + '%' }));
-      });
-    });
+  anim(el('rect', { x: x(k0), y: m.t - 4, width: x(k1) - x(k0), height: H - m.b - m.t + 4, style: 'fill:var(--amber-soft)' }, s), 'a-fade', .2);
+  el('text', { x: x(k1) + 4, y: m.t - 10, style: 'fill:var(--amber);font-weight:600;font-size:12.5px' }, s, t('kBand'));
+  range(0, 120, 20).forEach(v => { el('line', { x1: x(v), x2: x(v), y1: m.t, y2: H - m.b }, g); el('text', { x: x(v), y: H - m.b + 17, 'text-anchor': 'middle' }, s, v); });
+  el('path', { d: `M${m.l} ${H - m.b}H${W - m.r}` }, a);
+  el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('needX'));
+  const band = (H - m.t - m.b) / D.need.length, GN = { 339: 'g339', 500: 'g500', 600: 'g600', 678: 'g678' };
+  D.need.forEach((d, i) => {
+    const yc = m.t + (i + .5) * band, first = !i || D.need[i - 1].n !== d.n, an = AN[key(d.n, d.h)];
+    if (first && i) el('path', { d: `M8 ${m.t + i * band}H${W - m.r}`, style: 'stroke:var(--line);stroke-width:1.2' }, s);
+    el('text', { x: m.l - 12, y: yc + (first ? -1 : 5), 'text-anchor': 'end', class: 't-strong', style: 'font-size:13.5px' }, s, fmt(t('needRow'), { n: d.n, h: d.h }));
+    if (first) el('text', { x: m.l - 12, y: yc + 14, 'text-anchor': 'end', style: 'fill:var(--ink3);font-size:12px' }, s, t(GN[d.n]));
+    const ln = anim(el('path', { d: `M${x(d.free)} ${yc}H${x(d.reserve)}`, style: 'stroke:var(--ink3);stroke-width:2.2' }, s), 'a-fade', .4 + .08 * i);
+    const sx = x(d.segment);
+    el('path', { d: `M${sx} ${yc - 5}L${sx + 5} ${yc}L${sx} ${yc + 5}L${sx - 5} ${yc}Z`, style: 'fill:var(--paper);stroke:var(--amber);stroke-width:1.6' }, s);
+    anim(el('circle', { cx: x(d.free), cy: yc, r: 5.5, style: 'fill:var(--steel)' }, s), 'a-pop', .5 + .08 * i);
+    anim(el('circle', { cx: x(d.reserve), cy: yc, r: 6, style: 'fill:var(--oxide)' }, s), 'a-pop', .6 + .08 * i);
+    el('text', { x: x(d.free) - 9, y: yc + 4.5, 'text-anchor': 'end', style: 'fill:var(--steel);font-weight:600;font-size:13px' }, s, d.free);
+    el('text', { x: x(d.reserve) + 10, y: yc + 4.5, style: 'fill:var(--oxide);font-weight:700;font-size:13.5px' }, s, d.reserve);
+    if (an) {
+      anim(el('text', { x: x(an.veh), y: yc + 6, 'text-anchor': 'middle', style: 'fill:var(--ink);font-size:17px' }, s, '★'), 'a-pop', 1 + .1 * i);
+      el('text', { x: x(an.veh), y: yc - 9, 'text-anchor': 'middle', style: 'fill:var(--ink);font-weight:700;font-size:12.5px' }, s, an.veh);
+    }
+    hover(ln, () => fmt(t('needTip'), { row: fmt(t('needRow'), { n: d.n, h: d.h }), f: d.free, r: d.reserve, s: d.segment,
+      a: an ? fmt(t(an.name === 'hhi' ? 'aHhi' : 'aShen'), { n: an.n, v: an.veh, h: an.h }) : '' }));
   });
-  swatches('lgProbe', [['var(--paper)', t('mT1'), 'border:1.4px solid var(--ink2)'], ['var(--oxide)', t('mRes')], ['var(--amber-hi)', t('mSeg'), 'background-image:repeating-linear-gradient(45deg,transparent 0 3px,rgba(43,43,43,.55) 3px 4px)']]);
+  swatches('lgNeed', [['var(--steel)', t('lgFree'), 'border-radius:50%'], ['var(--oxide)', t('lgRes'), 'border-radius:50%'],
+    ['var(--paper)', t('lgRef'), 'border:1.6px solid var(--amber);transform:rotate(45deg) scale(.8)'], ['var(--amber-soft)', t('lgK')]]);
+  $('lgNeed').insertAdjacentHTML('beforeend', `<span><b style="font-size:15px;margin-right:4px">★</b>${t('lgField')}</span>`);
+}
+
+// ---------- route slack in the bound: [lower, upper] per scenario ----------
+const SCN = { main: 'sMain', erection: 'sErection', crane: 'sCrane' };
+const CLS = { gate: 'cGate', '010-6': 'cCorr' };
+const resName = id => id === 'gate' ? t('gate') : fmt(t('road'), { id });
+function drawSlack() {
+  const W = 600, H = fitH('cSlack', W, 360), m = { l: 214, r: 104, t: 8, b: 40 };
+  const s = frame('cSlack', W, H, t('slkLbl'));
+  const x = lin(0, 50, m.l, W - m.r);
+  const g = el('g', { class: 'grid' }, s), a = el('g', { class: 'axis' }, s);
+  range(0, 50, 10).forEach(v => { el('line', { x1: x(v), x2: x(v), y1: m.t, y2: H - m.b }, g); el('text', { x: x(v), y: H - m.b + 17, 'text-anchor': 'middle' }, s, v); });
+  el('path', { d: `M${m.l} ${m.t}V${H - m.b}H${W - m.r}` }, a);
+  el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('slkX'));
+  const band = (H - m.t - m.b) / D.slack.length, bh = 18;
+  D.slack.forEach((d, i) => {
+    const y0 = m.t + i * band, yc = y0 + band / 2, row = `${t(d.yard === 'yupu' ? 'yYupu' : 'yYantai')} · ${t(SCN[d.scen])}`;
+    if (i && d.yard !== D.slack[i - 1].yard) el('path', { d: `M8 ${y0}H${W - 4}`, style: 'stroke:var(--line);stroke-width:1.2' }, s);
+    el('text', { x: m.l - 10, y: yc - 4, 'text-anchor': 'end', class: 't-strong', style: 'font-size:13.5px' }, s, row);
+    const cls = CLS[d.res] || 'cDock';
+    el('text', { x: m.l - 10, y: yc + 12, 'text-anchor': 'end', style: 'fill:var(--ink3);font-size:12px' }, s,
+      cls === 'cGate' ? t('cGate') : `${resName(d.res)} · ${fmt(t(cls), { p: f1(d.pass) })}`);
+    const col = cls === 'cCorr' ? 'var(--oxide)' : 'var(--steel)';
+    const lo = anim(el('rect', { x: x(0), y: yc - bh / 2, width: Math.max(0, x(d.lo) - x(0)), height: bh, style: `fill:${col};opacity:.9` }, s), 'a-x', .3 + .1 * i);
+    el('rect', { x: x(d.lo), y: yc - bh / 2, width: Math.max(0, x(d.hi) - x(d.lo)), height: bh, style: `fill:${col};opacity:.35` }, s);
+    el('rect', { x: x(d.lo), y: yc - bh / 2, width: Math.max(0, x(d.hi) - x(d.lo)), height: bh, style: 'fill:url(#hatch);pointer-events:none' }, s);
+    anim(el('text', { x: x(d.hi) + 6, y: yc + 5, style: `fill:${d.hi > 0 ? col : 'var(--ink3)'};font-weight:700;font-size:13.5px` }, s,
+      d.hi > 0 ? fmt(t('slkV'), { lo: f1(d.lo), hi: f1(d.hi) }) : '0'), 'a-fade', .8 + .1 * i);
+    hover(lo, () => fmt(t('slkTip'), { row, t: f0(d.T1), pp: f0(d.T1pp), lo: f1(d.lo), hi: f1(d.hi),
+      x: d.alt != null ? fmt(t('slkAlt'), { a: f0(d.alt), e: d.extra }) : '' }));
+  });
+  swatches('lgSlack', [['var(--steel)', t('lgLo')], ['var(--steel)', t('lgHi'), 'opacity:.4;background-image:repeating-linear-gradient(45deg,transparent 0 3px,rgba(43,43,43,.55) 3px 4px)']]);
+}
+
+// ---------- the first reading: dual prices in vehicles, two columns (T23) ----------
+function drawRate() {
+  const W = 600, H = fitH('cRate', W, 400), m = { l: 186, r: 70, t: 26, b: 40 };
+  const s = frame('cRate', W, H, t('rateLbl'));
+  const x = lin(0, 8, m.l, W - m.r - 10);
+  const g = el('g', { class: 'grid' }, s), a = el('g', { class: 'axis' }, s);
+  range(0, 8, 2).forEach(v => { el('line', { x1: x(v), x2: x(v), y1: m.t, y2: H - m.b }, g); el('text', { x: x(v), y: H - m.b + 17, 'text-anchor': 'middle' }, s, v); });
+  el('path', { d: `M${m.l} ${m.t}V${H - m.b}H${W - m.r - 10}` }, a);
+  el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('rateX'));
+  el('text', { x: W - 4, y: m.t - 10, 'text-anchor': 'end', class: 't-strong', style: 'font-size:12.5px' }, s, t('rateR'));
+  const band = (H - m.t - m.b) / D.rates.length, bh = Math.min(11, band * 0.26);
+  D.rates.forEach((r, i) => {
+    const prev = D.rates[i - 1], first = !prev || prev.yard !== r.yard || prev.scen !== r.scen;
+    const n = D.rates.filter(q => q.yard === r.yard && q.scen === r.scen).length, y0 = m.t + i * band, yc = y0 + band / 2;
+    const row = `${t(r.yard === 'yupu' ? 'yYupu' : 'yYantai')} · ${t(SCN[r.scen])}`, res = resName(r.res) + (r.w ? ` (${r.w} m)` : '');
+    if (first && i) el('path', { d: `M8 ${y0}H${W - 4}`, style: 'stroke:var(--line);stroke-width:1.2' }, s);
+    if (r.yard === 'yupu' && r.scen === 'erection') el('rect', { x: 4, y: y0 + 1, width: W - 8, height: band - 2, style: 'fill:var(--good-soft)' }, s);
+    if (first) el('text', { x: m.l - 10, y: yc - 4, 'text-anchor': 'end', class: 't-strong', style: 'font-size:13.5px' }, s, row);
+    el('text', { x: m.l - 10, y: first ? yc + 12 : yc + 5, 'text-anchor': 'end', style: 'fill:var(--ink3);font-size:12px' }, s, res);
+    [[r.v1, 'var(--oxide)', -bh - 1], [r.v2, 'var(--steel)', 1]].forEach(([v, col, dy], q) => {
+      const b = anim(el('rect', { x: x(0), y: yc + dy, width: Math.max(0, x(v) - x(0)), height: bh, style: `fill:${col}` }, s), 'a-x', .3 + .08 * i + .1 * q);
+      el('text', { x: x(v) + 5, y: yc + dy + bh - 1, style: `fill:${v > 0 ? col : 'var(--ink3)'};font-weight:700;font-size:12.5px` }, s, v > 0 ? f1(v) : '0');
+      hover(b, () => fmt(t('rateTip'), { row, res, p1: f1(r.p1), v1: f1(r.v1), p2: f1(r.p2), v2: f1(r.v2), hc: f1(r.perVeh) }));
+    });
+    if (first) el('text', { x: W - m.r / 2, y: y0 + n * band / 2 + 5, 'text-anchor': 'middle', style: 'fill:var(--ink);font-weight:600;font-size:13.5px' }, s,
+      r.scen === 'crane' ? pc(r.sys) + '%†' : pc(r.mix) + '%');
+  });
+  swatches('lgRate', [['var(--oxide)', t('lgC1')], ['var(--steel)', t('lgC2')]]);
+  $('lgRate').insertAdjacentHTML('beforeend', `<span>${t('lgDag')}</span>`);
 }
 
 // ---------- schematic: H4 criterion, dual prediction against simulation ----------
@@ -160,25 +274,23 @@ function drawBlock() {
   el('text', { x: W - m.r, y: H - m.b + 18, 'text-anchor': 'end' }, s, t('blkLong'));
 }
 
-// ---------- tables filled from the data ----------
-function fillTables() {
-  const name = b => fmt(t('road'), { id: b.id }) + ` <span class="tiny">(${b.w} m, ${f0(b.len)} m)</span>`;
-  const head = `<thead><tr><th>${t('tScen')}</th><th>${t('tBind')}</th><th class="c">${t('tPrice')}</th><th class="c">${t('tVeh')}</th><th class="c">${t('tRatio')}</th></tr></thead>`;
-  const rows = (k, sk, cls) => B[k].bind.map((b, j) => `<tr class="${cls}">${j ? '' : `<td rowspan="${B[k].bind.length}">${t(sk)}</td>`}<td>${name(b)} · ${b.seeds}/10</td>`
-    + `<td class="c mono">${b.price.toFixed(1)}</td><td class="c mono"><b>${b.veh.toFixed(1)}</b></td>${j ? '' : `<td class="c mono" rowspan="${B[k].bind.length}">${pc(B[k].ratio)}%</td>`}</tr>`).join('');
-  $('t6Tbl').innerHTML = head + '<tbody>' + rows('erection', 'sEre', 'hi') + rows('main', 'sMain', '') + '</tbody>';
-  ['t6Veh', 't6VehEn', 't6VehKo'].forEach(id => { $(id).textContent = B.erection.bind[0].veh.toFixed(1); });
-  // prototype column of the planned table: reservation change at K = 100 in the erection mix (appendix A)
-  const r = P.erection.res, c = P.erection.chg.res;
-  const proto = { 0: c[0], 1: c[1], 2: 100 * (r[3] - r[2]) / r[2] };   // passing bays: "sections + bays" against sections alone
-  document.querySelectorAll('#planTbl td[data-p]').forEach(td => { td.textContent = sgn(proto[td.dataset.p]); });
+// ---------- numbers in the slide text, filled from the data ----------
+// <span data-v="path" data-f="format">: path into V (dots separate levels; keys use '|'), formatted per F;
+// data-div="<rate key>" divides by that resource's vehicle capacity H / c̄ instead (tasks a day -> vehicles)
+const V = { ivl: D.ivl, seg: D.seg, RT, SL, ND, AN, probe: D.probe };
+const F = { i: f0, d1: f1, s1: sg1, pc: v => pc(v) + '%', r2: v => (Math.round(v * 100) / 100).toFixed(2) };
+function fillNumbers() {
+  document.querySelectorAll('[data-v]').forEach(e => {
+    const v = e.dataset.v.split('.').reduce((o, k) => o[k], V);
+    e.textContent = e.dataset.div ? f1(v / V.RT[e.dataset.div].perVeh) : F[e.dataset.f || 'i'](v);
+  });
 }
 
 Deck.start({
   strings: T,
   sections: { intro: ['导读', 'Overview', '개요'], q: ['问题与定位', 'Question and position', '질문과 위치'], rule: ['分界规则与改造菜单', 'Dividing rule and menu', '경계 규칙과 메뉴'],
-    res: ['初步证据', 'First evidence', '초기 근거'], theory: ['汇率与协同设计', 'Exchange rate and co-design', '환율과 협동 설계'], h7: ['车型与占路', 'Vehicle type', '차종과 점유'],
+    res: ['已有结果', 'Results so far', '현재 결과'], theory: ['汇率与协同设计', 'Exchange rate and co-design', '환율과 협동 설계'], h7: ['车型与占路', 'Vehicle type', '차종과 점유'],
     status: ['进度与去向', 'Progress and venues', '진행과 투고처'], ref: ['参考文献', 'References', '참고문헌'], end: ['结语', 'Close', '맺음'] },
-  draw: [drawIvl, drawProbe, drawH4, drawBlock, fillTables],
+  draw: [drawIvl, drawSeg, drawNeed, drawSlack, drawRate, drawH4, drawBlock, fillNumbers],
 });
 })();
