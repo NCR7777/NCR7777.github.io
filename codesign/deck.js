@@ -9,25 +9,25 @@ const { LI, $, el, frame, fitH, anim, lin, yTitle, swatches, hover, fmt } = Deck
 const T = {
   title: ['车队与路网协同设计 · 分项汇报', 'Fleet–Network Co-Design', '차량군·도로망 협동 설계 · 세부 보고'],
   // interval charts
-  ivlLbl: ['运力区间：整条路径预约的平台与上界 T1′（10 个种子）', 'Capacity interval: whole-route reservation plateau against the bound T1′ (10 seeds)', '운송 능력 구간: 전체 경로 예약 평탄과 상한 T1′ (시드 10개)'],
+  ivlLbl: ['运力区间：整条路径预约的平台与路网上界（10 个种子）', 'Capacity interval: whole-route reservation plateau against the network bound (10 seeds)', '운송 능력 구간: 전체 경로 예약 평탄과 도로망 상한 (시드 10개)'],
   segLbl: ['坞前道路分段前后的运力区间（玉浦，10 个种子）', 'Capacity interval before and after segmenting the dock road (Okpo, 10 seeds)', '도크 앞 도로 분할 전후의 운송 능력 구간 (옥포, 시드 10개)'],
   thr: ['日吞吐（任务 / 16 h）', 'Daily throughput (tasks / 16 h)', '일일 처리량 (작업 / 16시간)'],
   rMainW: ['玉浦主情景 · 坞前道路整段', 'Okpo main scenario · dock road as one resource', '옥포 주 시나리오 · 도크 앞 도로 전체'],
-  rEreW: ['玉浦搭载组合 · 整段（P6 15%，白班集中）', 'Okpo erection mix · one resource (P6 15%, day shift)', '옥포 탑재 조합 · 전체 (P6 15%, 주간 집중)'],
+  rEreW: ['玉浦搭载组合 · 整段（搭载占 15%，白班集中）', 'Okpo erection mix · one resource (erection 15%, day shift)', '옥포 탑재 조합 · 전체 (탑재 15%, 주간 집중)'],
   rYtW: ['烟台主情景 · 整段', 'Yantai main scenario · one resource', '옌타이 주 시나리오 · 전체'],
   rMainS: ['玉浦主情景 · 按停靠点分段', 'Okpo main scenario · segmented at the stops', '옥포 주 시나리오 · 정차 지점별 분할'],
   rEreS: ['玉浦搭载组合 · 按停靠点分段', 'Okpo erection mix · segmented at the stops', '옥포 탑재 조합 · 정차 지점별 분할'],
   gapMain: ['差距来自规则 → 先改编排（第 4 章）', 'gap from the rule → orchestration first (ch. 4)', '차이는 규칙에서 → 편성 먼저 (4장)'],
   gapEre: ['差距小 → 改路直接见效', 'small gap → road changes pay', '차이 작음 → 개조가 바로 효과'],
   gapYt: ['差距来自规则', 'gap from the rule', '차이는 규칙에서'],
-  segAnn: ['分段：T1′ {t}，平台 {p}', 'segmented: T1′ {t}, plateau {p}', '분할: T1′ {t}, 평탄 {p}'],
+  segAnn: ['分段：上界 {t}，平台 {p}', 'segmented: bound {t}, plateau {p}', '분할: 상한 {t}, 평탄 {p}'],
   lgPlat: ['整条路径预约的饱和平台（K = 100–150 均值）', 'Whole-route reservation plateau (mean of K = 100–150)', '전체 경로 예약 포화 평탄 (K = 100–150 평균)'],
-  lgGap: ['到 T1′ 的差距', 'Gap to T1′', 'T1′까지의 차이'],
-  lgT1: ['T1′（横线：10 个种子的范围）', 'T1′ (whisker: range over 10 seeds)', 'T1′ (가로선: 시드 10개 범위)'],
-  lgT1s: ['T1′（10 个种子均值）', 'T1′ (mean of 10 seeds)', 'T1′ (시드 10개 평균)'],
+  lgGap: ['到上界的差距', 'Gap to the bound', '상한까지의 차이'],
+  lgT1: ['路网上界（横线：10 个种子的范围）', 'Network bound (whisker: range over 10 seeds)', '도로망 상한 (가로선: 시드 10개 범위)'],
+  lgT1s: ['路网上界（10 个种子均值）', 'Network bound (mean of 10 seeds)', '도로망 상한 (시드 10개 평균)'],
   lgPlatS: ['分段后的预约平台', 'Reservation plateau after segmenting', '분할 후 예약 평탄'],
-  ivlTip: ['{row}<br>平台 {p} 个/日；T1′ {t}{rng}<br>平台 / T1′ = {r}%', '{row}<br>plateau {p} a day; T1′ {t}{rng}<br>plateau / T1′ = {r}%', '{row}<br>평탄 하루 {p}건, T1′ {t}{rng}<br>평탄 / T1′ = {r}%'],
-  rngTip: ['（{lo}–{hi}；系统 T1′ {s}）', ' ({lo}–{hi}; system T1′ {s})', ' ({lo}–{hi}, 시스템 T1′ {s})'],
+  ivlTip: ['{row}<br>平台 {p} 个/日；上界 {t}{rng}<br>平台 / 上界 = {r}%', '{row}<br>plateau {p} a day; bound {t}{rng}<br>plateau / bound = {r}%', '{row}<br>평탄 하루 {p}건, 상한 {t}{rng}<br>평탄 / 상한 = {r}%'],
+  rngTip: ['（{lo}–{hi}；系统上界 {s}）', ' ({lo}–{hi}; system bound {s})', ' ({lo}–{hi}, 시스템 상한 {s})'],
   // vehicles needed
   needLbl: ['玉浦全厂口径的所需车数（整数 K，10 个种子）', 'Vehicles needed at Okpo whole-yard volume (integer K, 10 seeds)', '옥포 조선소 전체 기준 필요 차량 수 (정수 K, 시드 10개)'],
   needX: ['所需车数（台）', 'Vehicles needed', '필요 차량 수 (대)'],
@@ -43,37 +43,40 @@ const T = {
   aShen: ['<br>韩国某大型厂（Shen 等）：约 {n} 个/日、约 {v} 台（班次未写）', '<br>A large Korean yard (Shen et al.): about {n} a day, about {v} vehicles (shift not stated)', '<br>한국 대형 조선소 (Shen 등): 하루 약 {n}건, 약 {v}대 (교대 미기재)'],
   // route slack
   slkLbl: ['上界中的路线余量（系统上界）', 'Route slack in the bound (system bounds)', '상한의 경로 여유 (시스템 상한)'],
-  slkX: ['T1″ 比 T1′ 多出（%）', 'T1″ above T1′ (%)', 'T1″이 T1′보다 큰 정도 (%)'],
+  slkX: ['路线自由上界 − 系统上界（%）', 'Route-free minus system bound (%)', '경로 자유 상한 − 시스템 상한 (%)'],
   yYupu: ['玉浦', 'Okpo', '옥포'], yYantai: ['烟台', 'Yantai', '옌타이'],
   sMain: ['主情景', 'main scenario', '주 시나리오'], sErection: ['搭载组合', 'erection mix', '탑재 조합'], sCrane: ['吊车节拍', 'crane cadence', '크레인 주기'],
-  cDock: ['坞的停靠路段，路过 {p}%', 'dock stopping road, {p}% through', '도크 정차 도로, 통과 {p}%'],
-  cCorr: ['贯通走廊，路过 {p}%', 'through corridor, {p}% through', '관통 통로, 통과 {p}%'],
+  cDock: ['路过 {p}%', '{p}% through', '통과 {p}%'],
+  cCorr: ['路过 {p}%', '{p}% through', '통과 {p}%'],
   cGate: ['入口：余量为 0，构造使然', 'entrance: zero by construction', '입구: 구조상 0'],
   slkV: ['+{lo}%（+{hi}%）', '+{lo}% (+{hi}%)', '+{lo}% (+{hi}%)'],
-  lgLo: ['下限：回代可行值 − T1′', 'Lower: back-substituted feasible value − T1′', '하한: 역대입 가능값 − T1′'],
-  lgHi: ['到上限 T1″ − T1′', 'Up to T1″ − T1′', '상한 T1″ − T1′까지'],
-  slkTip: ['{row}<br>系统 T1′ {t}；T1″ {pp}<br>路线余量 +{lo}%（上限 +{hi}%）{x}', '{row}<br>system T1′ {t}; T1″ {pp}<br>route slack +{lo}% (at most +{hi}%){x}', '{row}<br>시스템 T1′ {t}, T1″ {pp}<br>경로 여유 +{lo}% (최대 +{hi}%){x}'],
+  lgLo: ['下限：回代可行值 − 系统上界', 'Lower: back-substituted feasible value − system bound', '하한: 역대입 가능값 − 시스템 상한'],
+  lgHi: ['到上限：路线自由上界 − 系统上界', 'Up to route-free − system bound', '상한: 경로 자유 상한 − 시스템 상한까지'],
+  slkTip: ['{row}<br>系统上界 {t}；路线自由上界 {pp}<br>路线余量 +{lo}%（上限 +{hi}%）{x}', '{row}<br>system bound {t}; route-free bound {pp}<br>route slack +{lo}% (at most +{hi}%){x}', '{row}<br>시스템 상한 {t}, 경로 자유 상한 {pp}<br>경로 여유 +{lo}% (최대 +{hi}%){x}'],
   slkAlt: ['<br>绕开它的路线剩余 {a}%、平均多走 {e} m', '<br>the detour keeps {a}% spare, {e} m longer on average', '<br>우회 경로 여유 {a}%, 평균 {e} m 더 김'],
-  road: ['道路{id}', 'road {id}', '도로{id}'], gate: ['建筑014 入口 A', 'building 014, entrance A', '건물014 입구 A'],
+  r161: ['1 号坞前道路', 'dock-1 road', '1도크 앞 도로'], r007: ['坞前停靠路段', 'dock stopping road', '도크 정차 도로'],
+  rCorr: ['贯通走廊', 'through corridor', '관통 통로'], rDetour: ['另一条绕行走廊', 'another detour corridor', '다른 우회 통로'],
+  gate: ['涂装厂房（推定）的一个门', 'paint-shop door (presumed)', '도장 공장 (추정) 문 하나'],
   // exchange-rate chart
-  rateLbl: ['对偶价格折成台车（T23，系统上界，两列）', 'Dual prices in vehicles (T23, system bounds, two columns)', '쌍대 가격의 차량 환산 (T23, 시스템 상한, 두 열)'],
+  rateLbl: ['对偶价格折成台车（系统上界，两列）', 'Dual prices in vehicles (system bounds, two columns)', '쌍대 가격의 차량 환산 (시스템 상한, 두 열)'],
   rateX: ['台车 / 资源每天多 1 h', 'Vehicles per extra hour a day on the resource', '자원 하루 1시간 추가당 차량'],
   rateR: ['平台 / 上界', 'Plateau / bound', '평탄 / 상한'],
-  lgC1: ['最短路派车（T1′）', 'Shortest-path dispatch (T1′)', '최단 경로 배차 (T1′)'],
-  lgC2: ['允许绕行（T1″）', 'Re-routing allowed (T1″)', '우회 허용 (T1″)'],
+  lgC1: ['最短路派车（系统上界）', 'Shortest-path dispatch (system bound)', '최단 경로 배차 (시스템 상한)'],
+  lgC2: ['允许绕行（路线自由上界）', 'Re-routing allowed (route-free bound)', '우회 허용 (경로 자유 상한)'],
   lgDag: ['† 吊车节拍按系统口径；其余按完成组合口径', '† crane cadence on the system caliber; others on the completed mix', '† 크레인 주기는 시스템 기준, 나머지는 완료 조합 기준'],
-  rateTip: ['{row} · {res}<br>T1′：{p1} 个/日 → {v1} 台车<br>T1″：{p2} 个/日 → {v2} 台车<br>每台车每天 {hc} 个', '{row} · {res}<br>T1′: {p1} a day → {v1} vehicles<br>T1″: {p2} a day → {v2} vehicles<br>one vehicle: {hc} a day', '{row} · {res}<br>T1′: 하루 {p1}건 → {v1}대<br>T1″: 하루 {p2}건 → {v2}대<br>차량 1대 하루 {hc}건'],
+  rateTip: ['{row} · {res}<br>系统上界：{p1} 个/日 → {v1} 台车<br>路线自由上界：{p2} 个/日 → {v2} 台车<br>每台车每天 {hc} 个', '{row} · {res}<br>system bound: {p1} a day → {v1} vehicles<br>route-free bound: {p2} a day → {v2} vehicles<br>one vehicle: {hc} a day', '{row} · {res}<br>시스템 상한: 하루 {p1}건 → {v1}대<br>경로 자유 상한: 하루 {p2}건 → {v2}대<br>차량 1대 하루 {hc}건'],
   // schematics
-  h4Lbl: ['H4 判据：对偶预测与仿真实测', 'H4 criterion: dual prediction against simulation', 'H4 판정: 쌍대 예측 대 시뮬레이션'],
+  h4Lbl: ['改造价值判据：对偶预测与仿真实测', 'Upgrade-value test: dual prediction against simulation', '개조 가치 판정: 쌍대 예측 대 시뮬레이션'],
   h4X: ['对偶预测（台车）', 'Dual prediction (vehicles)', '쌍대 예측 (대)'],
   h4Y: ['仿真：少用的车', 'Simulated: vehicles saved', '시뮬레이션: 절감 차량'],
-  h4A: ['平台 / T1′ ≈ 1：两者一致', 'plateau / T1′ ≈ 1: they agree', '평탄 / T1′ ≈ 1: 일치'],
-  h4B: ['平台 / T1′ ≪ 1：仿真远低于预测', 'plateau / T1′ ≪ 1: far below', '평탄 / T1′ ≪ 1: 예측보다 한참 낮음'],
-  blkLbl: ['运力—块长曲线（T25 块长扫描）', 'Capacity against block length (T25 scan)', '운송 능력–블록 길이 곡선 (T25 스캔)'],
+  h4A: ['平台 / 上界 ≈ 1：两者一致', 'plateau / bound ≈ 1: they agree', '평탄 / 상한 ≈ 1: 일치'],
+  h4B: ['平台 / 上界 ≪ 1：仿真远低于预测', 'plateau / bound ≪ 1: far below', '평탄 / 상한 ≪ 1: 예측보다 한참 낮음'],
+  blkLbl: ['运力—块长曲线（块长扫描，下一步）', 'Capacity against block length (scan, next step)', '운송 능력–블록 길이 곡선 (스캔, 다음 단계)'],
   blkX: ['闭塞区段长度 →', 'block length →', '폐색 구간 길이 →'],
   blkY: ['运力', 'Capacity', '운송 능력'],
   blkShort: ['按停靠点分段', 'cut at stops', '정차 지점별'], blkLong: ['整段', 'whole road', '도로 전체'],
-  blkBand: ['仿真平台落在哪里由 T25 读出', 'T25 reads where simulation falls', '시뮬레이션 위치는 T25가 판독'],
+  blkBand: ['仿真平台落在哪里由扫描读出', 'the scan reads where simulation falls', '시뮬레이션 위치는 스캔이 판독'],
+  ubTick: ['上界 {v}', '{v}', '상한 {v}'], ubCurve: ['路网上界', 'bound', '상한'],
 };
 const t = k => T[k][LI[Deck.lang]];
 const f0 = v => Math.round(v).toLocaleString('en-US');
@@ -99,7 +102,7 @@ function ivlChart(id, lgId, label, H0, rows, whisk) {
   el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('thr'));
   const band = (H - m.t - m.b) / rows.length, bh = 26;
   rows.forEach((r, i) => {
-    const b = D.ivl[r.k], y0 = m.t + i * band, top = y0 + (band - (whisk ? 80 : 70)) / 2, by = top + (whisk ? 28 : 22);
+    const b = D.ivl[r.k], xT = x(b.T1), y0 = m.t + i * band, top = y0 + (band - (whisk ? 80 : 70)) / 2, by = top + (whisk ? 28 : 22);
     if (r.sep) el('path', { d: `M${m.l} ${y0 + 1}H${W - 4}`, style: 'stroke:var(--line);stroke-width:1.2' }, s);
     el('text', { x: m.l, y: top + 14, class: 't-strong', style: 'font-size:14px' }, s, t(r.name));
     const solid = anim(el('rect', { x: x(0), y: by, width: x(b.plateau) - x(0), height: bh, style: `fill:${r.bar || 'var(--oxide)'};opacity:.88` }, s), 'a-x', .3 + .2 * i);
@@ -109,8 +112,8 @@ function ivlChart(id, lgId, label, H0, rows, whisk) {
       const wy = by - 8;
       el('path', { d: `M${x(b.lo)} ${wy}H${x(b.hi)}M${x(b.lo)} ${wy - 4}V${wy + 4}M${x(b.hi)} ${wy - 4}V${wy + 4}`, style: 'stroke:var(--ink3);stroke-width:1.4;fill:none' }, s);
     }
-    el('path', { d: `M${x(b.T1)} ${by - (whisk ? 12 : 5)}V${by + bh + 4}`, style: 'stroke:var(--ink);stroke-width:2.4' }, s);
-    el('text', { x: x(b.T1) + 6, y: by + bh / 2 + 5, style: 'fill:var(--ink);font-weight:600;font-size:13.5px' }, s, `T1′ ${f0(b.T1)}`);
+    el('path', { d: `M${xT} ${by - (whisk ? 12 : 5)}V${by + bh + 4}`, style: 'stroke:var(--ink);stroke-width:2.4' }, s);
+    el('text', { x: xT + 6, y: by + bh / 2 + 5, style: 'fill:var(--ink);font-weight:600;font-size:13.5px' }, s, fmt(t('ubTick'), { v: f0(b.T1) }));
     if (r.ann) anim(el('text', { x: x(b.plateau) + 4, y: by + bh + 17, style: `fill:${r.col};font-weight:600;font-size:13.5px` }, s, r.ann()), 'a-fade', 1 + .2 * i);
     anim(el('text', { x: W - 4, y: by + bh / 2 + 9, 'text-anchor': 'end', style: `fill:${r.col};font:700 26px var(--d-en)` }, s, pc(b.ratio) + '%'), 'a-pop', 1.1 + .2 * i);
     const tip = () => fmt(t('ivlTip'), { row: t(r.name), p: f0(b.plateau), t: f0(b.T1), r: pc(b.ratio),
@@ -176,7 +179,8 @@ function drawNeed() {
 // ---------- route slack in the bound: [lower, upper] per scenario ----------
 const SCN = { main: 'sMain', erection: 'sErection', crane: 'sCrane' };
 const CLS = { gate: 'cGate', '010-6': 'cCorr' };
-const resName = id => id === 'gate' ? t('gate') : fmt(t('road'), { id });
+const RES = { '161': 'r161', '007': 'r007', '010-6': 'rCorr', '013-7': 'rDetour', gate: 'gate' };   // map element -> plain description
+const resName = id => t(RES[id]);
 function drawSlack() {
   const W = 600, H = fitH('cSlack', W, 360), m = { l: 214, r: 104, t: 8, b: 40 };
   const s = frame('cSlack', W, H, t('slkLbl'));
@@ -268,7 +272,7 @@ function drawBlock() {
   anim(el('path', { d: pathOf(band) + 'Z', style: 'fill:var(--amber-soft);opacity:.9' }, s), 'a-fade', .5);
   anim(el('path', { d: pathOf(ub), pathLength: 1, style: 'stroke:var(--ink);stroke-width:2;stroke-dasharray:6 4;fill:none' }, s), 'a-fade', .3);
   el('path', { d: `M${x(0.4)} ${y(low)}H${x(9.6)}`, style: 'stroke:var(--oxide);stroke-width:1.6;fill:none' }, s);
-  el('text', { x: x(3.4), y: y(bound(3.4)) - 6, style: 'fill:var(--ink);font-weight:600' }, s, 'T1′');
+  el('text', { x: x(3.4), y: y(bound(3.4)) - 6, style: 'fill:var(--ink);font-weight:600' }, s, t('ubCurve'));
   el('text', { x: x(4.4), y: y((bound(4.4) + low) / 2) + 4, 'text-anchor': 'middle', style: 'fill:var(--amber);font-weight:600' }, s, t('blkBand'));
   el('text', { x: x(0.4), y: H - m.b + 18 }, s, t('blkShort'));
   el('text', { x: W - m.r, y: H - m.b + 18, 'text-anchor': 'end' }, s, t('blkLong'));

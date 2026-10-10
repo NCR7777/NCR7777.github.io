@@ -18,12 +18,12 @@ const T = {
   whole: ['整段', 'whole road', '통째'], stops: ['分段', 'segmented', '구간 분할'],
   // flag figure
   flagLbl: ['运力区间：车队规模与日吞吐', 'Capacity interval: fleet size against daily throughput', '운송 능력 구간: 차량군 규모와 일일 처리량'],
-  t1t: ['上沿 T1′', 'Ceiling T1′', '상한 T1′'], floor: ['下沿：预约平台', 'Floor: reservation plateau', '하한: 예약 평탄 구간'],
+  t1t: ['上沿：路网上界', 'Ceiling: network bound', '상한: 도로망 상한'], floor: ['下沿：预约平台', 'Floor: reservation plateau', '하한: 예약 평탄 구간'],
   band: ['运力区间', 'Capacity interval', '운송 능력 구간'],
-  t1tLg: ['上沿 T1′（只约束占路模型）', 'Ceiling T1′ (bounds occupancy models only)', '상한 T1′ (점유 모형만 제약)'],
+  t1tLg: ['上沿：路网上界（只约束占路模型）', 'Ceiling: network bound (occupancy models only)', '상한: 도로망 상한 (점유 모형만 제약)'],
   freeOut: ['自由流 K = 150：{v} ↑', 'free flow at K = 150: {v} ↑', '자유류 K = 150: {v} ↑'],
   ptTip: ['{yard} · {m}<br>K = {k}：{v} 个/日（种子范围 {lo}–{hi}）', '{yard} · {m}<br>K = {k}: {v} a day (seeds {lo}–{hi})', '{yard} · {m}<br>K = {k}: 하루 {v}건 (시드 범위 {lo}–{hi})'],
-  rdInt: ['运力区间（个/日）：下沿是整条路径预约在 K = 100–150 的平台，上沿是 T1′（10 个种子均值，种子间 {a}–{b}）', 'Capacity interval (a day): the floor is the reservation plateau over K = 100–150, the ceiling T1′ (mean of 10 seeds, {a}–{b} across seeds)', '운송 능력 구간 (하루): 하한은 K = 100–150 예약 평탄 구간, 상한은 T1′ (시드 10개 평균, 시드 간 {a}–{b})'],
+  rdInt: ['运力区间（个/日）：下沿是整条路径预约在 K = 100–150 的平台，上沿是路网上界（10 个种子均值，种子间 {a}–{b}）', 'Capacity interval (a day): the floor is the reservation plateau over K = 100–150, the ceiling the network bound (mean of 10 seeds, {a}–{b} across seeds)', '운송 능력 구간 (하루): 하한은 K = 100–150 예약 평탄 구간, 상한은 도로망 상한 (시드 10개 평균, 시드 간 {a}–{b})'],
   rdShare: ['下沿只到上沿的这一比例：差距来自交通规则，编排把下沿往上推', 'The floor reaches only this share of the ceiling: the gap is the traffic rule, which orchestration aims to close', '하한은 상한의 이 비율뿐: 차이는 통행 규칙에서 오며 편성이 좁힐 몫'],
   rdSafe: ['安全放行（不瞬移、从不死锁）的平台；K ≈ {k} 时最大 {m}，之后下降，低于预约（下一页）', 'Safe-release plateau (no teleport, never deadlocks); maximum {m} at K ≈ {k}, then falling, below reservation (next slide)', '안전 방출 (순간 이동 없음, 교착 없음)의 평탄 구간, K ≈ {k}에서 최대 {m} 후 감소, 예약보다 낮음 (다음 쪽)'],
   rdSeg: ['参照规则（瞬移疏解）的平台，只作参照', 'Reference-rule plateau (teleport clearing), for reference only', '참조 규칙 (순간 이동 해소)의 평탄 구간, 참조용'],
@@ -34,17 +34,18 @@ const T = {
   // interval by granularity and mix
   ivLbl: ['运力区间随资源粒度与任务组合的变化', 'Capacity interval by resource granularity and task mix', '자원 단위와 작업 조합에 따른 운송 능력 구간'],
   ivX: ['日吞吐（个/日，饱和）', 'Daily throughput (saturated)', '일일 처리량 (포화)'],
-  gMain: ['主情景', 'main scenario', '주 시나리오'], gErect: ['搭载组合（P6 15%）', 'erection mix (P6 15%)', '탑재 조합 (P6 15%)'],
+  gMain: ['主情景', 'main scenario', '주 시나리오'], gErect: ['搭载组合（搭载任务 15%）', 'erection mix (15% erection)', '탑재 조합 (탑재 15%)'],
   ivSafe: ['安全放行平台', 'safe-release plateau', '안전 방출 평탄 구간'],
   ivRatio: ['下沿 / 上沿', 'floor / ceiling', '하한 / 상한'],
   ivTip: ['{c}<br>区间 [{lo}, {hi}]，下沿 / 上沿 = {r}<br>安全放行平台 {s}（最大 {sm} @ K ≈ {sk}）', '{c}<br>interval [{lo}, {hi}], floor / ceiling = {r}<br>safe-release plateau {s} (max {sm} at K ≈ {sk})', '{c}<br>구간 [{lo}, {hi}], 하한 / 상한 = {r}<br>안전 방출 평탄 구간 {s} (최대 {sm} @ K ≈ {sk})'],
   // T23 route slack
-  slLbl: ['上界中的路线余量：T1″ 相对系统 T1′ 的增量', 'Route slack in the bound: T1″ over system T1′', '상한의 경로 여유: 시스템 T1′ 대비 T1″ 증가분'],
+  slLbl: ['上界中的路线余量：路线自由上界相对系统上界的增量', 'Route slack in the bound: route-free bound over system bound', '상한의 경로 여유: 시스템 상한 대비 경로 자유 상한 증가분'],
   slX: ['路线余量（%）', 'Route slack (%)', '경로 여유 (%)'],
-  slLo: ['下限（回代可行值）', 'lower end (back-substituted)', '하한 (역대입 가능값)'], slHi: ['上限（T1″）', 'upper end (T1″)', '상한 (T1″)'],
+  slLo: ['下限（回代可行值）', 'lower end (back-substituted)', '하한 (역대입 가능값)'], slHi: ['上限（路线自由上界）', 'upper end (route-free bound)', '상한 (경로 자유 상한)'],
   sMain: ['主情景', 'main', '주 시나리오'], sErect: ['搭载组合', 'erection mix', '탑재 조합'], sCrane: ['吊车节拍', 'crane cadence', '크레인 박자'],
-  slTip: ['{c}：系统 T1′ {s}，T1″ {pp}<br>路线余量 +{lo}%（上限 +{hi}%）', '{c}: system T1′ {s}, T1″ {pp}<br>route slack +{lo}% (upper end +{hi}%)', '{c}: 시스템 T1′ {s}, T1″ {pp}<br>경로 여유 +{lo}% (상한 +{hi}%)'],
-  tScen: ['船厂 · 情景', 'Yard · scenario', '조선소 · 시나리오'], tSys: ['系统 T1′', 'System T1′', '시스템 T1′'],
+  slTip: ['{c}：系统上界 {s}，路线自由上界 {pp}<br>路线余量 +{lo}%（上限 +{hi}%）', '{c}: system bound {s}, route-free bound {pp}<br>route slack +{lo}% (upper end +{hi}%)', '{c}: 시스템 상한 {s}, 경로 자유 상한 {pp}<br>경로 여유 +{lo}% (상한 +{hi}%)'],
+  tScen: ['船厂 · 情景', 'Yard · scenario', '조선소 · 시나리오'], tSys: ['系统上界', 'System<br>bound', '시스템<br>상한'],
+  tRF: ['路线自由<br>上界', 'Route-free<br>bound', '경로 자유<br>상한'],
   tSeeds: ['10 个种子', '10 seeds', '시드 10개'],
   // marginal ratio
   margLbl: ['每多一台车的吞吐占自由流的比例', 'Gain from one more vehicle as a share of free flow', '한 대 추가 효과의 자유류 대비 비율'],
@@ -69,7 +70,7 @@ const T = {
   dHhi: ['现代重工量级', 'Hyundai Heavy scale', '현대중공업 규모'], dShen: ['Shen 等量级', 'Shen et al. scale', 'Shen 등 규모'],
   vY: ['成立（≥ K* 上端）', 'holds (≥ top of K*)', '성립 (≥ K* 상단)'], vNear: ['在约束区起点附近（落在 K* 区间内）', 'near the start (inside the K* range)', '제약 시작 부근 (K* 구간 안)'],
   vN: ['不成立（< K* 下端）', 'does not hold (< bottom of K*)', '불성립 (< K* 하단)'],
-  dagNote: ['† 达标后再加车又有一档不达（门槛附近，T22 第 6.1 节）', '† a higher fleet falls short again (near the threshold; T22 §6.1)', '† 더 큰 차량군에서 다시 미달 (문턱 부근, T22 §6.1)'],
+  dagNote: ['† 达标后再加车又有一档不达（门槛附近）', '† a higher fleet falls short again (near the threshold)', '† 더 큰 차량군에서 다시 미달 (문턱 부근)'],
   // work zone
   zoneLbl: ['工作区图：日任务量与所需车数', 'Work-zone chart: daily volume against vehicles needed', '작업 영역도: 일일 작업량과 필요 차량'],
   zoneX: ['日任务量（个/日）', 'Daily task volume', '일일 작업량'],
@@ -97,13 +98,13 @@ const T = {
   hK: ['预约 {k} 台', 'reservation {k}', '예약 {k}대'], hKstar: ['K* {k}', 'K* {k}', 'K* {k}'],
   hYtOnly: ['16 h 已不成立', 'already below at 16 h', '16시간에서 이미 불성립'],
   // density
-  denLbl: ['日任务量占 T1′ 的比例', 'Daily volume as a share of T1′', '일일 작업량의 T1′ 대비 비율'],
-  denX: ['日任务量 / T1′', 'daily volume / T1′', '일일 작업량 / T1′'],
+  denLbl: ['日任务量占路网上界的比例', 'Daily volume as a share of the network bound', '일일 작업량의 도로망 상한 대비 비율'],
+  denX: ['日任务量 / 路网上界', 'daily volume / network bound', '일일 작업량 / 도로망 상한'],
   denRow: ['{yard} · 每天 {d} 个', '{yard} · {d} a day', '{yard} · 하루 {d}건'],
   denKr: ['每天 {d} 个', '{d} a day', '하루 {d}건'],
-  denLine: ['预约平台 ≈ T1′ 的 {v}%（两厂）', 'reservation plateau ≈ {v}% of T1′ (both yards)', '예약 평탄 구간 ≈ T1′의 {v}% (두 곳)'],
+  denLine: ['预约平台 ≈ 路网上界的 {v}%（两厂）', 'reservation plateau ≈ {v}% of the network bound (both yards)', '예약 평탄 구간 ≈ 도로망 상한의 {v}% (두 곳)'],
   denYt: ['烟台本厂', 'Yantai, own volume', '옌타이 자체'], denOk: ['玉浦本厂（日均 / 高峰）', 'Okpo, own (mean / peak)', '옥포 자체 (평균 / 피크)'],
-  denKo: ['韩国大型厂量级（按玉浦 T1′）', 'Korean large-yard scale (Okpo T1′)', '한국 대형 조선소 규모 (옥포 T1′)'],
+  denKo: ['韩国大型厂量级（按玉浦路网上界）', 'Korean large-yard scale (Okpo network bound)', '한국 대형 조선소 규모 (옥포 도로망 상한)'],
   // productivity
   prodLbl: ['每台车每天完成的任务数', 'Tasks per vehicle per day', '차량당 하루 작업 수'],
   prodX: ['个 / 车 · 日', 'tasks per vehicle-day', '작업 / 차량·일'],
@@ -124,9 +125,9 @@ const T = {
   tRoads: ['道路（条 / km）', 'Roads (count / km)', '도로 (개 / km)'], tJun: ['路口资源', 'Junction resources', '교차로 자원'],
   tStops: ['停靠点', 'Stops', '정차 지점'],
   tDem: ['本厂日任务量：日均 / 高峰', 'Own daily volume: mean / peak', '자체 일일 작업량: 평균 / 피크'],
-  tBind: ['T1′ 取紧的要素（种子数）', 'Where T1′ binds (seeds)', 'T1′이 걸리는 요소 (시드 수)'],
-  bindY: ['道路161 坞前 5/10，道路010-6 4/10', 'dock road 161 5/10, road 010-6 4/10', '도크 앞 도로161 5/10, 도로010-6 4/10'],
-  bindT: ['建筑014 的两个门 9/10', 'the two doors of building 014 9/10', '건물014의 두 출입구 9/10'],
+  tBind: ['路网上界取紧的要素（种子数）', 'Where the network bound binds (seeds)', '도로망 상한이 걸리는 요소 (시드 수)'],
+  bindY: ['1 号坞前道路 5/10，一条贯通走廊 4/10', 'dock-1 road 5/10, a through corridor 4/10', '1도크 앞 도로 5/10, 관통 회랑 4/10'],
+  bindT: ['涂装厂房（推定）的两个门 9/10', 'the two doors of the paint shop (presumed) 9/10', '도장 공장 (추정)의 두 출입구 9/10'],
 };
 const t = k => T[k][LI[Deck.lang]];
 const MC = { free: 'var(--steel)', reserve: 'var(--oxide)', safe: 'var(--ink2)', segment: 'var(--amber)' };
@@ -235,13 +236,13 @@ function drawIv() {
   rows.forEach((c, i) => {
     const [yd, sc, gr] = c.key.split('|'), grp = yd + sc, cname = `${t(yd)} · ${t(sc === 'main' ? 'gMain' : 'gErect')}`;
     if (grp !== prev) { el('text', { x: m.l + 6, y: yy + band * gapU - 5, style: 'fill:var(--ink);font-weight:600;font-size:12.5px' }, s, cname); yy += band * gapU; prev = grp; }
-    const cy = yy + band / 2, r2 = (c.lower / c.T1).toFixed(2), lbl = `[${f0(c.lower)}, ${f0(c.T1)}]`, wide = x(c.T1) - x(c.lower) > 110;
+    const cy = yy + band / 2, ub = c.T1, r2 = (c.lower / ub).toFixed(2), lbl = `[${f0(c.lower)}, ${f0(ub)}]`, wide = x(ub) - x(c.lower) > 110;
     el('text', { x: m.l - 8, y: cy + 4, 'text-anchor': 'end', style: 'fill:var(--ink2);font-size:12.5px' }, s, t(gr));
     const r = anim(el('rect', { x: x(c.lower), y: cy - bh / 2, width: x(c.T1) - x(c.lower), height: bh, rx: 2, style: 'fill:var(--good-soft);stroke:var(--good);stroke-width:1' }, s), 'a-x', .3 + .08 * i);
     el('rect', { x: x(c.lower) - 1.5, y: cy - bh / 2 - 3, width: 3, height: bh + 6, style: 'fill:var(--oxide)' }, s);
     el('path', { d: `M${x(c.safe)} ${cy - 6}l6 6l-6 6l-6 -6z`, style: 'fill:var(--paper);stroke:var(--ink2);stroke-width:1.6' }, s);
     el('text', { x: wide ? x(c.T1) - 6 : x(c.T1) + 6, y: cy + 4.5, 'text-anchor': wide ? 'end' : 'start', style: 'fill:var(--good);font-weight:600;font-size:12.5px;font-family:var(--mono)' }, s, lbl);
-    el('text', { x: W - 4, y: cy + 5, 'text-anchor': 'end', style: `fill:${c.lower / c.T1 > 0.6 ? 'var(--oxide)' : 'var(--ink)'};font-weight:700;font-family:var(--mono)` }, s, r2);
+    el('text', { x: W - 4, y: cy + 5, 'text-anchor': 'end', style: `fill:${c.lower / ub > 0.6 ? 'var(--oxide)' : 'var(--ink)'};font-weight:700;font-family:var(--mono)` }, s, r2);
     hover(r, () => fmt(t('ivTip'), { c: `${cname} · ${t(gr)}`, lo: f0(c.lower), hi: f0(c.T1), r: r2, s: f0(c.safe), sm: f0(c.safeMax[1]), sk: c.safeMax[0] }));
     yy += band;
   });
@@ -267,8 +268,8 @@ function drawSlack() {
     el('text', { x: inside ? x(B.lo) - 6 : Math.max(x(B.hi), m.l) + 6, y: cy + 4, 'text-anchor': inside ? 'end' : 'start', style: `fill:${inside ? 'var(--paper)' : 'var(--ink)'};font-weight:600;font-family:var(--mono);font-size:12.5px` }, s, lbl);
   });
   swatches('lgSlack', [['var(--steel)', t('slLo')], ['var(--steel)', t('slHi'), 'opacity:.3']]);
-  $('sysTbl').innerHTML = `<thead><tr><th>${t('tScen')}</th><th class="c">${t('tSys')}</th><th class="c">${t('tSeeds')}</th><th class="c">T1″</th></tr></thead><tbody>`
-    + SL.map(([yd, sc, k]) => { const B = D.bounds23[yd][sc]; return `<tr><td>${t(yd)} · ${t(k)}</td><td class="mono c"><b>${f0(B.sys)}</b></td><td class="mono c">${f0(B.seeds[0])}–${f0(B.seeds[1])}</td><td class="mono c">${f0(B.T1pp)}</td></tr>`; }).join('') + '</tbody>';
+  $('sysTbl').innerHTML = `<thead><tr><th>${t('tScen')}</th><th class="c">${t('tSys')}</th><th class="c">${t('tSeeds')}</th><th class="c">${t('tRF')}</th></tr></thead><tbody>`
+    + SL.map(([yd, sc, k]) => { const B = D.bounds23[yd][sc], pp = B.T1pp; return `<tr><td>${t(yd)} · ${t(k)}</td><td class="mono c"><b>${f0(B.sys)}</b></td><td class="mono c">${f0(B.seeds[0])}–${f0(B.seeds[1])}</td><td class="mono c">${f0(pp)}</td></tr>`; }).join('') + '</tbody>';
 }
 
 // ---------- H1: marginal ratio against fleet size, both yards ----------
@@ -528,8 +529,8 @@ function init() {
 
 Deck.start({
   strings: T,
-  sections: { intro: ['导读', 'Overview', '개요'], exp: ['立旗实验', 'Flag experiment', '깃발 실험'], c1: ['运力区间 C1、C2', 'Capacity interval C1, C2', '운송 능력 구간 C1, C2'],
-    h1: ['路网约束区 H1', 'Network-bound regime H1', '도로망 제약 구간 H1'], anchor: ['外部锚点', 'External anchors', '외부 기준점'], h3: ['自由流误差 H3', 'Free-flow error H3', '자유류 오차 H3'],
+  sections: { intro: ['导读', 'Overview', '개요'], exp: ['立旗实验', 'Flag experiment', '깃발 실험'], c1: ['运力区间', 'Capacity interval', '운송 능력 구간'],
+    h1: ['路网约束区', 'Network-bound regime', '도로망 제약 구간'], anchor: ['外部锚点', 'External anchors', '외부 기준점'], h3: ['自由流误差', 'Free-flow error', '자유류 오차'],
     status: ['进度与计划', 'Progress and plan', '진행과 계획'], pub: ['论文与期刊', 'Paper and journals', '논문과 학술지'], ref: ['参考文献', 'References', '참고문헌'], end: ['链接', 'Links', '링크'] },
   draw: [drawFlag, drawSafe, drawIv, drawSlack, drawMarg, drawRho, fillDem, drawZone, fillH1, drawDen, drawProd, drawGap, fillTables],
   init,

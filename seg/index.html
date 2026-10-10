@@ -228,10 +228,10 @@
       <div class="card" style="border-top:4px solid var(--amber-hi)"><h3><span lang="zh">边界约束：管交界</span><span lang="en">Boundary constraint: transitions</span><span lang="ko">경계 제약: 전이</span></h3>
         <div class="eq" style="font-size:14px">B = max<sub>c</sub> clip(Dilate(M<sub>c</sub>) − Erode(M<sub>c</sub>), 0, 1) &nbsp; (3 × 3)</div>
         <ul class="clean">
-          <li><span lang="zh">由语义标签的形态学梯度直接得到边界目标，不需要专门的边界标注；理想直线交界形成约 2 像素（0.6 m）的带</span><span lang="en">Boundary targets come straight from the label's morphological gradient, with no dedicated boundary labels; an ideal straight transition gives a band of about two pixels (0.6 m)</span><span lang="ko">경계 목표는 레이블의 형태학적 기울기에서 바로 얻어 별도 경계 레이블이 없고, 이상적인 직선 전이는 약 2픽셀 (0.6 m) 띠가 된다</span></li>
+          <li><span lang="zh">由语义标签的形态学梯度直接得到边界目标，不需要专门的边界标注；理想直线交界形成约 2 像素（0.6 m）的带</span><span lang="en">Boundary targets come from the label's morphological gradient, with no boundary labels; an ideal straight edge gives a band of about two pixels (0.6 m)</span><span lang="ko">경계 목표는 레이블의 형태학적 기울기에서 바로 얻어 별도 경계 레이블이 없고, 이상적인 직선 전이는 약 2픽셀 (0.6 m) 띠가 된다</span></li>
           <li><span lang="zh">轻量边界头（3 × 3 卷积 256→128、BN、ReLU、1 × 1 卷积），BCE 监督</span><span lang="en">A light boundary head (3 × 3 conv 256→128, BN, ReLU, 1 × 1 conv) under BCE</span><span lang="ko">가벼운 경계 헤드 (3 × 3 합성곱 256→128, BN, ReLU, 1 × 1 합성곱), BCE 감독</span></li>
         </ul>
-        <div class="figstrip"><img src="assets/fig05.jpg" alt="Examples of morphology-derived boundary targets"></div>
+        <div class="figstrip"><img src="assets/fig05.jpg" style="max-height:230px" alt="Examples of morphology-derived boundary targets"></div>
       </div>
     </div>
     <div class="col compact" style="gap:10px">

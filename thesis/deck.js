@@ -34,7 +34,7 @@ const T = {
   thr: ['日吞吐（任务 / 16 h）', 'Daily throughput (tasks / 16 h)', '일일 처리량 (작업 / 16시간)'],
   // concept figure
   cY: ['日吞吐', 'Daily throughput', '일일 처리량'], cX: ['车队规模 K', 'Fleet size K', '차량군 규모 K'],
-  cFree: ['自由流 = 车队上界', 'Free flow = fleet bound', '자유류 = 차량군 상한'], cT1: ['路网上界 T1′', 'Network bound T1′', '도로망 상한 T1′'],
+  cFree: ['自由流 = 车队上界', 'Free flow = fleet bound', '자유류 = 차량군 상한'], cT1: ['路网上界', 'Network bound', '도로망 상한'],
   cT1up: ['改造后的路网上界', 'Network bound after the upgrade', '개조 후 도로망 상한'],
   cOcc: ['占路模型', 'Occupancy model', '점유 모형'], cUp: ['改造后：平台抬高、拐点右移', 'After an upgrade: higher plateau, later turn', '개조 후: 평탄 구간 상승, 꺾임 이동'],
   cBand: ['运力区间：上沿由路网定，下沿由编排定', 'Capacity interval: network sets the top, orchestration the bottom', '운송 능력 구간: 상한은 도로망, 하한은 편성'],
@@ -43,11 +43,11 @@ const T = {
   cSchem: ['示意，非数据', 'schematic, not data', '개념도, 데이터 아님'],
   // flag figure
   flagLbl: ['车队规模与日吞吐', 'Fleet size against daily throughput', '차량군 규모와 일일 처리량'],
-  t1t: ['T1′ 路网上界', 'T1′ network bound', 'T1′ 도로망 상한'],
+  t1t: ['路网上界', 'Network bound', '도로망 상한'],
   band: ['运力区间 [{a}, {b}]', 'capacity interval [{a}, {b}]', '운송 능력 구간 [{a}, {b}]'],
   freeOut: ['自由流 K = 150：{v} ↑', 'free flow at K = 150: {v} ↑', '자유류 K = 150: {v} ↑'],
   ptTip: ['{yard} · {m}<br>K = {k}：{v} 个/日（种子范围 {lo}–{hi}）', '{yard} · {m}<br>K = {k}: {v} a day (seeds {lo}–{hi})', '{yard} · {m}<br>K = {k}: 하루 {v}건 (시드 범위 {lo}–{hi})'],
-  rdBand: ['运力区间（个/日）：下沿为整条路径预约的饱和平台（K = 100–150 均值），上沿为 T1′', 'Capacity interval (a day): lower edge the whole-route reservation plateau (mean of K = 100–150), upper edge T1′', '운송 능력 구간 (하루): 하한은 전체 경로 예약 포화 평탄 (K = 100–150 평균), 상한은 T1′'],
+  rdBand: ['运力区间（个/日）：下沿为整条路径预约的饱和平台（K = 100–150 均值），上沿为路网上界', 'Capacity interval (a day): lower edge the whole-route reservation plateau (mean of K = 100–150), upper edge the network bound', '운송 능력 구간 (하루): 하한은 전체 경로 예약 포화 평탄 (K = 100–150 평균), 상한은 도로망 상한'],
   rdShare: ['下沿只到上沿的这一比例：其余差距由编排决定，是第 4 章要挣回的部分', 'The lower edge reaches only this share of the upper: orchestration decides the rest, which chapter 4 aims to win back', '하한은 상한의 이 비율뿐: 나머지는 편성이 정하며 4장이 되찾을 부분'],
   rdKstar: ['路网约束区起点（边际比首次 < 20%；区间 {a}–{b}）', 'Network-bound from here (marginal ratio first below 20%; range {a}–{b})', '도로망 제약 시작 (한계 비율이 처음 20% 미만, 구간 {a}–{b})'],
 };

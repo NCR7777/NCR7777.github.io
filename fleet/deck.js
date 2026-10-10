@@ -66,8 +66,8 @@ const T = {
   dayTip: ['{m} t · 释放 {r} h · 交期 {d} h', '{m} t · release {r} h · due {d} h', '{m} t · 투입 {r}h · 납기 {d}h'],
   // timetables
   gEmpty: ['空驶', 'Empty travel', '공차 주행'], gSingle: ['单独搬运', 'Carried alone', '단독 운반'],
-  gCoupled: ['拼载搬运（含对接）', 'Coupled move (incl. coupling)', '결합 운반 (결합 포함)'],
-  gWait: ['等队友', 'Waiting for team', '팀원 대기'], gLate: ['迟到（红框）', 'Late (red outline)', '지연 (빨간 테두리)'],
+  gCoupled: ['拼载搬运（含对接）', 'Coupled (incl. coupling)', '결합 운반 (결합 포함)'],
+  gWait: ['等队友', 'Waiting for team', '팀원 대기'], gLate: ['迟到（红框）', 'Late', '지연 (빨간 테두리)'],
   gTitle: ['{f} × {k} 台', '{f} × {k} vehicles', '{f} × {k}대'],
   gTip: ['分段 #{id} · {m} t · {team}<br>释放 {r} · 交期 {d} · 完成 {c}', 'Block #{id} · {m} t · {team}<br>release {r} · due {d} · done {c}', '블록 #{id} · {m} t · {team}<br>투입 {r} · 납기 {d} · 완료 {c}'],
   alone: ['单独运', 'alone', '단독'], teamOf: ['{n} 台拼载', '{n} coupled', '{n}대 결합'],

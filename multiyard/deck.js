@@ -11,17 +11,19 @@ const T = {
   yupu: ['玉浦', 'Okpo', '옥포'], yantai: ['烟台', 'Yantai', '옌타이'],
   // two-points table
   tMap: ['地图版本（结果所用）', 'Map version (of these results)', '지도 버전 (이 결과 기준)'],
-  mapY: ['派生图 rev 1825', 'derived map rev 1825', '파생 지도 rev 1825'], mapT: ['r396', 'r396', 'r396'],
-  tSys: ['系统 T1′（个/日；括号为 10 个种子均值）', 'System T1′ (a day; 10-seed mean in brackets)', '시스템 T1′ (하루, 괄호는 시드 10개 평균)'],
-  tInt: ['运力区间 [最好的无死锁规则, T1′]', 'Capacity interval [best deadlock-free rule, T1′]', '운송 능력 구간 [최선의 교착 없는 규칙, T1′]'],
-  tShare: ['预约平台 ÷ 系统 T1′', 'Reservation plateau ÷ system T1′', '예약 평탄 ÷ 시스템 T1′'],
+  mapY: ['加浮坞与支路前', 'before floating docks, spurs', '플로팅 도크·지선 추가 전'], mapT: ['补上第二个门后', 'after the second door', '두 번째 문 추가 후'],
+  tSys: ['系统上界（个/日；括号为 10 个种子均值）', 'System bound (a day; 10-seed mean in brackets)', '시스템 상한 (하루, 괄호는 시드 10개 평균)'],
+  tInt: ['运力区间 [最好的无死锁规则, 路网上界]', 'Capacity interval [best deadlock-free rule, bound]', '운송 능력 구간 [최선의 교착 없는 규칙, 도로망 상한]'],
+  tShare: ['预约平台 ÷ 系统上界', 'Reservation plateau ÷ system bound', '예약 평탄 ÷ 시스템 상한'],
   tK: ['K*(20%)（区间）', 'K*(20%) (range)', 'K*(20%) (구간)'],
-  tBind: ['T1′ 取紧要素（10 个种子中的次数）', 'Where T1′ binds (of 10 seeds)', 'T1′ 구속 요소 (시드 10개 중)'],
-  road: ['道路', 'road ', '도로 '],
-  bindT: ['建筑014 的两个门 ×{a} · 建筑007 的一个门 ×{b}', "building 014's two doors ×{a} · a door of building 007 ×{b}", '건물014의 두 문 ×{a} · 건물007의 문 하나 ×{b}'],
+  tBind: ['路网上界的取紧要素（10 个种子中的次数）', 'Where the bound binds (of 10 seeds)', '도로망 상한 구속 요소 (시드 10개 중)'],
+  bindT: ['涂装厂房的两个门 ×{a} · 另一座厂房的门 ×{b}', "two paint-shop doors ×{a} · another shop's door ×{b}", '도장 공장 두 문 ×{a} · 다른 공장 문 하나 ×{b}'],
+  // map elements named by role (no element numbers on screen)
+  eDock1: ['1 号坞前道路', 'dock-1 road', '1도크 앞 도로'], eCorr: ['贯通走廊', 'through corridor', '관통 회랑'],
+  eWide: ['18 m 宽道路', '18 m road', '폭 18 m 도로'], eDockT: ['坞前停靠路段', 'dock stopping road', '도크 앞 정차 도로'],
   tCat: ['类别', 'Type', '유형'], catY: ['坞前单车道型', 'dock-road single-lane', '도크 앞 단일 차로형'], catT: ['门口型', 'door type', '출입문형'],
   tThr: ['坞口阈值（安全放行·整段，K = 20 → 150）', 'Dock threshold (safe release, whole road, K = 20 → 150)', '도크 임계값 (안전 출발·구간 전체, K = 20 → 150)'],
-  tDens: ['本厂日任务量 ÷ 系统 T1′（日均–高峰）', "Own daily tasks ÷ system T1′ (mean–peak)", '자체 하루 작업량 ÷ 시스템 T1′ (평균–피크)'],
+  tDens: ['本厂日任务量 ÷ 系统上界（日均–高峰）', "Own daily tasks ÷ system bound (mean–peak)", '자체 하루 작업량 ÷ 시스템 상한 (평균–피크)'],
   densV: ['{a}–{b} 个：{c}–{d}', '{a}–{b}: {c}–{d}', '{a}–{b}건: {c}–{d}'],
   tNeed: ['本厂日均所需车数（16 h · 预约）对 K*', 'Vehicles needed at own mean (16 h, reservation) vs K*', '자체 평균 필요 차량 (16시간·예약) 대 K*'],
   // topology table
@@ -29,31 +31,31 @@ const T = {
   tCyc: ['独立环路 μ / meshedness α', 'Independent cycles μ / meshedness α', '독립 순환 μ / meshedness α'],
   tCut: ['坞向瓶颈断面（路宽之和）', 'Dock-bound minimum cut (sum of widths)', '도크 방향 최소 절단 (도로 폭 합)'],
   tEntry: ['坞口入口度（最大）', 'Dock entry degree (max)', '도크 입구 차수 (최대)'],
-  oT1t: ['→ 系统 T1′（个/日）', '→ system T1′ (a day)', '→ 시스템 T1′ (하루)'], oBind: ['→ 取紧要素', '→ binding element', '→ 구속 요소'],
+  oT1t: ['→ 系统上界（个/日）', '→ system bound (a day)', '→ 시스템 상한 (하루)'], oBind: ['→ 取紧要素', '→ binding element', '→ 구속 요소'],
   oK: ['→ K*(20%)', '→ K*(20%)', '→ K*(20%)'], oPlat: ['→ 预约平台（个/日）', '→ reservation plateau (a day)', '→ 예약 평탄 (하루)'],
   // density chart
-  dLbl: ['日任务量与系统 T1′ 之比', 'Daily tasks as a share of the system bound', '하루 작업량과 시스템 T1′의 비'],
-  dX: ['日任务量 ÷ 系统 T1′', 'Daily tasks ÷ system T1′', '하루 작업량 ÷ 시스템 T1′'],
+  dLbl: ['日任务量与系统上界之比', 'Daily tasks as a share of the system bound', '하루 작업량과 시스템 상한의 비'],
+  dX: ['日任务量 ÷ 系统上界', 'Daily tasks ÷ system bound', '하루 작업량 ÷ 시스템 상한'],
   dYo: ['烟台 · 本厂 {d}/日', 'Yantai · own {d}/day', '옌타이 · 자체 {d}/일'], dYp: ['烟台 · 高峰 {d}/日', 'Yantai · peak {d}/day', '옌타이 · 피크 {d}/일'],
   dOo: ['玉浦 · 本厂 {d}/日', 'Okpo · own {d}/day', '옥포 · 자체 {d}/일'], dOp: ['玉浦 · 高峰 {d}/日', 'Okpo · peak {d}/day', '옥포 · 피크 {d}/일'],
   dOw: ['公开量级 {a}–{b}/日', 'Public scale {a}–{b}/day', '공개 규모 {a}–{b}/일'],
   dOwn: ['本厂口径：同法折算（钢材 ÷ 100 t × 10 次 ÷ 300 日），高峰 × 2', 'own caliber: same folding (steel ÷ 100 t × 10 moves ÷ 300 days), peak × 2', '자체 기준: 같은 환산 (강재 ÷ 100 t × 10회 ÷ 300일), 피크 × 2'],
   dWhole: ['韩国大型厂的公开量级，不是玉浦本厂（Yim 2008；Shen 等 2018）', 'public scale of large Korean yards, not Okpo itself (Yim 2008; Shen et al. 2018)', '한국 대형 조선소 공개 규모, 옥포 자체 아님 (Yim 2008; Shen 외 2018)'],
-  dTip: ['{n}：{d} 个/日 ÷ 系统 T1′ {t} = {v}', '{n}: {d} a day ÷ system T1′ {t} = {v}', '{n}: 하루 {d}건 ÷ 시스템 T1′ {t} = {v}'],
+  dTip: ['{n}：{d} 个/日 ÷ 系统上界 {t} = {v}', '{n}: {d} a day ÷ system bound {t} = {v}', '{n}: 하루 {d}건 ÷ 시스템 상한 {t} = {v}'],
   // LOO chart
-  lLbl: ['系统 T1′ 与预约平台', 'System bound against reservation plateau', '시스템 T1′과 예약 평탄 구간'],
-  lX: ['系统 T1′（个/日）', 'System T1′ (a day)', '시스템 T1′ (하루)'], lY: ['预约平台（个/日）', 'Reservation plateau (a day)', '예약 평탄 (하루)'],
-  lEq: ['平台 = T1′：上界取紧', 'plateau = T1′: the bound binds', '평탄 = T1′: 상한이 구속'],
+  lLbl: ['系统上界与预约平台', 'System bound against reservation plateau', '시스템 상한과 예약 평탄 구간'],
+  lX: ['系统上界（个/日）', 'System bound (a day)', '시스템 상한 (하루)'], lY: ['预约平台（个/日）', 'Reservation plateau (a day)', '예약 평탄 (하루)'],
+  lEq: ['平台 = 上界：上界取紧', 'plateau = bound: the bound binds', '평탄 = 상한: 상한이 구속'],
   lRatio: ['{y}的比例 {r}', '{y} ratio {r}', '{y} 비율 {r}'],
-  lOne: ['烟台 · 单门设定（r383）', 'Yantai, one door (r383)', '옌타이 · 문 하나 (r383)'],
+  lOne: ['烟台 · 单门设定', 'Yantai, one door', '옌타이 · 문 하나'],
   lDoor: ['补上第二个门', 'second door added', '두 번째 문 추가'],
   lPred: ['留一法预测', 'leave-one-out prediction', '하나 빼기 예측'],
-  lTip: ['{y}：系统 T1′ {t}，平台 {p}，比例 {r}', '{y}: system T1′ {t}, plateau {p}, ratio {r}', '{y}: 시스템 T1′ {t}, 평탄 {p}, 비율 {r}'],
+  lTip: ['{y}：系统上界 {t}，平台 {p}，比例 {r}', '{y}: system bound {t}, plateau {p}, ratio {r}', '{y}: 시스템 상한 {t}, 평탄 {p}, 비율 {r}'],
   lTipP: ['用{o}的比例预测{y}：{p}（实际 {a}，{e}）', '{y} predicted from the {o} ratio: {p} (actual {a}, {e})', '{o} 비율로 예측한 {y}: {p} (실제 {a}, {e})'],
-  lTip1: ['单门设定（10 个种子均值）：T1′ {t}，平台 {p}，比例 {r}', 'one-door setting (10-seed mean): T1′ {t}, plateau {p}, ratio {r}', '문 하나 설정 (시드 10개 평균): T1′ {t}, 평탄 {p}, 비율 {r}'],
-  sShare: ['预约平台 ÷ 系统 T1′：玉浦 / 烟台', 'Reservation plateau ÷ system T1′: Okpo / Yantai', '예약 평탄 ÷ 시스템 T1′: 옥포 / 옌타이'],
-  sErr: ['用一厂的比例预测另一厂平台的误差（按 10 个种子的抽样 T1′ 为 ±{s}）', "Error when one yard's ratio predicts the other's plateau (±{s} with the 10-seed sampled T1′)", '한 조선소의 비율로 다른 조선소 평탄을 예측한 오차 (시드 10개 표본 T1′로는 ±{s})'],
-  sDoor: ['烟台补上建筑014 第二个门前后（10 个种子均值）：T1′ {a} → {b}，平台 {c} → {d}', "Yantai before and after building 014's second door (10-seed mean): T1′ {a} → {b}, plateau {c} → {d}", '옌타이 건물014 두 번째 문 추가 전후 (시드 10개 평균): T1′ {a} → {b}, 평탄 {c} → {d}'],
+  lTip1: ['单门设定（10 个种子均值）：上界 {t}，平台 {p}，比例 {r}', 'one-door setting (10-seed mean): bound {t}, plateau {p}, ratio {r}', '문 하나 설정 (시드 10개 평균): 상한 {t}, 평탄 {p}, 비율 {r}'],
+  sShare: ['预约平台 ÷ 系统上界：玉浦 / 烟台', 'Reservation plateau ÷ system bound: Okpo / Yantai', '예약 평탄 ÷ 시스템 상한: 옥포 / 옌타이'],
+  sErr: ['用一厂的比例预测另一厂平台的误差（按 10 个种子的抽样上界为 ±{s}）', "Error when one yard's ratio predicts the other's plateau (±{s} with the 10-seed sampled bound)", '한 조선소의 비율로 다른 조선소 평탄을 예측한 오차 (시드 10개 표본 상한으로는 ±{s})'],
+  sDoor: ['烟台涂装厂房补上第二个门前后（10 个种子均值）：上界 {a} → {b}，平台 {c} → {d}', "Yantai before and after the paint shop's second door (10-seed mean): bound {a} → {b}, plateau {c} → {d}", '옌타이 도장 공장 두 번째 문 추가 전후 (시드 10개 평균): 상한 {a} → {b}, 평탄 {c} → {d}'],
   // binding-resource readings (T23)
   bLbl: ['上界中的路线余量（按取紧资源）', 'Route slack in the bound, by binding resource', '상한의 경로 여유 (구속 자원별)'],
   bX: ['上界中的路线余量（下限；细线到上限）', 'Route slack in the bound (lower; thin line to upper)', '상한의 경로 여유 (하한, 가는 선은 상한까지)'],
@@ -62,7 +64,7 @@ const T = {
   bPass: ['路过 {p}', 'through {p}', '통과 {p}'],
   bTip: ['{y} · {s}：{n}；其上载货流 {f} 个/日，路过 {p}；路线余量 {lo}（上限 {hi}）', '{y} · {s}: {n}; {f} loaded moves a day, {p} through traffic; route slack {lo} (upper {hi})', '{y} · {s}: {n}, 적재 흐름 하루 {f}건, 통과 {p}, 경로 여유 {lo} (상한 {hi})'],
   bAlt: ['；绕开它的路线剩 {a} 的占用余量、平均多走 {m} m', '; its detours keep {a} spare occupancy and add {m} m on average', ', 우회로는 점유 여유 {a}, 평균 {m} m 추가'],
-  door14: ['入口001（建筑014）', 'entrance 001 (bldg 014)', '출입구001 (건물014)'],
+  door14: ['涂装厂房的一个门', 'a paint-shop door', '도장 공장 문 하나'],
   // thresholds by K (T22)
   kLbl: ['坞口阈值随车数', 'Dock threshold against fleet size', '차량 수에 따른 도크 임계값'],
   kX: ['车数 K', 'Fleet size K', '차량 수 K'], kY: ['阈值 ρ（降幅首次达 10%）', 'Threshold ρ (first 10% drop)', '임계값 ρ (처음 10% 감소)'],
@@ -86,14 +88,14 @@ const T = {
   hTip: ['{c}：自由流 {f} 台 → 预约 {r} 台；K* {k}', '{c}: free flow {f} → reservation {r}; K* {k}', '{c}: 자유류 {f}대 → 예약 {r}대, K* {k}'],
   hTipF: ['；现实车队 {v} 台', '; real fleet {v}', ', 실제 차량군 {v}대'],
   // review chart
-  rLbl: ['关键要素复核前后的 T1′', 'T1′ before and after the key-element review', '핵심 요소 검토 전후의 T1′'],
-  rX: ['T1′（个/日，10 个种子均值）', 'T1′ (a day, mean of 10 seeds)', 'T1′ (하루, 시드 10개 평균)'],
-  rYm: ['玉浦 · 主情景', 'Okpo · main mix', '옥포 · 주 시나리오'], rYe: ['玉浦 · 搭载组合（P6 15%）', 'Okpo · erection mix (P6 15%)', '옥포 · 탑재 조합 (P6 15%)'],
+  rLbl: ['关键要素复核前后的路网上界', 'The network bound before and after the key-element review', '핵심 요소 검토 전후의 도로망 상한'],
+  rX: ['路网上界（个/日，10 个种子均值）', 'Network bound (a day, mean of 10 seeds)', '도로망 상한 (하루, 시드 10개 평균)'],
+  rYm: ['玉浦 · 主情景', 'Okpo · main mix', '옥포 · 주 시나리오'], rYe: ['玉浦 · 搭载组合（搭载占 15%）', 'Okpo · erection mix (15% erection)', '옥포 · 탑재 조합 (탑재 15%)'],
   rT: ['烟台 · 主情景', 'Yantai · main mix', '옌타이 · 주 시나리오'],
-  rBef: ['复核前：道路161 整段一个资源', 'before: road 161 as one resource', '검토 전: 도로161 전체가 자원 하나'],
-  rAft: ['复核后：按停靠点分段闭塞（T22）', 'after: blocks split at its stops (T22)', '검토 후: 정차 지점별 분할 폐색 (T22)'],
-  rBefT: ['复核前：建筑014 一个门（r383）', 'before: building 014 with one door (r383)', '검토 전: 건물014 문 하나 (r383)'],
-  rAftT: ['复核后：两个门（r395，与影像相符）', 'after: two doors (r395, as on imagery)', '검토 후: 문 두 개 (r395, 영상과 일치)'],
+  rBef: ['复核前：1 号坞前道路整段一个资源', 'before: the dock-1 road as one resource', '검토 전: 1도크 앞 도로 전체가 자원 하나'],
+  rAft: ['复核后：按停靠点分段闭塞', 'after: blocks split at its stops', '검토 후: 정차 지점별 분할 폐색'],
+  rBefT: ['复核前：涂装厂房一个门', 'before: the paint shop with one door', '검토 전: 도장 공장 문 하나'],
+  rAftT: ['复核后：两个门（与影像相符）', 'after: two doors (as on imagery)', '검토 후: 문 두 개 (영상과 일치)'],
   rTip: ['{c}：{a} → {b}（{p}）', '{c}: {a} → {b} ({p})', '{c}: {a} → {b} ({p})'],
   before: ['复核前', 'before review', '검토 전'], after: ['复核后', 'after review', '검토 후'],
   // OSM chart
@@ -119,6 +121,9 @@ const NAME = {
   'HD Hyundai Samho Heavy Industries': ['现代三湖', 'HD Hyundai Samho', 'HD현대삼호'],
 };
 const nm = k => NAME[k][LI[Deck.lang]];
+// display names of the binding elements in data.js, keyed by yard and element number
+const ELEM = { 'yupu|161': 'eDock1', 'yupu|010-6': 'eCorr', 'yupu|026': 'eWide', 'yantai|007': 'eDockT' };
+const elem = (y, name) => t(ELEM[y + '|' + name.match(/\d{3}(?:-\d+)?/)[0]]);
 const range = (a, b, st) => { const r = []; for (let v = a; v <= b + 1e-9; v += st) r.push(+v.toFixed(6)); return r; };
 const txt = (s, x, y, str, style = '', anchor = 'start') => el('text', { x, y, 'text-anchor': anchor, style }, s, str);
 const HALO = ';paint-order:stroke;stroke:var(--paper);stroke-width:4px;stroke-linejoin:round';
@@ -203,7 +208,7 @@ function drawLoo() {
   $('looRead').innerHTML = [
     [`${pct(D.loo.yupu.ratio)}<small>/ ${pct(D.loo.yantai.ratio)}</small>`, t('sShare')],
     [`±${pct1(Math.max(Math.abs(D.loo.yupu.err), Math.abs(D.loo.yantai.err)))}`, fmt(t('sErr'), { s: pct1(errS) })],
-    [`${pct(one.plateau / one.T1t)} → ${pct(D.looSample.yantai.ratio)}`, fmt(t('sDoor'), { a: f0(one.T1t), b: f0(yt.T1t[0]), c: f0(one.plateau), d: f0(yt.plateau.reserve) })],
+    [pct(one.plateau / one.T1t) + ' → ' + pct(D.looSample.yantai.ratio), fmt(t('sDoor'), { a: f0(one.T1t), b: f0(yt.T1t[0]), c: f0(one.plateau), d: f0(yt.plateau.reserve) })],
   ].map(([n, p]) => `<div class="stat"><span class="num">${n}</span><p>${p}</p></div>`).join('');
 }
 
@@ -223,7 +228,7 @@ function drawSlack() {
   const g0 = el('g', { class: 'grid' }, s);
   range(0, 0.5, 0.1).forEach(v => { el('line', { x1: x(v), x2: x(v), y1: m.t, y2: H - m.b }, g0); txt(s, x(v), H - m.b + 16, Math.round(100 * v) + '%', '', 'middle'); });
   txt(s, (m.l + W - m.r) / 2, H - 6, t('bX'), '', 'middle');
-  const short = r => r.type === '入口' ? t('door14') : r.name.replace(/^道路/, t('road')).replace(/（.*$/, '');
+  const short = r => r.type === '入口' ? t('door14') : elem(r.y, r.name);
   let yy = m.t, i = 0;
   groups.forEach(gr => {
     txt(s, 4, yy - 6, t(gr.k), `fill:${gr.c};font-weight:700;font-size:13px`);
@@ -354,17 +359,17 @@ function fillTables() {
   const yards = ['yupu', 'yantai'];
   const head = `<thead><tr><th></th>${yards.map(y => `<th>${t(y)}</th>`).join('')}</tr></thead>`;
   const row = (k, f, cls = 'mono') => `<tr><td>${t(k)}</td>${yards.map(y => `<td class="${cls}">${f(Y[y], y)}</td>`).join('')}</tr>`;
-  const bindY = f => f.bind.map(([n, c]) => `${n.replace(/^道路/, t('road')).replace(/（.*$/, '')} ×${c}`).join(' · ');
+  const bindY = (f, y) => f.bind.map(([n, c]) => `${elem(y, n)} ×${c}`).join(' · ');
   const bindT = f => fmt(t('bindT'), { a: f.bind[0][1], b: f.bind[1][1] });
   const thr = y => { const p = D.thr[y]['safe|whole']; return `${p[0][1].toFixed(2)} → ${p[p.length - 1][1].toFixed(2)}`; };
   const own = (f, y) => D.h1.find(r => r.yard === y && r.n === f.demand[0] && r.day === 16);
   $('twoTbl').innerHTML = head + '<tbody>' + [
     row('tMap', (f, y) => t(y === 'yupu' ? 'mapY' : 'mapT'), ''),
-    row('tSys', (f, y) => `${f0(sysT(y))} (${f0(f.T1t[0])})`),
-    row('tInt', f => `[${f0(f.interval.main.lo)}, ${f0(f.interval.main.T1)}]`),
+    row('tSys', (f, y) => f0(sysT(y)) + ' (' + f0(f.T1t[0]) + ')'),
+    row('tInt', f => '[' + f0(f.interval.main.lo) + ', ' + f0(f.interval.main.T1) + ']'),
     row('tShare', (f, y) => pct(D.loo[y].ratio)),
     row('tK', f => `${f.Kstar20[0]} (${f.Kstar20[1]}–${f.Kstar20[2]})`),
-    row('tBind', (f, y) => y === 'yupu' ? bindY(f) : bindT(f), ''),
+    row('tBind', (f, y) => y === 'yupu' ? bindY(f, y) : bindT(f), ''),
     row('tCat', (f, y) => `<b>${t(y === 'yupu' ? 'catY' : 'catT')}</b>`, ''),
     row('tThr', (f, y) => thr(y)),
     row('tDens', (f, y) => fmt(t('densV'), { a: f.demand[0], b: f.demand[1], c: pct(f.demand[0] / sysT(y)), d: pct(f.demand[1] / sysT(y)) }), ''),

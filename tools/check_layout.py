@@ -1,6 +1,7 @@
 """Check a deck's layout before publishing: every slide, in each language, with the web fonts and with them blocked
-(as for readers who cannot reach Google Fonts), animations off. Reports content that leaves its slide and pages whose
-content box is nearly full, and how full the reference pages are. Exits with status 1 if anything overflows.
+(as for readers who cannot reach Google Fonts), animations off. Reports content that leaves its slide or runs into
+the slide's source line, pages whose content box is nearly full, and how full the reference pages are. Exits with
+status 1 if anything overflows.
 
   python tools/check_layout.py <deck folder> [--slides 58,59] [--margin 10]
 """
@@ -28,8 +29,14 @@ CHECK = """([i, margin]) => {
     const over = Math.max(b.bottom - r.bottom, b.right - r.right) / k;
     if (over > 1) out.push(`overflow ${e.tagName.toLowerCase()}.${(e.className && e.className.baseVal === undefined ? e.className : '').split(' ')[0]} +${over.toFixed(0)}px`);
   });
-  const c = s.querySelector('.content');
+  const c = s.querySelector('.content'), src = s.querySelector(':scope > .src');
   let fill = null;
+  if (c && src) {   // content that grows past its box runs into the source line, though it stays inside the slide
+    const top = src.getBoundingClientRect().top;
+    const low = Math.max(0, ...[...c.querySelectorAll('*')].filter(e => !(e.closest('svg') && e.tagName.toLowerCase() !== 'svg'))
+      .map(e => e.getBoundingClientRect()).filter(b => b.width && b.height).map(b => b.bottom));
+    if ((low - top) / k > 1) out.push(`overflow into the source line +${((low - top) / k).toFixed(0)}px`);
+  }
   if (c) {
     const cr = c.getBoundingClientRect();
     const bottom = Math.max(...[...c.querySelectorAll(':scope > *')].map(e => e.getBoundingClientRect().bottom));

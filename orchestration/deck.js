@@ -12,33 +12,33 @@ const T = {
   whole: ['整段', 'whole segments', '구간 전체'], stops: ['分段闭塞', 'segmented', '분할 폐색'],
   free: ['自由流', 'Free flow', '자유류'], reserve: ['整条路径预约', 'Whole-route reservation', '전체 경로 예약'],
   segment: ['逐段申请（参照规则，瞬移疏解）', 'Segment request (reference rule, teleport clearing)', '구간별 요청 (참조 규칙, 순간이동 해소)'],
-  safe: ['安全放行 segment_safe', 'Safe release, segment_safe', '안전 출발 segment_safe'],
+  safe: ['安全放行', 'Safe release', '안전 출발'],
   K: ['车队规模 K（台）', 'Fleet size K (vehicles)', '차량군 규모 K (대)'],
   perDay: ['个/日', 'a day', '건/일'],
   // interval
-  intLbl: ['运力区间：各规则的平台占 T1′ 的比例', 'Capacity interval: each rule\'s plateau as a share of T1′', '운송 능력 구간: 규칙별 평탄 구간의 T1′ 대비 비율'],
-  intX: ['占路网上界 T1′ 的比例', 'Share of the network bound T1′', '도로망 상한 T1′ 대비 비율'],
+  intLbl: ['运力区间：各规则的平台占路网上界的比例', 'Capacity interval: each rule\'s plateau as a share of the network bound', '운송 능력 구간: 규칙별 평탄 구간의 도로망 상한 대비 비율'],
+  intX: ['占路网上界的比例', 'Share of the network bound', '도로망 상한 대비 비율'],
   intRow: ['{yard} · {sec} · 区间 [{lo}, {hi}] 个/日', '{yard} · {sec} · interval [{lo}, {hi}] a day', '{yard} · {sec} · 구간 [{lo}, {hi}] 건/일'],
-  intGap: ['第 4 章要挣回：T1′ 的 {p}', 'For chapter 4 to win back: {p} of T1′', '4장이 되찾을 몫: T1′의 {p}'],
+  intGap: ['第 4 章要挣回：路网上界的 {p}', 'For chapter 4 to win back: {p} of the bound', '4장이 되찾을 몫: 상한의 {p}'],
   intSafe: ['安全放行 {p} · {v}', 'safe release {p} · {v}', '안전 출발 {p} · {v}'],
-  intTip: ['{yard} · {sec} · {m}<br>平台 {v} 个/日 = T1′ 的 {p}<br>T1′ = {t}（10 个种子 {lo}–{hi}）', '{yard} · {sec} · {m}<br>plateau {v} a day = {p} of T1′<br>T1′ = {t} (10 seeds {lo}–{hi})', '{yard} · {sec} · {m}<br>평탄 하루 {v}건 = T1′의 {p}<br>T1′ = {t} (시드 10개 {lo}–{hi})'],
-  lgT1: ['T1′ 路网上界', 'T1′ network bound', 'T1′ 도로망 상한'],
+  intTip: ['{yard} · {sec} · {m}<br>平台 {v} 个/日 = 路网上界的 {p}<br>路网上界 = {t}（10 个种子 {lo}–{hi}）', '{yard} · {sec} · {m}<br>plateau {v} a day = {p} of the network bound<br>network bound = {t} (10 seeds {lo}–{hi})', '{yard} · {sec} · {m}<br>평탄 하루 {v}건 = 도로망 상한의 {p}<br>도로망 상한 = {t} (시드 10개 {lo}–{hi})'],
+  lgT1: ['路网上界', 'Network bound', '도로망 상한'],
   lgRes: ['整条路径预约：最好的无死锁规则 = 下沿', 'Whole-route reservation: best deadlock-free rule = lower edge', '전체 경로 예약: 가장 좋은 무교착 규칙 = 하한'],
-  rdRes: ['整条路径预约的平台 ÷ T1′（玉浦 / 烟台，整段）：最好的无死锁规则，即区间下沿', 'Whole-route reservation plateau ÷ T1′ (Okpo / Yantai, whole segments): the best deadlock-free rule, i.e. the lower edge', '전체 경로 예약 평탄 ÷ T1′ (옥포 / 옌타이, 구간 전체): 가장 좋은 무교착 규칙, 곧 구간 하한'],
-  rdSafe: ['安全放行 segment_safe ÷ T1′：同样无死锁、不瞬移，但更保守（第 8 页）', 'Safe release, segment_safe ÷ T1′: also deadlock-free with no teleporting, but more conservative (page 8)', '안전 출발 segment_safe ÷ T1′: 역시 무교착·순간이동 없음, 그러나 더 보수적 (8쪽)'],
-  rdSeg: ['逐段申请（参照规则，瞬移疏解）÷ T1′：依赖瞬移，不能当下沿', 'Segment request (reference rule, teleport clearing) ÷ T1′: it relies on teleporting, so it cannot be the lower edge', '구간별 요청 (참조 규칙, 순간이동 해소) ÷ T1′: 순간이동에 기대므로 하한이 될 수 없음'],
+  rdRes: ['整条路径预约的平台 ÷ 路网上界（玉浦 / 烟台，整段）：最好的无死锁规则，即区间下沿', 'Whole-route reservation plateau ÷ network bound (Okpo / Yantai, whole segments): the best deadlock-free rule, i.e. the lower edge', '전체 경로 예약 평탄 ÷ 도로망 상한 (옥포 / 옌타이, 구간 전체): 가장 좋은 무교착 규칙, 곧 구간 하한'],
+  rdSafe: ['安全放行 ÷ 路网上界：同样无死锁、不瞬移，但更保守（第 8 页）', 'Safe release ÷ network bound: also deadlock-free with no teleporting, but more conservative (page 8)', '안전 출발 ÷ 도로망 상한: 역시 무교착·순간이동 없음, 그러나 더 보수적 (8쪽)'],
+  rdSeg: ['逐段申请（参照规则，瞬移疏解）÷ 路网上界：依赖瞬移，不能当下沿', 'Segment request (reference rule, teleport clearing) ÷ network bound: it relies on teleporting, so it cannot be the lower edge', '구간별 요청 (참조 규칙, 순간이동 해소) ÷ 도로망 상한: 순간이동에 기대므로 하한이 될 수 없음'],
   // segmenting the dock roads
   segLbl: ['坞前道路按停靠点分段闭塞后的变化（玉浦）', 'Change after segmenting the dock roads at their stops (Okpo)', '도크 앞 도로를 정차 지점별로 분할 폐색한 뒤의 변화 (옥포)'],
   segY: ['相对整段的变化', 'Change from whole segments', '구간 전체 대비 변화'],
-  gMain: ['主情景（MY-B 流向组合）', 'Main scenario (MY-B task mix)', '주 시나리오 (MY-B 작업 구성)'],
-  gErect: ['搭载组合（P6 15%，坞口取紧）', 'Erection mix (P6 15%, dock binds)', '탑재 구성 (P6 15%, 도크 입구가 제약)'],
-  gRatio: ['平台 / T1′：{a} → {b}', 'plateau / T1′: {a} → {b}', '평탄 / T1′: {a} → {b}'],
-  mT1: ['T1′ 路网上界', 'T1′ network bound', 'T1′ 도로망 상한'], mRes: ['整条路径预约的平台（区间下沿）', 'Whole-route reservation plateau (lower edge)', '전체 경로 예약 평탄 (구간 하한)'],
+  gMain: ['主情景（车队选型论文任务流）', 'Main scenario (fleet-sizing mix)', '주 시나리오 (차량군 논문 작업 구성)'],
+  gErect: ['搭载组合（搭载 15%，坞口取紧）', 'Erection mix (erection 15%, dock binds)', '탑재 구성 (탑재 15%, 도크 입구가 제약)'],
+  gRatio: ['平台 / 路网上界：{a} → {b}', 'plateau / bound: {a} → {b}', '평탄 / 상한: {a} → {b}'],
+  mT1: ['路网上界', 'Network bound', '도로망 상한'], mRes: ['整条路径预约的平台（区间下沿）', 'Whole-route reservation plateau (lower edge)', '전체 경로 예약 평탄 (구간 하한)'],
   segTip: ['{g} · {m}<br>整段 {a} → 分段 {b}（{d}）', '{g} · {m}<br>whole {a} → segmented {b} ({d})', '{g} · {m}<br>구간 전체 {a} → 분할 {b} ({d})'],
   // safe release curves
   curLbl: ['饱和吞吐随车数：安全放行、整条路径预约、参照规则与自由流', 'Saturated throughput against fleet size: safe release, reservation, the reference rule and free flow', '차량 수에 따른 포화 처리량: 안전 출발, 예약, 참조 규칙, 자유류'],
   curY: ['吞吐（个/日，饱和档）', 'Throughput (a day, saturated)', '처리량 (건/일, 포화)'],
-  curT1: ['T1′ = {v}', 'T1′ = {v}', 'T1′ = {v}'],
+  curT1: ['上界 {v}', 'bound {v}', '상한 {v}'],
   curFree: ['→ {v} @ K = 150', '→ {v} @ K = 150', '→ {v} @ K = 150'],
   curPeak: ['最大 {v} @ K ≈ {k}', 'max {v} @ K ≈ {k}', '최대 {v} @ K ≈ {k}'],
   curEnd: ['K = 150：{v}', 'K = 150: {v}', 'K = 150: {v}'],
@@ -46,7 +46,7 @@ const T = {
   curTipS: ['{yard} · 安全放行 · K = {k}<br>{v} 个/日（种子 {lo}–{hi}）', '{yard} · safe release · K = {k}<br>{v} a day (seeds {lo}–{hi})', '{yard} · 안전 출발 · K = {k}<br>하루 {v}건 (시드 {lo}–{hi})'],
   rdNaive: ['次放行判定与不带缓存的朴素归约逐次相同，不一致 0 次、死锁 0 次', 'decisions identical to a naive reduction without caching: 0 mismatches, 0 deadlocks', '회의 출발 판정이 캐시 없는 단순 환원과 하나하나 같음: 불일치 0회, 교착 0회'],
   rdRefuse: ['安全放行的等待中，起于“容量够、被判据拒绝”的比例（主情景、全部 K：玉浦 {a}–{b}，烟台 {c}–{d}）', 'of safe-release waits begin with a criterion refusal while capacity is free (main scenario, all K: Okpo {a}–{b}, Yantai {c}–{d})', '안전 출발의 대기 중 “용량은 있으나 판정 기준이 거부”해 시작된 비율 (주 시나리오, 모든 K: 옥포 {a}–{b}, 옌타이 {c}–{d})'],
-  rdPeak: ['玉浦最大 {a} @ K ≈ {k}，K = 150 为 {b}；烟台 {c} @ {k2} → {d}。先升后降是这条判据的性质，T27 复核', 'Okpo: max {a} @ K ≈ {k}, {b} at K = 150; Yantai {c} @ {k2} → {d}. The rise and fall belong to this criterion; T27 re-checks them', '옥포 최대 {a} @ K ≈ {k}, K = 150에서 {b}; 옌타이 {c} @ {k2} → {d}. 오르다 내리는 모양은 이 판정 기준의 성질이며 T27이 재확인'],
+  rdPeak: ['玉浦最大 {a} @ K ≈ {k}，K = 150 为 {b}；烟台 {c} @ {k2} → {d}。先升后降是这条判据的性质，规则对照中复核', 'Okpo: max {a} @ K ≈ {k}, {b} at K = 150; Yantai {c} @ {k2} → {d}. The rise and fall belong to this criterion; the rule comparison re-checks them', '옥포 최대 {a} @ K ≈ {k}, K = 150에서 {b}; 옌타이 {c} @ {k2} → {d}. 오르다 내리는 모양은 이 판정 기준의 성질이며 규칙 비교에서 재확인'],
   // deadlocks
   deadLbl: ['逐段申请（参照规则）每天的死锁次数', 'Deadlocks a day under segment request (reference rule)', '구간별 요청 (참조 규칙)의 하루 교착 수'],
   deadY: ['每天死锁（次，饱和档）', 'Deadlocks a day (saturated)', '하루 교착 (회, 포화)'],
@@ -63,7 +63,7 @@ const T = {
   k30: ['K = 30', 'K = 30', 'K = 30'],
   prodTip: ['{m} · K = {k}<br>每台车每天 {v} 个', '{m} · K = {k}<br>{v} tasks per vehicle per day', '{m} · K = {k}<br>차량당 하루 {v}건'],
   rdEff: ['K = 30 时每车每日 ÷ 自由流上限：整条路径预约 / 安全放行；参照规则（瞬移疏解）为 {s}', 'Per vehicle per day ÷ free-flow ceiling at K = 30: reservation / safe release; the reference rule (teleport clearing) reaches {s}', 'K = 30에서 차량당 하루 ÷ 자유류 상한: 전체 경로 예약 / 안전 출발; 참조 규칙 (순간이동 해소)은 {s}'],
-  rdLoss: ['按宣言判据，最好的安全规则（整条路径预约）相对 T1′ 的损失（玉浦 / 烟台）；参照规则不安全、靠瞬移，也损失 {a} / {b}', 'The best safe rule\'s loss against T1′ (reservation; Okpo / Yantai), the manifesto criterion; the teleporting reference rule still loses {a} / {b}', '선언의 기준으로 가장 좋은 안전 규칙 (전체 경로 예약)의 T1′ 대비 손실 (옥포 / 옌타이); 안전하지 않고 순간이동에 기대는 참조 규칙도 {a} / {b} 손실'],
+  rdLoss: ['按安全编排代价假设的判据，最好的安全规则（整条路径预约）相对路网上界的损失（玉浦 / 烟台）；参照规则不安全、靠瞬移，也损失 {a} / {b}', 'The best safe rule\'s loss against the network bound (reservation; Okpo / Yantai), the hypothesis criterion; the teleporting reference rule still loses {a} / {b}', '가설의 기준으로 가장 좋은 안전 규칙 (전체 경로 예약)의 도로망 상한 대비 손실 (옥포 / 옌타이); 안전하지 않고 순간이동에 기대는 참조 규칙도 {a} / {b} 손실'],
   // vehicles needed
   needLbl: ['玉浦全厂口径所需车数（整段，整数 K）', 'Whole-yard vehicles needed on Okpo (whole segments, integer K)', '옥포 조선소 전체 기준 필요 차량 (구간 전체, 정수 K)'],
   needX: ['所需车数（台）', 'Vehicles needed', '필요 차량 (대)'],
@@ -76,7 +76,7 @@ const T = {
   failNote: ['（其上 {k} 又不达）', ' (missed again at {k})', ' (그 위 {k}에서 다시 미달)'],
   lgGap: ['预约与自由流之间：更好的规则能省下的车', 'Reservation to free flow: what a better rule could save', '예약과 자유류 사이: 더 나은 규칙이 아낄 차량'],
   refShort: ['参照规则（瞬移疏解）', 'Reference rule (teleport clearing)', '참조 규칙 (순간이동 해소)'],
-  lgAnchor: ['现场车队（T24 全文核对）', 'Field fleets (T24)', '현장 차량군 (T24 전문 확인)'],
+  lgAnchor: ['现场车队（全文核对）', 'Field fleets (read in full)', '현장 차량군 (전문 확인)'],
   rdNeed: ['玉浦每天 600 个、16 h：整条路径预约 {r} 台，参照规则 {s}，自由流 {f}（24 h：{r2} / {s2} / {f2}）', 'Okpo at 600 a day, 16 h: whole-route reservation {r} vehicles, reference rule {s}, free flow {f} (24 h: {r2} / {s2} / {f2})', '옥포 하루 600건, 16시간: 전체 경로 예약 {r}대, 참조 규칙 {s}, 자유류 {f} (24시간: {r2} / {s2} / {f2})'],
   rdOwn: ['玉浦本厂日均 339 个：16 h 预约 {r} 台、自由流 {f}；24 h 为 {r2} / {f2}，都低于 K* {a}–{b}', 'Okpo\'s own mean of 339 a day: 16 h reservation {r}, free flow {f}; 24 h {r2} / {f2}, all below K* = {a}–{b}', '옥포 자체 평균 하루 339건: 16시간 예약 {r}대, 자유류 {f}; 24시간 {r2} / {f2}, 모두 K* {a}–{b} 아래'],
 };
@@ -179,7 +179,7 @@ function drawCurve() {
     el('path', { d: `M${x0} ${m.t}V${H - m.b}H${x0 + pw}` }, a);
     el('text', { x: x0 + 4, y: m.t - 6, class: 't-strong', style: 'font-size:14px' }, s, t(yd));
     // T1'
-    el('path', { d: `M${x0} ${y(c.T1t)}H${x0 + pw}`, style: 'stroke:var(--oxide);stroke-width:1.6;stroke-dasharray:6 4' }, s);
+    el('path', { d: `M${x0},${y(c.T1t)}H${x0+pw}`, style: 'stroke:var(--oxide);stroke-width:1.6;stroke-dasharray:6 4' }, s);
     el('text', { x: x0 + 4, y: y(c.T1t) - 5, style: 'fill:var(--oxide);font-size:12px;font-weight:600' }, s, fmt(t('curT1'), { v: f0(c.T1t) }));
     // free flow, cut where it leaves the panel
     const fp = []; let cut = null;
@@ -327,7 +327,7 @@ function drawNeed() {
 Deck.start({
   strings: T,
   sections: { intro: ['导读', 'Overview', '개요'], pos: ['问题与定位', 'Question and position', '질문과 위치'], why: ['为什么要编排', 'Why orchestration', '왜 편성인가'],
-    rules: ['规则与起点', 'Rules and starting point', '규칙과 출발점'], goal: ['目标与 H5', 'Goal and H5', '목표와 H5'], method: ['方法', 'Methods', '방법'],
+    rules: ['规则与起点', 'Rules and starting point', '규칙과 출발점'], goal: ['目标与安全代价', 'Goal and the cost of safety', '목표와 안전 비용'], method: ['方法', 'Methods', '방법'],
     plan: ['实验与产出', 'Experiments and outputs', '실험과 산출물'], status: ['进度与风险', 'Status and risks', '진행과 위험'], pub: ['投稿去向', 'Target journals', '투고 대상'],
     ref: ['参考文献', 'References', '참고문헌'], end: ['结语', 'Close', '맺음'] },
   draw: [drawInt, drawSeg, drawDead, drawCurve, drawProd, drawNeed],
