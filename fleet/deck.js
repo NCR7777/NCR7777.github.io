@@ -25,7 +25,6 @@ const T = {
   pX: ['额定载重（t）', 'Rated capacity (t)', '정격 용량 (t)'],
   pY: ['单价（百万元，不含税）', 'Unit price (CNY million, ex VAT)', '단가 (백만 위안, 부가세 제외)'],
   mcny: ['百万元', 'M CNY', '백만 위안'],
-  pFit: ['仿射拟合', 'Affine fit', '아핀 적합'],
   capX: ['吨级（t）', 'Tier (t)', '등급 (t)'],
   capY: ['人时 / 天', 'labour-hours / day', '인시 / 일'],
   crew: ['一组人：4 人 × 16 h = 64', 'One crew: 4 × 16 h = 64', '작업 인원: 4명 × 16시간 = 64'],
@@ -150,9 +149,19 @@ const T = {
   // manuscript of 2026-10-03: decomposition, exact benchmark, fresh days, outages, matched mixes, budget slider
   decX: ['比覆盖车队多出的车时（车·时/天）', 'Extra transporter-hours per day over the covering tier', '커버 등급 대비 추가 차량 시간 (차량·시/일)'],
   decY: ['其中的车时（车·时/天）', 'Part of the extra hours (h/day)', '그중 차량 시간 (h/일)'],
-  decCoup: ['拼载占用：重复搬运加对接', 'Coupled occupancy: repeated service plus alignment', '결합 점유: 반복 운반 + 정렬'],
+  decCoup: ['拼载多出的服务时间：重复搬运加对接', 'Excess coupled-service time: repeated service plus alignment', '결합 초과 서비스 시간: 반복 운반 + 정렬'],
   decWait: ['等队友', 'Partner waiting', '팀원 대기'], dec11: ['1:1', '1:1', '1:1'],
-  decTip: ['{f} · {c}<br>多出 {d} h/天：拼载占用 {o} h，等待 {w} h', '{f} · {c}<br>{d} h/day extra: coupled occupancy {o} h, waiting {w} h', '{f} · {c}<br>추가 {d} h/일: 결합 점유 {o} h, 대기 {w} h'],
+  decTip: ['{f} · {c}<br>多出 {d} h/天：拼载多出的服务 {o} h，等待 {w} h', '{f} · {c}<br>{d} h/day extra: excess coupled service {o} h, waiting {w} h', '{f} · {c}<br>추가 {d} h/일: 결합 초과 서비스 {o} h, 대기 {w} h'],
+  // price evidence (Fig. 2 of the paper) and block masses above each tier (Fig. 5b)
+  pPw: ['分段线性拟合', 'Piecewise fit', '구간 선형 적합'], pAffMain: ['仿射拟合（主）', 'Affine fit (main)', '아핀 적합 (주)'],
+  pRange: ['研究范围 200–550 t', 'studied range 200–550 t', '연구 범위 200–550 t'],
+  piY: ['相对价格 π(Q) = p(Q) / p(270)', 'Relative price π(Q) = p(Q) / p(270)', '상대 가격 π(Q) = p(Q) / p(270)'],
+  piProp: ['按比例 Q/270', 'proportional Q/270', '비례 Q/270'], piAff: ['仿射（主）', 'affine (main)', '아핀 (주)'], piPw: ['分段线性', 'piecewise', '구간 선형'],
+  piOne: ['270 t 处 π = 1', 'π = 1 at 270 t', '270 t에서 π = 1'],
+  piTip: ['{c}<br>π(550 t) = {v}', '{c}<br>π(550 t) = {v}', '{c}<br>π(550 t) = {v}'],
+  excY: ['重于该吨级的分段（%）', 'Blocks heavier than the tier (%)', '등급보다 무거운 블록 (%)'],
+  excX: ['吨级（t）', 'Capacity tier (t)', '등급 (t)'],
+  excTip: ['{p}<br>重于 {q} t：{v}%', '{p}<br>heavier than {q} t: {v}%', '{p}<br>{q} t 초과: {v}%'],
   exFinal: ['本文流程', 'Proposed procedure', '제안 절차'], exSingle: ['单次搜索', 'One search run', '단일 탐색'],
   exCp0: ['仅构造', 'Constructions only', '구성만'], exGreedy: ['贪心派工', 'Greedy dispatcher', '탐욕 배차'],
   exEq: ['等于证明的最小台数', 'equals the proven minimum', '증명된 최소 대수와 같음'], exP1: ['多 1 台', 'one too many', '1대 많음'],
@@ -199,14 +208,76 @@ function drawPrice() {
   for (let v = 0; v <= 5; v++) el('text', { x: m.l - 8, y: y(v) + 4, 'text-anchor': 'end' }, s, v);
   el('text', { x: (m.l + W - m.r) / 2, y: H - 8, 'text-anchor': 'middle' }, s, t('pX'));
   yTitle(s, 14, (m.t + H - m.b) / 2, t('pY'));
-  anim(el('path', { d: `M${x(80)} ${y(pQ(80))}L${x(620)} ${y(pQ(620))}`, pathLength: 1, style: 'fill:none;stroke:var(--amber);stroke-width:2.5' }, s), 'a-draw', .8);
+  // studied range, the affine (main) and the piecewise fit to all 33 notices, as in Fig. 2(a) of the paper
+  el('rect', { x: x(200), y: m.t, width: x(550) - x(200), height: y(0) - m.t, style: 'fill:var(--steel-soft);opacity:.7' }, s);
+  el('text', { x: x(375), y: y(0.22), 'text-anchor': 'middle', style: 'font-size:12px;fill:var(--steel)' }, s, t('pRange'));
+  const [b0, b1, b2, brk] = D.pcurve.pw, pwQ = q => b0 + b1 * q + b2 * Math.max(0, q - brk);
+  anim(el('path', { d: `M${x(90)} ${y(pQ(90))}L${x(600)} ${y(pQ(600))}`, pathLength: 1, style: 'fill:none;stroke:var(--amber);stroke-width:2.5' }, s), 'a-draw', .8);
+  anim(el('path', { d: [90, brk, 600].map((q, i) => `${i ? 'L' : 'M'}${x(q)} ${y(pwQ(q))}`).join(''), style: 'fill:none;stroke:var(--ink2);stroke-width:1.8;stroke-dasharray:6 4' }, s), 'a-fade', 1.1);
   anim(el('line', { x1: x(20), x2: x(48), y1: y(4.6), y2: y(4.6), style: 'stroke:var(--amber);stroke-width:2.5' }, s), 'a-fade', 1);
-  anim(el('text', { x: x(56), y: y(4.6) + 4, class: 't-strong' }, s, `${t('pFit')}: p(Q) = 0.575 + 0.00607 Q`), 'a-fade', 1);
+  anim(el('text', { x: x(56), y: y(4.6) + 4, class: 't-strong' }, s, `${t('pAffMain')}: p(Q) = 0.575 + 0.00607 Q`), 'a-fade', 1);
+  anim(el('line', { x1: x(20), x2: x(48), y1: y(4.2), y2: y(4.2), style: 'stroke:var(--ink2);stroke-width:1.8;stroke-dasharray:6 4' }, s), 'a-fade', 1.1);
+  anim(el('text', { x: x(56), y: y(4.2) + 4 }, s, t('pPw')), 'a-fade', 1.1);
   for (const [k, [q, p, n]] of D.price.entries()) {
     const c = el('circle', { cx: x(q), cy: y(p), r: 4.5 + (n - 1) * 1.6, style: 'fill:var(--steel);fill-opacity:.45;stroke:var(--steel);stroke-width:1.2' }, s);
     anim(c, 'a-pop', .25 + .5 * spread(k));
     hover(c, () => `${q} t · ${p.toFixed(2)} ${t('mcny')}${n > 1 ? ` · ×${n}` : ''}`);
   }
+}
+
+// Fig. 2(b) of the paper: price relative to a 270 t transporter, pi(Q) = p(Q)/p(270), of the five price curves (200-550 t)
+function drawPi() {
+  const W = 640, H = fitH('cPi', W, 400), m = { l: 54, r: 186, t: 14, b: 46 };
+  const s = frame('cPi', W, H, 'Relative price of the five price curves');
+  const x = lin(200, 550, m.l, W - m.r), y = lin(0.6, 2.1, H - m.b, m.t), g = el('g', { class: 'grid' }, s);
+  for (let k = 0; k <= 7; k++) { const v = 0.6 + 0.2 * k; el('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }, g); el('text', { x: m.l - 8, y: y(v) + 4, 'text-anchor': 'end' }, s, v.toFixed(1)); }
+  for (let q = 200; q <= 550; q += 50) { el('line', { x1: x(q), x2: x(q), y1: m.t, y2: H - m.b }, g); el('text', { x: x(q), y: H - m.b + 18, 'text-anchor': 'middle' }, s, q); }
+  el('text', { x: (m.l + W - m.r) / 2, y: H - 8, 'text-anchor': 'middle' }, s, t('pX'));
+  yTitle(s, 14, (m.t + H - m.b) / 2, t('piY'));
+  const [F, v] = D.pcurve.aff, [b0, b1, b2, brk] = D.pcurve.pw, [lo, mid, hi] = D.pcurve.alpha;
+  const aff = q => F + v * q, pw = q => b0 + b1 * q + b2 * Math.max(0, q - brk);
+  const C = [[t('piProp'), q => q / 270, 'stroke:var(--ink3);stroke-width:1.4;stroke-dasharray:5 4'],
+    ['α = ' + hi.toFixed(2), q => (q / 270) ** hi, 'stroke:var(--steel);stroke-width:1.4;stroke-dasharray:2 3'],
+    [t('piPw'), q => pw(q) / pw(270), 'stroke:var(--ink2);stroke-width:1.8;stroke-dasharray:6 4'],
+    ['α = ' + mid.toFixed(2), q => (q / 270) ** mid, 'stroke:var(--steel);stroke-width:2.2'],
+    [t('piAff'), q => aff(q) / aff(270), 'stroke:var(--amber);stroke-width:2.6'],
+    ['α = ' + lo.toFixed(2), q => (q / 270) ** lo, 'stroke:var(--steel);stroke-width:1.4;stroke-dasharray:2 3']];
+  const qs = Array.from({ length: 36 }, (_, i) => 200 + 10 * i);
+  // labels at the right end, at least 16 px apart and centred on the curve ends, each joined to its curve by a short leader
+  const ends = C.map(([, f], i) => [y(f(550)), i]).sort((a, b) => a[0] - b[0]), ly = ends.map(e => e[0]);
+  for (let i = 1; i < ly.length; i++) ly[i] = Math.max(ly[i], ly[i - 1] + 16);
+  const sh = ends.reduce((a, e, i) => a + e[0] - ly[i], 0) / ly.length;
+  C.forEach(([lab, f, st], i) => {
+    const d = qs.map((q, k) => `${k ? 'L' : 'M'}${x(q)} ${y(f(q))}`).join(''), tip = () => fmt(t('piTip'), { c: lab, v: f(550).toFixed(3) });
+    const dash = st.includes('dasharray');   // a drawn-in path animates its own dash, so dashed curves fade in instead
+    anim(el('path', { d, pathLength: dash ? null : 1, style: `fill:none;${st}` }, s), dash ? 'a-fade' : 'a-draw', .3 + i * .12);
+    hover(el('path', { d, style: 'fill:none;stroke:transparent;stroke-width:12' }, s), tip);
+    const yl = ly[ends.findIndex(e => e[1] === i)] + sh;
+    el('line', { x1: x(550) + 2, x2: x(550) + 12, y1: y(f(550)), y2: yl, style: 'stroke:var(--ink3);stroke-width:.7' }, s);
+    anim(el('text', { x: x(550) + 15, y: yl + 4, style: 'font-size:12.5px' }, s, `${lab} · ${f(550).toFixed(2)}`), 'a-fade', .8 + i * .12);
+  });
+  el('circle', { cx: x(270), cy: y(1), r: 4, style: 'fill:var(--ink)' }, s);
+  el('text', { x: x(270) + 8, y: y(1) + 20, style: 'font-size:12.5px' }, s, t('piOne'));
+}
+
+// Fig. 5(b) of the paper: share of blocks heavier than each tier, which is the coupled share of a homogeneous fleet of that tier
+const PCOL = { M1: ['var(--steel)', 1], M5: ['#3f9ea3', 1], M6: ['var(--ink2)', 1], M2: ['#7fa7cf', 0], M3: ['var(--ink3)', 0], M4: ['var(--oxide)', 0] };
+function drawExc() {
+  const W = 620, H = fitH('cExc', W, 400), m = { l: 54, r: 16, t: 14, b: 62 }, P = ['M1', 'M5', 'M6', 'M2', 'M3', 'M4'];
+  const s = frame('cExc', W, H, 'Share of blocks heavier than each capacity tier');
+  const x = lin(190, 560, m.l, W - m.r), y = lin(-3, 103, H - m.b, m.t), g = el('g', { class: 'grid' }, s);
+  for (const v of [0, 25, 50, 75, 100]) { el('line', { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }, g); el('text', { x: m.l - 8, y: y(v) + 4, 'text-anchor': 'end' }, s, v); }
+  TQ.forEach(q => { el('line', { x1: x(q), x2: x(q), y1: m.t, y2: H - m.b }, g); el('text', { x: x(q), y: H - m.b + (q === 270 || q === 325 ? 34 : 18), 'text-anchor': 'middle' }, s, q); });
+  el('text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, s, t('excX'));
+  yTitle(s, 14, (m.t + H - m.b) / 2, t('excY'));
+  P.forEach((k, i) => {
+    const [c, solid] = PCOL[k], v = TQ.map(q => D.masses[k].above[q]);
+    anim(el('path', { d: TQ.map((q, j) => `${j ? 'L' : 'M'}${x(q)} ${y(v[j])}`).join(''), pathLength: solid ? 1 : null, style: `fill:none;stroke:${c};stroke-width:2${solid ? '' : ';stroke-dasharray:6 4'}` }, s), solid ? 'a-draw' : 'a-fade', .3 + i * .12);
+    TQ.forEach((q, j) => hover(anim(el('circle', { cx: x(q), cy: y(v[j]), r: 4.2, style: `fill:${solid ? c : 'var(--paper)'};stroke:${c};stroke-width:1.6` }, s), 'a-pop', .5 + i * .12 + j * .02),
+      () => fmt(t('excTip'), { p: t(k), q, v: v[j] })));
+  });
+  anim(el('text', { x: x(550) - 8, y: y(D.masses.M4.above[550]) - 9, 'text-anchor': 'end', style: 'font-size:12.5px;fill:var(--oxide);font-weight:600' }, s, D.masses.M4.above[550] + '%'), 'a-fade', 1.2);
+  swatches('excLegend', P.map(k => [PCOL[k][0], t(k), PCOL[k][1] ? '' : `background:var(--paper);border:2px dashed ${PCOL[k][0]};box-sizing:border-box`]));
 }
 
 function drawCap() {
@@ -755,7 +826,7 @@ function drawSlack() {
 // Fig. 7: share of settings won by a fleet that couples at most 10%, as r runs far beyond its calibrated range
 function drawBrk() {
   const B = D.oe.brk, W = 620, H = fitH('cBrk', W, 340), m = { l: 50, r: 14, t: 12, b: 46 }, lg = Math.log10;
-  const s = frame('cBrk', W, H, 'Single-carry share against the capital-to-labour ratio');
+  const s = frame('cBrk', W, H, 'Low-coupling share against the capital-to-labour ratio');
   const x = v => lin(lg(0.5), lg(5000), m.l, W - m.r)(lg(v)), y = lin(0, 102, H - m.b, m.t), g = el('g', { class: 'grid' }, s);
   el('rect', { x: x(5.1), y: m.t, width: x(30) - x(5.1), height: H - m.b - m.t, style: 'fill:var(--steel-soft)' }, s);
   el('text', { x: (x(5.1) + x(30)) / 2, y: y(6), 'text-anchor': 'middle', style: 'font-size:11px;fill:var(--steel)' }, s, t('brkCal'));
@@ -941,9 +1012,9 @@ function init() {
 
 Deck.start({
   strings: T,
-  sections: { intro: ['导读', 'Overview', '개요'], bg: ['背景', 'Background', '배경'], method: ['方法', 'Method', '방법'], theory: ['解析模型', 'Analytical model', '해석 모형'], why: ['拼载为何贵', 'Why coupling costs', '결합 비용의 원인'], bound: ['构成与服务', 'Composition and service', '구성과 서비스'], setup: ['案例与实验', 'Case and experiments', '사례와 실험'],
-    res: ['结果', 'Results', '결과'], rel: ['验证', 'Validation', '검증'], disc: ['讨论', 'Discussion', '논의'], ref: ['参考文献', 'References', '참고문헌'], status: ['进度', 'Status', '진행 상황'], end: ['总结', 'Summary', '요약'] },
-  draw: [drawPrice, drawCap, drawHeat, drawCase, drawTeam, drawDay, drawGantt, drawMasses, fillCalcSelects, drawCalc, renderB4, drawLate, drawTmax, drawE7, drawE5, drawKt, drawOcc, drawSlack, drawBrk, drawRobust, drawBud, drawDecomp, drawExact, drawFresh, drawOutage, drawMix13, heatTip],
+  sections: { intro: ['导读', 'Overview', '개요'], bg: ['背景', 'Background', '배경'], method: ['方法', 'Method', '방법'], theory: ['解析模型', 'Analytical model', '해석 모형'], why: ['问题 (ii)：拼载为何贵', 'Question (ii): why coupling costs', '질문 (ii): 결합 비용의 원인'], bound: ['构成 (i) 与服务 (iii)', 'Composition (i) and service (iii)', '구성 (i)과 서비스 (iii)'], setup: ['案例与实验', 'Case and experiments', '사례와 실험'],
+    res: ['问题 (i)：买什么', 'Question (i): what to buy', '질문 (i): 무엇을 살까'], rel: ['结论检验', 'Checks of the findings', '결론 검증'], disc: ['讨论与结论', 'Discussion and conclusions', '논의와 결론'], ref: ['参考文献', 'References', '참고문헌'], status: ['进度', 'Status', '진행 상황'], end: ['总结', 'Summary', '요약'] },
+  draw: [drawPrice, drawPi, drawExc, drawCap, drawHeat, drawCase, drawTeam, drawDay, drawGantt, drawMasses, fillCalcSelects, drawCalc, renderB4, drawLate, drawTmax, drawE7, drawE5, drawKt, drawOcc, drawSlack, drawBrk, drawRobust, drawBud, drawDecomp, drawExact, drawFresh, drawOutage, drawMix13, heatTip],
   init,
 });
 })();
