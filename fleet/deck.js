@@ -16,7 +16,7 @@ const T = {
   H1l: ['短装卸', 'short handling', '짧은 적재·하역'], H2l: ['随重量变化的装卸', 'mass-dependent handling', '중량 비례 적재·하역'], H3l: ['长装载', 'long loading', '긴 적재'],
   'D-emp': ['基准', 'empirical', '기준'], 'D-tight': ['紧', 'tight', '촉박'],
   'D-empl': ['基准交期', 'empirical due dates', '기준 납기'], 'D-tightl': ['紧交期', 'tight due dates', '촉박한 납기'],
-  xr: ['价格比 θ（人时/天）', 'Price ratio θ (labour-hours/day)', '가격비 θ (인시/일)'],
+  xr: ['价格比 θ（人时/天）', 'Price ratio θ (labor-hours/day)', '가격비 θ (인시/일)'],
   winner: ['最省车队', 'Cheapest fleet', '최저비용 차량군'],
   coupled: ['拼载的分段', 'Blocks coupled', '결합 운반 블록'],
   hatchTip: ['按天重抽样中胜者保持 < 80%：与另一车队几乎打平', 'Winner kept in < 80% of day resamples: nearly tied with another fleet', '일자 재표본에서 승자 유지 < 80%: 다른 차량군과 거의 동률'],
@@ -26,10 +26,10 @@ const T = {
   pY: ['单价（百万元，不含税）', 'Unit price (CNY million, ex VAT)', '단가 (백만 위안, 부가세 제외)'],
   mcny: ['百万元', 'M CNY', '백만 위안'],
   capX: ['吨级（t）', 'Tier (t)', '등급 (t)'],
-  capY: ['人时 / 天', 'labour-hours / day', '인시 / 일'],
+  capY: ['人时 / 天', 'labor-hours / day', '인시 / 일'],
   crew: ['一组人：4 人 × 16 h = 64', 'One crew: 4 × 16 h = 64', '작업 인원: 4명 × 16시간 = 64'],
   capTxt: ['θ = {r} 时，最贵的 550 t 每天资本成本为 {v} 人时。这仍低于一组人的 64 人时。少买一台车，比升级吨级更省。',
-           'At θ = {r}, the dearest tier, 550 t, costs {v} labour-hours of capital a day. That is still below one crew’s 64. Saving a transporter beats moving up a tier.',
+           'At θ = {r}, the dearest tier, 550 t, costs {v} labor-hours of capital a day. That is still below one crew’s 64. Saving a transporter beats moving up a tier.',
            'θ = {r}일 때 가장 비싼 550 t의 하루 자본비는 {v}인시다. 작업 인원 64인시보다 낮다. 한 대를 덜 사는 편이 등급을 올리는 것보다 싸다.'],
   sX: ['拼载占服务时间（%）', 'Coupled share of service time (%)', '결합 운반의 서비스 시간 비율 (%)'],
   sY: ['比最省车队贵（%）', 'Cost above the cheapest fleet (%)', '최저비용 대비 추가 비용 (%)'],
@@ -77,7 +77,7 @@ const T = {
   cEmpty: ['· 其中空驶', '· empty travel', '· 그중 공차 주행'], cSync: ['· 其中等队友', '· waiting for team', '· 그중 팀원 대기'],
   cLate: ['最大迟到（min）', 'Worst delay (min)', '최대 지연 (분)'],
   cP: ['车队价格 P（270 t = 1）', 'Fleet price P (270 t = 1)', '차량군 가격 P (270 t = 1)'],
-  cCost: ['每天成本，人时（θ = 12.4，班次人工）', 'Daily cost (labour-h, θ = 12.4)', '하루 비용, 인시 (θ = 12.4, 교대 인건비)'],
+  cCost: ['每天成本，人时（θ = 12.4，班次人工）', 'Daily cost (labor-h, θ = 12.4)', '하루 비용, 인시 (θ = 12.4, 교대 인건비)'],
   // mass scenarios
   M1d: ['Jiang et al. (2021) 三组算例的 68 个重量，有放回抽样', '68 masses from the three instances of Jiang et al. (2021), resampled', 'Jiang et al. (2021) 세 인스턴스의 중량 68개 재표본'],
   M2d: ['90% 为 100–300 t（Park &amp; Seo 2012），10% 为 300–500 t（设定）', '90% at 100–300 t (Park &amp; Seo 2012), 10% at 300–500 t (assumed)', '90%는 100–300 t (Park &amp; Seo 2012), 10%는 300–500 t (설정)'],
@@ -87,15 +87,15 @@ const T = {
   M6d: ['Liu et al. (2022) 一周 50 块分段的重量，有放回抽样', 'The 50 block masses of one week in Liu et al. (2022), resampled', 'Liu et al. (2022) 1주일 블록 50개의 중량 재표본'],
   above270: ['超过 270 t：{p}%', 'above 270 t: {p}%', '270 t 초과: {p}%'],
   // calculator
-  fleetH: ['车队', 'Fleet', '차량군'], compH: ['组成', 'Composition', '구성'], costH: ['每天成本（人时）', 'Daily cost (labour-h)', '하루 비용 (인시)'],
+  fleetH: ['车队', 'Fleet', '차량군'], compH: ['组成', 'Composition', '구성'], costH: ['每天成本（人时）', 'Daily cost (labor-h)', '하루 비용 (인시)'],
   aboveH: ['比最省', 'vs cheapest', '최저 대비'], coupH: ['拼载', 'Coupled', '결합'],
-  capLg: ['资本 θ × P', 'Capital θ × P', '자본 θ × P'], labLg: ['人工 L', 'Labour L', '인건비 L'],
+  capLg: ['资本 θ × P', 'Capital θ × P', '자본 θ × P'], labLg: ['人工 L', 'Labor L', '인건비 L'],
   liuFinal: ['共用车速（12/6 km/h）下：{n} / {N} 个决策全部由混编胜出，领先下一名 {lo}–{hi}%，拼载 ≤ {c}%。',
              'At common speeds (12/6 km/h): a mix wins {n} of {N} decisions, {lo}–{hi}% ahead of the next fleet, coupling at most {c}%.',
              '공통 속도 (12/6 km/h): {N}개 중 {n}개 결정 모두 혼합이 최저, 다음 차량군보다 {lo}–{hi}% 싸고 결합은 {c}% 이하.'],
   porNum: ['个成本决策中买车成本上升；中位数 0，最多 {max}%', 'cost decisions where the purchase gets dearer; median 0, at most {max}%', '개 비용 결정에서 구매 비용 상승, 중앙값 0, 최대 {max}%'],
   porNote: ['另有 {neg} 个决策受限规则反而更便宜：{small} 个不到 1%（搜索差异）；{big} 个都在“{cell}”，最多 {min}%。那里受限规则 5 台就达标，灵活规则的搜索却停在 6 台：主实验在该工况多算了 1 台，2 重车混编（而不是报告的 550 t）才是 {m4} 个班次人工决策中最便宜的。',
-            '{neg} more decisions are cheaper under the restricted rule: {small} by under 1% (search noise), {big} in {cell} by up to {min}%. There the restricted rule qualified with 5 vehicles where the flexible search stopped at 6, so the two-heavy mix, not the reported 550 t, is cheapest in {m4} shift-labour decisions.',
+            '{neg} more decisions are cheaper under the restricted rule: {small} by under 1% (search noise), {big} in {cell} by up to {min}%. There the restricted rule qualified with 5 vehicles where the flexible search stopped at 6, so the two-heavy mix, not the reported 550 t, is cheapest in {m4} shift-labor decisions.',
             '또 {neg}개 결정은 제한 규칙에서 오히려 싸다. {small}개는 1% 미만 (탐색 차이), {big}개는 모두 "{cell}"에서 최대 {min}%. 그 조건에서 제한 규칙은 5대로 충족했지만 유연 규칙의 탐색은 6대에서 멈췄다. 주 실험이 1대를 더 센 것이며, {m4}개 교대 인건비 결정에서는 보고된 550 t가 아니라 대형 2대 혼합이 최저다.'],
   porTip: ['{cell}<br>r = {r} · 贵 {v}%<br>灵活：{a} → 超重才拼：{b}', '{cell}<br>r = {r} · {v}% dearer<br>flexible: {a} → overweight-only: {b}', '{cell}<br>r = {r} · {v}% 상승<br>유연: {a} → 초과 중량: {b}'],
   porZero: ['0：没有变化', '0: no change', '0: 변화 없음'], porPos: ['变贵（越深越贵，最深 {max}%）', 'dearer (darker = more, up to {max}%)', '비싸짐 (진할수록, 최대 {max}%)'],
@@ -117,34 +117,34 @@ const T = {
   e7Le: ['300 t：重块都要拼载', '300 t: couples every heavy block', '300 t: 무거운 블록 모두 결합'],
   e7Mx: ['270 t 轻车 + 1 或 2 台 550 t', '270 t units + one or two 550 t', '270 t 경형 + 550 t 1–2대'],
   e7Big: ['550 t：每块都单独运', '550 t: carries every block alone', '550 t: 모든 블록 단독 운반'],
-  e5Ax: ['最省车队改变的班次人工决策（每个水平共 180 个）', 'Shift-labour decisions whose cheapest fleet changed (180 per level)', '최저비용 차량군이 바뀐 교대 인건비 결정 (수준별 180개)'],
+  e5Ax: ['最省车队改变的班次人工决策（每个水平共 180 个）', 'Shift-labor decisions whose cheapest fleet changed (180 per level)', '최저비용 차량군이 바뀐 교대 인건비 결정 (수준별 180개)'],
   e5Max: ['最省车队拼载', 'Coupled', '결합 비율'],
-  e5Tip: ['{f}：{v}<br>最省车队改变 {n} / 180{nw}<br>最省车队最多拼载 {c}%<br>四种人工口径下拼载 ≤ 1/10：{le} / {has}', '{f}: {v}<br>cheapest fleet changed in {n} of 180{nw}<br>cheapest fleet couples at most {c}%<br>≤ one in ten over all labour measures: {le} of {has}', '{f}: {v}<br>최저비용 차량군 변경 {n} / 180{nw}<br>최저비용 차량군 최대 결합 {c}%<br>4가지 인건비 기준에서 결합 ≤ 10%: {le} / {has}'],
+  e5Tip: ['{f}：{v}<br>最省车队改变 {n} / 180{nw}<br>最省车队最多拼载 {c}%<br>四种人工口径下拼载 ≤ 1/10：{le} / {has}', '{f}: {v}<br>cheapest fleet changed in {n} of 180{nw}<br>cheapest fleet couples at most {c}%<br>≤ one in ten over all labor measures: {le} of {has}', '{f}: {v}<br>최저비용 차량군 변경 {n} / 180{nw}<br>최저비용 차량군 최대 결합 {c}%<br>4가지 인건비 기준에서 결합 ≤ 10%: {le} / {has}'],
   ktTier: ['覆盖吨级', 'covering tier', '커버 등급'], ktNone: ['无覆盖吨级：9% 的块 > 550 t', 'no covering tier: 9% of blocks > 550 t', '커버 등급 없음: 블록 9% > 550 t'],
   occX: ['拼载的分段比例（%）', 'Blocks carried by a coupled team (%)', '결합 운반 블록 비율 (%)'],
   occY: ['每天车时，比覆盖车队多（%）', 'Transporter-hours vs covering fleet (%)', '일일 차량 시간, 커버 차량군 대비 (%)'],
   occFit: ['每多拼 1 个百分点，车时 +{b}%（r = {r}）', '+{b}% transporter-hours per point coupled (r = {r})', '결합 1%p당 차량 시간 +{b}% (r = {r})'],
   slackY: ['比负荷估算多需的车（%）', 'Beyond the workload rule (%)', '부하 추정 대비 추가 (%)'],
-  brkCal: ['标定范围', 'calibrated range', '보정 범위'], brkCrew: ['一组人一班 = 64 人时', 'one crew-shift = 64 labour-h', '1개 조 1교대 = 64 인시'],
-  brkX: ['一台 270 t 车每天的资本成本 θ（人时，对数轴）', 'Daily capital cost of a 270 t transporter, θ (labour-hours, log scale)', '270 t 차량의 일일 자본 비용 θ (인시, 로그 축)'],
+  brkCal: ['标定范围', 'calibrated range', '보정 범위'], brkCrew: ['一组人一班 = 64 人时', 'one crew-shift = 64 labor-h', '1개 조 1교대 = 64 인시'],
+  brkX: ['一台 270 t 车每天的资本成本 θ（人时，对数轴）', 'Daily capital cost of a 270 t transporter, θ (labor-hours, log scale)', '270 t 차량의 일일 자본 비용 θ (인시, 로그 축)'],
   brkY: ['拼载 ≤ 1/10 的车队胜出（%）', 'Won by fleets coupling ≤ 1/10 (%)', '결합 ≤ 10% 차량군 승리 (%)'],
   brkEx: ['四种口径，不含重尾', 'four measures, outside heavy tail', '4개 기준, 중량 꼬리 제외'], brkTeam: ['按队计作业，不含重尾', 'crew-team hours, outside heavy tail', '팀별 작업, 중량 꼬리 제외'], brkAll: ['四种口径，全部 36 种工况', 'four measures, all 36 conditions', '4개 기준, 36개 조건 전체'],
   robNom: ['{f}', '{f}', '{f}'], robHi: ['名义最省车队', 'nominal cheapest fleet', '명목 최저비용 차량군'],
   robOther: ['其他车队', 'other fleets', '기타 차량군'], rob95: ['95% 目标', '95% target', '95% 목표'],
-  budEq: ['h* = κ ÷ (1 + 2δ / w̄) = κ ÷ {f}。δ = {d} min，w̄ = {w} min。w̄ 是覆盖车队每块的平均占用。短装卸约 43，随重量装卸 63–85，长装载约 80。价格按 α = 0.84 幂律，人工按班次人工。', 'h* = κ ÷ (1 + 2δ / w̄) = κ ÷ {f}. δ = {d} min, w̄ = {w} min. w̄ is the covering fleet’s mean occupancy per block. It is about 43 with short handling, 63–85 with mass-dependent handling and about 80 with long loading. Prices follow the α = 0.84 power law; labour is shift labour.', 'h* = κ ÷ (1 + 2δ / w̄) = κ ÷ {f}. δ = {d}분, w̄ = {w}분. w̄는 커버 차량군의 블록당 평균 점유다. 짧은 적재·하역 약 43, 중량 비례 63–85, 긴 적재 약 80분이다. 가격은 α = 0.84 거듭제곱, 인건비는 교대 인건비다.'],
+  budEq: ['h* = κ ÷ (1 + 2δ / w̄) = κ ÷ {f}。δ = {d} min，w̄ = {w} min。w̄ 是覆盖车队每块的平均占用。短装卸约 43，随重量装卸 63–85，长装载约 80。价格按 α = 0.84 幂律，人工按班次人工。', 'h* = κ ÷ (1 + 2δ / w̄) = κ ÷ {f}. δ = {d} min, w̄ = {w} min. w̄ is the covering fleet’s mean occupancy per block. It is about 43 with short handling, 63–85 with mass-dependent handling and about 80 with long loading. Prices follow the α = 0.84 power law; labor is shift labor.', 'h* = κ ÷ (1 + 2δ / w̄) = κ ÷ {f}. δ = {d}분, w̄ = {w}분. w̄는 커버 차량군의 블록당 평균 점유다. 짧은 적재·하역 약 43, 중량 비례 63–85, 긴 적재 약 80분이다. 가격은 α = 0.84 거듭제곱, 인건비는 교대 인건비다.'],
   budK: ['κ：大车每天比小车贵多少', 'κ: how much dearer the larger unit is per day', 'κ: 큰 차가 하루에 얼마나 더 비싼가'],
   budH: ['h*：小车最多能拼载的工作量比例', 'h*: the largest coupled share of workload the light tier can afford', 'h*: 경형이 감당할 수 있는 최대 결합 작업 비율'],
   v1Exact: ['精确求解部分（CP-SAT）；启发式部分已完成', 'exact solver (CP-SAT); heuristic part done', '정확해 (CP-SAT), 휴리스틱 부분 완료'],
   e5NoW: ['；{n} 个无达标车队', '; no fleet qualifies in {n}', '; {n}개는 충족 차량군 없음'],
   e5Chg: ['最省车队改变', 'cheapest fleet changed', '최저비용 차량군 변경'], e5None: ['没有车队达标', 'no fleet qualifies', '충족 차량군 없음'], e5Hi: ['拼载 > 1/10', 'couples > one in ten', '결합 > 10%'],
   e7Num: ['个决策中，最省车队拼载 ≤ 1/10。例外是 2 重车混编（拼载 19.6%）。它出现在 φ = 35%、随重量装卸、按队计作业时。', 'decisions where the cheapest fleet couples at most one block in ten. The exceptions are the two-heavy mix (19.6% coupled). They occur at φ = 35% with mass-dependent handling under crew-team hours.', '개 결정에서 최저비용 차량군의 결합 ≤ 10%. 예외는 대형 2대 혼합 (결합 19.6%)이다. φ = 35%, 중량 비례 적재·하역, 팀별 작업에서 나온다.'],
-  b4Shift: ['个班次人工决策换了最省车队。全在 Jiang 短装卸。一重车混编要多 1 台，被两重车混编取代。沿用原选择最多多花 {g}%。', 'shift-labour decisions change their cheapest fleet. All are Jiang masses with short handling. The one-heavy mix needs one more vehicle, and the two-heavy mix replaces it. Keeping the old choice costs up to {g}% more.', '개 교대 인건비 결정에서 최저비용 차량군이 바뀜. 모두 Jiang·짧은 적재·하역이다. 대형 1대 혼합이 1대 더 필요해 대형 2대 혼합이 대신한다. 기존 선택을 유지하면 최대 {g}% 더 든다.'],
+  b4Shift: ['个班次人工决策换了最省车队。全在 Jiang 短装卸。一重车混编要多 1 台，被两重车混编取代。沿用原选择最多多花 {g}%。', 'shift-labor decisions change their cheapest fleet. All are Jiang masses with short handling. The one-heavy mix needs one more vehicle, and the two-heavy mix replaces it. Keeping the old choice costs up to {g}% more.', '개 교대 인건비 결정에서 최저비용 차량군이 바뀜. 모두 Jiang·짧은 적재·하역이다. 대형 1대 혼합이 1대 더 필요해 대형 2대 혼합이 대신한다. 기존 선택을 유지하면 최대 {g}% 더 든다.'],
   b4All: ['个决策换了最省车队（混编取悲观车速；取乐观车速时为 {o} 个）', 'decisions change their cheapest fleet at the pessimistic end ({o} at the optimistic end)', '개 결정에서 최저비용 차량군이 바뀜 (혼합 비관 속도 기준, 낙관 속도 기준 {o}개)'],
   b4Le10: ['个决策中最省车队仍拼载 ≤ 1/10（悲观端）', 'decisions where the cheapest fleet still couples at most one block in ten (pessimistic end)', '개 결정에서 최저비용 차량군의 결합이 여전히 10% 이하 (비관적 끝)'],
   b4Roh: ['Roh–Cha 重量下，550 t 在全部 {a} 个决策中最省。Liu 重量下，425 t 在 {b} / {n} 个决策中最省。比较的是 11 种参考车队。', 'Under Roh–Cha masses, 550 t is cheapest in all {a} decisions. Under Liu masses, 425 t is cheapest in {b} of {n}. The comparison covers the eleven reference fleets.', 'Roh–Cha 중량에서 550 t가 {a}개 결정 모두 최저다. Liu 중량에서 425 t가 {n}개 중 {b}개 최저다. 비교 대상은 참조 차량군 11개다.'],
   b4NotRerun: ['未重跑', 'not rerun', '재실행 안 함'],
   calcTxt: ['最便宜：<b>{f}</b>（{k} 台），每天 {c} 人时。第二名 {f2} 贵 {p}%。人工占最便宜车队成本的 {lp}%。',
-            'Cheapest: <b>{f}</b> ({k} vehicles), {c} labour-hours a day. The runner-up, {f2}, costs {p}% more. Labour is {lp}% of the cheapest fleet’s cost.',
+            'Cheapest: <b>{f}</b> ({k} vehicles), {c} labor-hours a day. The runner-up, {f2}, costs {p}% more. Labor is {lp}% of the cheapest fleet’s cost.',
             '최저: <b>{f}</b> ({k}대), 하루 {c}인시. 2위 {f2}는 {p}% 더 비싸다. 최저 차량군 비용 중 인건비 비중은 {lp}%.'],
   // manuscript of 2026-10-03: decomposition, exact benchmark, fresh days, outages, matched mixes, budget slider
   decX: ['比覆盖车队多出的车时（车·时/天）', 'Extra transporter-hours per day over the covering tier', '커버 등급 대비 추가 차량 시간 (차량·시/일)'],
@@ -181,7 +181,7 @@ const T = {
 };
 const t = k => T[k][LI[Deck.lang]];
 
-// tier colours as in the manuscript figures (paper/figs/make_r25_figures.py)
+// tier colors as in the manuscript figures (paper/figs/make_r25_figures.py)
 const COL = { 200: '#f0f0f0', 250: '#d9d9d9', 270: '#c6dbef', 300: '#a9c8e1', 325: '#56b4b8', 380: '#4388b5',
   425: '#183a63', 500: '#91679d', 550: '#cc6d24', MX1: '#b9d7bf', MX2: '#42835a' };
 const DARK = new Set(['325', '380', '425', '500', '550', 'MX2']);
@@ -243,7 +243,7 @@ function drawPi() {
     [t('piAff'), q => aff(q) / aff(270), 'stroke:var(--amber);stroke-width:2.6'],
     ['α = ' + lo.toFixed(2), q => (q / 270) ** lo, 'stroke:var(--steel);stroke-width:1.4;stroke-dasharray:2 3']];
   const qs = Array.from({ length: 36 }, (_, i) => 200 + 10 * i);
-  // labels at the right end, at least 16 px apart and centred on the curve ends, each joined to its curve by a short leader
+  // labels at the right end, at least 16 px apart and centered on the curve ends, each joined to its curve by a short leader
   const ends = C.map(([, f], i) => [y(f(550)), i]).sort((a, b) => a[0] - b[0]), ly = ends.map(e => e[0]);
   for (let i = 1; i < ly.length; i++) ly[i] = Math.max(ly[i], ly[i - 1] + 16);
   const sh = ends.reduce((a, e, i) => a + e[0] - ly[i], 0) / ly.length;
@@ -742,7 +742,7 @@ function drawE5() {
     const name = E5F[f][0][LI[Deck.lang]];
     el('text', { x: 0, y: y + rh / 2 + 5, class: 't-strong', style: 'font-size:13px' }, s, name);
     rows.forEach(([, v, chg, mx, has, le, tot], j) => {
-      const yc = y + rh / 2, nw = (tot - has) / 4, at = .3 + gi * .12 + j * .06, hi = mx > 10;   // a level without a cheapest fleet lacks it under every labour measure
+      const yc = y + rh / 2, nw = (tot - has) / 4, at = .3 + gi * .12 + j * .06, hi = mx > 10;   // a level without a cheapest fleet lacks it under every labor measure
       const g = el('g', {}, s);
       if (hi) el('rect', { x: L - 120, y: y + 1, width: W - L + 120, height: rh - 2, rx: 4, style: 'fill:var(--oxide-soft)' }, g);
       el('text', { x: L - 10, y: yc + 4, 'text-anchor': 'end', style: 'font-family:var(--mono);font-size:12px;fill:var(--ink2)' }, g, E5F[f][1](v));
@@ -826,7 +826,7 @@ function drawSlack() {
 // Fig. 7: share of settings won by a fleet that couples at most 10%, as r runs far beyond its calibrated range
 function drawBrk() {
   const B = D.oe.brk, W = 620, H = fitH('cBrk', W, 340), m = { l: 50, r: 14, t: 12, b: 46 }, lg = Math.log10;
-  const s = frame('cBrk', W, H, 'Low-coupling share against the capital-to-labour ratio');
+  const s = frame('cBrk', W, H, 'Low-coupling share against the capital-to-labor ratio');
   const x = v => lin(lg(0.5), lg(5000), m.l, W - m.r)(lg(v)), y = lin(0, 102, H - m.b, m.t), g = el('g', { class: 'grid' }, s);
   el('rect', { x: x(5.1), y: m.t, width: x(30) - x(5.1), height: H - m.b - m.t, style: 'fill:var(--steel-soft)' }, s);
   el('text', { x: (x(5.1) + x(30)) / 2, y: y(6), 'text-anchor': 'middle', style: 'font-size:11px;fill:var(--steel)' }, s, t('brkCal'));
@@ -865,7 +865,7 @@ function drawRobust() {
   swatches('robLegend', [['var(--steel)', t('robHi')], ['var(--g-empty)', t('robOther')], ['var(--oxide)', t('rob95')]]);
 }
 
-// Section 4: coupling budget h* = kappa / (1 + 2 delta / w), with prices on the alpha = 0.84 power law and shift labour
+// Section 4: coupling budget h* = kappa / (1 + 2 delta / w), with prices on the alpha = 0.84 power law and shift labor
 function drawBud() {
   const r = +$('rBud').value, dl = +$('dBud').value, w = +$('wBud').value, f = 1 + 2 * dl / w;
   $('rBudV').value = r.toFixed(1); $('dBudV').value = dl.toFixed(1); $('wBudV').value = w.toFixed(0);
