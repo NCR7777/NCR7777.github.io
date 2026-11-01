@@ -1,7 +1,20 @@
-/* Fleet deck only: rules that name this deck's chart ids. */
+/* Fleet deck only: rules that name this deck's chart ids, and the explanation strip. */
 #progRows td{padding-top:14px;padding-bottom:14px}
 #cHeat g:hover>rect:first-child,#cPor g:hover>rect:first-child{stroke:var(--ink);stroke-width:1.6}
 #cGantt rect:hover,#calcChart rect:hover,#cLiu rect:hover,#cCase rect:hover{filter:brightness(1.08)}
 .flow #cHeat,.flow #cPor,.flow #cGantt,.flow #calcChart,.flow #cLiu,.flow #cCase,.flow #cE7,.flow #cE5,.flow #cLate,.flow #cTmax{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .flow #cHeat>svg,.flow #cPor>svg,.flow #cGantt>svg,.flow #calcChart>svg,.flow #cLiu>svg,.flow #cCase>svg,.flow #cE7>svg,.flow #cE5>svg,.flow #cLate>svg,.flow #cTmax>svg{min-width:620px}
 .flow #cHeat,.flow #cPor,.flow #cGantt,.flow #calcChart,.flow #cLiu,.flow #cCase,.flow #cE7,.flow #cE5,.flow #cLate,.flow #cTmax{max-width:100%}
+#agenda li{padding-top:9px;padding-bottom:9px}
+/* Explanation strip: the plain-language talking point of each slide, above its source line */
+.say{margin-top:10px;padding:8px 14px;border-left:4px solid var(--amber-hi);background:var(--panel);border-radius:0 6px 6px 0}
+.say p{margin:0;font-size:16px;line-height:1.5;color:var(--ink)}
+.slide:has(>.say)>.content{margin-top:16px}
+.slide>.say+.src{margin-top:6px}
+.col>.say{margin-top:0;padding:6px 12px;background:var(--amber-soft)}
+.col>.say p{font-size:15.5px}
+.cover .left{gap:12px}
+.cover .say{margin-top:4px;max-width:520px}
+.cover .say p{font-size:15.5px}
+.flow .say{margin-top:16px}
+.bigs .num{font-size:68px}

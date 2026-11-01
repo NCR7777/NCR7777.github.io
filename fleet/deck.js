@@ -171,7 +171,7 @@ function drawCap() {
 function drawCase() {
   const r = +$('rCase').value;
   $('rCaseV').value = r.toFixed(1);
-  const W = 640, H = fitH('cCase', 640, 430), top = 50, rh = Math.max(26, Math.min(44, (H - 86) / 11)), bx = 124, bw = 140, dom = 200;
+  const W = 640, H = fitH('cCase', 640, 430, 0.87), top = 50, rh = Math.max(26, Math.min(44, (H - 86) / 11)), bx = 124, bw = 140, dom = 200;
   const s = frame('cCase', W, H, 'Second yard: cost above the cheapest fleet');
   ['6', '8'].forEach((k, p) => {
     const x0 = p * 328, rows = FAMS.map(f => { const [K, cp] = D.case[k][f]; return { f, K, cost: r * cp + 40 * K }; });
