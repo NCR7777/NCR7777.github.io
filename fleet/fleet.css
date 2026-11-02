@@ -17,4 +17,5 @@
 .cover .say{margin-top:4px;max-width:520px}
 .cover .say p{font-size:15.5px}
 .flow .say{margin-top:16px}
+.say .k{color:var(--steel);margin-right:10px}
 .bigs .num{font-size:68px}
